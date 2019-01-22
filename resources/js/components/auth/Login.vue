@@ -17,10 +17,16 @@
       </label>
     </div>
     <div class="form-group">
+      <template v-if="!loading">
       <button type="submit" class="btn btn-default">
           {{$t('login')}}
       </button>
-
+    </template>
+    <template v-else>
+      <p ><b>{{$t('loading')}}</b><br>
+    <img src="/storage/avatars/loader.gif"  width="100" >
+</p>
+    </template>
     </div>
   </form>
 
@@ -31,9 +37,17 @@
 
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-success">
-        {{$t('verify')}}
-      </button>
+      <template v-if="!loading">
+        <button type="submit" class="btn btn-success">
+          {{$t('verify')}}
+        </button>
+      </template>
+
+      <template v-else>
+        <p ><b>{{$t('loading')}}</b><br>
+    <img src="/storage/avatars/loader.gif"  width="100" >
+</p>
+      </template>
     </div>
   </form>
   <form @submit.prevent="verifyCode" v-if="hasEmail && !correctValidationCode">
@@ -43,9 +57,16 @@
 
   </div>
 <div class="form-group">
+  <template v-if="!loading">
   <button type="submit" class="btn btn-info">
       {{$t('verify')}}
   </button>
+  </template>
+  <template v-else>
+    <p ><b>{{$t('loading')}}</b><br>
+    <img src="/storage/avatars/loader.gif"  width="100" >
+</p>
+  </template>
 </div>
 </form>
   <form @submit.prevent="createNewPassword" v-if="correctValidationCode && hasEmail">
@@ -58,14 +79,23 @@
         {{$t('repeatpass')}}
       </label>
       <input type="password" class="form-control" id="confirm_password" v-model="passwordConfirmation" placeholder="confirm password">
-      <button type="submit" class="btn btn-default">
-          {{$t('create')}}
-      </button>
+    </div>
+    <div class="form-group">
+      <template v-if="!loading">
+        <button type="submit" class="btn btn-default">
+            {{$t('create')}}
+        </button>
+      </template>
+      <template v-else>
+        <p ><b>{{$t('loading')}}</b><br>
+    <img src="/storage/avatars/loader.gif"  width="100" >
+</p>
+      </template>
     </div>
   </form>
   <div>
 
-        <button class="btn btn-warning" type="button" id="foreget_passowrd" v-on:click="resetPassword">
+        <button v-if="!forgetPassword" class="btn btn-warning" type="button" id="foreget_passowrd" v-on:click="resetPassword">
           <b>            {{$t('forgetpassword')}}
 </b>
         </button>
@@ -84,6 +114,7 @@ import axios from 'axios';
 export default {
   data(){
     return {
+      loading:false,
       email:'',
       password:'',
       passwordConfirmation:'',
@@ -105,6 +136,8 @@ export default {
   },
   methods:{
     login(){
+
+        this.loading = true;
         axios.post("/api/auth/login",{
           email:this.email,
           password:this.password,
@@ -150,6 +183,7 @@ export default {
 
 
         }).catch((errors)=>{
+          this.loading = false ;
           swal({
             title:'Login Error',
             text:this.$t('loginfail'),
@@ -164,12 +198,12 @@ export default {
       this.forgetPassword = !this.forgetPassword;
     },
     verifyEmail(){
-
+      this.loading = true;
       axios.post("/api/verify-email",{
         email:this.email
       })
       .then((response)=>{
-
+        this.loading  = false;
         this.hasEmail = true;
         this.userId = response.data.user.id;
         this.emailedCode = response.data.verification_code;
@@ -180,6 +214,7 @@ export default {
         });
       })
       .catch((errors)=>{
+        this.loading  = false;
         swal({
           title:"Oops!",
           text:this.$t('emailnotexist'),
@@ -190,12 +225,13 @@ export default {
       })
     },
     verifyCode(){
-
       if (this.confirmationCode == this.emailedCode) {
 
           this.correctValidationCode = true
       }
       else{
+
+          this.loading = false;
         swal({
           title:"Error",
           text:this.$t('codeerror'),
@@ -206,10 +242,12 @@ export default {
     }
     ,
     createNewPassword(){
+
       if (this.password.length >= 6 ) {
           if (this.password === this.passwordConfirmation) {
               this.newPassword = this.password;
 
+          this.loading = true;
             axios.post('/api/auth/reset-password',{
               "password":this.password,
               "password_confirmation":this.passwordConfirmation,
@@ -219,11 +257,15 @@ export default {
               this.login();
             })
             .catch((errors)=>{
+              this.loading = false;
+
                 console.log(errors);
                 console.log(errors.response);
             })
           }
         else{
+          this.loading = false;
+
           swal({
             'title':"Error",
             "text":this.$t('passworderror'),
@@ -232,6 +274,8 @@ export default {
         }
       }
       else{
+        this.loading = false;
+
         swal({
           "title":"warning",
           "text":this.$t('passwordlength'),
@@ -241,13 +285,14 @@ export default {
     }
     ,
     cancelPassowrd(){
-      this.forgetPassword=false,
-      this.hasEmail=false,
-      this.correctValidationCode=false,
-      this.confirmationCode='',
-      this.emailedCode = null,
-      this.userId =null,
-      this.newPassword=null
+      this.loading = false;
+      this.forgetPassword=false;
+      this.hasEmail=false;
+      this.correctValidationCode=false;
+      this.confirmationCode='';
+      this.emailedCode = null;
+      this.userId =null;
+      this.newPassword=null;
     }
   }
 }

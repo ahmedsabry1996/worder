@@ -88,6 +88,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -133,21 +142,25 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
 
         _this.$store.commit('userCredionals');
       }).catch(function (errors) {
+        _this.signupLoading = false;
         swal({
-          title: "Error!",
+          title: "Error!qq",
           text: _this.$t('signupfail'),
           icon: "error"
         });
-        console.log(errors.response);
-        _this.signupLoading = false;
       });
     },
     verify: function verify() {
+      this.signupLoading = true;
+      console.log(this.signupLoading);
+
       if (this.code == this.$store.getters.verificationCode) {
         localStorage.setItem('user_id', this.$store.getters.currentUser.id);
         this.$store.dispatch('confrimEmail');
         this.$router.push('create-profile');
       } else {
+        this.signupLoading = false;
+        console.log(this.signupLoading);
         swal({
           title: "Error!",
           text: this.$t('codeerror'),
@@ -172,7 +185,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -383,43 +396,45 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                !_vm.signupLoading
-                  ? _c("div", { staticClass: "form-group" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-default",
-                          attrs: { type: "button" },
-                          on: { click: _vm.signup }
-                        },
-                        [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(_vm.$t("signup")) +
-                              "\n            "
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    !_vm.signupLoading
+                      ? [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-default",
+                              attrs: { type: "button" },
+                              on: { click: _vm.signup }
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.$t("signup")) +
+                                  "\n            "
+                              )
+                            ]
                           )
                         ]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.signupLoading
-                  ? [
-                      _c("p", [
-                        _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("img", {
-                          attrs: {
-                            src: "/storage/avatars/loader.gif",
-                            width: "100"
-                          }
-                        })
-                      ])
-                    ]
-                  : _vm._e()
-              ],
-              2
+                      : [
+                          _c("p", [
+                            _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("img", {
+                              attrs: {
+                                src: "/storage/avatars/loader.gif",
+                                width: "100"
+                              }
+                            })
+                          ])
+                        ]
+                  ],
+                  2
+                )
+              ]
             )
           ]
         : [
@@ -470,19 +485,43 @@ var render = function() {
                   })
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "button",
-                    { staticClass: "btn btn-ingo", attrs: { type: "submit" } },
-                    [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(_vm.$t("create")) +
-                          "\n          "
-                      )
-                    ]
-                  )
-                ])
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    !_vm.signupLoading
+                      ? [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-info",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.$t("create")) +
+                                  "\n          "
+                              )
+                            ]
+                          )
+                        ]
+                      : [
+                          _c("p", [
+                            _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("img", {
+                              attrs: {
+                                src: "/storage/avatars/loader.gif",
+                                width: "100"
+                              }
+                            })
+                          ])
+                        ]
+                  ],
+                  2
+                )
               ]
             )
           ]

@@ -91,12 +91,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      loading: false,
       email: '',
       password: '',
       passwordConfirmation: '',
@@ -116,6 +147,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
     login: function login() {
       var _this = this;
 
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/login", {
         email: this.email,
         password: this.password,
@@ -156,6 +188,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
           console.log('need to verify account');
         }
       }).catch(function (errors) {
+        _this.loading = false;
         swal({
           title: 'Login Error',
           text: _this.$t('loginfail'),
@@ -171,9 +204,11 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
     verifyEmail: function verifyEmail() {
       var _this2 = this;
 
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/verify-email", {
         email: this.email
       }).then(function (response) {
+        _this2.loading = false;
         _this2.hasEmail = true;
         _this2.userId = response.data.user.id;
         _this2.emailedCode = response.data.verification_code;
@@ -183,6 +218,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
           icon: "success"
         });
       }).catch(function (errors) {
+        _this2.loading = false;
         swal({
           title: "Oops!",
           text: _this2.$t('emailnotexist'),
@@ -196,6 +232,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       if (this.confirmationCode == this.emailedCode) {
         this.correctValidationCode = true;
       } else {
+        this.loading = false;
         swal({
           title: "Error",
           text: this.$t('codeerror'),
@@ -209,6 +246,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       if (this.password.length >= 6) {
         if (this.password === this.passwordConfirmation) {
           this.newPassword = this.password;
+          this.loading = true;
           axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/auth/reset-password', {
             "password": this.password,
             "password_confirmation": this.passwordConfirmation,
@@ -216,10 +254,12 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
           }).then(function (response) {
             _this3.login();
           }).catch(function (errors) {
+            _this3.loading = false;
             console.log(errors);
             console.log(errors.response);
           });
         } else {
+          this.loading = false;
           swal({
             'title': "Error",
             "text": this.$t('passworderror'),
@@ -227,6 +267,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
           });
         }
       } else {
+        this.loading = false;
         swal({
           "title": "warning",
           "text": this.$t('passwordlength'),
@@ -235,7 +276,14 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       }
     },
     cancelPassowrd: function cancelPassowrd() {
-      this.forgetPassword = false, this.hasEmail = false, this.correctValidationCode = false, this.confirmationCode = '', this.emailedCode = null, this.userId = null, this.newPassword = null;
+      this.loading = false;
+      this.forgetPassword = false;
+      this.hasEmail = false;
+      this.correctValidationCode = false;
+      this.confirmationCode = '';
+      this.emailedCode = null;
+      this.userId = null;
+      this.newPassword = null;
     }
   }
 });
@@ -431,17 +479,43 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-default", attrs: { type: "submit" } },
-                  [
-                    _vm._v(
-                      "\n          " + _vm._s(_vm.$t("login")) + "\n      "
-                    )
-                  ]
-                )
-              ])
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  !_vm.loading
+                    ? [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-default",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n          " +
+                                _vm._s(_vm.$t("login")) +
+                                "\n      "
+                            )
+                          ]
+                        )
+                      ]
+                    : [
+                        _c("p", [
+                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/avatars/loader.gif",
+                              width: "100"
+                            }
+                          })
+                        ])
+                      ]
+                ],
+                2
+              )
             ]
           )
         : _vm._e(),
@@ -486,13 +560,43 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-success", attrs: { type: "submit" } },
-                  [_vm._v("\n        " + _vm._s(_vm.$t("verify")) + "\n      ")]
-                )
-              ])
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  !_vm.loading
+                    ? [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n          " +
+                                _vm._s(_vm.$t("verify")) +
+                                "\n        "
+                            )
+                          ]
+                        )
+                      ]
+                    : [
+                        _c("p", [
+                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/avatars/loader.gif",
+                              width: "100"
+                            }
+                          })
+                        ])
+                      ]
+                ],
+                2
+              )
             ]
           )
         : _vm._e(),
@@ -542,13 +646,41 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  { staticClass: "btn btn-info", attrs: { type: "submit" } },
-                  [_vm._v("\n      " + _vm._s(_vm.$t("verify")) + "\n  ")]
-                )
-              ])
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  !_vm.loading
+                    ? [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n      " + _vm._s(_vm.$t("verify")) + "\n  "
+                            )
+                          ]
+                        )
+                      ]
+                    : [
+                        _c("p", [
+                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/avatars/loader.gif",
+                              width: "100"
+                            }
+                          })
+                        ])
+                      ]
+                ],
+                2
+              )
             ]
           )
         : _vm._e(),
@@ -624,36 +756,68 @@ var render = function() {
                       _vm.passwordConfirmation = $event.target.value
                     }
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  { staticClass: "btn btn-default", attrs: { type: "submit" } },
-                  [
-                    _vm._v(
-                      "\n          " + _vm._s(_vm.$t("create")) + "\n      "
-                    )
-                  ]
-                )
-              ])
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  !_vm.loading
+                    ? [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-default",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.$t("create")) +
+                                "\n        "
+                            )
+                          ]
+                        )
+                      ]
+                    : [
+                        _c("p", [
+                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("img", {
+                            attrs: {
+                              src: "/storage/avatars/loader.gif",
+                              width: "100"
+                            }
+                          })
+                        ])
+                      ]
+                ],
+                2
+              )
             ]
           )
         : _vm._e(),
       _vm._v(" "),
       _c("div", [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-warning",
-            attrs: { type: "button", id: "foreget_passowrd" },
-            on: { click: _vm.resetPassword }
-          },
-          [
-            _c("b", [
-              _vm._v("            " + _vm._s(_vm.$t("forgetpassword")) + "\n")
-            ])
-          ]
-        ),
+        !_vm.forgetPassword
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-warning",
+                attrs: { type: "button", id: "foreget_passowrd" },
+                on: { click: _vm.resetPassword }
+              },
+              [
+                _c("b", [
+                  _vm._v(
+                    "            " + _vm._s(_vm.$t("forgetpassword")) + "\n"
+                  )
+                ])
+              ]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _vm.forgetPassword
           ? _c(

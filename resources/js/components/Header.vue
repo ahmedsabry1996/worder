@@ -153,7 +153,7 @@
             <li><router-link to= "/signup"> <b>  {{$t('continuesignup')}}</b> </router-link></li>
           </template>
           <template v-if="cotinueSignup || needProfile">
-            <li><button @click.prevent="logout" class="btn btn-default"> <b>  {{$t('exit')}}</b> </button></li>
+            <li><a @click.prevent="logout"> <b>  {{$t('exit')}}</b> </a></li>
 
           </template>
         </ul>
@@ -191,6 +191,7 @@
   export default {
       data(){
           return {
+              loading:false,
               notificationOffset:100,
               toggleDropdown:false,
               notivar:false,

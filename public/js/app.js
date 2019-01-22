@@ -12104,6 +12104,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      loading: false,
       notificationOffset: 100,
       toggleDropdown: false,
       notivar: false,
@@ -79381,9 +79382,8 @@ var render = function() {
                     ? [
                         _c("li", [
                           _c(
-                            "button",
+                            "a",
                             {
-                              staticClass: "btn btn-default",
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
@@ -98016,7 +98016,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_numeral_filter__WEBPACK_IMPOR
   locale: 'en'
 });
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_16___default.a, {
-  color: 'crimson',
+  color: 'green',
   failedColor: 'red',
   thickness: '3px'
 });
@@ -98029,8 +98029,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_toastr__WEBPACK_IMPORTED_MODU
   defaultTimeout: 3000,
   defaultProgressBar: false,
   defaultProgressBarValue: 0,
-  defaultPosition: "toast-top-right",
-  defaultCloseOnHover: false
+  defaultPosition: "toast-top-right"
 });
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   routes: _routes__WEBPACK_IMPORTED_MODULE_6__["routes"],
@@ -98041,7 +98040,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex_i18n__WEBPACK_IMPORTED_MODUL
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('en', _locale_en__WEBPACK_IMPORTED_MODULE_17__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('ar', _locale_ar__WEBPACK_IMPORTED_MODULE_18__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('tr', _locale_tr__WEBPACK_IMPORTED_MODULE_19__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.set('tr');
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.set('trd');
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.fallback('en');
 router.beforeEach(function (to, from, next) {
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {

@@ -33,20 +33,22 @@
               <label>{{$t('repeatpass')}}</label>
               <input type="text" class="form-control"  placeholder="confrim pass****" v-model="passwordConfirm">
             </div>
-            <div class="form-group" v-if="!signupLoading">
+
+            <div class="form-group">
+              <template v-if="!signupLoading">
               <button type="button" class="btn btn-default" @click="signup" >
                   {{$t('signup')}}
               </button>
-
+              </template>
+              <template v-else class="text-center">
+                <p ><b>{{$t('loading')}}</b><br>
+                    <img src="/storage/avatars/loader.gif"  width="100" >
+                </p>
+              </template>
             </div>
-            <template v-if="signupLoading" class="text-center">
-              <p ><b>{{$t('loading')}}</b><br>
-                  <img src="/storage/avatars/loader.gif"  width="100" >
-              </p>
 
 
 
-            </template>
         </form>
 
 
@@ -66,10 +68,17 @@
         </div>
 
           <div class="form-group">
-
-            <button type="submit" class="btn btn-ingo">
+            <template v-if="!signupLoading">
+            <button type="submit" class="btn btn-info">
                   {{$t('create')}}
             </button>
+            </template>
+            <template v-else>
+
+              <p ><b>{{$t('loading')}}</b><br>
+                  <img src="/storage/avatars/loader.gif"  width="100" >
+              </p>
+            </template>
           </div>
 
       </form>
@@ -128,17 +137,19 @@ export default {
           this.$store.commit('userCredionals')
         })
         .catch((errors)=>{
+
+          this.signupLoading = false;
           swal({
-            title:"Error!",
+            title:"Error!qq",
             text:this.$t('signupfail'),
             icon:"error"
           });
-          console.log(errors.response);
-          this.signupLoading = false;
         })
     },
 
           verify(){
+            this.signupLoading = true;
+            console.log(this.signupLoading);
             if (this.code == this.$store.getters.verificationCode) {
                 localStorage.setItem('user_id',this.$store.getters.currentUser.id);
                 this.$store.dispatch('confrimEmail');
@@ -146,6 +157,9 @@ export default {
 
             }
             else{
+
+                this.signupLoading = false;
+                console.log(this.signupLoading);
               swal({
                 title:"Error!",
                 text:this.$t('codeerror'),

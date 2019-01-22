@@ -30,7 +30,7 @@ Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
 
 
 Vue.use(VueProgressBar, {
-  color: 'crimson',
+  color: 'green',
   failedColor: 'red',
   thickness: '3px',
 
@@ -43,7 +43,6 @@ Vue.use(Toastr,{
 	defaultProgressBar: false,
 	defaultProgressBarValue: 0,
 	defaultPosition: "toast-top-right",
-	defaultCloseOnHover: false
 });
 const router = new VueRouter({
   routes,
@@ -56,7 +55,7 @@ Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', en);
 Vue.i18n.add('ar', ar);
 Vue.i18n.add('tr', tr)
-Vue.i18n.set('tr');
+Vue.i18n.set('trd');
 
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{
