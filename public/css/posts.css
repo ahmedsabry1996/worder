@@ -1,0 +1,40 @@
+textarea{
+	
+	resize: none
+}
+.ads{
+	width: 100%;
+	height: 100%;
+}
+.ads-content{
+	border-right: 2px solid #ddd;
+	height: 100%;
+}
+
+.topics{
+	height:100%;
+}
+
+.topics-content{
+	border-left: 2px solid #ddd
+}
+.post-content{
+	font-size: 25px;
+}
+.post-time i{
+	opacity:.5;
+	color: brown;
+}
+.post-reaction a{
+	font-size: 23px;
+	color: #000;
+	opacity: .5;
+}
+.post-reaction a.selected{
+	font-size: 23px;
+	color: darkblue;
+	opacity: 1;
+}
+.post-topic{
+	opacity: .4;
+}
