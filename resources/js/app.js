@@ -18,6 +18,7 @@ import Popover  from 'vue-js-popover';
 import VueProgressBar from 'vue-progressbar'
 import en from './locale/en';
 import ar from './locale/ar';
+import tr from './locale/tr';
 library.add(n,b,m,d,q,faTrashAlt,faBell,faAward);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -54,7 +55,9 @@ const store = new Vuex.Store(storeData);
 Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', en);
 Vue.i18n.add('ar', ar);
-Vue.i18n.set('ar');
+Vue.i18n.add('tr', tr)
+Vue.i18n.set('tr');
+
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{
 

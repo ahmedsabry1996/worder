@@ -97982,7 +97982,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _locale_en__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./locale/en */ "./resources/js/locale/en.js");
 /* harmony import */ var _locale_ar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./locale/ar */ "./resources/js/locale/ar.js");
+/* harmony import */ var _locale_tr__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./locale/tr */ "./resources/js/locale/tr.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 
 
@@ -98038,7 +98040,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store__WEBPA
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex_i18n__WEBPACK_IMPORTED_MODULE_2__["default"].plugin, store);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('en', _locale_en__WEBPACK_IMPORTED_MODULE_17__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('ar', _locale_ar__WEBPACK_IMPORTED_MODULE_18__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.set('ar');
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('tr', _locale_tr__WEBPACK_IMPORTED_MODULE_19__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.set('tr');
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.fallback('en');
 router.beforeEach(function (to, from, next) {
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
@@ -99580,6 +99583,114 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   exit: "exit",
   remove: "remove"
 }, "likeyou", "people like you"));
+
+/***/ }),
+
+/***/ "./resources/js/locale/tr.js":
+/*!***********************************!*\
+  !*** ./resources/js/locale/tr.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
+  login: "giriş yap",
+  loginfail: "Geçersiz e-posta veya şifre",
+  signup: "katılmak",
+  continuesignup: "kaydolmaya devam et",
+  signupfail: "kaydolma hatası",
+  email: "e-posta",
+  emailnotexist: "bu e-posta hiçbir hesaba ait değil",
+  emailcheck: "lütfen emailinizi kontrol edin",
+  newemail: "yeni e-posta gir",
+  currentemail: "mevcut e-posta",
+  emailupdated: "e-posta başarıyla güncellendi",
+  donebtn: "Tamam",
+  password: "şifre",
+  currentpasserror: "mevcut şifrede hata",
+  passwordupdated: "şifre başarıyla güncellendi",
+  rememberme: "beni Hatırla",
+  forgetpassword: "Parolanızı mı unuttunuz",
+  enteremail: "E-postanızı giriniz",
+  sendto: "doğrulama kodunu göndereceğiz ",
+  verify: "doğrula",
+  codesent: "kodunu gönderdik ",
+  entersentcode: "enter this code below",
+  code: "kod",
+  codeerror: "bu kodu aşağıya girin",
+  newpassword: "yeni şifre gir",
+  repeatpass: "Şifreyi tekrar girin",
+  passworderror: "Parolalar uyuşmuyor",
+  passwordlength: "şifre en az 6 karakterden oluşmalıdır",
+  name: "isim",
+  profile: "profil",
+  profilefail: "profil oluşturma hatası",
+  profileupdatefailed: "bir şeyler yanlış gitti ",
+  welcome: "katıldığınız için teşekkürler",
+  avatar: "avatar",
+  avatarerror: "lütfen geçerli bir resim seç",
+  displayname: "Görünen isim",
+  favtopics: "en sevdiğin konular",
+  selectfavtopics: "lütfen en az 3 konu seçin",
+  choosetopic: "konu gönder",
+  loading: "Yükleniyor ...",
+  done: "Yapıldı !",
+  error: "Hata !",
+  oops: "Oops !",
+  gender: "Cinsiyet",
+  male: "Erkek",
+  female: "kadın",
+  gendererror: "gender field is required",
+  country: "country",
+  countryerror: "cinsiyet alanı gerekiyor",
+  birthday: "doğum günü",
+  description: "açıklama",
+  descriptionerror: "açıklama en çok 25 kelime oluşmalıdır",
+  create: "yaratmak",
+  logout: "çıkış Yap",
+  likeyou: "insanlar senden hoşlanır",
+  trend: "akım",
+  follow: "takip et",
+  unfollow: "takip etme",
+  followers: "takipçileri",
+  following: "aşağıdakiler",
+  verifieduser: "doğrulanmış kullanıcı",
+  from: "itibaren",
+  about: "hakkında",
+  fans: "hayranlarım",
+  search: "arama ",
+  publish: "Yayınla",
+  tryagain: "daha sonra tekrar deneyin",
+  postdone: "yayın başarıyla yayınlandı",
+  postfail: "yayınlama hatası",
+  likers: "likers",
+  dislikers: "dislikers",
+  delete: "silmek",
+  deletedsuccessfully: "yayın başarıyla silindi",
+  confirmdelete: "Emin misiniz?",
+  createprofile: "profil oluştur",
+  editprofile: "profili Düzenle",
+  profileupdated: "profil başarıyla güncellendi",
+  verifyprofile: "Hesabı Doğrula",
+  verifyprofilereq: "lütfen pasaport veya kimliği yükle",
+  editauth: "temelleri düzenle",
+  save: "kayıt etmek",
+  currentpass: "Şimdiki Şifre",
+  upload: "yüklemek",
+  cancel: "iptal",
+  supportedtypes: "desteklenen türler : PNG , JPG and JPEG",
+  profileverificationreview: "resim başarıyla yüklendi, 48 saat içinde inceleyeceğiz",
+  uploaddone: "başarıyla yüklendi",
+  uploadingerror: 'yükleme hatası',
+  unsupportedtype: "desteklenmeyen dosya türü ",
+  please: "lütfen geçerli bir dosya seçin",
+  exit: "çıkış",
+  remove: "Kaldır"
+}, "likeyou", "insanlar senden hoşlanır"));
 
 /***/ }),
 

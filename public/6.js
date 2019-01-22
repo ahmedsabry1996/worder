@@ -90,6 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
 
@@ -648,9 +649,9 @@ var render = function() {
             on: { click: _vm.resetPassword }
           },
           [
-            _vm._v(
-              "\n            " + _vm._s(_vm.$t("forgerpassword")) + "\n        "
-            )
+            _c("b", [
+              _vm._v("            " + _vm._s(_vm.$t("forgetpassword")) + "\n")
+            ])
           ]
         ),
         _vm._v(" "),

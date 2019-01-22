@@ -66,7 +66,8 @@
   <div>
 
         <button class="btn btn-warning" type="button" id="foreget_passowrd" v-on:click="resetPassword">
-            {{$t('forgerpassword')}}
+          <b>            {{$t('forgetpassword')}}
+</b>
         </button>
     <button type="button" v-if="forgetPassword" class="btn btn-danger" @click="cancelPassowrd">
         {{$t('cancel')}}
