@@ -2,7 +2,7 @@
   <div>
       <Header/>
       <div v-if="!isLoggedIn">
-        
+ 
         <router-view></router-view>
       </div>
       <div v-if="perfectUser">
