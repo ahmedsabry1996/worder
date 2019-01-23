@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import vuexI18n from 'vuex-i18n';
 import axios from 'axios';
-import storeData from './store';
+import storeData from './store/index';
 import VueRouter from 'vue-router';
 import {routes} from './routes';
 import Home from './components/Home.vue';
