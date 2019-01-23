@@ -121,7 +121,6 @@ console.log(45454545);
     fillLikedPosts(state,payload){
 
         state.likedPosts=payload;
-
         state.likedPosts = Array.from(new Set(state.likedPosts));
 
       },
