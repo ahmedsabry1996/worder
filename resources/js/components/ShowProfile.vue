@@ -57,7 +57,7 @@
     </template>
   </div>
   <div class="text-center" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
-      <button class="btn btn-success" data-toggle="modal" data-target="#myfans" >
+      <button class="btn btn-success" data-toggle="modal" @click="fans" >
           <b style="color:#fff;text-transform:uppercase" >{{$t('fans')}}</b>
       </button>
       <button class="btn btn-warning" @click="updateProfile">
@@ -228,123 +228,23 @@
         <font-awesome-icon :icon="['far','thumbs-up']" /></span>
 
     </p>
-              </div>
+  </div>
 
   </div>
 
   <hr>
   </div>
-  <div class="modal fade" ref="m" v-if="showModal" id="myfans" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="">fans</h4>
-        </div>
-        <div class="modal-body text-center" @scroll="loadMoreFans">
-          <ul class="nav nav-pills text-center col-md-12 col-md-push-4 col-xs-12 col-xs-push-1">
-    <li class="active"><a data-toggle="pill" href="#followers">يتابعوك</a></li>
-    <li><a data-toggle="pill" href="#following">تتابعهم</a></li>
-  </ul>
-<hr><br>
-  <div class="tab-content text-center">
-  <div id="followers" style="height:290px" class="tab-pane fade in active">
-    <div class="row" v-for="follower in myFollowers">
-
-      <div class="col-md-3">
-        <img
-            @click="ShowProfile(follower.profile.display_name)"
-            :src="`/storage/avatars/${follower.profile.avatar}`" :alt="`${follower.display_name}`"
-            class="img-circle" :title="`${follower.name}`"
-            width="55"
-            height="55"
-            style="cursor:pointer">
-      </div>
-
-      <div class="col-md-7"
-           style="cursor:pointer"
-           @click="ShowProfile(follower.profile.display_name)">
-
-          <h4>{{follower.name}}</h4>
-          <h5>
-           <i style="opacity:.6">
-             <b>
-           {{follower.profile.display_name}}
-          </b>
-           </i>
-         </h5>
-      </div>
-      <div class="col-md-2">
-        <template v-if="getFollowing.indexOf(follower.id) == -1">
-          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id,'follow')">
-                follow
-            </button>
-        </template>
-        <template v-else>
-          <button style="" type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id,'unfollow')">
-                unfollow
-            </button>
-        </template>
-
-      </div>
-    </div>
-
-  </div>
-
-  <div id="following" class="tab-pane fade">
-
-    <div class="row" v-for="follower in myFollowing">
-
-      <div class="col-md-3">
-        <img @click="ShowProfile(follower.profile.display_name)" :src="`/storage/avatars/${follower.profile.avatar}`" :alt="`${follower.display_name}`" class="img-circle" :title="`${follower.name}`" width="55" height="55" style="cursor:pointer">
-      </div>
-
-      <div class="col-md-7" style="cursor:pointer" @click="ShowProfile(follower.profile.display_name)">
-          <h4>{{follower.name}}</h4>
-          <h5>
-           <i style="opacity:.6">
-             <b>
-           {{follower.profile.display_name}}
-          </b>
-           </i>
-         </h5>
-      </div>
-      <div class="col-md-2">
-        <template v-if="getFollowing.indexOf(follower.id) == -1">
-          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id,'follow')">
-                follow
-            </button>
-        </template>
-        <template v-else>
-          <button type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id,'unfollow')">
-                unfollow
-            </button>
-        </template>
-
-      </div>
-      <hr>
-    </div>
-
-  </div>
-</div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">ok</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
     </div>
   </div>
 
-
-  <sweet-modal ref="likers" width="320" overlay-theme="dark">
+  <!-- likers  -->
+  <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="320" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
 
       <div class="likers" v-for="liker in likers">
-          <p @click="opneProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
+          <p @click="openProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
           <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
           <b>{{liker.name}}</b>
           <br>
@@ -354,15 +254,15 @@
       </div>
 
       </div>
-
   </sweet-modal>
 
-  <sweet-modal :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
+<!-- dislikers -->
+  <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
 
       <div class="likers" v-for="disliker in dislikers">
-          <p @click="opneProfile(disliker.profile.display_name)"  style="cursor:pointer">
+          <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
           <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
           <b>{{disliker.name}}</b>
           <br>
@@ -372,9 +272,22 @@
       </div>
 
       </div>
-
   </sweet-modal>
 
+
+
+  <sweet-modal ref="fans"  width="320" overlay-theme="dark" :enable-mobile-fullscreen="false">
+  	<sweet-modal-tab :title="$t('followers')" id="tab1">
+      <div class="followers">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </sweet-modal-tab>
+  	<sweet-modal-tab :title="$t('following')" id="tab2">
+      <div class="following">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+    </sweet-modal-tab>
+  </sweet-modal>
 
 </div>
 
@@ -501,16 +414,17 @@ export default {
     },
   },
   methods:{
-    opneProfile(displayName){
+    fans(){
+      this.$refs.fans.open();
+    },
+    openProfile(displayName){
         this.$refs.likers.close();
         this.$refs.dislikers.close();
         this.$router.push(`/${displayName}`);
     },
+
     gooo(){
-
     this.$refs.likers.close();
-
-
     },
     loadMore(){
                 window.onscroll = () =>{
@@ -683,7 +597,6 @@ export default {
         let elScrollTop = e.target.scrollTop;
 
         if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-          alert('www');
           this.likersOffset +=100;
           axios.post('/api/post/likers',{
             offset:this.likersOffset,
@@ -817,6 +730,7 @@ button:hover, a:hover {
   position: relative !important;
   z-index: 0 !important;
 }
+
 .d{
   font-weight: bold;
   font-size: 12pt;
@@ -824,4 +738,10 @@ button:hover, a:hover {
   color:#FAE3D6;
   width:100px !important;
 }
+
+.followers,.following{
+  height: 100px !important;
+  overflow-y: scroll !important;
+}
+
 </style>
