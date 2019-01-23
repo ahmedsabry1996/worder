@@ -1,31 +1,12 @@
 <template>
-  <div class="container-fluid">
+  <div>
 
-          <div class="col-md-3  suggest">
-                  <suggested-people></suggested-people>
-          </div>
-
-          <div class="text-center col-md-6">
-              <list-posts class="text-center" :posts="timelinePosts"></list-posts>
-          </div>
-
-      <div class="col-md-3 text-center">
-            <topics></topics>
-        </ul>
-      </div>
-
-      <tooltip class="text-center totool"/>
-
-
+        <list-posts class="text-center" :posts.sync="timelinePosts"></list-posts>
     </div>
 </template>
 
 <script>
-import SuggestedPeople from './Suggestpeople.vue';
 import ListPosts from './posts/ListPosts';
-import Topics from './Topics.vue';
-
-import Ad from './Ad.vue';
 
 export default {
 
@@ -36,21 +17,16 @@ export default {
       }
   },
   components:{
-    SuggestedPeople,
-    Ad,
     ListPosts,
-    Topics,
-
   },
   mounted(){
-    console.log(this.$route);
+
     if (localStorage.getItem('access_token') != null && this.$route.path == '/') {
 
-      this.$store.commit('truncateTimeline');
       this.$store.dispatch('timeline');
-      this.loadMore();
 
     }
+    this.loadMore();
 
 
   },
@@ -73,7 +49,7 @@ export default {
 
           if (endOfPage) {
             if (!!localStorage.getItem('access_token') && this.$route.path == '/') {
-
+              alert();
             this.offset +=100;
             this.followingOffset +=100;
             this.$store.dispatch('loadMore',{"url":'timeline/load-more',
@@ -95,9 +71,4 @@ export default {
 </script>
 
 <style scoped>
-.totool{
-  font-weight: bold;
-  border: 1px solid #ddd;
-  border-radius: 7px;
-}
 </style>

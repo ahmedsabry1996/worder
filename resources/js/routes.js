@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import storeData from './store';
 import Test from './components/Test.vue';
 import Veifyemail from './components/auth/Veifyemail.vue';
-import MyPosts from './components/posts/myPosts.vue';
 
 //import Home from './components/Home.vue';
 //import Signup from './components/auth/Signup.vue';
@@ -79,6 +78,7 @@ export const routes = [
   {
     path:'/signup',
     component:Signup,
+    name:"signup",
     beforeEnter:((to,from,next)=>{
       if(!store.getters.isLoggedIn || (store.getters.verificationCode && store.getters.isLoggedIn == true)){
               next();
@@ -92,6 +92,7 @@ export const routes = [
   {
     path:'/login',
     component:Login,
+    name:"login",
     beforeEnter:((to,from,next)=>{
         if(!store.getters.isLoggedIn){
           next()
@@ -104,6 +105,7 @@ export const routes = [
   {
     path:'/create-profile',
     component:Createprofile,
+    name:"create-profile",
     beforeEnter:((to,from,next)=>{
       if (from.path == '/signup' || (store.state.hasProfile == 0 && store.state.isVerified == 1) ) {
             next();
@@ -117,19 +119,18 @@ export const routes = [
   },
   {
     path:'/update-profile',
-    component:UpdateProfile
+    component:UpdateProfile,
+    name:"update-profile"
   },
   {
     path:'/update-auth',
-    component:UpdateAuth
-  },
-  {
-    path:'/my-posts',
-    component:MyPosts
+    component:UpdateAuth,
+    name:"upade-auth-profile"
   },
   {
     path:"/:name",
     component:Showprofile,
+    name:"show-profile"
   },
   {
     path:"/post/:postId",

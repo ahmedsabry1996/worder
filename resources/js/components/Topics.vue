@@ -1,10 +1,6 @@
 <template >
 <div>
     <div>
-      <trend></trend>
-    </div>
-
-    <div>
   <h4>Topics</h4>
   <ul class="list-group">
     <li v-for="(topic,index) in topics" :key="index" class="list-group-item">
@@ -17,11 +13,7 @@
 </template>
 
 <script>
-import Trend from './Trend.vue';
 export default {
-  components:{
-    Trend
-  },
   computed:{
     topics(){
         return this.$store.getters.topics;

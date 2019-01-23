@@ -27,13 +27,13 @@
 
             <div class="col-md-2">
               <template v-if="getFollowing.indexOf(perosn.user.id) == -1">
-                <button style="" type="button" class="btn btn-primary btn-xs" @click="follow(perosn.user.id)">
+                <button style="" type="button" class="btn btn-primary btn-xs" @click="follow(perosn.user.id,'follow')">
                         {{$t('follow')}}
                   </button>
               </template>
               <template v-else>
 
-                <button style="" type="button" class="btn btn-danger btn-xs" @click="follow(perosn.user.id)">
+                <button style="" type="button" class="btn btn-danger btn-xs" @click="follow(perosn.user.id,'unfollow')">
                         {{$t('unfollow')}}
                 </button>
 
@@ -64,21 +64,29 @@ export default {
 
         }
     },
+    created(){
+      if(this.$store.state.suggestedPeople.length === 0){
+        this.$store.dispatch('suggestPeople');
+        console.log('zero');
+      }
 
+    },
     mounted(){
-      this.$store.dispatch('suggestPeople');
-      this.dosuggestPeople();
+
+      //this.dosuggestPeople();
     },
     methods:{
-      follow(followed_id){
+      follow(followed_id,action){
 
-        this.$store.dispatch('toggleFollow',followed_id);
+        this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
 
       },
         dosuggestPeople(){
+          const self = this ;
             setInterval(()=>{
-              this.$store.dispatch('suggestPeople');
-            },300000)
+              self.$store.dispatch('suggestPeople');
+              console.log('zerr');
+            },10000)
         },
 
     ShowProfile(displayName){

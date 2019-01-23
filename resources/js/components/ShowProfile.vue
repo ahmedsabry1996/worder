@@ -38,12 +38,12 @@
 
   <div class="text-center" v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
     <template v-if="isFollow">
-      <button type="button" class="btn btn-danger" @click="follow(showProfile.id)">
+      <button type="button" class="btn btn-danger" @click="follow(showProfile.id,'unfollow')">
           {{$t('unfollow')}}
       </button>
     </template>
     <template v-else>
-      <button type="button" class="btn btn-success" @click="follow(showProfile.id)">
+      <button type="button" class="btn btn-success" @click="follow(showProfile.id,'follow')">
         {{$t('follow')}}
 </button>
     </template>
@@ -259,12 +259,12 @@
       </div>
       <div class="col-md-2">
         <template v-if="getFollowing.indexOf(follower.id) == -1">
-          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id)">
+          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id,'follow')">
                 follow
             </button>
         </template>
         <template v-else>
-          <button style="" type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id)">
+          <button style="" type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id,'unfollow')">
                 unfollow
             </button>
         </template>
@@ -294,12 +294,12 @@
       </div>
       <div class="col-md-2">
         <template v-if="getFollowing.indexOf(follower.id) == -1">
-          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id)">
+          <button style="" type="button" class="btn btn-primary btn-xs" @click="myFollow(follower.id,'follow')">
                 follow
             </button>
         </template>
         <template v-else>
-          <button type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id)">
+          <button type="button" class="btn btn-danger btn-xs" @click="myFollow(follower.id,'unfollow')">
                 unfollow
             </button>
         </template>
@@ -528,9 +528,9 @@ export default {
                   console.log('error');
                 }
               },
-    follow(followed_id){
+    follow(followed_id,action){
 
-      this.$store.dispatch('toggleFollow',followed_id);
+      this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
 
     },
     ShowProfile(displayName){
@@ -614,8 +614,8 @@ export default {
                       }
                   })
         },
-        myFollow(followed_id){
-          this.$store.dispatch('toggleMyFollow',followed_id);
+        myFollow(followed_id,action){
+          this.$store.dispatch('toggleMyFollow',{followed_id:followed_id,action:action});
         },
         loadMoreFans(e){
 

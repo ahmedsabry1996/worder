@@ -10,8 +10,6 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./posts/ListPosts.vue */ "./resources/js/components/posts/ListPosts.vue");
-/* harmony import */ var _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Suggestpeople.vue */ "./resources/js/components/Suggestpeople.vue");
-/* harmony import */ var _Topics_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Topics.vue */ "./resources/js/components/Topics.vue");
 //
 //
 //
@@ -25,20 +23,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Topics: _Topics_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    SuggestPeople: _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     ListPosts: _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
@@ -133,7 +120,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -188,23 +175,14 @@ var render = function() {
   return _c("div", { staticClass: "container-fluid" }, [
     _c("h1", [_vm._v(_vm._s(this.$route.params))]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-3" }, [_c("suggest-people")], 1),
-    _vm._v(" "),
     _c(
       "div",
-      { staticClass: "col-md-6 text-center" },
+      { staticClass: "text-center" },
       [
         _c("h2", [_vm._v("Trend")]),
         _vm._v(" "),
         _c("list-posts", { attrs: { posts: _vm.posts } })
       ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "col-md-3" },
-      [_c("Topics", { staticClass: "text-center" })],
       1
     )
   ])

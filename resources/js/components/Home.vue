@@ -1,35 +1,73 @@
 <template>
-  <div class="">
+  <div>
       <Header/>
+      <div v-if="perfectUser">
 
-      <template v-if="perfectUser && currentRoute.path=='/'">
+        <div v-if="currentRoute.path=='/'" class="col-md-12">
+        <create-post></create-post>
+        </div>
 
-      <create-post></create-post>
+        <div class="col-md-3 suggest">
+          <template v-if="!profileRoutes">
 
-    <div class="row">
+                <suggested-people></suggested-people>
+      </template>
 
-        <time-line></time-line>
+        </div>
+        <template v-if="currentRoute.path == '/'">
+          <div class="col-md-6">
+            <time-line></time-line>
 
+          </div>
+          </template>
+        <template v-else>
+          <template v-if="profileRoutes">
+            <div class="col-md-12">
+              <router-view></router-view>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="col-md-6">
+              <router-view></router-view>
+            </div>
+          </template>
+        </template>
+
+
+      <div class="col-md-3 text-center" v-if="!profileRoutes">
+
+          <template>
+            <trend></trend>
+            <topics></topics>
+            </template>
       </div>
 
-      </template>
-<router-view>
+      </div>
+<tooltip class="text-center totool"/>
 
-</router-view>
   </div>
 </template>
 
 <script>
+
   import Header from './Header.vue';
   import createPost from './posts/Createpost.vue';
   import TimeLine from './Timeline.vue';
-  import VueProgressBar from 'vue-progressbar'
+  import VueProgressBar from 'vue-progressbar';
+  import SuggestedPeople from './Suggestpeople.vue';
+  import ListPosts from './posts/ListPosts';
+  import Topics from './Topics.vue';
+  import Ad from './Ad.vue';
+  import Trend from './Trend.vue';
+
+
     export default {
       created () {
-  this.$Progress.start()
-  this.$router.beforeEach((to, from, next) => {
-    this.$Progress.start()
-    next()
+            this.$Progress.start()
+            this.$router.beforeEach((to, from, next) => {
+            this.$Progress.start()
+            next()
   })
 
   this.$router.afterEach((to, from) => {
@@ -40,7 +78,7 @@
 
           //console.log(this.route.path);
               this.$Progress.finish();
-            console.log('the Home Component mounted.');
+
 
         },
 
@@ -52,15 +90,25 @@
           Header,
           createPost,
           TimeLine,
-
+          SuggestedPeople,
+          Topics,
+          Trend
         },
         computed:{
             perfectUser(){
-                return this.$store.getters.isLoggedIn == true && this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "1";
+                return this.$store.getters.isLoggedIn == true &&
+                      this.$store.getters.isVerified == "1" &&
+                      this.$store.getters.hasProfile == "1";
             },
 
           currentRoute(){
           return this.$route ;
+          },
+          profileRoutes(){
+            if (this.$route.name) {
+              return this.$route.name.includes('-profile');
+            }
+            return  false;
           },
 
           numOfFollowers(){
@@ -80,5 +128,11 @@
 <style>
 body{
   overflow-x: hidden;
+}
+
+.totool{
+  font-weight: bold;
+  border: 1px solid #ddd;
+  border-radius: 7px;
 }
 </style>

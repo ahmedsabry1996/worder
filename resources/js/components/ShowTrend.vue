@@ -1,18 +1,11 @@
 <template>
 <div class="container-fluid">
   <h1>{{this.$route.params}}</h1>
-  <div class="col-md-3">
-    <suggest-people></suggest-people>
-  </div>
 
-  <div class="col-md-6 text-center">
+
+  <div class="text-center">
     <h2>Trend</h2>
     <list-posts :posts="posts"></list-posts>
-
-  </div>
-
-  <div class="col-md-3">
-      <Topics class="text-center"/>
   </div>
 
 </div>
@@ -21,13 +14,9 @@
 <script>
 
 import ListPosts from './posts/ListPosts.vue';
-import SuggestPeople from './Suggestpeople.vue';
-import Topics from './Topics.vue';
 
 export default {
   components:{
-    Topics,
-    SuggestPeople,
     ListPosts
   },
   data(){

@@ -96,14 +96,13 @@ export default {
                 if (response.data.result == 'like') {
                     console.log(response.data);
                     this.$store.commit('updatePost',{id:postId,updatedPost:response.data.updated_post});
-                    this.$store.commit('addToLikedPosts',postId);
+
 
     }
 
                 if (response.data.result == 'dislike') {
                 console.log(response.data);
                 this.$store.commit('updatePost',{id:postId,updatedPost:response.data.updated_post});
-                this.$store.commit('addToDisLikedPosts',postId);
 
                 }
 

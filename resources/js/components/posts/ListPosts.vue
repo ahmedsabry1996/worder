@@ -5,7 +5,8 @@
         <img src="/storage/avatars/loader.gif" :alt="$t('loading')">
         <h3>{{$t('loading')}}</h3>
     </div>
-          <div class="" v-for="post in posts">
+
+          <div class="" v-for="(post,index) in posts" :key="index">
           <!-- publisher avatar -->
           <div class="avatar" @click="ShowProfile(post.user.profile.display_name)">
                   <img
@@ -160,7 +161,7 @@ export default {
 
             return moment(value).locale("tr").subtract(-2, 'hours').fromNow();
           },
-          
+
           subsetPost(val){
             let post = val.split(' ');
             if (post.length > 20 ) {

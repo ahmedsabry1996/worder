@@ -404,11 +404,9 @@ export default {
       })
       .then((response)=>{
 
-        console.log("sugg",response.data);
+        //console.log("sugg",response.data);
         let suggested = response.data.suggest_people;
-        let following = response.data.following;
         context.commit('suggestedPeople',suggested);
-        context.commit('addToFollowing',following);
 
       })
       .catch((errors)=>{
@@ -417,9 +415,17 @@ export default {
       })
     },
 
-        toggleFollow(context,followed_id){
+        toggleFollow(context,payload){
+          if (payload.action == 'follow') {
+            context.commit('addToFollowing',payload.followed_id);
+
+          }
+          else{
+            context.commit('removeFromFollowing',payload.followed_id);
+
+          }
         axios.post('/api/timeline/follow',{
-          followed_id
+          followed_id:payload.followed_id
         },{
 
           headers:{
@@ -430,11 +436,11 @@ export default {
 
           let action = response.data.action;
           if (action == 'follow') {
-              context.commit('addToFollowing',followed_id);
+              context.commit('addToFollowing',payload.followed_id);
               context.commit('isFollow',true);
           }
           else{
-            context.commit('removeFromFollowing',followed_id);
+            context.commit('removeFromFollowing',payload.followed_id);
             context.commit('isFollow',false);
           }
           console.log(action);
@@ -445,9 +451,17 @@ export default {
         })
       },
 
-        toggleMyFollow(context,followed_id){
+        toggleMyFollow(context,payload){
+          if (payload.action == 'follow') {
+            context.commit('addToFollowing',payload.followed_id);
+
+          }
+          else{
+            context.commit('removeFromFollowing',payload.followed_id);
+
+          }
         axios.post('/api/timeline/follow',{
-          followed_id
+          followed_id:payload.followed_id
         },{
 
           headers:{
@@ -458,11 +472,11 @@ export default {
 
           let action = response.data.action;
           if (action == 'follow') {
-              context.commit('addToMyFollowing',followed_id);
+              context.commit('addToMyFollowing',payload.followed_id);
               context.commit('isFollow',true);
           }
           else{
-            context.commit('removeFromMyFollowing',followed_id);
+            context.commit('removeFromMyFollowing',payload.followed_id);
             context.commit('isFollow',false);
           }
           console.log(action);
@@ -753,20 +767,22 @@ state.signupErrors = payload;
       let profilePosts = state.profilePosts;
 
 
-      let postIndexInTimeline = timelineposts.findIndex((value,index)=>{
-            return value.id == payload.id;
-      });
+      let postIndexInTimeline = timelineposts.findIndex((val)=>{
+            return val.id == payload.id
+      })
 
-      let postIndexInUserProfile = profilePosts.findIndex((value,index)=>{
-            return value.id == payload.id;
+
+      if (postIndexInTimeline != -1) {
+        Vue.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+
+      }
+
+       let postIndexInUserProfile = profilePosts.findIndex((val)=>{
+            return val.id == payload.id
       });
 
       if (postIndexInUserProfile != -1) {
-        profilePosts.splice(postIndexInUserProfile,1,payload.updatedPost);
-      }
-
-      if (postIndexInTimeline != -1) {
-        timelineposts.splice(postIndexInTimeline,1,payload.updatedPost);
+        Vue.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
 
       }
 

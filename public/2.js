@@ -528,8 +528,11 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         console.log('error');
       }
     },
-    follow: function follow(followed_id) {
-      this.$store.dispatch('toggleFollow', followed_id);
+    follow: function follow(followed_id, action) {
+      this.$store.dispatch('toggleFollow', {
+        followed_id: followed_id,
+        action: action
+      });
     },
     ShowProfile: function ShowProfile(displayName) {
       this.$router.push("/".concat(displayName));
@@ -615,8 +618,11 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       });
     },
-    myFollow: function myFollow(followed_id) {
-      this.$store.dispatch('toggleMyFollow', followed_id);
+    myFollow: function myFollow(followed_id, action) {
+      this.$store.dispatch('toggleMyFollow', {
+        followed_id: followed_id,
+        action: action
+      });
     },
     loadMoreFans: function loadMoreFans(e) {
       var elHeight = e.target.clientHeight;
@@ -934,7 +940,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.follow(_vm.showProfile.id)
+                                      _vm.follow(_vm.showProfile.id, "unfollow")
                                     }
                                   }
                                 },
@@ -955,7 +961,7 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.follow(_vm.showProfile.id)
+                                      _vm.follow(_vm.showProfile.id, "follow")
                                     }
                                   }
                                 },
@@ -1713,7 +1719,8 @@ var render = function() {
                                                                     $event
                                                                   ) {
                                                                     _vm.myFollow(
-                                                                      follower.id
+                                                                      follower.id,
+                                                                      "follow"
                                                                     )
                                                                   }
                                                                 }
@@ -1739,7 +1746,8 @@ var render = function() {
                                                                     $event
                                                                   ) {
                                                                     _vm.myFollow(
-                                                                      follower.id
+                                                                      follower.id,
+                                                                      "unfollow"
                                                                     )
                                                                   }
                                                                 }
@@ -1882,7 +1890,8 @@ var render = function() {
                                                                     $event
                                                                   ) {
                                                                     _vm.myFollow(
-                                                                      follower.id
+                                                                      follower.id,
+                                                                      "follow"
                                                                     )
                                                                   }
                                                                 }
@@ -1908,7 +1917,8 @@ var render = function() {
                                                                     $event
                                                                   ) {
                                                                     _vm.myFollow(
-                                                                      follower.id
+                                                                      follower.id,
+                                                                      "unfollow"
                                                                     )
                                                                   }
                                                                 }
