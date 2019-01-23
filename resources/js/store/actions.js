@@ -314,12 +314,11 @@ export default {
               }
             })
             .then((response)=>{
+              console.log(response);
                 context.commit('showProfile',{profile:response.data.profile,
                                                 posts:response.data.posts,
                                                 followers:response.data.profile.follower_counter,
                                                 isFollow:response.data.is_follow});
-      console.log("ddd");
-      console.log(response.data.profile);
 
             })
             .catch((errors)=>{

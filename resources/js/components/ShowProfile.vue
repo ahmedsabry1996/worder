@@ -523,7 +523,7 @@ export default {
                 }
 
               },
-        
+
     follow(followed_id,action){
 
       this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});

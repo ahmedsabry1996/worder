@@ -99817,14 +99817,13 @@ __webpack_require__.r(__webpack_exports__);
         "Authorization": "Bearer ".concat(context.state.userToken)
       }
     }).then(function (response) {
+      console.log(response);
       context.commit('showProfile', {
         profile: response.data.profile,
         posts: response.data.posts,
         followers: response.data.profile.follower_counter,
         isFollow: response.data.is_follow
       });
-      console.log("ddd");
-      console.log(response.data.profile);
     }).catch(function (errors) {
       console.log(errors);
       console.log(errors.response);

@@ -242,13 +242,13 @@ class ProfileController extends Controller
       {
 
 
-          $user_profile = profile::whereDisplayName($display_name)->get()[0]->user_id;
+          $user_profile = profile::whereDisplayName($display_name)->first()->user_id;
 
           $user = user::whereId($user_profile)
                   ->with('profile')
                   ->with('follower_counter')
                   ->with('topics')
-                  ->get()[0];
+                  ->first();
 
           $posts = post::where('user_id',$user_profile)
           ->offset(0)
@@ -260,11 +260,15 @@ class ProfileController extends Controller
           ->with('dislikesCounter')
           ->distinct()
           ->get();
-          $is_follow = user::find(Auth::id())->following()->where('user_id',$user_profile)->get()->count() == 1 ? true : false;
+
+          $is_follow = user::find(Auth::id())
+                      ->following()
+                      ->where('user_id',$user_profile)
+                      ->exists() ? true : false;
 
           return response()->json(['profile'=>$user,
                                     'posts'=>$posts,
-                                  'is_follow'=>$is_follow]);
+                                    'is_follow'=>$is_follow]);
 
       }
 
