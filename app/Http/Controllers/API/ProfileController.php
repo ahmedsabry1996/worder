@@ -233,7 +233,7 @@ class ProfileController extends Controller
 
       public function get_user_profile($user_id)
       {
-          $user_profile = user::findOrFail($user_id)->profile()->get()[0];
+          $user_profile = user::whereId($user_id)->profile->first();
 
           return  response()->json(['user_profile'=>$user_profile]);
       }
