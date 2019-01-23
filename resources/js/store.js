@@ -773,7 +773,10 @@ state.signupErrors = payload;
 
 
       if (postIndexInTimeline != -1) {
-        Vue.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+        setTimeout(function(){
+          Vue.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+
+        },500)
 
       }
 
@@ -782,8 +785,11 @@ state.signupErrors = payload;
       });
 
       if (postIndexInUserProfile != -1) {
-        Vue.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
 
+        setTimeout(function () {
+          Vue.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
+
+        },500)
       }
 
     },

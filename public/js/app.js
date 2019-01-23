@@ -100172,7 +100172,9 @@ var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
       });
 
       if (postIndexInTimeline != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+        setTimeout(function () {
+          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+        }, 500);
       }
 
       var postIndexInUserProfile = profilePosts.findIndex(function (val) {
@@ -100180,7 +100182,9 @@ var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
       });
 
       if (postIndexInUserProfile != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
+        setTimeout(function () {
+          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
+        }, 500);
       }
     },
     loadMore: function loadMore(state, payload) {
