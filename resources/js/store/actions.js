@@ -315,10 +315,12 @@ export default {
             })
             .then((response)=>{
               console.log(response);
-                context.commit('showProfile',{profile:response.data.profile,
-                                                posts:response.data.posts,
-                                                followers:response.data.profile.follower_counter,
-                                                isFollow:response.data.is_follow});
+                context.commit('showProfile',
+                {profile:response.data.profile,
+                posts:response.data.posts,
+                followers:response.data.followers,
+                following:response.data.following,
+                isFollow:response.data.is_follow});
 
             })
             .catch((errors)=>{

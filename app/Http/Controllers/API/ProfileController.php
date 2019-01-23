@@ -233,7 +233,7 @@ class ProfileController extends Controller
 
       public function get_user_profile($user_id)
       {
-          $user_profile = user::whereId($user_id)->profile->first();
+          $user_profile = user::whereId($user_id)->with('profile')->first();
 
           return  response()->json(['user_profile'=>$user_profile]);
       }
@@ -242,15 +242,15 @@ class ProfileController extends Controller
       {
 
 
-          $user_profile = profile::whereDisplayName($display_name)->first()->user_id;
+          $user_id = profile::whereDisplayName($display_name)->first()->user_id;
 
-          $user = user::whereId($user_profile)
+          $user = user::whereId($user_id)
                   ->with('profile')
                   ->with('follower_counter')
                   ->with('topics')
                   ->first();
 
-          $posts = post::where('user_id',$user_profile)
+          $posts = post::where('user_id',$user_id)
           ->offset(0)
           ->limit(10)
           ->latest()
@@ -263,11 +263,16 @@ class ProfileController extends Controller
 
           $is_follow = user::find(Auth::id())
                       ->following()
-                      ->where('user_id',$user_profile)
+                      ->where('user_id',$user_id)
                       ->exists() ? true : false;
+
+          $num_of_followers = user::find($user_id)->follower_counter->followers;
+          $num_of_following = user::find($user_id)->follower_counter->following;
 
           return response()->json(['profile'=>$user,
                                     'posts'=>$posts,
+                                    'followers'=>$num_of_followers,
+                                    'following'=>$num_of_following,
                                     'is_follow'=>$is_follow]);
 
       }

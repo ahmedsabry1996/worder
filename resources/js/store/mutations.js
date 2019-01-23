@@ -366,8 +366,8 @@ state.signupErrors = payload;
 
         if (payload.followers !== null) {
 
-          state.profileFollowers[0] = payload.followers.followers;
-          state.profileFollowers[1] = payload.followers.following;
+          state.profileFollowers[0] = payload.followers;
+          state.profileFollowers[1] = payload.following;
 
         }
         else{
@@ -385,8 +385,8 @@ else {
 }
       if (payload.followers !== null) {
 
-        state.profileFollowers[0] = payload.followers.followers;
-        state.profileFollowers[1] = payload.followers.following;
+        state.profileFollowers[0] = payload.followers;
+        state.profileFollowers[1] = payload.following;
 
       }
       else{

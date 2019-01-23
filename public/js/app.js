@@ -99821,7 +99821,8 @@ __webpack_require__.r(__webpack_exports__);
       context.commit('showProfile', {
         profile: response.data.profile,
         posts: response.data.posts,
-        followers: response.data.profile.follower_counter,
+        followers: response.data.followers,
+        following: response.data.following,
         isFollow: response.data.is_follow
       });
     }).catch(function (errors) {
@@ -100282,8 +100283,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       state.myPosts = state.profilePosts;
 
       if (payload.followers !== null) {
-        state.profileFollowers[0] = payload.followers.followers;
-        state.profileFollowers[1] = payload.followers.following;
+        state.profileFollowers[0] = payload.followers;
+        state.profileFollowers[1] = payload.following;
       } else {
         state.profileFollowers[0] = 0;
         state.profileFollowers[1] = 0;
@@ -100298,8 +100299,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }
 
     if (payload.followers !== null) {
-      state.profileFollowers[0] = payload.followers.followers;
-      state.profileFollowers[1] = payload.followers.following;
+      state.profileFollowers[0] = payload.followers;
+      state.profileFollowers[1] = payload.following;
     } else {
       state.profileFollowers[0] = 0;
       state.profileFollowers[1] = 0;
