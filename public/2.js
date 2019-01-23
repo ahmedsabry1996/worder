@@ -382,6 +382,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -416,7 +432,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   watch: {
     '$route': function $route(to, from) {
       this.offset = 10; //this.newDisp = to.params.name;
-      //this.me();
 
       this.$router.push("/".concat(to.params.name));
       this.$store.dispatch('showProfile', to.params.name);
@@ -487,19 +502,13 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   methods: {
-    openProifle: function openProifle(displayName) {
+    opneProfile: function opneProfile(displayName) {
       this.$refs.likers.close();
       this.$refs.dislikers.close();
       this.$router.push("/".concat(displayName));
     },
     gooo: function gooo() {
       this.$refs.likers.close();
-    },
-    oks: function oks() {
-      console.log('jajajaj');
-    },
-    dos: function dos() {
-      this.$refs.likers.open();
     },
     loadMore: function loadMore() {
       var _this = this;
@@ -517,16 +526,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           _this.offset += 10;
         }
       };
-    },
-    me: function me() {
-      if (this.newDisp !== this.displayName) {
-        this.followerOffset = 0;
-        this.$store.dispatch('showProfile', this.newDisp);
-        this.$store.dispatch('showFans', this.followerOffset);
-        this.displayName = this.newDisp;
-      } else {
-        console.log('error');
-      }
     },
     follow: function follow(followed_id, action) {
       this.$store.dispatch('toggleFollow', {
@@ -830,14 +829,6 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
-          _c("p", [
-            _vm._v(
-              _vm._s(_vm.getFollowing) +
-                " -- " +
-                _vm._s(_vm.getFollowing.length)
-            )
-          ]),
-          _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6 pc" }, [
               _c("div", { staticClass: "card" }, [
@@ -845,7 +836,7 @@ var render = function() {
                   staticStyle: { width: "100%" },
                   attrs: {
                     src: "/storage/avatars/" + _vm.showProfile.profile.avatar,
-                    alt: "John"
+                    alt: _vm.showProfile.profile.display_name
                   }
                 }),
                 _vm._v(" "),
@@ -880,6 +871,8 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
+                _c("h2", [_vm._v(_vm._s(_vm.showProfile.name))]),
+                _vm._v(" "),
                 _c("p", { staticClass: "title" }, [
                   _vm._v(_vm._s(_vm.showProfile.profile.display_name))
                 ]),
@@ -913,14 +906,18 @@ var render = function() {
                   _c("p", [
                     _c("bdi", [
                       _c("b", [_vm._v(_vm._s(_vm.profileFollowers[0]))]),
-                      _vm._v("   " + _vm._s(_vm.$t("followers")))
+                      _vm._v(
+                        "\n        " + _vm._s(_vm.$t("followers")) + "\n      "
+                      )
                     ])
                   ]),
                   _vm._v(" "),
                   _c("p", [
                     _c("bdi", [
                       _c("b", [_vm._v(_vm._s(_vm.profileFollowers[1]))]),
-                      _vm._v("   " + _vm._s(_vm.$t("following")) + "\n")
+                      _vm._v(
+                        "\n        " + _vm._s(_vm.$t("following")) + "\n      "
+                      )
                     ])
                   ])
                 ]),
@@ -1977,7 +1974,7 @@ var render = function() {
                         attrs: { tag: "p" },
                         on: {
                           click: function($event) {
-                            _vm.openProifle(liker.profile.display_name)
+                            _vm.opneProfile(liker.profile.display_name)
                           }
                         }
                       },
@@ -2037,7 +2034,7 @@ var render = function() {
                         staticStyle: { cursor: "pointer" },
                         on: {
                           click: function($event) {
-                            _vm.openProifle(disliker.profile.display_name)
+                            _vm.opneProfile(disliker.profile.display_name)
                           }
                         }
                       },
@@ -2070,9 +2067,7 @@ var render = function() {
                 0
               )
             ]
-          ),
-          _vm._v(" "),
-          _c("tooltip", { staticClass: "d text-center text-success" })
+          )
         ],
         1
       )

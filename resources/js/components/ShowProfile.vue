@@ -1,18 +1,20 @@
 <template>
   <div class="container" v-if="showProfile.profile">
-    <p>{{getFollowing}} -- {{getFollowing.length}}</p>
       <div class="row">
       <div class="col-md-6 pc">
         <div class="card">
-  <img :src="`/storage/avatars/${showProfile.profile.avatar}`" alt="John" style="width:100%">
+            <img  :src="`/storage/avatars/${showProfile.profile.avatar}`"                       :alt="showProfile.profile.display_name"
+            style="width:100%">
 
-  <p  v-if="showProfile.profile.is_verified == 1" class="text-success" style="font-size:20pt;">
-    <b>
-    <font-awesome-icon v-popover:tooltip.top="'verified user'" :icon= "['fas','award']"/>
+      <p  v-if="showProfile.profile.is_verified == 1"
+            class="text-success" style="font-size:20pt;">
+            <b>
+              <font-awesome-icon v-popover:tooltip.top="'verified user'" :icon= "['fas','award']"/>
+            </b>
+      </p>
 
-  </b>
 
-</p>
+        <h2>{{showProfile.name}}</h2>
 
   <p class="title">{{showProfile.profile.display_name}}</p>
   <p>
@@ -27,12 +29,18 @@
   </p>
   <div class="num-of-followers">
     <p>
-    <bdi>  <b>{{profileFollowers[0]}}</b>   {{$t('followers')}}</bdi>
+    <bdi>
+        <b>{{profileFollowers[0]}}</b>
+        {{$t('followers')}}
+      </bdi>
     </p>
-    <p>
-      <bdi>       <b>{{profileFollowers[1]}}</b>   {{$t('following')}}
-</bdi>
-    </p>
+  <p>
+      <bdi>
+        <b>{{profileFollowers[1]}}</b>
+        {{$t('following')}}
+      </bdi>
+  </p>
+
   </div>
 
 
@@ -244,10 +252,19 @@
     <div class="row" v-for="follower in myFollowers">
 
       <div class="col-md-3">
-        <img @click="ShowProfile(follower.profile.display_name)" :src="`/storage/avatars/${follower.profile.avatar}`" :alt="`${follower.display_name}`" class="img-circle" :title="`${follower.name}`" width="55" height="55" style="cursor:pointer">
+        <img
+            @click="ShowProfile(follower.profile.display_name)"
+            :src="`/storage/avatars/${follower.profile.avatar}`" :alt="`${follower.display_name}`"
+            class="img-circle" :title="`${follower.name}`"
+            width="55"
+            height="55"
+            style="cursor:pointer">
       </div>
 
-      <div class="col-md-7" style="cursor:pointer" @click="ShowProfile(follower.profile.display_name)">
+      <div class="col-md-7"
+           style="cursor:pointer"
+           @click="ShowProfile(follower.profile.display_name)">
+
           <h4>{{follower.name}}</h4>
           <h5>
            <i style="opacity:.6">
@@ -327,7 +344,7 @@
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
 
       <div class="likers" v-for="liker in likers">
-          <p @click="openProifle(liker.profile.display_name)" tag="p" style="cursor:pointer">
+          <p @click="opneProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
           <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
           <b>{{liker.name}}</b>
           <br>
@@ -345,7 +362,7 @@
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
 
       <div class="likers" v-for="disliker in dislikers">
-          <p @click="openProifle(disliker.profile.display_name)"  style="cursor:pointer">
+          <p @click="opneProfile(disliker.profile.display_name)"  style="cursor:pointer">
           <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
           <b>{{disliker.name}}</b>
           <br>
@@ -358,7 +375,6 @@
 
   </sweet-modal>
 
-<tooltip class="d text-center text-success"/>
 
 </div>
 
@@ -404,7 +420,7 @@ export default {
     '$route'(to,from){
       this.offset = 10;
       //this.newDisp = to.params.name;
-      //this.me();
+
       this.$router.push(`/${to.params.name}`);
       this.$store.dispatch('showProfile',to.params.name);
 
@@ -485,7 +501,7 @@ export default {
     },
   },
   methods:{
-    openProifle(displayName){
+    opneProfile(displayName){
         this.$refs.likers.close();
         this.$refs.dislikers.close();
         this.$router.push(`/${displayName}`);
@@ -495,14 +511,6 @@ export default {
     this.$refs.likers.close();
 
 
-    },
-    oks(){
-      console.log('jajajaj');
-
-    },
-    dos(){
-
-          this.$refs.likers.open();
     },
     loadMore(){
                 window.onscroll = () =>{
@@ -515,19 +523,7 @@ export default {
                 }
 
               },
-              me(){
-                if (this.newDisp !== this.displayName) {
-
-                  this.followerOffset = 0;
-                  this.$store.dispatch('showProfile',this.newDisp);
-                  this.$store.dispatch('showFans',this.followerOffset);
-                  this.displayName = this.newDisp;
-
-                }
-                else{
-                  console.log('error');
-                }
-              },
+        
     follow(followed_id,action){
 
       this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
