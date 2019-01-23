@@ -1,8 +1,10 @@
 <template>
   <div>
       <Header/>
+      <div v-if="!isLoggedIn">
+        <router-view></router-view>
+      </div>
       <div v-if="perfectUser">
-
         <div v-if="currentRoute.path=='/'" class="col-md-12">
         <create-post></create-post>
         </div>
@@ -95,6 +97,10 @@
           Trend
         },
         computed:{
+            isLoggedIn(){
+              return this.$store.getters.isLoggedIn;
+
+            },
             perfectUser(){
                 return this.$store.getters.isLoggedIn == true &&
                       this.$store.getters.isVerified == "1" &&

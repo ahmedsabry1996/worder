@@ -12368,6 +12368,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -12405,6 +12407,9 @@ __webpack_require__.r(__webpack_exports__);
     Trend: _Trend_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   computed: {
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     perfectUser: function perfectUser() {
       return this.$store.getters.isLoggedIn == true && this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "1";
     },
@@ -79460,6 +79465,8 @@ var render = function() {
     [
       _c("Header"),
       _vm._v(" "),
+      !_vm.isLoggedIn ? _c("div", [_c("router-view")], 1) : _vm._e(),
+      _vm._v(" "),
       _vm.perfectUser
         ? _c(
             "div",
@@ -99449,7 +99456,7 @@ var Login = function Login(resolve) {
 };
 
 var Topic = function Topic(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 9).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
     resolve(__webpack_require__(/*! ./components/topics/topic.vue */ "./resources/js/components/topics/topic.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99461,7 +99468,7 @@ var Signup = function Signup(resolve) {
 };
 
 var Post = function Post(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
     resolve(__webpack_require__(/*! ./components/posts/showPost.vue */ "./resources/js/components/posts/showPost.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99473,7 +99480,7 @@ var Createprofile = function Createprofile(resolve) {
 };
 
 var Showprofile = function Showprofile(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(0), __webpack_require__.e(2)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(9), __webpack_require__.e(2)]).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowProfile.vue */ "./resources/js/components/ShowProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99491,7 +99498,7 @@ var UpdateAuth = function UpdateAuth(resolve) {
 };
 
 var Trend = function Trend(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 0).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowTrend.vue */ "./resources/js/components/ShowTrend.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99847,6 +99854,107 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/store/getters.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/getters.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  isLoggedIn: function isLoggedIn(state) {
+    return state.isLoggedIn;
+  },
+  currentUser: function currentUser(state) {
+    return state.currentUser;
+  },
+  currentUserProfile: function currentUserProfile(state) {
+    return state.currentUserProfile;
+  },
+  currentUserTopics: function currentUserTopics(state) {
+    return state.currentUserTopics;
+  },
+  userToken: function userToken(state) {
+    return state.userToken;
+  },
+  signupErrors: function signupErrors(state) {
+    return state.signupErrors;
+  },
+  verificationCode: function verificationCode(state) {
+    return state.verificationCode;
+  },
+  isVerified: function isVerified(state) {
+    return state.isVerified;
+  },
+  hasProfile: function hasProfile(state) {
+    return state.hasProfile;
+  },
+  countries: function countries(state) {
+    return state.countries;
+  },
+  topics: function topics(state) {
+    return state.topics;
+  },
+  posts: function posts(state) {
+    return state.posts;
+  },
+  myPosts: function myPosts(state) {
+    return state.myPosts;
+  },
+  timeline: function timeline(state) {
+    return state.timeline;
+  },
+  likedPosts: function likedPosts(state) {
+    return state.likedPosts;
+  },
+  disLikedPosts: function disLikedPosts(state) {
+    return state.disLikedPosts;
+  },
+  followers: function followers(state) {
+    return state.followers;
+  },
+  following: function following(state) {
+    return state.following;
+  },
+  suggestedPeople: function suggestedPeople(state) {
+    return state.suggestedPeople;
+  },
+  myFollowers: function myFollowers(state) {
+    return state.myFollowers;
+  },
+  myFollowing: function myFollowing(state) {
+    return state.myFollowing;
+  },
+  showProfile: function showProfile(state) {
+    return state.showProfile;
+  },
+  isFollow: function isFollow(state) {
+    return state.isFollow;
+  },
+  profileFollowers: function profileFollowers(state) {
+    return state.profileFollowers;
+  },
+  profilePosts: function profilePosts(state) {
+    return state.profilePosts;
+  },
+  notifications: function notifications(state) {
+    return state.notifications;
+  },
+  unreadNotifications: function unreadNotifications(state) {
+    return state.unreadNotifications;
+  },
+  trend: function trend(state) {
+    return state.trend;
+  },
+  newTrend: function newTrend(state) {
+    return state.newTrend;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -99860,12 +99968,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
-/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
-/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./resources/js/store/state.js");
+/* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getters */ "./resources/js/store/getters.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -99873,147 +99981,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUser"])();
-var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUserProfile"])();
-var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUserTopics"])();
-var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["userToken"])();
-var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["isVerified"])();
-var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["verificationCode"])();
-var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["userId"])();
-var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["hasProfile"])();
-var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["email"])();
-var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["password"])();
-var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["newTrend"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
-  state: {
-    isLoggedIn: !!USER,
-    signupErrors: null,
-    currentUser: USER,
-    currentUserProfile: USER_PROFILE,
-    currentUserTopics: USER_TOPICS,
-    userToken: ACCESS_TOKEN,
-    isVerified: IS_VERIFIED,
-    verificationCode: VERIFICATION_CODE,
-    hasProfile: HAS_PROFILE,
-    userId: USER_ID,
-    email: EMAIL,
-    password: PASSWORD,
-    notifications: [],
-    unreadNotifications: false,
-    topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
-    countries: ['Turkey', 'Egypt', 'Filstin'],
-    timeline: [],
-    posts: [],
-    myPosts: [],
-    likedPosts: [],
-    disLikedPosts: [],
-    publishingPostErrors: [],
-    followers: [],
-    following: [],
-    myFollowers: [],
-    myFollowing: [],
-    suggestedPeople: [],
-    showProfile: {
-      profile: 0
-    },
-    profilePosts: [],
-    profileFollowers: [0, 0],
-    isFollow: null,
-    trend: TREND,
-    newTrend: false
-  },
-  getters: {
-    isLoggedIn: function isLoggedIn(state) {
-      return state.isLoggedIn;
-    },
-    currentUser: function currentUser(state) {
-      return state.currentUser;
-    },
-    currentUserProfile: function currentUserProfile(state) {
-      return state.currentUserProfile;
-    },
-    currentUserTopics: function currentUserTopics(state) {
-      return state.currentUserTopics;
-    },
-    userToken: function userToken(state) {
-      return state.userToken;
-    },
-    signupErrors: function signupErrors(state) {
-      return state.signupErrors;
-    },
-    verificationCode: function verificationCode(state) {
-      return state.verificationCode;
-    },
-    isVerified: function isVerified(state) {
-      return state.isVerified;
-    },
-    hasProfile: function hasProfile(state) {
-      return state.hasProfile;
-    },
-    countries: function countries(state) {
-      return state.countries;
-    },
-    topics: function topics(state) {
-      return state.topics;
-    },
-    posts: function posts(state) {
-      return state.posts;
-    },
-    myPosts: function myPosts(state) {
-      return state.myPosts;
-    },
-    timeline: function timeline(state) {
-      return state.timeline;
-    },
-    likedPosts: function likedPosts(state) {
-      return state.likedPosts;
-    },
-    disLikedPosts: function disLikedPosts(state) {
-      return state.disLikedPosts;
-    },
-    followers: function followers(state) {
-      return state.followers;
-    },
-    following: function following(state) {
-      return state.following;
-    },
-    suggestedPeople: function suggestedPeople(state) {
-      return state.suggestedPeople;
-    },
-    myFollowers: function myFollowers(state) {
-      return state.myFollowers;
-    },
-    myFollowing: function myFollowing(state) {
-      return state.myFollowing;
-    },
-    showProfile: function showProfile(state) {
-      return state.showProfile;
-    },
-    isFollow: function isFollow(state) {
-      return state.isFollow;
-    },
-    profileFollowers: function profileFollowers(state) {
-      return state.profileFollowers;
-    },
-    profilePosts: function profilePosts(state) {
-      return state.profilePosts;
-    },
-    notifications: function notifications(state) {
-      return state.notifications;
-    },
-    unreadNotifications: function unreadNotifications(state) {
-      return state.unreadNotifications;
-    },
-    trend: function trend(state) {
-      return state.trend;
-    },
-    newTrend: function newTrend(state) {
-      return state.newTrend;
-    }
-  },
-  actions: _actions__WEBPACK_IMPORTED_MODULE_2__["default"],
-  mutations: _mutations__WEBPACK_IMPORTED_MODULE_3__["default"],
-  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default()({
+  state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
+  getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
+  actions: _actions__WEBPACK_IMPORTED_MODULE_4__["default"],
+  mutations: _mutations__WEBPACK_IMPORTED_MODULE_5__["default"],
+  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6___default()({
     predicate: ['signupSuccess', 'loginSuccess', 'verified', 'addToLikedPosts', 'addToDisLikedPosts', 'fillDisLikedPosts', 'fillLikedPosts', 'updatePost', 'noAction', 'logout', 'truncateProfile', 'addToFollowing', 'removeFromFollowing', 'addToMyFollowing', 'removeFromMyFollowing', 'showProfile', 'loadMoreProfilePosts', 'isFollow']
   })]
 });
@@ -100392,6 +100365,70 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   newTrendOff: function newTrendOff(state) {
     state.newTrend = false;
   }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/state.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/state.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
+/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
+
+
+var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUser"])();
+var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserProfile"])();
+var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserTopics"])();
+var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userToken"])();
+var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["isVerified"])();
+var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["verificationCode"])();
+var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userId"])();
+var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["hasProfile"])();
+var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["email"])();
+var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
+var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
+/* harmony default export */ __webpack_exports__["default"] = ({
+  isLoggedIn: !!USER,
+  signupErrors: null,
+  currentUser: USER,
+  currentUserProfile: USER_PROFILE,
+  currentUserTopics: USER_TOPICS,
+  userToken: ACCESS_TOKEN,
+  isVerified: IS_VERIFIED,
+  verificationCode: VERIFICATION_CODE,
+  hasProfile: HAS_PROFILE,
+  userId: USER_ID,
+  email: EMAIL,
+  password: PASSWORD,
+  notifications: [],
+  unreadNotifications: false,
+  topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
+  countries: ['Turkey', 'Egypt', 'Filstin'],
+  timeline: [],
+  posts: [],
+  myPosts: [],
+  likedPosts: [],
+  disLikedPosts: [],
+  publishingPostErrors: [],
+  followers: [],
+  following: [],
+  myFollowers: [],
+  myFollowing: [],
+  suggestedPeople: [],
+  showProfile: {
+    profile: 0
+  },
+  profilePosts: [],
+  profileFollowers: [0, 0],
+  isFollow: null,
+  trend: TREND,
+  newTrend: false
 });
 
 /***/ }),
