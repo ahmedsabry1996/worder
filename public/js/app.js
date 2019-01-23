@@ -100087,11 +100087,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var liked = state.likedPosts;
     var disliked = state.disLikedPosts;
 
-    if (_typeof(payload) !== "object") {
+    if (_typeof(payload) != "object") {
       liked.push(payload);
 
-      if (disliked.indexOf(payload) !== -1) {
-        disliked.splice(disliked.indexOf(payload), 1);
+      if (disliked.indexOf(payload) != -1) {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.disLikedPosts, disliked.indexOf(payload), null);
       }
     } else {
       payload.map(function (val) {
@@ -100110,7 +100110,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       disliked.push(payload);
 
       if (liked.indexOf(payload) !== -1) {
-        liked.splice(liked.indexOf(payload), 1);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.likedPosts, liked.indexOf(payload), null);
       }
     } else {
       payload.map(function (val) {

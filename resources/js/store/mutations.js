@@ -136,12 +136,12 @@ console.log(45454545);
         let liked = state.likedPosts;
         let disliked = state.disLikedPosts;
 
-        if (typeof(payload) !== "object") {
+        if (typeof(payload) != "object") {
 
         liked.push(payload);
-        if (disliked.indexOf(payload) !== -1) {
+        if (disliked.indexOf(payload) != -1) {
 
-              disliked.splice(disliked.indexOf(payload),1);
+              Vue.set(state.disLikedPosts,disliked.indexOf(payload),null);
         }
 
       }
@@ -166,7 +166,8 @@ console.log(45454545);
 
         if(liked.indexOf(payload) !== -1) {
 
-                      liked.splice(liked.indexOf(payload),1);
+          Vue.set(state.likedPosts,liked.indexOf(payload),null);
+
         }
       }
         else{
