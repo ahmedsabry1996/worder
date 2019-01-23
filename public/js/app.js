@@ -99556,10 +99556,294 @@ var routes = [{
   component: Topic,
   name: "topic"
 }, {
-  path: "/trend/:word",
+  path: "/trend/:trend",
   component: Trend,
   name: "trend"
 }];
+
+/***/ }),
+
+/***/ "./resources/js/store/actions.js":
+/*!***************************************!*\
+  !*** ./resources/js/store/actions.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  signup: function signup(context, credionals) {
+    return new Promise(function (resolve, reject) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/signup", credionals).then(function (response) {
+        console.log(response.data);
+        localStorageSettter('current_user', JSON.stringify(response.data.user));
+        localStorageSettter('access_token', response.data.access_token.accessToken);
+        localStorageSettter('verification_code', response.data.verification_code);
+        localStorageSettter('user_id', response.data.user.id);
+        context.commit('signupSuccess');
+        resolve();
+      }).catch(function (errors) {
+        console.log(errors.response);
+        console.log(errors.response.data.errors);
+        context.commit('signupFails', errors.response.data.errors);
+        reject();
+      });
+    });
+  },
+  //for signup
+  confrimEmail: function confrimEmail(context) {
+    var userId = context.state.currentUser.id;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/verify/" + userId).then(function (response) {
+      console.log(response);
+      localStorageSettter("user_id", userId);
+      localStorageSettter("is_verified", 1);
+      context.commit('verified');
+    }).catch(function (errors) {
+      console.log(errors.response);
+    });
+  },
+  //the 3rd condition in login
+  sendVerificationCode: function sendVerificationCode(context, email, token) {
+    return new Promise(function (resolve, reject) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/sendcode", {
+        email: email
+      }, {
+        headers: {
+          "Authorization": "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        localStorageSettter('verification_code', response.data.verification_code);
+        context.commit('signupSuccess');
+        resolve();
+      }).catch(function (errors) {
+        console.log(errors.response);
+      });
+    });
+  },
+  accountCreated: function accountCreated(context) {
+    localStorage.removeItem('verification_code');
+    localStorage.setItem('has_profile', "1");
+    context.commit('accountCreated');
+  },
+  createPost: function createPost(context, post) {
+    return new Promise(function (resolve, reject) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/post/create-post", post, {
+        headers: {
+          "Authorization": "Bearer  ".concat(context.state.userToken)
+        }
+      }).then(function (response) {
+        console.log(response);
+        return resolve();
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+        return reject();
+      });
+    });
+  },
+  deletePost: function deletePost(context, post) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/post/delete-post/".concat(post.id), {
+      headers: {
+        Authorization: "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      console.log(response.data);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  timeline: function timeline(context) {
+    if (context.state.isLoggedIn) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/posts', {}, {
+        headers: {
+          "Authorization": "Bearer ".concat(context.state.userToken),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        context.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
+        context.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
+        context.commit('fillMyTimeline', response.data.posts);
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    }
+  },
+  loadMore: function loadMore(context, data) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(data.url), {
+      offset: data.offset,
+      user_id: data.userId
+    }, {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      console.log(response.data); //timeline posts
+
+      if (data.url == 'timeline/load-more') {
+        context.commit('loadMore', response.data.loaded_posts);
+        context.commit('addToLikedPosts', response.data.liked_posts);
+        context.commit('addToDisLikedPosts', response.data.disliked_posts);
+      } //profile posts
+      else {
+          if (response.data.loaded_posts.length > 0) {
+            console.log(response.data.loaded_posts);
+            context.commit('loadMoreProfilePosts', response.data.loaded_posts);
+          }
+        }
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  getNotifications: function getNotifications(context) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/notifications', {}, {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      console.log(response.data);
+      context.commit('fillNotifications', response.data.all_notifications);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  unreadNotifications: function unreadNotifications(context) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/unread-notifications', {}, {
+      headers: {
+        Authorization: "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      if (response.data.unread) {
+        context.commit('unreadNotifications');
+      }
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  suggestPeople: function suggestPeople(context) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/timeline/suggest-people', {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      //console.log("sugg",response.data);
+      var suggested = response.data.suggest_people;
+      context.commit('suggestedPeople', suggested);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  toggleFollow: function toggleFollow(context, payload) {
+    if (payload.action == 'follow') {
+      context.commit('addToFollowing', payload.followed_id);
+    } else {
+      context.commit('removeFromFollowing', payload.followed_id);
+    }
+
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
+      followed_id: payload.followed_id
+    }, {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      var action = response.data.action;
+
+      if (action == 'follow') {
+        context.commit('addToFollowing', payload.followed_id);
+        context.commit('isFollow', true);
+      } else {
+        context.commit('removeFromFollowing', payload.followed_id);
+        context.commit('isFollow', false);
+      }
+
+      console.log(action);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  toggleMyFollow: function toggleMyFollow(context, payload) {
+    if (payload.action == 'follow') {
+      context.commit('addToFollowing', payload.followed_id);
+    } else {
+      context.commit('removeFromFollowing', payload.followed_id);
+    }
+
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
+      followed_id: payload.followed_id
+    }, {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      var action = response.data.action;
+
+      if (action == 'follow') {
+        context.commit('addToMyFollowing', payload.followed_id);
+        context.commit('isFollow', true);
+      } else {
+        context.commit('removeFromMyFollowing', payload.followed_id);
+        context.commit('isFollow', false);
+      }
+
+      console.log(action);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  showProfile: function showProfile(context, displayName) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/user/".concat(displayName), {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      context.commit('showProfile', {
+        profile: response.data.profile,
+        posts: response.data.posts,
+        followers: response.data.profile.follower_counter,
+        isFollow: response.data.is_follow
+      });
+      console.log("ddd");
+      console.log(response.data.profile);
+    }).catch(function (errors) {
+      console.log(errors);
+      console.log(errors.response);
+    });
+  },
+  showFans: function showFans(context) {
+    var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/fans', {
+      offset: offset
+    }, {
+      headers: {
+        "Authorization": "Bearer ".concat(context.state.userToken)
+      }
+    }).then(function (response) {
+      context.commit('fillMyFollowers', response.data.followers);
+      context.commit('fillMyFollowing', response.data.following);
+      context.commit('addToFollowing', response.data.following_id);
+      console.log(response.data.following_id);
+      console.log('offfffset', offset);
+    }).catch(function (errors) {
+      alert('error');
+      console.log(errors);
+      console.log(errors.response);
+    });
+  }
+});
 
 /***/ }),
 
@@ -99576,28 +99860,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
-/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
+/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
 
 
 
 
 
 
-var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUser"])();
-var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUserProfile"])();
-var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUserTopics"])();
-var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["userToken"])();
-var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["isVerified"])();
-var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["verificationCode"])();
-var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["userId"])();
-var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["hasProfile"])();
-var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["email"])();
-var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["password"])();
-var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
+
+var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUser"])();
+var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUserProfile"])();
+var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["currentUserTopics"])();
+var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["userToken"])();
+var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["isVerified"])();
+var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["verificationCode"])();
+var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["userId"])();
+var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["hasProfile"])();
+var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["email"])();
+var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["password"])();
+var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_5__["newTrend"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     isLoggedIn: !!USER,
@@ -99725,565 +100011,303 @@ var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
       return state.newTrend;
     }
   },
-  actions: {
-    signup: function signup(context, credionals) {
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/auth/signup", credionals).then(function (response) {
-          console.log(response.data);
-          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('current_user', JSON.stringify(response.data.user));
-          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('access_token', response.data.access_token.accessToken);
-          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('verification_code', response.data.verification_code);
-          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('user_id', response.data.user.id);
-          context.commit('signupSuccess');
-          resolve();
-        }).catch(function (errors) {
-          console.log(errors.response);
-          console.log(errors.response.data.errors);
-          context.commit('signupFails', errors.response.data.errors);
-          reject();
-        });
-      });
-    },
-    //for signup
-    confrimEmail: function confrimEmail(context) {
-      var userId = context.state.currentUser.id;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/auth/verify/" + userId).then(function (response) {
-        console.log(response);
-        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])("user_id", userId);
-        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])("is_verified", 1);
-        context.commit('verified');
-      }).catch(function (errors) {
-        console.log(errors.response);
-      });
-    },
-    //the 3rd condition in login
-    sendVerificationCode: function sendVerificationCode(context, email, token) {
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/auth/sendcode", {
-          email: email
-        }, {
-          headers: {
-            "Authorization": "Bearer ".concat(token)
-          }
-        }).then(function (response) {
-          console.log(response.data);
-          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('verification_code', response.data.verification_code);
-          context.commit('signupSuccess');
-          resolve();
-        }).catch(function (errors) {
-          console.log(errors.response);
-        });
-      });
-    },
-    accountCreated: function accountCreated(context) {
-      localStorage.removeItem('verification_code');
-      localStorage.setItem('has_profile', "1");
-      context.commit('accountCreated');
-    },
-    createPost: function createPost(context, post) {
-      return new Promise(function (resolve, reject) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/post/create-post", post, {
-          headers: {
-            "Authorization": "Bearer  ".concat(context.state.userToken)
-          }
-        }).then(function (response) {
-          console.log(response);
-          return resolve();
-        }).catch(function (errors) {
-          console.log(errors);
-          console.log(errors.response);
-          return reject();
-        });
-      });
-    },
-    deletePost: function deletePost(context, post) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/post/delete-post/".concat(post.id), {
-        headers: {
-          Authorization: "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        console.log(response.data);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    timeline: function timeline(context) {
-      if (context.state.isLoggedIn) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/posts', {}, {
-          headers: {
-            "Authorization": "Bearer ".concat(context.state.userToken),
-            "X-Requested-With": "XMLHttpRequest"
-          }
-        }).then(function (response) {
-          console.log(response.data);
-          context.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
-          context.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
-          context.commit('fillMyTimeline', response.data.posts);
-        }).catch(function (errors) {
-          console.log(errors);
-          console.log(errors.response);
-        });
-      }
-    },
-    loadMore: function loadMore(context, data) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/".concat(data.url), {
-        offset: data.offset,
-        user_id: data.userId
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        console.log(response.data); //timeline posts
+  actions: _actions__WEBPACK_IMPORTED_MODULE_2__["default"],
+  mutations: _mutations__WEBPACK_IMPORTED_MODULE_3__["default"],
+  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_4___default()({
+    predicate: ['signupSuccess', 'loginSuccess', 'verified', 'addToLikedPosts', 'addToDisLikedPosts', 'fillDisLikedPosts', 'fillLikedPosts', 'updatePost', 'noAction', 'logout', 'truncateProfile', 'addToFollowing', 'removeFromFollowing', 'addToMyFollowing', 'removeFromMyFollowing', 'showProfile', 'loadMoreProfilePosts', 'isFollow']
+  })]
+});
 
-        if (data.url == 'timeline/load-more') {
-          context.commit('loadMore', response.data.loaded_posts);
-          context.commit('addToLikedPosts', response.data.liked_posts);
-          context.commit('addToDisLikedPosts', response.data.disliked_posts);
-        } //profile posts
-        else {
-            if (response.data.loaded_posts.length > 0) {
-              console.log(response.data.loaded_posts);
-              context.commit('loadMoreProfilePosts', response.data.loaded_posts);
-            }
-          }
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    getNotifications: function getNotifications(context) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/notifications', {}, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        console.log(response.data);
-        context.commit('fillNotifications', response.data.all_notifications);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    unreadNotifications: function unreadNotifications(context) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/unread-notifications', {}, {
-        headers: {
-          Authorization: "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        if (response.data.unread) {
-          context.commit('unreadNotifications');
-        }
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    suggestPeople: function suggestPeople(context) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/timeline/suggest-people', {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        //console.log("sugg",response.data);
-        var suggested = response.data.suggest_people;
-        context.commit('suggestedPeople', suggested);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    toggleFollow: function toggleFollow(context, payload) {
-      if (payload.action == 'follow') {
-        context.commit('addToFollowing', payload.followed_id);
-      } else {
-        context.commit('removeFromFollowing', payload.followed_id);
-      }
+/***/ }),
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/follow', {
-        followed_id: payload.followed_id
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        var action = response.data.action;
+/***/ "./resources/js/store/mutations.js":
+/*!*****************************************!*\
+  !*** ./resources/js/store/mutations.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-        if (action == 'follow') {
-          context.commit('addToFollowing', payload.followed_id);
-          context.commit('isFollow', true);
-        } else {
-          context.commit('removeFromFollowing', payload.followed_id);
-          context.commit('isFollow', false);
-        }
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-        console.log(action);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  signupFails: function signupFails(state, payload) {
+    state.signupErrors = payload;
+  },
+  signupSuccess: function signupSuccess(state) {
+    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+    state.userToken = localStorage.getItem("access_token");
+    state.verificationCode = localStorage.getItem("verification_code");
+    state.userId = localStorage.getItem('user_id');
+    state.signupErrors = null;
+  },
+  updateUser: function updateUser(state) {
+    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+  },
+  updateProfile: function updateProfile(state) {
+    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+  },
+  verified: function verified(state) {
+    state.isVerified = localStorage.getItem('is_verified');
+    state.userId = localStorage.getItem('user_id');
+    state.isLoggedIn = true;
+    state.signupErrors = null;
+  },
+  accountCreated: function accountCreated(state) {
+    state.verificationCode = localStorage.getItem("verification_code");
+    state.hasProfile = localStorage.getItem('has_profile');
+  },
+  loginSuccess: function loginSuccess(state, payload) {
+    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+    state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
+    state.missedNotifications = payload;
+    state.userToken = localStorage.getItem("access_token");
+    state.hasProfile = localStorage.getItem('has_profile');
+    state.isVerified = localStorage.getItem('is_verified');
+    state.userId = localStorage.getItem('user_id');
+    state.isLoggedIn = !!state.currentUser;
+    state.loginErrors = null;
+  },
+  userHasProfile: function userHasProfile(state) {
+    state.hasProfile = localStorage.getItem('has_profile');
+  },
+  needProfile: function needProfile(state) {
+    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+    state.isVerified = localStorage.getItem('is_verified');
+    state.hasProfile = localStorage.getItem('has_profile');
+    state.userToken = localStorage.getItem("access_token");
+    state.userId = localStorage.getItem("user_id");
+    state.isLoggedIn = !!localStorage.getItem("current_user");
+    state.loginErrors = null;
+  },
+  userCredionals: function userCredionals(state) {
+    state.email = localStorage.getItem('email');
+    state.password = localStorage.getItem('password');
+  },
+  fillMyPost: function fillMyPost(state, payload) {
+    state.myPosts = payload;
+  },
+  deletePost: function deletePost(state, payload) {
+    state.myPosts.splice(payload, 1);
+  },
+  fillNotifications: function fillNotifications(state, payload) {
+    state.notifications = payload;
+    state.unreadNotifications = false;
+  },
+  unreadNotifications: function unreadNotifications(state) {
+    state.unreadNotifications = true;
+  },
+  PushToNotificatiosn: function PushToNotificatiosn(state, payload) {
+    payload.map(function (val) {
+      state.notifications.push(val);
+    });
+  },
+  fillMyFollowers: function fillMyFollowers(state, payload) {
+    state.following = Array.from(new Set(state.following));
+    var followers = state.myFollowers;
+    console.log('er', payload.length);
+
+    if (payload.length !== 0) {
+      payload.map(function (val) {
+        return followers.push(val);
       });
-    },
-    toggleMyFollow: function toggleMyFollow(context, payload) {
-      if (payload.action == 'follow') {
-        context.commit('addToFollowing', payload.followed_id);
-      } else {
-        context.commit('removeFromFollowing', payload.followed_id);
-      }
+      console.log('added to followers');
+    }
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/follow', {
-        followed_id: payload.followed_id
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        var action = response.data.action;
+    state.following = Array.from(new Set(state.following));
+  },
+  fillMyFollowing: function fillMyFollowing(state, payload) {
+    state.following = Array.from(new Set(state.following));
+    var following = state.myFollowing;
+    console.log('ing', payload.length);
 
-        if (action == 'follow') {
-          context.commit('addToMyFollowing', payload.followed_id);
-          context.commit('isFollow', true);
-        } else {
-          context.commit('removeFromMyFollowing', payload.followed_id);
-          context.commit('isFollow', false);
-        }
-
-        console.log(action);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
+    if (payload.length !== 0) {
+      payload.map(function (val) {
+        return following.push(val);
       });
-    },
-    showProfile: function showProfile(context, displayName) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/user/".concat(displayName), {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        context.commit('showProfile', {
-          profile: response.data.profile,
-          posts: response.data.posts,
-          followers: response.data.profile.follower_counter,
-          isFollow: response.data.is_follow
-        });
-        console.log("ddd");
-        console.log(response.data.profile);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    showFans: function showFans(context) {
-      var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/timeline/fans', {
-        offset: offset
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken)
-        }
-      }).then(function (response) {
-        context.commit('fillMyFollowers', response.data.followers);
-        context.commit('fillMyFollowing', response.data.following);
-        context.commit('addToFollowing', response.data.following_id);
-        console.log(response.data.following_id);
-        console.log('offfffset', offset);
-      }).catch(function (errors) {
-        alert('error');
-        console.log(errors);
-        console.log(errors.response);
-      });
+      state.following = Array.from(new Set(state.following));
+      console.log('added to following');
     }
   },
-  mutations: {
-    signupFails: function signupFails(state, payload) {
-      state.signupErrors = payload;
-    },
-    signupSuccess: function signupSuccess(state) {
-      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-      state.userToken = localStorage.getItem("access_token");
-      state.verificationCode = localStorage.getItem("verification_code");
-      state.userId = localStorage.getItem('user_id');
-      state.signupErrors = null;
-    },
-    updateUser: function updateUser(state) {
-      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-    },
-    updateProfile: function updateProfile(state) {
-      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-    },
-    verified: function verified(state) {
-      state.isVerified = localStorage.getItem('is_verified');
-      state.userId = localStorage.getItem('user_id');
-      state.isLoggedIn = true;
-      state.signupErrors = null;
-    },
-    accountCreated: function accountCreated(state) {
-      state.verificationCode = localStorage.getItem("verification_code");
-      state.hasProfile = localStorage.getItem('has_profile');
-    },
-    loginSuccess: function loginSuccess(state, payload) {
-      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-      state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
-      state.missedNotifications = payload;
-      state.userToken = localStorage.getItem("access_token");
-      state.hasProfile = localStorage.getItem('has_profile');
-      state.isVerified = localStorage.getItem('is_verified');
-      state.userId = localStorage.getItem('user_id');
-      state.isLoggedIn = !!state.currentUser;
-      state.loginErrors = null;
-    },
-    userHasProfile: function userHasProfile(state) {
-      state.hasProfile = localStorage.getItem('has_profile');
-    },
-    needProfile: function needProfile(state) {
-      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-      state.isVerified = localStorage.getItem('is_verified');
-      state.hasProfile = localStorage.getItem('has_profile');
-      state.userToken = localStorage.getItem("access_token");
-      state.userId = localStorage.getItem("user_id");
-      state.isLoggedIn = !!localStorage.getItem("current_user");
-      state.loginErrors = null;
-    },
-    userCredionals: function userCredionals(state) {
-      state.email = localStorage.getItem('email');
-      state.password = localStorage.getItem('password');
-    },
-    fillMyPost: function fillMyPost(state, payload) {
-      state.myPosts = payload;
-    },
-    deletePost: function deletePost(state, payload) {
-      state.myPosts.splice(payload, 1);
-    },
-    fillNotifications: function fillNotifications(state, payload) {
-      state.notifications = payload;
-      state.unreadNotifications = false;
-    },
-    unreadNotifications: function unreadNotifications(state) {
-      state.unreadNotifications = true;
-    },
-    PushToNotificatiosn: function PushToNotificatiosn(state, payload) {
-      payload.map(function (val) {
-        state.notifications.push(val);
-      });
-    },
-    fillMyFollowers: function fillMyFollowers(state, payload) {
-      state.following = Array.from(new Set(state.following));
-      var followers = state.myFollowers;
-      console.log('er', payload.length);
+  fillMyTimeline: function fillMyTimeline(state, payload) {
+    state.showProfile = [];
+    state.isFollow = null;
+    state.profilePosts = [];
+    payload.map(function (value) {
+      state.timeline.push(value);
+      state.timeline = Array.from(new Set(state.timeline));
+    }); //state.timeline = Array.from(new Set(state.timeline));
+  },
+  fillLikedPosts: function fillLikedPosts(state, payload) {
+    state.likedPosts = payload;
+    state.likedPosts = Array.from(new Set(state.likedPosts));
+  },
+  fillDisLikedPosts: function fillDisLikedPosts(state, payload) {
+    state.disLikedPosts = payload;
+    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
+  },
+  addToLikedPosts: function addToLikedPosts(state, payload) {
+    var liked = state.likedPosts;
+    var disliked = state.disLikedPosts;
 
-      if (payload.length !== 0) {
-        payload.map(function (val) {
-          return followers.push(val);
-        });
-        console.log('added to followers');
-      }
-
-      state.following = Array.from(new Set(state.following));
-    },
-    fillMyFollowing: function fillMyFollowing(state, payload) {
-      state.following = Array.from(new Set(state.following));
-      var following = state.myFollowing;
-      console.log('ing', payload.length);
-
-      if (payload.length !== 0) {
-        payload.map(function (val) {
-          return following.push(val);
-        });
-        state.following = Array.from(new Set(state.following));
-        console.log('added to following');
-      }
-    },
-    fillMyTimeline: function fillMyTimeline(state, payload) {
-      state.showProfile = [];
-      state.isFollow = null;
-      state.profilePosts = [];
-      payload.map(function (value) {
-        state.timeline.push(value);
-        state.timeline = Array.from(new Set(state.timeline));
-      }); //state.timeline = Array.from(new Set(state.timeline));
-    },
-    fillLikedPosts: function fillLikedPosts(state, payload) {
-      state.likedPosts = payload;
-      state.likedPosts = Array.from(new Set(state.likedPosts));
-    },
-    fillDisLikedPosts: function fillDisLikedPosts(state, payload) {
-      state.disLikedPosts = payload;
-      state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
-    },
-    addToLikedPosts: function addToLikedPosts(state, payload) {
-      var liked = state.likedPosts;
-      var disliked = state.disLikedPosts;
-
-      if (_typeof(payload) !== "object") {
-        liked.push(payload);
-
-        if (disliked.indexOf(payload) !== -1) {
-          disliked.splice(disliked.indexOf(payload), 1);
-        }
-      } else {
-        payload.map(function (val) {
-          liked.push(val);
-        });
-      }
-
-      state.likedPosts = Array.from(new Set(state.likedPosts));
-    },
-    addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
-      console.log('typeof payload', _typeof(payload));
-      var liked = state.likedPosts;
-      var disliked = state.disLikedPosts;
-
-      if (_typeof(payload) !== "object") {
-        disliked.push(payload);
-
-        if (liked.indexOf(payload) !== -1) {
-          liked.splice(liked.indexOf(payload), 1);
-        }
-      } else {
-        payload.map(function (val) {
-          disliked.push(val);
-        });
-      }
-
-      state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
-    },
-    noAction: function noAction(state, payload) {
-      var liked = state.likedPosts;
-      var disliked = state.disLikedPosts;
-
-      if (liked.indexOf(payload) !== -1) {
-        liked.splice(liked.indexOf(payload), 1);
-      }
+    if (_typeof(payload) !== "object") {
+      liked.push(payload);
 
       if (disliked.indexOf(payload) !== -1) {
         disliked.splice(disliked.indexOf(payload), 1);
       }
-
-      state.likedPosts = Array.from(new Set(state.likedPosts));
-      state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
-    },
-    updatePost: function updatePost(state, payload) {
-      var timelineposts = state.timeline;
-      var profilePosts = state.profilePosts;
-      var postIndexInTimeline = timelineposts.findIndex(function (val) {
-        return val.id == payload.id;
+    } else {
+      payload.map(function (val) {
+        liked.push(val);
       });
+    }
 
-      if (postIndexInTimeline != -1) {
-        setTimeout(function () {
-          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, postIndexInTimeline, payload.updatedPost);
-        }, 500);
+    state.likedPosts = Array.from(new Set(state.likedPosts));
+  },
+  addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
+    console.log('typeof payload', _typeof(payload));
+    var liked = state.likedPosts;
+    var disliked = state.disLikedPosts;
+
+    if (_typeof(payload) !== "object") {
+      disliked.push(payload);
+
+      if (liked.indexOf(payload) !== -1) {
+        liked.splice(liked.indexOf(payload), 1);
       }
-
-      var postIndexInUserProfile = profilePosts.findIndex(function (val) {
-        return val.id == payload.id;
+    } else {
+      payload.map(function (val) {
+        disliked.push(val);
       });
+    }
 
-      if (postIndexInUserProfile != -1) {
-        setTimeout(function () {
-          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
-        }, 500);
-      }
-    },
-    loadMore: function loadMore(state, payload) {
-      payload.map(function (value) {
-        state.timeline.push(value);
+    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
+  },
+  noAction: function noAction(state, payload) {
+    var liked = state.likedPosts;
+    var disliked = state.disLikedPosts;
+
+    if (liked.indexOf(payload) !== -1) {
+      liked.splice(liked.indexOf(payload), 1);
+    }
+
+    if (disliked.indexOf(payload) !== -1) {
+      disliked.splice(disliked.indexOf(payload), 1);
+    }
+
+    state.likedPosts = Array.from(new Set(state.likedPosts));
+    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
+  },
+  updatePost: function updatePost(state, payload) {
+    var timelineposts = state.timeline;
+    var profilePosts = state.profilePosts;
+    var postIndexInTimeline = timelineposts.findIndex(function (val) {
+      return val.id == payload.id;
+    });
+
+    if (postIndexInTimeline != -1) {
+      setTimeout(function () {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+      }, 500);
+    }
+
+    var postIndexInUserProfile = profilePosts.findIndex(function (val) {
+      return val.id == payload.id;
+    });
+
+    if (postIndexInUserProfile != -1) {
+      setTimeout(function () {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
+      }, 500);
+    }
+  },
+  loadMore: function loadMore(state, payload) {
+    payload.map(function (value) {
+      state.timeline.push(value);
+    });
+    state.timeline = Array.from(new Set(state.timeline));
+  },
+  truncateTimeline: function truncateTimeline(state) {
+    state.timeline = [];
+  },
+  suggestedPeople: function suggestedPeople(state, payload) {
+    state.suggestedPeople = payload;
+  },
+  addToFollowing: function addToFollowing(state, payload) {
+    state.following = Array.from(new Set(state.following));
+
+    if (typeof payload == 'number') {
+      state.following.push(payload);
+    }
+
+    if (payload.length !== 0 && typeof payload !== 'number' && state.following.length == 0) {
+      state.following = payload;
+    }
+
+    if (Array.isArray(payload) && state.following.length !== 0) {
+      payload.map(function (val) {
+        return state.following.push(val);
       });
-      state.timeline = Array.from(new Set(state.timeline));
-    },
-    truncateTimeline: function truncateTimeline(state) {
-      state.timeline = [];
-    },
-    suggestedPeople: function suggestedPeople(state, payload) {
-      state.suggestedPeople = payload;
-    },
-    addToFollowing: function addToFollowing(state, payload) {
+    }
+
+    state.following = Array.from(new Set(state.following));
+    console.log(state.following);
+    state.profileFollowers[0] = state.profileFollowers[0] + 1;
+  },
+  addToMyFollowing: function addToMyFollowing(state, payload) {
+    if (_typeof(payload) != 'object') {
+      state.following.push(payload);
+    } else {
+      state.following = payload;
+    }
+
+    state.profileFollowers[1] = state.profileFollowers[1] + 1;
+  },
+  removeFromFollowing: function removeFromFollowing(state, payload) {
+    var following = state.following;
+    var isInFollowing = following.findIndex(function (value, index) {
+      return value == payload;
+    });
+
+    if (isInFollowing !== -1) {
+      following.splice(isInFollowing, 1);
+    }
+
+    var updateFollowing = following.filter(function (val) {
+      return val !== payload;
+    });
+    state.following = Array.from(new Set(state.following));
+    state.profileFollowers[0] = state.profileFollowers[0] - 1;
+  },
+  removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
+    var following = state.following;
+    var isInFollowing = following.findIndex(function (value, index) {
+      return value == payload;
+    });
+
+    if (isInFollowing !== -1) {
+      following.splice(isInFollowing, 1);
+    }
+
+    var updateFollowing = following.filter(function (val) {
+      return val !== payload;
+    });
+    state.following = Array.from(new Set(state.following));
+    state.profileFollowers[1] = state.profileFollowers[1] - 1;
+  },
+  showProfile: function showProfile(state, payload) {
+    if (payload.profile.profile.user_id == state.userId) {
       state.following = Array.from(new Set(state.following));
-
-      if (typeof payload == 'number') {
-        state.following.push(payload);
-      }
-
-      if (payload.length !== 0 && typeof payload !== 'number' && state.following.length == 0) {
-        state.following = payload;
-      }
-
-      if (Array.isArray(payload) && state.following.length !== 0) {
-        payload.map(function (val) {
-          return state.following.push(val);
-        });
-      }
-
-      state.following = Array.from(new Set(state.following));
-      console.log(state.following);
-      state.profileFollowers[0] = state.profileFollowers[0] + 1;
-    },
-    addToMyFollowing: function addToMyFollowing(state, payload) {
-      if (_typeof(payload) != 'object') {
-        state.following.push(payload);
-      } else {
-        state.following = payload;
-      }
-
-      state.profileFollowers[1] = state.profileFollowers[1] + 1;
-    },
-    removeFromFollowing: function removeFromFollowing(state, payload) {
-      var following = state.following;
-      var isInFollowing = following.findIndex(function (value, index) {
-        return value == payload;
-      });
-
-      if (isInFollowing !== -1) {
-        following.splice(isInFollowing, 1);
-      }
-
-      var updateFollowing = following.filter(function (val) {
-        return val !== payload;
-      });
-      state.following = Array.from(new Set(state.following));
-      state.profileFollowers[0] = state.profileFollowers[0] - 1;
-    },
-    removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
-      var following = state.following;
-      var isInFollowing = following.findIndex(function (value, index) {
-        return value == payload;
-      });
-
-      if (isInFollowing !== -1) {
-        following.splice(isInFollowing, 1);
-      }
-
-      var updateFollowing = following.filter(function (val) {
-        return val !== payload;
-      });
-      state.following = Array.from(new Set(state.following));
-      state.profileFollowers[1] = state.profileFollowers[1] - 1;
-    },
-    showProfile: function showProfile(state, payload) {
-      if (payload.profile.profile.user_id == state.userId) {
-        state.following = Array.from(new Set(state.following));
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-        state.myPosts = state.profilePosts;
-
-        if (payload.followers !== null) {
-          state.profileFollowers[0] = payload.followers.followers;
-          state.profileFollowers[1] = payload.followers.following;
-        } else {
-          state.profileFollowers[0] = 0;
-          state.profileFollowers[1] = 0;
-        }
-
-        console.log('its mine');
-      } else {
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-        console.log('it doesnt mine');
-      }
+      state.showProfile = payload.profile;
+      state.isFollow = payload.isFollow;
+      state.profilePosts = payload.posts;
+      state.myPosts = state.profilePosts;
 
       if (payload.followers !== null) {
         state.profileFollowers[0] = payload.followers.followers;
@@ -100293,69 +100317,81 @@ var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
         state.profileFollowers[1] = 0;
       }
 
-      state.following = Array.from(new Set(state.following));
-    },
-    isFollow: function isFollow(state, payload) {
-      state.isFollow = payload;
-    },
-    loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
-      payload.map(function (val) {
-        return state.profilePosts.push(val);
-      });
-      state.myPosts = state.profilePosts;
-    },
-    truncateProfile: function truncateProfile(state) {
-      state.showProfile = [];
+      console.log('its mine');
+    } else {
+      state.showProfile = payload.profile;
+      state.isFollow = payload.isFollow;
+      state.profilePosts = payload.posts;
+      console.log('it doesnt mine');
+    }
+
+    if (payload.followers !== null) {
+      state.profileFollowers[0] = payload.followers.followers;
+      state.profileFollowers[1] = payload.followers.following;
+    } else {
       state.profileFollowers[0] = 0;
       state.profileFollowers[1] = 0;
-      state.isFollow = null;
-      state.profilePosts = [];
-      state.myFollowers = [];
-      state.myFollowing = [];
-    },
-    logout: function logout(state) {
-      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-      state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_profile"));
-      state.trend = JSON.parse(localStorage.getItem('trend'));
-      state.userToken = localStorage.getItem("access_token");
-      state.hasProfile = localStorage.getItem('has_profile');
-      state.isVerified = localStorage.getItem('is_verified');
-      state.userId = localStorage.getItem("userId");
-      state.verificationCode = localStorage.getItem('verification_code');
-      state.email = localStorage.getItem('email');
-      state.password = localStorage.getItem('password');
-      state.isLoggedIn = !!state.currentUser;
-      state.loginErrors = null;
-      state.posts = [];
-      state.myPosts = [];
-      state.publishingPostErrors = [];
-      state.timeline = [];
-      state.likedPosts = [];
-      state.disLikedPosts = [];
-      state.followers = [];
-      state.following = [];
-      state.myFollowers = [];
-      state.myFollowing = [];
-      state.suggestedPeople = [];
-      state.showProfile = [];
-      state.profilePosts = [];
-      state.profileFollowers = [0, 0];
-      state.isFollow = null;
-    },
-    trend: function trend(state) {
-      state.trend = JSON.parse(localStorage.getItem('trend'));
-    },
-    newTrend: function newTrend(state) {
-      state.newTrend = true;
-    },
-    newTrendOff: function newTrendOff(state) {
-      state.newTrend = false;
     }
+
+    state.following = Array.from(new Set(state.following));
   },
-  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2___default()({
-    predicate: ['signupSuccess', 'loginSuccess', 'verified', 'addToLikedPosts', 'addToDisLikedPosts', 'fillDisLikedPosts', 'fillLikedPosts', 'updatePost', 'noAction', 'logout', 'truncateProfile', 'addToFollowing', 'removeFromFollowing', 'addToMyFollowing', 'removeFromMyFollowing', 'showProfile', 'loadMoreProfilePosts', 'isFollow']
-  })]
+  isFollow: function isFollow(state, payload) {
+    state.isFollow = payload;
+  },
+  loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
+    payload.map(function (val) {
+      return state.profilePosts.push(val);
+    });
+    state.myPosts = state.profilePosts;
+  },
+  truncateProfile: function truncateProfile(state) {
+    state.showProfile = [];
+    state.profileFollowers[0] = 0;
+    state.profileFollowers[1] = 0;
+    state.isFollow = null;
+    state.profilePosts = [];
+    state.myFollowers = [];
+    state.myFollowing = [];
+  },
+  logout: function logout(state) {
+    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+    state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_profile"));
+    state.trend = JSON.parse(localStorage.getItem('trend'));
+    state.userToken = localStorage.getItem("access_token");
+    state.hasProfile = localStorage.getItem('has_profile');
+    state.isVerified = localStorage.getItem('is_verified');
+    state.userId = localStorage.getItem("userId");
+    state.verificationCode = localStorage.getItem('verification_code');
+    state.email = localStorage.getItem('email');
+    state.password = localStorage.getItem('password');
+    state.isLoggedIn = !!state.currentUser;
+    state.loginErrors = null;
+    state.posts = [];
+    state.myPosts = [];
+    state.publishingPostErrors = [];
+    state.timeline = [];
+    state.likedPosts = [];
+    state.disLikedPosts = [];
+    state.followers = [];
+    state.following = [];
+    state.myFollowers = [];
+    state.myFollowing = [];
+    state.suggestedPeople = [];
+    state.showProfile = [];
+    state.profilePosts = [];
+    state.profileFollowers = [0, 0];
+    state.isFollow = null;
+  },
+  trend: function trend(state) {
+    state.trend = JSON.parse(localStorage.getItem('trend'));
+  },
+  newTrend: function newTrend(state) {
+    state.newTrend = true;
+  },
+  newTrendOff: function newTrendOff(state) {
+    state.newTrend = false;
+  }
 });
 
 /***/ }),

@@ -143,7 +143,7 @@ export const routes = [
     name:"topic",
   },
   {
-    path:"/trend/:word",
+    path:"/trend/:trend",
     component:Trend,
     name:"trend"
   }
