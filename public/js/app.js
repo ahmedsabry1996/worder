@@ -12585,10 +12585,7 @@ __webpack_require__.r(__webpack_exports__);
     ListPosts: _posts_ListPosts__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mounted: function mounted() {
-    if (localStorage.getItem('access_token') != null && this.$route.path == '/') {
-      this.$store.dispatch('timeline');
-    }
-
+    this.$store.dispatch('timeline');
     this.loadMore();
   },
   computed: {
@@ -17590,7 +17587,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -99753,7 +99750,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   toggleFollow: function toggleFollow(context, payload) {
     if (payload.action == 'follow') {
-      context.commit('addToFollowing', payload.followed_id);
+      context.commit('addToFollowing', {
+        followed_id: payload.followed_id
+      });
     } else {
       context.commit('removeFromFollowing', payload.followed_id);
     }
@@ -99768,40 +99767,18 @@ __webpack_require__.r(__webpack_exports__);
       var action = response.data.action;
 
       if (action == 'follow') {
-        context.commit('addToFollowing', payload.followed_id);
+        context.commit('addToFollowing', {
+          followed_id: payload.followed_id,
+          followers: response.data.followers,
+          following: response.data.following
+        });
         context.commit('isFollow', true);
       } else {
-        context.commit('removeFromFollowing', payload.followed_id);
-        context.commit('isFollow', false);
-      }
-
-      console.log(action);
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
-  },
-  toggleMyFollow: function toggleMyFollow(context, payload) {
-    if (payload.action == 'follow') {
-      context.commit('addToFollowing', payload.followed_id);
-    } else {
-      context.commit('removeFromFollowing', payload.followed_id);
-    }
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
-      followed_id: payload.followed_id
-    }, {
-      headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
-      }
-    }).then(function (response) {
-      var action = response.data.action;
-
-      if (action == 'follow') {
-        context.commit('addToMyFollowing', payload.followed_id);
-        context.commit('isFollow', true);
-      } else {
-        context.commit('removeFromMyFollowing', payload.followed_id);
+        context.commit('removeFromFollowing', {
+          followed_id: payload.followed_id,
+          followers: response.data.followers,
+          following: response.data.following
+        });
         context.commit('isFollow', false);
       }
 
@@ -99817,7 +99794,9 @@ __webpack_require__.r(__webpack_exports__);
         "Authorization": "Bearer ".concat(context.state.userToken)
       }
     }).then(function (response) {
-      console.log(response);
+      console.log("277872");
+      console.log(response.data.followers);
+      console.log(response.data.following);
       context.commit('showProfile', {
         profile: response.data.profile,
         posts: response.data.posts,
@@ -99841,11 +99820,10 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function (response) {
       context.commit('fillMyFollowers', response.data.followers);
       context.commit('fillMyFollowing', response.data.following);
-      context.commit('addToFollowing', response.data.following_id);
       console.log(response.data.following_id);
       console.log('offfffset', offset);
     }).catch(function (errors) {
-      alert('error');
+      alert('errorq');
       console.log(errors);
       console.log(errors.response);
     });
@@ -100082,36 +100060,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   },
   fillMyFollowers: function fillMyFollowers(state, payload) {
-    state.following = Array.from(new Set(state.following));
-    var followers = state.myFollowers;
-    console.log('er', payload.length);
-
-    if (payload.length !== 0) {
-      payload.map(function (val) {
-        return followers.push(val);
-      });
-      console.log('added to followers');
-    }
-
-    state.following = Array.from(new Set(state.following));
+    console.log(45454545);
   },
   fillMyFollowing: function fillMyFollowing(state, payload) {
-    state.following = Array.from(new Set(state.following));
-    var following = state.myFollowing;
-    console.log('ing', payload.length);
-
-    if (payload.length !== 0) {
-      payload.map(function (val) {
-        return following.push(val);
-      });
-      state.following = Array.from(new Set(state.following));
-      console.log('added to following');
-    }
+    console.log(45454545);
   },
   fillMyTimeline: function fillMyTimeline(state, payload) {
     state.showProfile = [];
     state.isFollow = null;
     state.profilePosts = [];
+    state.timeline = [];
     payload.map(function (value) {
       state.timeline.push(value);
       state.timeline = Array.from(new Set(state.timeline));
@@ -100213,34 +100171,23 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.suggestedPeople = payload;
   },
   addToFollowing: function addToFollowing(state, payload) {
-    state.following = Array.from(new Set(state.following));
-
-    if (typeof payload == 'number') {
-      state.following.push(payload);
+    if (typeof payload.followed_id == 'number') {
+      state.following.push(payload.followed_id);
     }
 
-    if (payload.length !== 0 && typeof payload !== 'number' && state.following.length == 0) {
-      state.following = payload;
+    if (payload.followed_id.length !== 0 && _typeof(payload.followed_id) == 'object' && state.following.length == 0) {
+      state.following = payload.followed_id;
     }
 
-    if (Array.isArray(payload) && state.following.length !== 0) {
-      payload.map(function (val) {
+    if (_typeof(payload.followed_id) == 'object' && state.following.length !== 0) {
+      payload.followed_id.map(function (val) {
         return state.following.push(val);
       });
-    }
+    } //state.following = Array.from(new Set(state.following));
 
-    state.following = Array.from(new Set(state.following));
-    console.log(state.following);
-    state.profileFollowers[0] = state.profileFollowers[0] + 1;
-  },
-  addToMyFollowing: function addToMyFollowing(state, payload) {
-    if (_typeof(payload) != 'object') {
-      state.following.push(payload);
-    } else {
-      state.following = payload;
-    }
 
-    state.profileFollowers[1] = state.profileFollowers[1] + 1;
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
   },
   removeFromFollowing: function removeFromFollowing(state, payload) {
     var following = state.following;
@@ -100254,9 +100201,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     var updateFollowing = following.filter(function (val) {
       return val !== payload;
-    });
-    state.following = Array.from(new Set(state.following));
-    state.profileFollowers[0] = state.profileFollowers[0] - 1;
+    }); //  state.following = Array.from(new Set(state.following));
+
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
+  },
+  addToMyFollowing: function addToMyFollowing(state, payload) {
+    if (_typeof(payload) != 'object') {
+      state.following.push(payload);
+    } else {
+      state.following = payload;
+    }
   },
   removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
     var following = state.following;
@@ -100281,15 +100236,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       state.isFollow = payload.isFollow;
       state.profilePosts = payload.posts;
       state.myPosts = state.profilePosts;
-
-      if (payload.followers !== null) {
-        state.profileFollowers[0] = payload.followers;
-        state.profileFollowers[1] = payload.following;
-      } else {
-        state.profileFollowers[0] = 0;
-        state.profileFollowers[1] = 0;
-      }
-
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
       console.log('its mine');
     } else {
       state.showProfile = payload.profile;
@@ -100298,14 +100246,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       console.log('it doesnt mine');
     }
 
-    if (payload.followers !== null) {
-      state.profileFollowers[0] = payload.followers;
-      state.profileFollowers[1] = payload.following;
-    } else {
-      state.profileFollowers[0] = 0;
-      state.profileFollowers[1] = 0;
-    }
-
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
     state.following = Array.from(new Set(state.following));
   },
   isFollow: function isFollow(state, payload) {

@@ -235,9 +235,9 @@ export default {
     },
 
         toggleFollow(context,payload){
-          if (payload.action == 'follow') {
-            context.commit('addToFollowing',payload.followed_id);
 
+          if (payload.action == 'follow') {
+            context.commit('addToFollowing',{followed_id:payload.followed_id});
           }
           else{
             context.commit('removeFromFollowing',payload.followed_id);
@@ -255,47 +255,18 @@ export default {
 
           let action = response.data.action;
           if (action == 'follow') {
-              context.commit('addToFollowing',payload.followed_id);
+
+            context.commit('addToFollowing',{followed_id:payload.followed_id,
+              followers:response.data.followers,
+              following:response.data.following});
+
               context.commit('isFollow',true);
           }
           else{
-            context.commit('removeFromFollowing',payload.followed_id);
-            context.commit('isFollow',false);
-          }
-          console.log(action);
-        })
-        .catch((errors)=>{
-          console.log(errors);
-          console.log(errors.response);
-        })
-      },
+            context.commit('removeFromFollowing',{followed_id:payload.followed_id,
+              followers:response.data.followers,
+              following:response.data.following});
 
-        toggleMyFollow(context,payload){
-          if (payload.action == 'follow') {
-            context.commit('addToFollowing',payload.followed_id);
-
-          }
-          else{
-            context.commit('removeFromFollowing',payload.followed_id);
-
-          }
-        axios.post('/api/timeline/follow',{
-          followed_id:payload.followed_id
-        },{
-
-          headers:{
-            "Authorization" : `Bearer ${context.state.userToken}`
-          }
-        })
-        .then((response)=>{
-
-          let action = response.data.action;
-          if (action == 'follow') {
-              context.commit('addToMyFollowing',payload.followed_id);
-              context.commit('isFollow',true);
-          }
-          else{
-            context.commit('removeFromMyFollowing',payload.followed_id);
             context.commit('isFollow',false);
           }
           console.log(action);
@@ -314,7 +285,9 @@ export default {
               }
             })
             .then((response)=>{
-              console.log(response);
+              console.log("277872");
+              console.log(response.data.followers);
+              console.log(response.data.following);
                 context.commit('showProfile',
                 {profile:response.data.profile,
                 posts:response.data.posts,
@@ -341,12 +314,11 @@ export default {
 
             context.commit('fillMyFollowers',response.data.followers);
             context.commit('fillMyFollowing',response.data.following);
-            context.commit('addToFollowing',response.data.following_id);
             console.log(response.data.following_id);
             console.log('offfffset',offset);
       })
         .catch((errors)=>{
-          alert('error')
+          alert('errorq')
           console.log(errors);
           console.log(errors.response);
   });

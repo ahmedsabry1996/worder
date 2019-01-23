@@ -618,7 +618,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     myFollow: function myFollow(followed_id, action) {
-      this.$store.dispatch('toggleMyFollow', {
+      this.$store.dispatch('toggleFollow', {
         followed_id: followed_id,
         action: action
       });
@@ -685,7 +685,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
-        alert();
+        alert('www');
         this.likersOffset += 100;
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
           offset: this.likersOffset,

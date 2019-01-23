@@ -20,12 +20,7 @@ export default {
     ListPosts,
   },
   mounted(){
-
-    if (localStorage.getItem('access_token') != null && this.$route.path == '/') {
-
-      this.$store.dispatch('timeline');
-
-    }
+    this.$store.dispatch('timeline');
     this.loadMore();
 
 

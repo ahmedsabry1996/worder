@@ -93,36 +93,12 @@ state.signupErrors = payload;
           });
     },
     fillMyFollowers(state,payload){
-      state.following = Array.from(new Set(state.following));
 
-        let followers = state.myFollowers;
-        console.log('er',payload.length);
-        if (payload.length !== 0) {
-
-        payload.map((val)=>{
-            return followers.push(val);
-        });
-        console.log('added to followers');
-        }
-        state.following = Array.from(new Set(state.following));
-
+console.log(45454545);
     },
 
     fillMyFollowing(state,payload){
-      state.following = Array.from(new Set(state.following));
-
-      let  following = state.myFollowing;
-        console.log('ing',payload.length);
-          if (payload.length !== 0) {
-
-
-        payload.map((val)=>{
-            return following.push(val);
-        });
-        state.following = Array.from(new Set(state.following));
-
-        console.log('added to following');
-}
+        console.log(45454545);
     },
 
     fillMyTimeline(state,payload){
@@ -130,7 +106,7 @@ state.signupErrors = payload;
         state.showProfile = [];
         state.isFollow = null;
         state.profilePosts = [];
-
+        state.timeline = [];
             payload.map((value)=>{
 
                     state.timeline.push(value);
@@ -275,29 +251,52 @@ state.signupErrors = payload;
 
     addToFollowing(state,payload){
 
-      state.following = Array.from(new Set(state.following));
+      if (typeof(payload.followed_id) == 'number') {
 
-      if (typeof(payload) == 'number') {
-
-            state.following.push(payload);
+            state.following.push(payload.followed_id);
       }
 
-      if (payload.length !== 0  && typeof(payload) !== 'number' && state.following.length == 0) {
-        state.following = payload;
+      if (payload.followed_id.length !== 0  && typeof(payload.followed_id) == 'object' && state.following.length == 0) {
+        state.following = payload.followed_id;
       }
 
-      if (Array.isArray(payload) && state.following.length !== 0) {
-          payload.map((val)=>{
+      if (typeof(payload.followed_id) == 'object' && state.following.length !== 0) {
+          payload.followed_id.map((val)=>{
             return state.following.push(val);
           })
       }
-      state.following = Array.from(new Set(state.following));
 
-      console.log(state.following);
-      state.profileFollowers [0] = state.profileFollowers [0]+1;
+      //state.following = Array.from(new Set(state.following));
+
+      Vue.set(state.profileFollowers, 0, payload.followers);
+      Vue.set(state.profileFollowers, 1, payload.following);
+
 
     },
+    removeFromFollowing(state,payload){
 
+      let following = state.following ;
+
+      let isInFollowing = following.findIndex((value,index)=>{
+            return value == payload;
+      });
+      if (isInFollowing !== -1) {
+          following.splice(isInFollowing,1)
+
+      }
+
+      let updateFollowing = following.filter((val)=>{
+            return val !== payload;
+      });
+
+    //  state.following = Array.from(new Set(state.following));
+
+
+      Vue.set(state.profileFollowers, 0, payload.followers);
+      Vue.set(state.profileFollowers, 1, payload.following);
+
+
+    },
         addToMyFollowing(state,payload){
 
           if (typeof(payload) != 'object') {
@@ -308,31 +307,8 @@ state.signupErrors = payload;
               state.following = payload;
           }
 
-          state.profileFollowers [1] = state.profileFollowers [1]+1;
 
         },
-    removeFromFollowing(state,payload){
-
-      let following = state.following ;
-
-      let isInFollowing = following.findIndex((value,index)=>{
-            return value == payload;
-      });
-      if (isInFollowing !== -1) {
-          following.splice(isInFollowing,1)
-      }
-
-      let updateFollowing = following.filter((val)=>{
-            return val !== payload;
-      });
-
-      state.following = Array.from(new Set(state.following));
-
-      state.profileFollowers [0] = state.profileFollowers [0]-1;
-
-
-    },
-
     removeFromMyFollowing(state,payload){
 
       let following = state.following ;
@@ -364,16 +340,11 @@ state.signupErrors = payload;
         state.profilePosts = payload.posts;
         state.myPosts = state.profilePosts;
 
-        if (payload.followers !== null) {
 
-          state.profileFollowers[0] = payload.followers;
-          state.profileFollowers[1] = payload.following;
+        Vue.set(state.profileFollowers, 0, payload.followers);
+        Vue.set(state.profileFollowers, 1, payload.following);
 
-        }
-        else{
-          state.profileFollowers[0]= 0 ;
-          state.profileFollowers[1]= 0 ;
-        }
+
         console.log('its mine');
       }
 else {
@@ -383,16 +354,10 @@ else {
         state.profilePosts = payload.posts;
         console.log('it doesnt mine');
 }
-      if (payload.followers !== null) {
 
-        state.profileFollowers[0] = payload.followers;
-        state.profileFollowers[1] = payload.following;
+      Vue.set(state.profileFollowers, 0, payload.followers);
+      Vue.set(state.profileFollowers, 1, payload.following);
 
-      }
-      else{
-        state.profileFollowers[0]= 0 ;
-        state.profileFollowers[1]= 0 ;
-      }
       state.following = Array.from(new Set(state.following));
 
     },

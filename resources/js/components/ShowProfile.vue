@@ -611,7 +611,7 @@ export default {
                   })
         },
         myFollow(followed_id,action){
-          this.$store.dispatch('toggleMyFollow',{followed_id:followed_id,action:action});
+          this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
         },
         loadMoreFans(e){
 
@@ -683,7 +683,7 @@ export default {
         let elScrollTop = e.target.scrollTop;
 
         if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-          alert();
+          alert('www');
           this.likersOffset +=100;
           axios.post('/api/post/likers',{
             offset:this.likersOffset,

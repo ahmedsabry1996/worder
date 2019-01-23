@@ -93,14 +93,15 @@ class FollowingController extends Controller
 
     }
 
-    $num_of_current_user_followers = $current_user->follower_counter()->get()[0];
-    $num_of_followed_user_followers = $followed_user->follower_counter()->get()[0];
+    $num_of_followed_followers = $followed_user->follower_counter->followers;
+    $num_of_followed_following = $followed_user->follower_counter->following;
+
 
     return response()->json([
 
     'action'=>$action,
-    'followers'=>$num_of_current_user_followers->followers,
-    'followeing'=>$num_of_current_user_followers->following,],201);
+    'followers'=>$num_of_followed_followers,
+    'following'=>$num_of_followed_following,],201);
 
   }
 
