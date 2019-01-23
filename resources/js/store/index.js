@@ -12,8 +12,8 @@ import {currentUser,
   ,hasProfile
   ,email
   ,password
-  ,newTrend}  from './auth';
-import {localStorageSettter} from './localstorage.js';
+  ,newTrend}  from './../auth';
+import {localStorageSettter} from './../localstorage.js';
 const USER = currentUser();
 const USER_PROFILE = currentUserProfile();
 const USER_TOPICS = currentUserTopics();

@@ -97859,6 +97859,128 @@ var vm = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
 /***/ }),
 
+/***/ "./resources/js/auth.js":
+/*!******************************!*\
+  !*** ./resources/js/auth.js ***!
+  \******************************/
+/*! exports provided: currentUser, currentUserProfile, currentUserTopics, userToken, isVerified, verificationCode, userId, hasProfile, email, password, newTrend */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentUser", function() { return currentUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentUserProfile", function() { return currentUserProfile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentUserTopics", function() { return currentUserTopics; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userToken", function() { return userToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isVerified", function() { return isVerified; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "verificationCode", function() { return verificationCode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userId", function() { return userId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasProfile", function() { return hasProfile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "email", function() { return email; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "password", function() { return password; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newTrend", function() { return newTrend; });
+function currentUser() {
+  var USER = localStorage.getItem('current_user');
+
+  if (!USER) {
+    return null;
+  }
+
+  return JSON.parse(USER);
+}
+function currentUserProfile() {
+  var USER_PROFILE = localStorage.getItem('current_user_profile');
+
+  if (!USER_PROFILE) {
+    return null;
+  }
+
+  return JSON.parse(USER_PROFILE);
+}
+function currentUserTopics() {
+  var USER_TOPICS = localStorage.getItem('current_user_topics');
+
+  if (!USER_TOPICS) {
+    return null;
+  }
+
+  return JSON.parse(USER_TOPICS);
+}
+function userToken() {
+  var USER_TOKEN = localStorage.getItem('access_token');
+
+  if (!USER_TOKEN) {
+    return "null";
+  }
+
+  return USER_TOKEN;
+}
+function isVerified() {
+  var IS_VERIFIED = localStorage.getItem('is_verified');
+
+  if (!IS_VERIFIED) {
+    return "0";
+  }
+
+  return IS_VERIFIED;
+}
+function verificationCode() {
+  var VERIFICATION_CODE = localStorage.getItem("verification_code");
+
+  if (!VERIFICATION_CODE) {
+    return null;
+  }
+
+  return VERIFICATION_CODE;
+}
+function userId() {
+  var USER_ID = localStorage.getItem('user_id');
+
+  if (!USER_ID) {
+    return null;
+  }
+
+  return USER_ID;
+}
+function hasProfile() {
+  var HAS_PROFILE = localStorage.getItem("has_profile");
+
+  if (!HAS_PROFILE) {
+    return "0";
+  }
+
+  return HAS_PROFILE;
+}
+function email() {
+  var EMAIL = localStorage.getItem('email');
+
+  if (!EMAIL) {
+    return null;
+  }
+
+  return EMAIL;
+}
+function password() {
+  var PASSWORD = localStorage.getItem('password');
+
+  if (!PASSWORD) {
+    return null;
+  }
+
+  return PASSWORD;
+}
+function newTrend() {
+  var TREND = localStorage.getItem('trend');
+
+  if (!TREND) {
+    return null;
+  }
+
+  return JSON.parse(TREND);
+}
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -99275,6 +99397,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./resources/js/localstorage.js":
+/*!**************************************!*\
+  !*** ./resources/js/localstorage.js ***!
+  \**************************************/
+/*! exports provided: localStorageSettter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "localStorageSettter", function() { return localStorageSettter; });
+function localStorageSettter(key, value) {
+  return localStorage.setItem(key, value);
+}
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -99288,7 +99426,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 /* harmony import */ var _components_Test_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Test.vue */ "./resources/js/components/Test.vue");
 /* harmony import */ var _components_auth_Veifyemail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/auth/Veifyemail.vue */ "./resources/js/components/auth/Veifyemail.vue");
 
@@ -99425,17 +99563,6 @@ var routes = [{
 
 /***/ }),
 
-/***/ "./resources/js/store.js":
-/*!*******************************!*\
-  !*** ./resources/js/store.js ***!
-  \*******************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/opt/lampp/htdocs/words-spa/words-spa/words/resources/js/store.js'");
-
-/***/ }),
-
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -99451,8 +99578,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_2__);
-!(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-!(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
+/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -99460,17 +99587,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 
-var USER = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var USER_PROFILE = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var USER_TOPICS = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var ACCESS_TOKEN = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var IS_VERIFIED = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var VERIFICATION_CODE = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var USER_ID = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var HAS_PROFILE = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var EMAIL = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var PASSWORD = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
-var TREND = !(function webpackMissingModule() { var e = new Error("Cannot find module './auth'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())();
+var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUser"])();
+var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUserProfile"])();
+var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["currentUserTopics"])();
+var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["userToken"])();
+var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["isVerified"])();
+var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["verificationCode"])();
+var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["userId"])();
+var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["hasProfile"])();
+var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["email"])();
+var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["password"])();
+var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_3__["newTrend"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     isLoggedIn: !!USER,
@@ -99603,10 +99730,10 @@ var TREND = !(function webpackMissingModule() { var e = new Error("Cannot find m
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/auth/signup", credionals).then(function (response) {
           console.log(response.data);
-          !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())('current_user', JSON.stringify(response.data.user));
-          !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())('access_token', response.data.access_token.accessToken);
-          !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())('verification_code', response.data.verification_code);
-          !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())('user_id', response.data.user.id);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('current_user', JSON.stringify(response.data.user));
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('access_token', response.data.access_token.accessToken);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('verification_code', response.data.verification_code);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('user_id', response.data.user.id);
           context.commit('signupSuccess');
           resolve();
         }).catch(function (errors) {
@@ -99622,8 +99749,8 @@ var TREND = !(function webpackMissingModule() { var e = new Error("Cannot find m
       var userId = context.state.currentUser.id;
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/auth/verify/" + userId).then(function (response) {
         console.log(response);
-        !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("user_id", userId);
-        !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("is_verified", 1);
+        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])("user_id", userId);
+        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])("is_verified", 1);
         context.commit('verified');
       }).catch(function (errors) {
         console.log(errors.response);
@@ -99640,7 +99767,7 @@ var TREND = !(function webpackMissingModule() { var e = new Error("Cannot find m
           }
         }).then(function (response) {
           console.log(response.data);
-          !(function webpackMissingModule() { var e = new Error("Cannot find module './localstorage.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())('verification_code', response.data.verification_code);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_4__["localStorageSettter"])('verification_code', response.data.verification_code);
           context.commit('signupSuccess');
           resolve();
         }).catch(function (errors) {
