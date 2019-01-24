@@ -121,13 +121,11 @@ console.log(45454545);
     fillLikedPosts(state,payload){
 
         state.likedPosts=payload;
-        state.likedPosts = Array.from(new Set(state.likedPosts));
 
       },
 
     fillDisLikedPosts(state,payload){
         state.disLikedPosts=payload;
-        state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
 
       },
 
@@ -137,7 +135,8 @@ console.log(45454545);
 
         if (typeof(payload) != "object") {
 
-        liked.push(payload);
+        Vue.set(liked,liked.length,payload);
+
         if (disliked.indexOf(payload) != -1) {
 
               Vue.set(state.disLikedPosts,disliked.indexOf(payload),null);
@@ -146,11 +145,9 @@ console.log(45454545);
       }
       else{
         payload.map((val)=>{
-          liked.push(val);
+          Vue.set(liked,liked.length,payload);
         });
       }
-
-        state.likedPosts = Array.from(new Set(state.likedPosts));
 
       },
 
@@ -161,9 +158,10 @@ console.log(45454545);
         let disliked = state.disLikedPosts;
         if (typeof(payload) !== "object") {
 
-        disliked.push(payload);
 
-        if(liked.indexOf(payload) !== -1) {
+        Vue.set(disliked,disliked.length,payload);
+
+        if(liked.indexOf(payload) != -1) {
 
           Vue.set(state.likedPosts,liked.indexOf(payload),null);
 
@@ -172,7 +170,7 @@ console.log(45454545);
         else{
 
           payload.map((val)=>{
-            disliked.push(val);
+            Vue.set(disliked,disliked.length,payload);
 
           });
         }
@@ -210,11 +208,10 @@ console.log(45454545);
 
 
       if (postIndexInTimeline != -1) {
+
         setTimeout(function(){
           Vue.set(state.timeline, postIndexInTimeline, payload.updatedPost);
-
         },500)
-
       }
 
        let postIndexInUserProfile = profilePosts.findIndex((val)=>{
@@ -222,11 +219,7 @@ console.log(45454545);
       });
 
       if (postIndexInUserProfile != -1) {
-
-        setTimeout(function () {
           Vue.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
-
-        },500)
       }
 
     },

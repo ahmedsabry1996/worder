@@ -100077,29 +100077,25 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   fillLikedPosts: function fillLikedPosts(state, payload) {
     state.likedPosts = payload;
-    state.likedPosts = Array.from(new Set(state.likedPosts));
   },
   fillDisLikedPosts: function fillDisLikedPosts(state, payload) {
     state.disLikedPosts = payload;
-    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
   },
   addToLikedPosts: function addToLikedPosts(state, payload) {
     var liked = state.likedPosts;
     var disliked = state.disLikedPosts;
 
     if (_typeof(payload) != "object") {
-      liked.push(payload);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
 
       if (disliked.indexOf(payload) != -1) {
         vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.disLikedPosts, disliked.indexOf(payload), null);
       }
     } else {
       payload.map(function (val) {
-        liked.push(val);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
       });
     }
-
-    state.likedPosts = Array.from(new Set(state.likedPosts));
   },
   addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
     console.log('typeof payload', _typeof(payload));
@@ -100107,14 +100103,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var disliked = state.disLikedPosts;
 
     if (_typeof(payload) !== "object") {
-      disliked.push(payload);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
 
-      if (liked.indexOf(payload) !== -1) {
+      if (liked.indexOf(payload) != -1) {
         vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.likedPosts, liked.indexOf(payload), null);
       }
     } else {
       payload.map(function (val) {
-        disliked.push(val);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
       });
     }
 
@@ -100153,9 +100149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
 
     if (postIndexInUserProfile != -1) {
-      setTimeout(function () {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
-      }, 500);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
     }
   },
   loadMore: function loadMore(state, payload) {
