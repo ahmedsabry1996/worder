@@ -106,13 +106,12 @@ console.log(45454545);
         state.showProfile = [];
         state.isFollow = null;
         state.profilePosts = [];
-        state.timeline = [];
-            payload.map((value)=>{
+        state.timeline = payload;
 
-                    state.timeline.push(value);
-                    state.timeline = Array.from(new Set(state.timeline));
 
-            });
+
+
+
 
       //state.timeline = Array.from(new Set(state.timeline));
 
@@ -145,7 +144,8 @@ console.log(45454545);
       }
       else{
         payload.map((val)=>{
-          Vue.set(liked,liked.length,payload);
+
+          liked.push(val)
         });
       }
 
@@ -170,11 +170,11 @@ console.log(45454545);
         else{
 
           payload.map((val)=>{
-            Vue.set(disliked,disliked.length,payload);
 
+            disliked.push(val);
           });
         }
-        state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
+
 
       },
 
@@ -227,7 +227,9 @@ console.log(45454545);
     loadMore(state,payload){
 
         payload.map((value)=>{
-          state.timeline.push(value);
+          //state.timeline.push(value);
+          Vue.set(state.timeline, state.timeline.length,value);
+
         });
 
         state.timeline = Array.from(new Set(state.timeline));

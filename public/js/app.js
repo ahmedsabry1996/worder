@@ -100069,11 +100069,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.showProfile = [];
     state.isFollow = null;
     state.profilePosts = [];
-    state.timeline = [];
-    payload.map(function (value) {
-      state.timeline.push(value);
-      state.timeline = Array.from(new Set(state.timeline));
-    }); //state.timeline = Array.from(new Set(state.timeline));
+    state.timeline = payload; //state.timeline = Array.from(new Set(state.timeline));
   },
   fillLikedPosts: function fillLikedPosts(state, payload) {
     state.likedPosts = payload;
@@ -100093,7 +100089,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     } else {
       payload.map(function (val) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
+        liked.push(val);
       });
     }
   },
@@ -100110,11 +100106,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
     } else {
       payload.map(function (val) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
+        disliked.push(val);
       });
     }
-
-    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
   },
   noAction: function noAction(state, payload) {
     var liked = state.likedPosts;
@@ -100154,7 +100148,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   },
   loadMore: function loadMore(state, payload) {
     payload.map(function (value) {
-      state.timeline.push(value);
+      //state.timeline.push(value);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, state.timeline.length, value);
     });
     state.timeline = Array.from(new Set(state.timeline));
   },
