@@ -26,8 +26,6 @@ class FollowingController extends Controller
 
                 $following = Auth::user()
                 ->following()
-                ->offset($offset)
-                ->limit(500)
                 ->pluck('user_id');
 
                 return $following;
@@ -207,9 +205,10 @@ class FollowingController extends Controller
                               ->offset($offset)
                               ->limit(50)
                               ->get();
-
+    $following_ids = $this->get_user_following();
       return response()->json(['followers'=>$followers,
-                                'following'=>$following],201);
+                                'following'=>$following,
+                                'following_ids'=>$following_ids],201);
 
     }
 }

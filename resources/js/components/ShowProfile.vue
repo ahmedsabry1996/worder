@@ -1,5 +1,6 @@
 <template>
   <div class="container" v-if="showProfile.profile">
+    <h4>{{myFollowingIds}}</h4>
       <div class="row">
       <div class="col-md-6 pc">
         <div class="card">
@@ -275,7 +276,7 @@
   </sweet-modal>
 
 
-
+  <!-- followers -->
   <sweet-modal ref="fans"  width="320" overlay-theme="dark" :enable-mobile-fullscreen="false">
   	<sweet-modal-tab :title="$t('followers')" id="tab1">
     <template v-if="myFollowers">
@@ -288,6 +289,16 @@
               <br>
               <i style="opacity:.5;">{{follower.profile.display_name}}</i>
 </p>
+<template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
+  <h2 >
+      follow
+  </h2>
+  </template>
+<template v-else>
+  <h2>
+    unfollow
+  </h2>
+</template>
           </li>
         </ul>
       </div>
@@ -306,7 +317,11 @@
                 {{following.name}}
                 <br>
                 <i style="opacity:.5;">{{following.profile.display_name}}</i>
-  </p>
+                <h3>
+
+                  unfollow
+                </h3>
+              </p>
             </li>
           </ul>
         </div>
@@ -440,6 +455,9 @@ export default {
     ,getFollowing(){
       return this.$store.getters.following;
     },
+    myFollowingIds(){
+      return this.$store.state.myFollowingIds;
+    }
   },
 
   methods:{
@@ -450,19 +468,7 @@ export default {
         let following = this.$store.state.myFollowing.length;
         if (followers === 0 && following === 0) {
 
-          axios.post('/api/timeline/my-fans',{},{
-            headers:{
-              Authorization:`Bearer ${localStorage.getItem('access_token')}`
-            }
-          })
-          .then((response)=>{
-            this.$store.commit('fillMyFollowers',response.data.followers);
-            this.$store.commit('fillMyFollowing',response.data.following);
-          })
-          .catch((error)=>{
-            console.log(error);
-            console.log(error.response);
-          })
+          this.$store.dispatch('showFans');
         }
     },
     loadMoreFollowers(e){

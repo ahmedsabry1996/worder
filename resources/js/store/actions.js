@@ -285,7 +285,6 @@ export default {
               }
             })
             .then((response)=>{
-              console.log("277872");
               console.log(response.data.followers);
               console.log(response.data.following);
                 context.commit('showProfile',
@@ -293,7 +292,9 @@ export default {
                 posts:response.data.posts,
                 followers:response.data.followers,
                 following:response.data.following,
+                following_id:response.data.following_id,
                 isFollow:response.data.is_follow});
+
 
             })
             .catch((errors)=>{
@@ -302,26 +303,21 @@ export default {
             })
       },
 
-        showFans(context,offset=0){
-              axios.post('/api/timeline/fans',{
-                offset:offset,
-              },
-
-        {
-            headers:{"Authorization":`Bearer ${context.state.userToken}`
-        }})
-        .then((response)=>{
-
-
-            console.log(response.data.following_id);
-            console.log('offfffset',offset);
-      })
-        .catch((errors)=>{
-          alert('errorq')
-          console.log(errors);
-          console.log(errors.response);
-  });
-
+        showFans(context){
+          axios.post('/api/timeline/my-fans',{},{
+            headers:{
+              Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            }
+          })
+          .then((response)=>{
+          context.commit('fillMyFollowers',response.data.followers);
+          context.commit('fillMyFollowing',response.data.following);
+          context.commit('myFollowingIds',response.data.following_ids);
+          })
+          .catch((error)=>{
+            console.log(error);
+            console.log(error.response);
+          })
       }
 
 

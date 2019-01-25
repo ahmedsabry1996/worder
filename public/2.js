@@ -339,6 +339,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -441,32 +456,22 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     },
     getFollowing: function getFollowing() {
       return this.$store.getters.following;
+    },
+    myFollowingIds: function myFollowingIds() {
+      return this.$store.state.myFollowingIds;
     }
   },
   methods: {
     getMyFans: function getMyFans() {
-      var _this = this;
-
       var followers = this.$store.state.myFollowers.length;
       var following = this.$store.state.myFollowing.length;
 
       if (followers === 0 && following === 0) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-fans', {}, {
-          headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-          }
-        }).then(function (response) {
-          _this.$store.commit('fillMyFollowers', response.data.followers);
-
-          _this.$store.commit('fillMyFollowing', response.data.following);
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.response);
-        });
+        this.$store.dispatch('showFans');
       }
     },
     loadMoreFollowers: function loadMoreFollowers(e) {
-      var _this2 = this;
+      var _this = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -481,7 +486,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
             Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
           }
         }).then(function (response) {
-          _this2.$store.commit('fillMyFollowers', response.data.followers);
+          _this.$store.commit('fillMyFollowers', response.data.followers);
         }).catch(function (error) {
           console.log(error);
           console.log(error.response);
@@ -489,7 +494,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     loadMoreFollowing: function loadMoreFollowing(e) {
-      var _this3 = this;
+      var _this2 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -504,7 +509,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
             Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
           }
         }).then(function (response) {
-          _this3.$store.commit('fillMyFollowing', response.data.following);
+          _this2.$store.commit('fillMyFollowing', response.data.following);
         }).catch(function (error) {
           console.log(error);
           console.log(error.response);
@@ -525,19 +530,19 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$refs.likers.close();
     },
     loadMore: function loadMore() {
-      var _this4 = this;
+      var _this3 = this;
 
       window.onscroll = function () {
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          _this4.$store.dispatch('loadMore', {
+          _this3.$store.dispatch('loadMore', {
             "url": 'user-posts',
-            "offset": _this4.offset,
-            'userId': _this4.$store.state.showProfile.id
+            "offset": _this3.offset,
+            'userId': _this3.$store.state.showProfile.id
           });
 
-          _this4.offset += 10;
+          _this3.offset += 10;
         }
       };
     },
@@ -551,7 +556,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push("/".concat(displayName));
     },
     postReact: function postReact(react, postId) {
-      var _this5 = this;
+      var _this4 = this;
 
       if (react == 'like') {
         this.$store.commit('addToLikedPosts', postId);
@@ -572,7 +577,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'like') {
           console.log(response.data.result);
 
-          _this5.$store.commit('updatePost', {
+          _this4.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
@@ -581,7 +586,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'dislike') {
           console.log(response.data.result);
 
-          _this5.$store.commit('updatePost', {
+          _this4.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
@@ -590,12 +595,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == null) {
           console.log(response.data.result);
 
-          _this5.$store.commit('updatePost', {
+          _this4.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
 
-          _this5.$store.commit('noAction', postId);
+          _this4.$store.commit('noAction', postId);
         }
       }).catch(function (error) {
         console.log(error);
@@ -603,7 +608,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     deletePost: function deletePost(postId, postIndex) {
-      var _this6 = this;
+      var _this5 = this;
 
       swal(this.$t('confirmdelete'), {
         buttons: {
@@ -616,14 +621,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (value) {
         switch (value) {
           case "Delete":
-            _this6.$store.dispatch('deletePost', {
+            _this5.$store.dispatch('deletePost', {
               id: postId,
               index: postIndex
             });
 
-            _this6.$store.commit('deletePost', postIndex);
+            _this5.$store.commit('deletePost', postIndex);
 
-            swal(_this6.$t('done'), _this6.$t('deletedsuccessfully'), "success");
+            swal(_this5.$t('done'), _this5.$t('deletedsuccessfully'), "success");
             break;
 
           default:
@@ -648,7 +653,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     loadreactedPosts: function loadreactedPosts() {
-      var _this7 = this;
+      var _this6 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user-reacted', null, {
         headers: {
@@ -657,9 +662,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (response) {
         console.log(response.data.posts_liked_by_current_user);
 
-        _this7.$store.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
+        _this6.$store.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
 
-        _this7.$store.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
+        _this6.$store.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
@@ -672,7 +677,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this8 = this;
+      var _this7 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -683,16 +688,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this8.likers = response.data.likers;
+        _this7.likers = response.data.likers;
 
-        _this8.$refs.likers.open();
+        _this7.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this9 = this;
+      var _this8 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -709,7 +714,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this9.likers.push(val);
+            _this8.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -718,7 +723,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this10 = this;
+      var _this9 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -728,9 +733,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this10.dislikers = response.data.dislikers;
+        _this9.dislikers = response.data.dislikers;
 
-        _this10.$refs.dislikers.open();
+        _this9.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -738,7 +743,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this11 = this;
+      var _this10 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -755,7 +760,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this11.dislikers.push(val);
+            _this10.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -842,6 +847,8 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
+          _c("h4", [_vm._v(_vm._s(_vm.myFollowingIds))]),
+          _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6 pc" }, [
               _c("div", { staticClass: "card" }, [
@@ -1713,51 +1720,69 @@ var render = function() {
                             _c(
                               "ul",
                               _vm._l(_vm.myFollowers, function(follower) {
-                                return _c("li", [
-                                  _c(
-                                    "p",
-                                    {
-                                      on: {
-                                        click: function($event) {
-                                          _vm.openProfile(
-                                            follower.profile.display_name
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("img", {
-                                        staticClass: "img-rounded",
-                                        attrs: {
-                                          src:
-                                            "/storage/avatars/" +
-                                            follower.profile.avatar,
-                                          alt: follower.profile.display_name,
-                                          width: "50",
-                                          height: "50"
-                                        }
-                                      }),
-                                      _vm._v(
-                                        "\n              " +
-                                          _vm._s(follower.name) +
-                                          "\n              "
-                                      ),
-                                      _c("br"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "i",
-                                        { staticStyle: { opacity: ".5" } },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
+                                return _c(
+                                  "li",
+                                  [
+                                    _c(
+                                      "p",
+                                      {
+                                        on: {
+                                          click: function($event) {
+                                            _vm.openProfile(
                                               follower.profile.display_name
                                             )
-                                          )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("img", {
+                                          staticClass: "img-rounded",
+                                          attrs: {
+                                            src:
+                                              "/storage/avatars/" +
+                                              follower.profile.avatar,
+                                            alt: follower.profile.display_name,
+                                            width: "50",
+                                            height: "50"
+                                          }
+                                        }),
+                                        _vm._v(
+                                          "\n              " +
+                                            _vm._s(follower.name) +
+                                            "\n              "
+                                        ),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "i",
+                                          { staticStyle: { opacity: ".5" } },
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                follower.profile.display_name
+                                              )
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.myFollowingIds.indexOf(
+                                      follower.profile.user_id
+                                    ) == -1
+                                      ? [
+                                          _c("h2", [
+                                            _vm._v("\n      follow\n  ")
+                                          ])
                                         ]
-                                      )
-                                    ]
-                                  )
-                                ])
+                                      : [
+                                          _c("h2", [
+                                            _vm._v("\n    unfollow\n  ")
+                                          ])
+                                        ]
+                                  ],
+                                  2
+                                )
                               }),
                               0
                             )
@@ -1829,7 +1854,14 @@ var render = function() {
                                         ]
                                       )
                                     ]
-                                  )
+                                  ),
+                                  _c("h3", [
+                                    _vm._v(
+                                      "\n\n                  unfollow\n                "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p")
                                 ])
                               }),
                               0

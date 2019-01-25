@@ -99797,7 +99797,6 @@ __webpack_require__.r(__webpack_exports__);
         "Authorization": "Bearer ".concat(context.state.userToken)
       }
     }).then(function (response) {
-      console.log("277872");
       console.log(response.data.followers);
       console.log(response.data.following);
       context.commit('showProfile', {
@@ -99805,6 +99804,7 @@ __webpack_require__.r(__webpack_exports__);
         posts: response.data.posts,
         followers: response.data.followers,
         following: response.data.following,
+        following_id: response.data.following_id,
         isFollow: response.data.is_follow
       });
     }).catch(function (errors) {
@@ -99813,20 +99813,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   showFans: function showFans(context) {
-    var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/fans', {
-      offset: offset
-    }, {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-fans', {}, {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
       }
     }).then(function (response) {
-      console.log(response.data.following_id);
-      console.log('offfffset', offset);
-    }).catch(function (errors) {
-      alert('errorq');
-      console.log(errors);
-      console.log(errors.response);
+      context.commit('fillMyFollowers', response.data.followers);
+      context.commit('fillMyFollowing', response.data.following);
+      context.commit('myFollowingIds', response.data.following_ids);
+    }).catch(function (error) {
+      console.log(error);
+      console.log(error.response);
     });
   }
 });
@@ -99905,6 +99902,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   myFollowing: function myFollowing(state) {
     return state.myFollowing;
+  },
+  myFollowingIds: function myFollowingIds(state) {
+    return state.myFollowingIds;
   },
   showProfile: function showProfile(state) {
     return state.showProfile;
@@ -100219,6 +100219,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       state.following = payload;
     }
   },
+  myFollowingIds: function myFollowingIds(state, payload) {
+    console.log('ttt');
+    console.log(_typeof(payload));
+
+    if (_typeof(payload) !== 'object') {
+      state.myFollowingIds.push(payload);
+    } else {
+      payload.map(function (val) {
+        state.myFollowingIds.push(val);
+      });
+    }
+  },
   removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
     var following = state.following;
     var isInFollowing = following.findIndex(function (value, index) {
@@ -100366,6 +100378,7 @@ var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
   following: [],
   myFollowers: [],
   myFollowing: [],
+  myFollowingIds: [],
   suggestedPeople: [],
   showProfile: {
     profile: 0

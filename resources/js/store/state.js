@@ -60,6 +60,7 @@ export default{
       following:[],
       myFollowers:[],
       myFollowing:[],
+      myFollowingIds:[],
       suggestedPeople:[],
 
       showProfile:{profile:0},

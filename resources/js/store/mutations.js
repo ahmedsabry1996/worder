@@ -325,6 +325,21 @@ state.signupErrors = payload;
 
 
         },
+        myFollowingIds(state,payload){
+          console.log('ttt');
+          console.log(typeof(payload));
+
+          if (typeof(payload) !== 'object') {
+            state.myFollowingIds.push(payload);
+
+          }
+          else{
+
+        payload.map((val)=>{
+          state.myFollowingIds.push(val);
+        })
+          }
+        },
     removeFromMyFollowing(state,payload){
 
       let following = state.following ;
@@ -395,7 +410,7 @@ else {
       state.profileFollowers[0]= 0 ;
       state.profileFollowers[1]= 0 ;
       state.isFollow = null;
-      state.profilePosts = [];  
+      state.profilePosts = [];
     },
 
     logout(state){

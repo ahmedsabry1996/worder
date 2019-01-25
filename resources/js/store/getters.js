@@ -74,6 +74,9 @@ export default{
   myFollowing(state){
     return  state.myFollowing;
   },
+  myFollowingIds(state){
+    return state.myFollowingIds;
+  },
 
   showProfile(state){
     return state.showProfile;
