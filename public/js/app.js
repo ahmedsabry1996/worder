@@ -99453,7 +99453,7 @@ var Login = function Login(resolve) {
 };
 
 var Topic = function Topic(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 9).then((function () {
     resolve(__webpack_require__(/*! ./components/topics/topic.vue */ "./resources/js/components/topics/topic.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99465,7 +99465,7 @@ var Signup = function Signup(resolve) {
 };
 
 var Post = function Post(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
     resolve(__webpack_require__(/*! ./components/posts/showPost.vue */ "./resources/js/components/posts/showPost.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99477,7 +99477,7 @@ var Createprofile = function Createprofile(resolve) {
 };
 
 var Showprofile = function Showprofile(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(9), __webpack_require__.e(2)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(0), __webpack_require__.e(2)]).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowProfile.vue */ "./resources/js/components/ShowProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99495,7 +99495,7 @@ var UpdateAuth = function UpdateAuth(resolve) {
 };
 
 var Trend = function Trend(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 0).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowTrend.vue */ "./resources/js/components/ShowTrend.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

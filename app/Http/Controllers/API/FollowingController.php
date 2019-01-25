@@ -159,30 +159,33 @@ class FollowingController extends Controller
                                 'following'=>$this->get_user_following()],201);
     }
 
-    public function current_user_followers(Request $request)
+    public function my_following(Request $request)
     {
         $current_user = Auth::user();
         $offset = $request->has('offset') ? $request->offset : 0 ;
-        $followers = $current_user->followers()
-                                  ->offset($offset)
-                                  ->limit(10)
-                                  ->latest()
-                                  ->with('profile')
-                                  ->get();
 
         $following = $current_user->following()
-                                  ->offset($offset)
-                                  ->limit(10)
-                                  ->latest()
                                   ->with('profile')
+                                  ->latest()
+                                  ->offset($offset)
+                                  ->limit(50)
                                   ->get();
 
+        return response()->json(['following'=>$following,],201);
+    }
 
-        $following_id = $this->get_user_following($offset);
 
-        return response()->json(['followers'=>$followers,
-                                'following'=>$following,
-                                'following_id'=>$following_id,
-                                 'offset'=>$offset],201);
+    public function my_followers(Request $request)
+    {
+      $current_user = Auth::user();
+      $offset = $request->has('offset') ? $request->offset : 0 ;
+      $followers = $current_user->followers()
+                                ->with('profile')
+                                ->latest()
+                                ->offset($offset)
+                                ->limit(50)
+                                ->get();
+
+    return response()->json(['followers'=>$followers],201);
     }
 }

@@ -45,7 +45,8 @@ Route::group(['middleware'=>'auth:api','prefix'=>'timeline'], function()
     Route::post('react','API\TimelineController@like_posts');
     Route::post('load-more','API\TimelineController@load_more');
     Route::post('/follow','API\FollowingController@follow');
-    Route::post('/fans','API\FollowingController@current_user_followers');
+    Route::post('/my-following','API\FollowingController@my_following');
+    Route::post('/my-followers','API\FollowingController@my_followers');
     Route::post('/notifications','API\TimelineController@fetch_notifications');
     Route::post('/unread-notifications','API\TimelineController@unread_notifications');
     Route::post('/load-more-notifications','API\TimelineController@load_more_notifications');
