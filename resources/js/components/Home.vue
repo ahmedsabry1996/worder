@@ -66,6 +66,7 @@
 
     export default {
       created () {
+        window.scrollTo(0,0); 
             this.$Progress.start()
             this.$router.beforeEach((to, from, next) => {
             this.$Progress.start()

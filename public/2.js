@@ -311,6 +311,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -334,6 +362,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     return {
       offset: 10,
       followerOffset: 0,
+      followingOffset: 0,
       displayName: this.$route.params.name,
       newDisp: this.$route.params.name,
       currentUserDisplayName: this.$store.state.currentUserProfile.display_name,
@@ -415,10 +444,79 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   methods: {
+    getMyFans: function getMyFans() {
+      var _this = this;
+
+      var followers = this.$store.state.myFollowers.length;
+      var following = this.$store.state.myFollowing.length;
+
+      if (followers === 0 && following === 0) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-fans', {}, {
+          headers: {
+            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+          }
+        }).then(function (response) {
+          _this.$store.commit('fillMyFollowers', response.data.followers);
+
+          _this.$store.commit('fillMyFollowing', response.data.following);
+        }).catch(function (error) {
+          console.log(error);
+          console.log(error.response);
+        });
+      }
+    },
+    loadMoreFollowers: function loadMoreFollowers(e) {
+      var _this2 = this;
+
+      var elHeight = e.target.clientHeight;
+      var elscrollHeight = e.target.scrollHeight;
+      var elScrollTop = e.target.scrollTop;
+
+      if (elHeight + elScrollTop - elscrollHeight == 0) {
+        this.followerOffset += 50;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-followers', {
+          offset: this.followerOffset
+        }, {
+          headers: {
+            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+          }
+        }).then(function (response) {
+          _this2.$store.commit('fillMyFollowers', response.data.followers);
+        }).catch(function (error) {
+          console.log(error);
+          console.log(error.response);
+        });
+      }
+    },
+    loadMoreFollowing: function loadMoreFollowing(e) {
+      var _this3 = this;
+
+      var elHeight = e.target.clientHeight;
+      var elscrollHeight = e.target.scrollHeight;
+      var elScrollTop = e.target.scrollTop;
+
+      if (elHeight + elScrollTop - elscrollHeight == 0) {
+        this.followingOffset += 50;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-following', {
+          offset: this.followingOffset
+        }, {
+          headers: {
+            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+          }
+        }).then(function (response) {
+          _this3.$store.commit('fillMyFollowing', response.data.following);
+        }).catch(function (error) {
+          console.log(error);
+          console.log(error.response);
+        });
+      }
+    },
     fans: function fans() {
       this.$refs.fans.open();
+      this.getMyFans();
     },
     openProfile: function openProfile(displayName) {
+      this.$refs.fans.close();
       this.$refs.likers.close();
       this.$refs.dislikers.close();
       this.$router.push("/".concat(displayName));
@@ -427,19 +525,19 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$refs.likers.close();
     },
     loadMore: function loadMore() {
-      var _this = this;
+      var _this4 = this;
 
       window.onscroll = function () {
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          _this.$store.dispatch('loadMore', {
+          _this4.$store.dispatch('loadMore', {
             "url": 'user-posts',
-            "offset": _this.offset,
-            'userId': _this.$store.state.showProfile.id
+            "offset": _this4.offset,
+            'userId': _this4.$store.state.showProfile.id
           });
 
-          _this.offset += 10;
+          _this4.offset += 10;
         }
       };
     },
@@ -453,7 +551,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push("/".concat(displayName));
     },
     postReact: function postReact(react, postId) {
-      var _this2 = this;
+      var _this5 = this;
 
       if (react == 'like') {
         this.$store.commit('addToLikedPosts', postId);
@@ -474,7 +572,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'like') {
           console.log(response.data.result);
 
-          _this2.$store.commit('updatePost', {
+          _this5.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
@@ -483,7 +581,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'dislike') {
           console.log(response.data.result);
 
-          _this2.$store.commit('updatePost', {
+          _this5.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
@@ -492,12 +590,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == null) {
           console.log(response.data.result);
 
-          _this2.$store.commit('updatePost', {
+          _this5.$store.commit('updatePost', {
             id: postId,
             updatedPost: response.data.updated_post
           });
 
-          _this2.$store.commit('noAction', postId);
+          _this5.$store.commit('noAction', postId);
         }
       }).catch(function (error) {
         console.log(error);
@@ -505,7 +603,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     deletePost: function deletePost(postId, postIndex) {
-      var _this3 = this;
+      var _this6 = this;
 
       swal(this.$t('confirmdelete'), {
         buttons: {
@@ -518,14 +616,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (value) {
         switch (value) {
           case "Delete":
-            _this3.$store.dispatch('deletePost', {
+            _this6.$store.dispatch('deletePost', {
               id: postId,
               index: postIndex
             });
 
-            _this3.$store.commit('deletePost', postIndex);
+            _this6.$store.commit('deletePost', postIndex);
 
-            swal(_this3.$t('done'), _this3.$t('deletedsuccessfully'), "success");
+            swal(_this6.$t('done'), _this6.$t('deletedsuccessfully'), "success");
             break;
 
           default:
@@ -550,7 +648,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     loadreactedPosts: function loadreactedPosts() {
-      var _this4 = this;
+      var _this7 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user-reacted', null, {
         headers: {
@@ -559,9 +657,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (response) {
         console.log(response.data.posts_liked_by_current_user);
 
-        _this4.$store.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
+        _this7.$store.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
 
-        _this4.$store.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
+        _this7.$store.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
@@ -574,7 +672,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this5 = this;
+      var _this8 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -585,16 +683,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this5.likers = response.data.likers;
+        _this8.likers = response.data.likers;
 
-        _this5.$refs.likers.open();
+        _this8.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this6 = this;
+      var _this9 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -611,7 +709,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this6.likers.push(val);
+            _this9.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -620,7 +718,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this7 = this;
+      var _this10 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -630,9 +728,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this7.dislikers = response.data.dislikers;
+        _this10.dislikers = response.data.dislikers;
 
-        _this7.$refs.dislikers.open();
+        _this10.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -640,7 +738,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this8 = this;
+      var _this11 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -657,7 +755,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this8.dislikers.push(val);
+            _this11.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -1602,28 +1700,146 @@ var render = function() {
                 "sweet-modal-tab",
                 { attrs: { title: _vm.$t("followers"), id: "tab1" } },
                 [
-                  _c("div", { staticClass: "followers" }, [
-                    _c("p", [
-                      _vm._v(
-                        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                      )
-                    ])
-                  ])
-                ]
+                  _vm.myFollowers
+                    ? [
+                        _c(
+                          "div",
+                          {
+                            ref: "followers_modal",
+                            staticClass: "followers",
+                            on: { scroll: _vm.loadMoreFollowers }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              _vm._l(_vm.myFollowers, function(follower) {
+                                return _c("li", [
+                                  _c(
+                                    "p",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.openProfile(
+                                            follower.profile.display_name
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("img", {
+                                        staticClass: "img-rounded",
+                                        attrs: {
+                                          src:
+                                            "/storage/avatars/" +
+                                            follower.profile.avatar,
+                                          alt: follower.profile.display_name,
+                                          width: "50",
+                                          height: "50"
+                                        }
+                                      }),
+                                      _vm._v(
+                                        "\n              " +
+                                          _vm._s(follower.name) +
+                                          "\n              "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "i",
+                                        { staticStyle: { opacity: ".5" } },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              follower.profile.display_name
+                                            )
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              }),
+                              0
+                            )
+                          ]
+                        )
+                      ]
+                    : [_c("h4", [_vm._v("please wait ... ")])]
+                ],
+                2
               ),
               _vm._v(" "),
               _c(
                 "sweet-modal-tab",
                 { attrs: { title: _vm.$t("following"), id: "tab2" } },
                 [
-                  _c("div", { staticClass: "following" }, [
-                    _c("p", [
-                      _vm._v(
-                        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                      )
-                    ])
-                  ])
-                ]
+                  _vm.myFollowing
+                    ? [
+                        _c(
+                          "div",
+                          {
+                            ref: "following_modal",
+                            staticClass: "following",
+                            on: { scroll: _vm.loadMoreFollowing }
+                          },
+                          [
+                            _c(
+                              "ul",
+                              _vm._l(_vm.myFollowing, function(following) {
+                                return _c("li", [
+                                  _c(
+                                    "p",
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          _vm.openProfile(
+                                            following.profile.display_name
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("img", {
+                                        staticClass: "img-rounded",
+                                        attrs: {
+                                          src:
+                                            "/storage/avatars/" +
+                                            following.profile.avatar,
+                                          alt: following.profile.display_name,
+                                          width: "50",
+                                          height: "50"
+                                        }
+                                      }),
+                                      _vm._v(
+                                        "\n                " +
+                                          _vm._s(following.name) +
+                                          "\n                "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "i",
+                                        { staticStyle: { opacity: ".5" } },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              following.profile.display_name
+                                            )
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              }),
+                              0
+                            )
+                          ]
+                        )
+                      ]
+                    : [_c("h4", [_vm._v("please wait ... ")])]
+                ],
+                2
               )
             ],
             1

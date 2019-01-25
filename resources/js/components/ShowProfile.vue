@@ -278,14 +278,42 @@
 
   <sweet-modal ref="fans"  width="320" overlay-theme="dark" :enable-mobile-fullscreen="false">
   	<sweet-modal-tab :title="$t('followers')" id="tab1">
-      <div class="followers">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <template v-if="myFollowers">
+      <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
+        <ul>
+          <li v-for="follower in myFollowers">
+            <p @click="openProfile(follower.profile.display_name)">
+              <img :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name" class="img-rounded" width="50" height="50">
+              {{follower.name}}
+              <br>
+              <i style="opacity:.5;">{{follower.profile.display_name}}</i>
+</p>
+          </li>
+        </ul>
       </div>
+    </template>
+    <template v-else>
+      <h4>please wait ... </h4>
+    </template>
     </sweet-modal-tab>
   	<sweet-modal-tab :title="$t('following')" id="tab2">
-      <div class="following">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
+      <template v-if="myFollowing">
+        <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
+          <ul>
+            <li v-for="following in myFollowing">
+              <p @click="openProfile(following.profile.display_name)">
+                <img :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name" class="img-rounded" width="50" height="50">
+                {{following.name}}
+                <br>
+                <i style="opacity:.5;">{{following.profile.display_name}}</i>
+  </p>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <template v-else>
+        <h4>please wait ... </h4>
+      </template>
     </sweet-modal-tab>
   </sweet-modal>
 
@@ -321,6 +349,7 @@ export default {
       return {
         offset:10,
         followerOffset:0,
+        followingOffset:0,
         displayName:this.$route.params.name,
         newDisp :this.$route.params.name,
         currentUserDisplayName : this.$store.state.currentUserProfile.display_name,
@@ -340,7 +369,6 @@ export default {
     }
   },
   mounted(){
-
 
 
       this.$store.commit('truncateProfile');
@@ -413,11 +441,90 @@ export default {
       return this.$store.getters.following;
     },
   },
+
   methods:{
+
+    getMyFans(){
+
+        let followers = this.$store.state.myFollowers.length;
+        let following = this.$store.state.myFollowing.length;
+        if (followers === 0 && following === 0) {
+
+          axios.post('/api/timeline/my-fans',{},{
+            headers:{
+              Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            }
+          })
+          .then((response)=>{
+            this.$store.commit('fillMyFollowers',response.data.followers);
+            this.$store.commit('fillMyFollowing',response.data.following);
+          })
+          .catch((error)=>{
+            console.log(error);
+            console.log(error.response);
+          })
+        }
+    },
+    loadMoreFollowers(e){
+      let elHeight = e.target.clientHeight;
+
+      let elscrollHeight = e.target.scrollHeight;
+
+      let elScrollTop = e.target.scrollTop;
+
+      if ((elHeight+elScrollTop) - elscrollHeight == 0) {
+        this.followerOffset +=50;
+
+        axios.post('/api/timeline/my-followers',{
+          offset:this.followerOffset
+        },{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+        .then((response)=>{
+          this.$store.commit('fillMyFollowers',response.data.followers);
+        })
+        .catch((error)=>{
+          console.log(error);
+          console.log(error.response);
+        })
+      }
+    },
+    loadMoreFollowing(e)
+    {
+      let elHeight = e.target.clientHeight;
+
+      let elscrollHeight = e.target.scrollHeight;
+
+      let elScrollTop = e.target.scrollTop;
+
+      if ((elHeight+elScrollTop) - elscrollHeight == 0) {
+        this.followingOffset +=50;
+
+        axios.post('/api/timeline/my-following',{
+          offset:this.followingOffset
+        },{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+        .then((response)=>{
+          this.$store.commit('fillMyFollowing',response.data.following);
+        })
+        .catch((error)=>{
+          console.log(error);
+          console.log(error.response);
+        })
+      }
+    } ,
     fans(){
       this.$refs.fans.open();
+
+      this.getMyFans();
     },
     openProfile(displayName){
+        this.$refs.fans.close();
         this.$refs.likers.close();
         this.$refs.dislikers.close();
         this.$router.push(`/${displayName}`);

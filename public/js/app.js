@@ -12383,6 +12383,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    window.scrollTo(0, 0);
     this.$Progress.start();
     this.$router.beforeEach(function (to, from, next) {
       _this.$Progress.start();
@@ -97838,6 +97839,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.add('tr', _locale_tr__WEBPACK_IM
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.set('trd');
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.i18n.fallback('en');
 router.beforeEach(function (to, from, next) {
+  window.scrollTo(0, 0);
+
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
     if (store.state.isLoggedIn == true && store.state.hasProfile == "1" && store.state.isVerified == "1") {
       next();
@@ -99818,8 +99821,6 @@ __webpack_require__.r(__webpack_exports__);
         "Authorization": "Bearer ".concat(context.state.userToken)
       }
     }).then(function (response) {
-      context.commit('fillMyFollowers', response.data.followers);
-      context.commit('fillMyFollowing', response.data.following);
       console.log(response.data.following_id);
       console.log('offfffset', offset);
     }).catch(function (errors) {
@@ -100060,10 +100061,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   },
   fillMyFollowers: function fillMyFollowers(state, payload) {
-    console.log(45454545);
+    if (state.myFollowers.length === 0) {
+      state.myFollowers = payload;
+    } else {
+      payload.map(function (val) {
+        state.myFollowers.push(val);
+      });
+    }
+
+    console.log('tak');
   },
   fillMyFollowing: function fillMyFollowing(state, payload) {
-    console.log(45454545);
+    if (state.myFollowing.length === 0) {
+      state.myFollowing = payload;
+    } else {
+      payload.map(function (val) {
+        state.myFollowing.push(val);
+      });
+    }
+
+    console.log('tik');
   },
   fillMyTimeline: function fillMyTimeline(state, payload) {
     state.showProfile = [];
@@ -100254,8 +100271,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.profileFollowers[1] = 0;
     state.isFollow = null;
     state.profilePosts = [];
-    state.myFollowers = [];
-    state.myFollowing = [];
   },
   logout: function logout(state) {
     state.currentUser = JSON.parse(localStorage.getItem("current_user"));

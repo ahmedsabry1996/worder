@@ -59,6 +59,7 @@ Vue.i18n.set('trd');
 
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{
+  window.scrollTo(0,0);
 
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
 

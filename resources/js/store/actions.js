@@ -312,8 +312,7 @@ export default {
         }})
         .then((response)=>{
 
-            context.commit('fillMyFollowers',response.data.followers);
-            context.commit('fillMyFollowing',response.data.following);
+
             console.log(response.data.following_id);
             console.log('offfffset',offset);
       })

@@ -92,13 +92,34 @@ state.signupErrors = payload;
               state.notifications.push(val);
           });
     },
+
     fillMyFollowers(state,payload){
 
-console.log(45454545);
+        if (state.myFollowers.length === 0) {
+          state.myFollowers = payload;
+        }
+
+        else {
+            payload.map((val)=>{
+              state.myFollowers.push(val);
+            });
+        }
+
+        console.log('tak');
+
     },
 
     fillMyFollowing(state,payload){
-        console.log(45454545);
+      if (state.myFollowing.length === 0) {
+        state.myFollowing = payload;
+      }
+
+      else {
+          payload.map((val)=>{
+            state.myFollowing.push(val);
+          });
+      }
+      console.log('tik');
     },
 
     fillMyTimeline(state,payload){
@@ -374,10 +395,7 @@ else {
       state.profileFollowers[0]= 0 ;
       state.profileFollowers[1]= 0 ;
       state.isFollow = null;
-      state.profilePosts = [];
-      state.myFollowers = [];
-      state.myFollowing = [];
-
+      state.profilePosts = [];  
     },
 
     logout(state){
