@@ -3,13 +3,15 @@ export default {
 
   state:{
 
-          timeline:[],
+
+          posts:[],
+
   },
 
   getters:{
 
-    timeline(state){
-      return state.timeline;
+    posts(state){
+      return state.posts;
     },
 
   },
@@ -17,34 +19,51 @@ export default {
   mutations:{
     fillMyTimeline(state,payload){
 
-        state.showProfile = [];
-        state.isFollow = null;
-        state.profilePosts = [];
-        state.timeline = payload;
+        state.posts = payload;
 
       },
 
     truncateTimeline(state){
-      state.timeline = [];
+      state.posts = [];
     },
 
     loadMore(state,payload){
 
         payload.map((value)=>{
-          Vue.set(state.timeline, state.timeline.length,value);
+          Vue.set(state.posts, state.posts.length,value);
         });
-        state.timeline = Array.from(new Set(state.timeline));
 
     },
+
+      updatePost(state,payload){
+
+        let timelineposts = state.posts;
+
+
+
+        let postIndexInTimeline = timelineposts.findIndex((val)=>{
+              return val.id == payload.id
+        })
+
+
+        if (postIndexInTimeline != -1) {
+
+          setTimeout(function(){
+            Vue.set(state.posts, postIndexInTimeline, payload.updatedPost);
+          },500)
+        }
+
+      },
 
 
   },
 
   actions:{
-    timeline(context){
+    timeline(context,commit,rootState){
+
     axios.post('/api/timeline/posts',{},{
       headers:{
-        "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+        "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
         "X-Requested-With":"XMLHttpRequest"
       },
 
@@ -53,8 +72,6 @@ export default {
 
         console.log(response.data);
 
-        context.commit('fillLikedPosts',response.data.posts_liked_by_current_user);
-        context.commit('fillDisLikedPosts',response.data.posts_disliked_by_current_user);
         context.commit('fillMyTimeline',response.data.posts);
 
     }).catch((errors)=>{
@@ -62,6 +79,25 @@ export default {
         console.log(errors.response);
     })
     },
+
+
+    loadMorePosts(context,data,rootState){
+      axios.post(`/api/timeline/load-more`,{
+          offset:data.offset,
+        },{
+        headers:{
+          "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
+        }
+      })
+      .then((response)=>{
+          console.log(response.data);
+            context.commit('loadMore',response.data.loaded_posts);
+      })
+      .catch((errors)=>{
+        console.log(errors);
+        console.log(errors.response);
+      })
+    }
 
   }
 }

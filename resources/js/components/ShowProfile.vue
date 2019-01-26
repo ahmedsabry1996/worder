@@ -1,6 +1,8 @@
 <template>
   <div class="container" v-if="showProfile.profile">
     <h4>{{myFollowingIds}}</h4>
+    <h4>{{currentUserProfile.user_id}}</h4>
+    <h4>{{showProfile.profile.user_id}}</h4>
       <div class="row">
       <div class="col-md-6 pc">
         <div class="card">
@@ -400,7 +402,6 @@ export default {
       this.$store.commit('truncateProfile');
       this.loadreactedPosts();
       this.loadMore();
-      this.$store.dispatch('showProfile',this.displayName);
       console.log(`${this.$route.params.name} show profile`);
 
 
@@ -555,7 +556,7 @@ export default {
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
-                this.$store.dispatch('loadMore',{"url":'user-posts',"offset":this.offset,'userId':this.$store.state.showProfile.id});
+                this.$store.dispatch('loadMore',{"url":'user-posts',"offset":this.offset,'userId':this.$store.state.profile.showProfile.id});
                 this.offset +=10;
                 }
                 }

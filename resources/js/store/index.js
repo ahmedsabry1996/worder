@@ -18,7 +18,9 @@ export default {
 
   modules:{
     authentication,
-    timeline
+    timeline,
+    posts,
+    profile,
   },
 
   state,

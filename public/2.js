@@ -365,6 +365,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -409,7 +411,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     this.$store.commit('truncateProfile');
     this.loadreactedPosts();
     this.loadMore();
-    this.$store.dispatch('showProfile', this.displayName);
     console.log("".concat(this.$route.params.name, " show profile"));
   },
   created: function created() {
@@ -550,7 +551,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           _this3.$store.dispatch('loadMore', {
             "url": 'user-posts',
             "offset": _this3.offset,
-            'userId': _this3.$store.state.showProfile.id
+            'userId': _this3.$store.state.profile.showProfile.id
           });
 
           _this3.offset += 10;
@@ -859,6 +860,10 @@ var render = function() {
         { staticClass: "container" },
         [
           _c("h4", [_vm._v(_vm._s(_vm.myFollowingIds))]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(_vm.currentUserProfile.user_id))]),
+          _vm._v(" "),
+          _c("h4", [_vm._v(_vm._s(_vm.showProfile.profile.user_id))]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6 pc" }, [

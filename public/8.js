@@ -11,38 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _React_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./React.vue */ "./resources/js/components/posts/React.vue");
 //
 //
 //
@@ -211,10 +180,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      post: null,
       publisher: null,
       likersOffset: 0,
       dislikerOffset: 0,
@@ -222,15 +191,17 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       dislikers: []
     };
   },
+  components: {
+    React: _React_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   computed: {
+    post: function post() {
+      if (!!this.$store.getters.post) {
+        return this.$store.getters.post;
+      }
+    },
     topics: function topics() {
       return this.$store.getters.topics;
-    },
-    likedPosts: function likedPosts() {
-      return this.$store.getters.likedPosts;
-    },
-    disLikedPosts: function disLikedPosts() {
-      return this.$store.getters.disLikedPosts;
     },
     currentUserProfile: function currentUserProfile() {
       return this.$store.getters.currentUserProfile;
@@ -248,118 +219,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   created: function created() {
-    var _this = this;
-
-    var self = this;
-    this.likersOffset = 0;
-    this.dislikerOffset = 0;
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/timeline/post/", {
-      post_id: "".concat(this.$route.params.postId),
-      user_id: localStorage.getItem('user_id')
-    }, {
-      headers: {
-        "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
-      }
-    }).then(function (response) {
-      //push to liked post;
-      if (response.data.type != null) {
-        if (response.data.type.type_id == 'LIKE') {
-          //push to my liked posts
-          console.log('to liked');
-
-          _this.$store.commit('addToLikedPosts', _this.$route.params.postId);
-        }
-
-        if (response.data.type.type_id == 'DISLIKE') {
-          console.log('to disliked');
-
-          _this.$store.commit('addToDisLikedPosts', _this.$route.params.postId);
-        }
-      }
-
-      self.post = response.data.post;
-      console.log("fff");
-      console.log(response.data.post);
-      console.log(7777);
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
+    this.$store.dispatch('showSinglePost', this.$route.params.postId);
   },
   methods: {
     goToAnotherPost: function goToAnotherPost() {
-      var _this2 = this;
-
       this.likersOffset = 0;
       this.dislikerOffset = 0;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/timeline/post/", {
-        post_id: "".concat(this.$route.params.postId)
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        _this2.post = response.data.post;
-        console.log(response.data.post);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
-    postReact: function postReact(react, postId) {
-      var _this3 = this;
-
-      if (react == 'like') {
-        this.$store.commit('addToLikedPosts', postId);
-      } else if (react == 'dislike') {
-        this.$store.commit('addToDisLikedPosts', postId);
-      }
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/react', {
-        post_id: postId,
-        action: react
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        if (response.data.result == 'like') {
-          console.log(response.data);
-
-          _this3.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == 'dislike') {
-          console.log(response.data);
-
-          _this3.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == null) {
-          console.log(response.data);
-
-          _this3.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-
-          _this3.$store.commit('noAction', postId);
-        }
-
-        _this3.post = response.data.updated_post;
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-      });
+      this.$store.dispatch('showSinglePost', this.$route.params.postId);
     },
     showLikers: function showLikers(id) {
-      var _this4 = this;
+      var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -369,14 +238,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this4.likers = response.data.likers;
+        _this.likers = response.data.likers;
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this5 = this;
+      var _this2 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -393,7 +262,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this5.likers.push(val);
+            _this2.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -402,7 +271,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this6 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -413,7 +282,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         if (response.data.dislikers.length > 0) {
-          _this6.dislikers = response.data.dislikers;
+          _this3.dislikers = response.data.dislikers;
         }
       }).catch(function (errors) {
         console.log(errors);
@@ -421,7 +290,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this7 = this;
+      var _this4 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -438,7 +307,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this7.dislikers.push(val);
+            _this4.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -521,7 +390,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._v("\n    " + _vm._s(_vm.post) + "\n    "),
     !_vm.post
       ? _c("div", { staticClass: "text-center" }, [
           _c("img", {
@@ -537,6 +405,7 @@ var render = function() {
     _vm._v(" "),
     _vm.post
       ? _c("div", { staticClass: "post text-center" }, [
+          _vm._v("\n      " + _vm._s(_vm.post) + "\n\n        "),
           _c("div", { staticClass: "avatar" }, [
             _c("img", {
               staticClass: "img-circle",
@@ -645,169 +514,12 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.post.user.profile.user_id != _vm.currentUserProfile.user_id
-            ? _c("div", { staticClass: "post-react" }, [
-                _vm.likedPosts.indexOf(_vm.post.id) == -1 &&
-                _vm.disLikedPosts.indexOf(_vm.post.id) == -1
-                  ? _c("p", { staticClass: "text-center" }, [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            position: "relative",
-                            "font-size": "20pt",
-                            color: "#EA003A",
-                            margin: "auto 14px",
-                            cursor: "pointer",
-                            top: "3px"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            staticStyle: { transform: "scalex(-1)" },
-                            attrs: { icon: ["far", "thumbs-down"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("dislike", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            "font-size": "20pt",
-                            color: "#192FDD",
-                            margin: "auto 14px",
-                            cursor: "pointer"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            attrs: { icon: ["far", "thumbs-up"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("like", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.likedPosts.indexOf(_vm.post.id) !== -1 &&
-                _vm.disLikedPosts.indexOf(_vm.post.id) == -1
-                  ? _c("p", { staticClass: "text-center" }, [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            position: "relative",
-                            "font-size": "20pt",
-                            color: "#EA003A",
-                            margin: "auto 14px",
-                            cursor: "pointer",
-                            top: "3px"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            staticStyle: { transform: "scalex(-1)" },
-                            attrs: { icon: ["far", "thumbs-down"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("dislike", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            "font-size": "20pt",
-                            color: "#192FDD",
-                            margin: "auto 14px",
-                            cursor: "pointer"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            attrs: { icon: ["fas", "thumbs-up"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("like", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.likedPosts.indexOf(_vm.post.id) == -1 &&
-                _vm.disLikedPosts.indexOf(_vm.post.id) !== -1
-                  ? _c("p", { staticClass: "text-center" }, [
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            position: "relative",
-                            "font-size": "20pt",
-                            color: "#EA003A",
-                            margin: "auto 14px",
-                            cursor: "pointer",
-                            top: "3px"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            staticStyle: { transform: "scalex(-1)" },
-                            attrs: { icon: ["fas", "thumbs-down"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("dislike", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticStyle: {
-                            "font-size": "20pt",
-                            color: "#192FDD",
-                            margin: "auto 14px",
-                            cursor: "pointer"
-                          }
-                        },
-                        [
-                          _c("font-awesome-icon", {
-                            attrs: { icon: ["far", "thumbs-up"] },
-                            on: {
-                              click: function($event) {
-                                _vm.postReact("like", _vm.post.id)
-                              }
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm._e()
-              ])
+            ? _c(
+                "div",
+                { staticClass: "post-react" },
+                [_c("React", { attrs: { post_id: _vm.post.id } })],
+                1
+              )
             : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "post-react-number" }, [

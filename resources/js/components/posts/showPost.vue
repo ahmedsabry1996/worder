@@ -1,10 +1,11 @@
 <template>
   <div>
-    {{post}}
     <div v-if="!post" class="text-center">
       <img :src="`/storage/avatars/loader.gif`" alt="loading" width="100" height="100">
     </div>
     <div class="post text-center" v-if="post">
+      {{post}}
+
         <div class="avatar">
                 <img  :src="`/storage/avatars/${post.user.profile.avatar}`" width='60' height="60" :alt="post.user_id" class="img-circle">
         </div>
@@ -43,40 +44,7 @@
                   </div>
 
                   <div class="post-react" v-if="post.user.profile.user_id != currentUserProfile.user_id">
-                  <p class="text-center" v-if="likedPosts.indexOf(post.id) == -1 && disLikedPosts.indexOf(post.id) == -1" >
-
-                    <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
-                      <font-awesome-icon
-                      :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',((post.id)))"/>
-                    </span>
-
-                    <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-                      <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',((post.id)))"/></span>
-
-                  </p>
-                  <p class="text-center" v-if="likedPosts.indexOf(((post.id))) !== -1 && disLikedPosts.indexOf(((post.id))) == -1">
-
-                    <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
-                      <font-awesome-icon
-                      :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',((post.id)))"/>
-
-                    </span>
-
-                    <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-                      <font-awesome-icon  :icon="['fas','thumbs-up']" @click="postReact('like',((post.id)))"/></span>
-
-                  </p>
-                  <p class="text-center" v-if="likedPosts.indexOf(((post.id))) == -1 && disLikedPosts.indexOf(((post.id))) !== -1">
-
-                    <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
-                      <font-awesome-icon
-                      :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)"@click="postReact('dislike',((post.id)))"/>
-                    </span>
-
-                    <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-                      <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',((post.id)))"/></span>
-
-                  </p>
+                      <React :post_id="post.id"/>
 
 
                             </div>
@@ -197,11 +165,11 @@
 <script>
 import axios from 'axios';
 var moment = require('moment');
+import React from './React.vue';
 
 export default {
   data(){
     return {
-        post:null,
         publisher:null,
         likersOffset:0,
         dislikerOffset:0,
@@ -209,21 +177,19 @@ export default {
         dislikers:[]
     }
   },
+  components:{
+      React,
+  },
   computed:{
+    post(){
+      if (!!this.$store.getters.post) {
+        return this.$store.getters.post;
+      }
+    },
     topics(){
       return this.$store.getters.topics;
     },
 
-          likedPosts(){
-
-
-              return this.$store.getters.likedPosts;
-
-          },
-
-          disLikedPosts(){
-            return this.$store.getters.disLikedPosts;
-          },
           currentUserProfile(){
             return this.$store.getters.currentUserProfile;
           }
@@ -235,116 +201,15 @@ export default {
     }
   },
   created(){
-    const self = this;
-    this.likersOffset = 0 ;
-    this.dislikerOffset = 0;
-    axios.post(`/api/timeline/post/`,{
-        post_id:`${this.$route.params.postId}`,
-        user_id:localStorage.getItem('user_id')
-    },{
-      headers:{
-        "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
-      }
-    })
-    .then((response)=>{
 
-        //push to liked post;
-
-        if (response.data.type != null) {
-
-        if (response.data.type.type_id == 'LIKE' ) {
-
-              //push to my liked posts
-              console.log('to liked');
-              this.$store.commit('addToLikedPosts',(this.$route.params.postId))
-        }
-
-        if (response.data.type.type_id == 'DISLIKE') {
-            console.log('to disliked');
-            this.$store.commit('addToDisLikedPosts',(this.$route.params.postId));
-        }
-
-      }
-
-      self.post = response.data.post;
-
-      console.log("fff");
-      console.log(response.data.post);
-      console.log(7777);
-    })
-    .catch((errors)=>{
-      console.log(errors);
-      console.log(errors.response);
-    })
+    this.$store.dispatch('showSinglePost',this.$route.params.postId);
   },
   methods:{
      goToAnotherPost(){
 
            this.likersOffset = 0 ;
            this.dislikerOffset = 0;
-       axios.post(`/api/timeline/post/`,{
-           post_id:`${this.$route.params.postId}`
-       },{
-         headers:{
-           "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
-         }
-       })
-       .then((response)=>{
-           this.post = response.data.post;
-           console.log(response.data.post);
-       })
-       .catch((errors)=>{
-         console.log(errors);
-         console.log(errors.response);
-       })
-     },
-     postReact(react,postId){
-         if (react == 'like') {
-           this.$store.commit('addToLikedPosts',postId);
-         }
-         else if (react == 'dislike') {
-           this.$store.commit('addToDisLikedPosts',postId);
-         }
-
-       axios.post('/api/timeline/react',{
-         post_id:postId,
-         action:react
-       },
-       {
-         headers:{
-           "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
-         }
-       })
-       .then((response)=>{
-
-         if (response.data.result == 'like') {
-
-             console.log(response.data);
-             this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
-
-
-         }
-
-         if (response.data.result == 'dislike') {
-
-                 console.log(response.data);
-                 this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
-
-         }
-
-         if (response.data.result == null) {
-
-             console.log(response.data);
-             this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
-             this.$store.commit('noAction',(postId));
-
-         }
-        this.post = response.data.updated_post;
-       })
-       .catch((error)=>{
-         console.log(error);
-         console.log(error.response);
-       })
+           this.$store.dispatch('showSinglePost',this.$route.params.postId);
      },
      showLikers(id){
 

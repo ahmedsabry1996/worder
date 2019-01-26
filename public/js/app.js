@@ -12585,13 +12585,16 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ListPosts: _posts_ListPosts__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  created: function created() {
+    this.$store.dispatch('reactedPosts');
+  },
   mounted: function mounted() {
     this.$store.dispatch('timeline');
     this.loadMore();
   },
   computed: {
     timelinePosts: function timelinePosts() {
-      return this.$store.getters.timeline;
+      return this.$store.getters.posts;
     }
   },
   methods: {
@@ -12606,14 +12609,11 @@ __webpack_require__.r(__webpack_exports__);
 
         if (endOfPage) {
           if (!!localStorage.getItem('access_token') && _this.$route.path == '/') {
-            alert();
             _this.offset += 100;
             _this.followingOffset += 100;
 
-            _this.$store.dispatch('loadMore', {
-              "url": 'timeline/load-more',
-              "offset": _this.offset,
-              "following_offset": _this.followingOffset
+            _this.$store.dispatch('loadMorePosts', {
+              "offset": _this.offset
             });
           }
         }
@@ -13111,9 +13111,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post_id'],
   computed: {
@@ -13126,57 +13123,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     postReact: function postReact(react, postId) {
-      var _this = this;
-
-      if (react == 'like') {
-        console.log(1);
-        this.$store.commit('addToLikedPosts', postId);
-      }
-
-      if (react == 'dislike') {
-        console.log(-1);
-        this.$store.commit('addToDisLikedPosts', postId);
-      }
-
-      axios.post('/api/timeline/react', {
-        post_id: postId,
-        action: react
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        if (response.data.result == 'like') {
-          console.log(response.data);
-
-          _this.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == 'dislike') {
-          console.log(response.data);
-
-          _this.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == null) {
-          console.log(response.data);
-
-          _this.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
-          });
-
-          _this.$store.commit('noAction', postId);
-        }
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response);
+      this.$store.dispatch('postReact', {
+        react: react,
+        postId: postId
       });
     }
   }
@@ -17588,7 +17537,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -17702,7 +17651,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -80551,9 +80500,7 @@ var render = function() {
             1
           )
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("h3", [_vm._v(_vm._s(_vm.post_id))])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -99580,61 +99527,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  createPost: function createPost(context, post) {
-    return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/post/create-post", post, {
-        headers: {
-          "Authorization": "Bearer  ".concat(context.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        console.log(response);
-        return resolve();
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-        return reject();
-      });
-    });
-  },
-  deletePost: function deletePost(context, post) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/post/delete-post/".concat(post.id), {
-      headers: {
-        Authorization: "Bearer ".concat(context.state.authentication.userToken)
-      }
-    }).then(function (response) {
-      console.log(response.data);
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
-  },
-  loadMore: function loadMore(context, data) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(data.url), {
-      offset: data.offset,
-      user_id: data.userId
-    }, {
-      headers: {
-        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
-      }
-    }).then(function (response) {
-      console.log(response.data); //timeline posts
-
-      if (data.url == 'timeline/load-more') {
-        context.commit('loadMore', response.data.loaded_posts);
-        context.commit('addToLikedPosts', response.data.liked_posts);
-        context.commit('addToDisLikedPosts', response.data.disliked_posts);
-      } //profile posts
-      else {
-          if (response.data.loaded_posts.length > 0) {
-            console.log(response.data.loaded_posts);
-            context.commit('loadMoreProfilePosts', response.data.loaded_posts);
-          }
-        }
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
-  },
   getNotifications: function getNotifications(context) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/notifications', {}, {
       headers: {
@@ -99717,42 +99609,6 @@ __webpack_require__.r(__webpack_exports__);
       console.log(errors);
       console.log(errors.response);
     });
-  },
-  showProfile: function showProfile(context, displayName) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/user/".concat(displayName), {
-      headers: {
-        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
-      }
-    }).then(function (response) {
-      console.log(response.data.followers);
-      console.log(response.data.following);
-      context.commit('showProfile', {
-        profile: response.data.profile,
-        posts: response.data.posts,
-        followers: response.data.followers,
-        following: response.data.following,
-        following_id: response.data.following_id,
-        isFollow: response.data.is_follow
-      });
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
-  },
-  showFans: function showFans(context) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-fans', {}, {
-      headers: {
-        Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-      }
-    }).then(function (response) {
-      console.log(50);
-      context.commit('fillMyFollowers', response.data.followers);
-      context.commit('fillMyFollowing', response.data.following);
-      context.commit('myFollowingIds', response.data.following_ids);
-    }).catch(function (error) {
-      console.log(error);
-      console.log(error.response);
-    });
   }
 });
 
@@ -99774,18 +99630,6 @@ __webpack_require__.r(__webpack_exports__);
   topics: function topics(state) {
     return state.topics;
   },
-  posts: function posts(state) {
-    return state.posts;
-  },
-  myPosts: function myPosts(state) {
-    return state.myPosts;
-  },
-  likedPosts: function likedPosts(state) {
-    return state.likedPosts;
-  },
-  disLikedPosts: function disLikedPosts(state) {
-    return state.disLikedPosts;
-  },
   followers: function followers(state) {
     return state.followers;
   },
@@ -99804,17 +99648,8 @@ __webpack_require__.r(__webpack_exports__);
   myFollowingIds: function myFollowingIds(state) {
     return state.myFollowingIds;
   },
-  showProfile: function showProfile(state) {
-    return state.showProfile;
-  },
   isFollow: function isFollow(state) {
     return state.isFollow;
-  },
-  profileFollowers: function profileFollowers(state) {
-    return state.profileFollowers;
-  },
-  profilePosts: function profilePosts(state) {
-    return state.profilePosts;
   },
   notifications: function notifications(state) {
     return state.notifications;
@@ -99854,9 +99689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_modules_notifications__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/timeline */ "./resources/js/store/modules/timeline.js");
 /* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
-/* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_modules_posts__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
-/* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_modules_profile__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
 /* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_trend__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
@@ -99880,7 +99713,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   modules: {
     authentication: _modules_authentication__WEBPACK_IMPORTED_MODULE_6__["default"],
-    timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"]
+    timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"],
+    posts: _modules_posts__WEBPACK_IMPORTED_MODULE_9__["default"],
+    profile: _modules_profile__WEBPACK_IMPORTED_MODULE_10__["default"]
   },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -100135,10 +99970,205 @@ var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
 /*!*********************************************!*\
   !*** ./resources/js/store/modules/posts.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    post: [],
+    likedPosts: [],
+    disLikedPosts: []
+  },
+  getters: {
+    post: function post(state) {
+      return state.post;
+    },
+    likedPosts: function likedPosts(state) {
+      return state.likedPosts;
+    },
+    disLikedPosts: function disLikedPosts(state) {
+      return state.disLikedPosts;
+    }
+  },
+  mutations: {
+    showPost: function showPost(state, payload) {
+      state.post = payload;
+    },
+    fillLikedPosts: function fillLikedPosts(state, payload) {
+      state.likedPosts = payload;
+    },
+    fillDisLikedPosts: function fillDisLikedPosts(state, payload) {
+      state.disLikedPosts = payload;
+    },
+    addToLikedPosts: function addToLikedPosts(state, payload) {
+      var liked = state.likedPosts;
+      var disliked = state.disLikedPosts;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
+
+      if (disliked.indexOf(payload) != -1) {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.disLikedPosts, disliked.indexOf(payload), null);
+      }
+    },
+    addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
+      var liked = state.likedPosts;
+      var disliked = state.disLikedPosts;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
+
+      if (liked.indexOf(payload) != -1) {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.likedPosts, liked.indexOf(payload), null);
+      }
+    },
+    noAction: function noAction(state, payload) {
+      var liked = state.likedPosts;
+      var disliked = state.disLikedPosts;
+
+      if (liked.indexOf(payload) != -1) {
+        liked.splice(liked.indexOf(payload), 1); //Vue.set(liked,liked.indexOf(payload),null);
+
+        console.log('exist in liked and index is ', liked.indexOf(payload));
+      }
+
+      if (disliked.indexOf(payload) != -1) {
+        disliked.splice(disliked.indexOf(payload), 1); //Vue.set(disliked,disliked.indexOf(payload),null);
+
+        console.log('exist in disliked and index is ', disliked.indexOf(payload));
+      }
+    },
+    post: function post(state, payload) {
+      state.post = payload;
+    }
+  },
+  actions: {
+    createPost: function createPost(context, post, rootState) {
+      return new Promise(function (resolve, reject) {
+        axios.post("/api/post/create-post", post, {
+          headers: {
+            "Authorization": "Bearer  ".concat(context.rootState.authentication.userToken)
+          }
+        }).then(function (response) {
+          console.log(response);
+          return resolve();
+        }).catch(function (errors) {
+          console.log(errors);
+          console.log(errors.response);
+          return reject();
+        });
+      });
+    },
+    deletePost: function deletePost(context, post, rootState) {
+      axios.get("/api/post/delete-post/".concat(post.id), {
+        headers: {
+          Authorization: "Bearer ".concat(context.rootState.authentication.userToken)
+        }
+      }).then(function (response) {
+        console.log(response.data);
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    },
+    reactedPosts: function reactedPosts(context, commit, rootState) {
+      axios.post('/api/timeline/reacted-posts', {}, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        context.commit('fillLikedPosts', response.data.liked_posts);
+        context.commit('fillDisLikedPosts', response.data.disliked_posts);
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    },
+    postReact: function postReact(context, commit, rootState) {
+      if (commit.react == 'like') {
+        if (context.state.likedPosts.indexOf(commit.postId) == -1) {
+          context.commit('addToLikedPosts', commit.postId);
+        }
+      }
+
+      if (commit.react == 'dislike') {
+        if (context.state.disLikedPosts.indexOf(commit.postId) == -1) {
+          context.commit('addToDisLikedPosts', commit.postId);
+        }
+      }
+
+      axios.post('/api/timeline/react', {
+        post_id: commit.postId,
+        action: commit.react
+      }, {
+        headers: {
+          "Authorization": "Bearer ".concat(context.rootState.authentication.userToken)
+        }
+      }).then(function (response) {
+        if (response.data.result == 'like') {
+          console.log(response.data);
+          context.commit('updatePost', {
+            id: commit.postId,
+            updatedPost: response.data.updated_post
+          });
+          context.commit('showPost', response.data.updated_post);
+        }
+
+        if (response.data.result == 'dislike') {
+          console.log(response.data);
+          context.commit('updatePost', {
+            id: commit.postId,
+            updatedPost: response.data.updated_post
+          });
+          context.commit('showPost', response.data.updated_post);
+        }
+
+        if (response.data.result == null) {
+          console.log(response.data.result);
+          context.commit('updatePost', {
+            id: commit.postId,
+            updatedPost: response.data.updated_post
+          });
+          context.commit('noAction', commit.postId);
+          context.commit('showPost', response.data.updated_post);
+        }
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    showSinglePost: function showSinglePost(context, postId, rootState) {
+      axios.post("/api/timeline/post/", {
+        post_id: postId,
+        user_id: localStorage.getItem('user_id')
+      }, {
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        //push to liked post;
+        if (response.data.type != null) {
+          if (response.data.type.type_id == 'LIKE') {
+            //push to my liked posts
+            console.log('to liked');
+            context.commit('addToLikedPosts', postId);
+          }
+
+          if (response.data.type.type_id == 'DISLIKE') {
+            console.log('to disliked');
+            context.commit('addToDisLikedPosts', postId);
+          }
+        }
+
+        context.commit('showPost', response.data.post);
+        console.log('post loaded Successfully');
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -100146,10 +100176,114 @@ var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
 /*!***********************************************!*\
   !*** ./resources/js/store/modules/profile.js ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    showProfile: {
+      profile: 0
+    },
+    profileFollowers: [0, 0],
+    myPosts: []
+  },
+  getters: {
+    showProfile: function showProfile(state) {
+      return state.showProfile;
+    },
+    profileFollowers: function profileFollowers(state) {
+      return state.profileFollowers;
+    },
+    profilePosts: function profilePosts(state) {
+      return state.profilePosts;
+    }
+  },
+  mutations: {
+    showProfile: function showProfile(state, payload) {
+      if (!!payload.isMyProfile) {
+        state.showProfile = payload.profile;
+        state.isFollow = payload.isFollow;
+        state.profilePosts = payload.posts;
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
+        console.log('its mine');
+      } else {
+        state.showProfile = payload.profile;
+        state.isFollow = payload.isFollow;
+        state.profilePosts = payload.posts;
+        console.log('it doesnt mine');
+      }
+
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
+      state.following = Array.from(new Set(state.following));
+    },
+    truncateProfile: function truncateProfile(state) {
+      state.showProfile = [];
+      state.profileFollowers[0] = 0;
+      state.profileFollowers[1] = 0;
+      state.isFollow = null;
+      state.profilePosts = [];
+    },
+    loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
+      payload.map(function (val) {
+        return state.profilePosts.push(val);
+      });
+      state.myPosts = state.profilePosts;
+    }
+  },
+  actions: {
+    showProfile: function showProfile(context, displayName, rootState) {
+      axios.get("/api/user/".concat(displayName), {
+        headers: {
+          "Authorization": "Bearer ".concat(context.rootState.authentication.userToken)
+        }
+      }).then(function (response) {
+        console.log(response.data.followers);
+        console.log(response.data.following);
+
+        if (context.rootState.authentication.userId == response.data.profile.profile.user_id) {
+          var isMyProfile = true;
+        } else {
+          var isMyProfile = false;
+        }
+
+        context.commit('showProfile', {
+          isMyProfile: isMyProfile,
+          profile: response.data.profile,
+          posts: response.data.posts,
+          followers: response.data.followers,
+          following: response.data.following,
+          following_id: response.data.following_id,
+          isFollow: response.data.is_follow
+        });
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    },
+    showFans: function showFans(context, someData, rootState) {
+      axios.post('/api/timeline/my-fans', {}, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        console.log(50);
+        context.commit('fillMyFollowers', response.data.followers);
+        context.commit('fillMyFollowing', response.data.following);
+        context.commit('myFollowingIds', response.data.following_ids);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -100167,42 +100301,63 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    timeline: []
+    posts: []
   },
   getters: {
-    timeline: function timeline(state) {
-      return state.timeline;
+    posts: function posts(state) {
+      return state.posts;
     }
   },
   mutations: {
     fillMyTimeline: function fillMyTimeline(state, payload) {
-      state.showProfile = [];
-      state.isFollow = null;
-      state.profilePosts = [];
-      state.timeline = payload;
+      state.posts = payload;
     },
     truncateTimeline: function truncateTimeline(state) {
-      state.timeline = [];
+      state.posts = [];
     },
     loadMore: function loadMore(state, payload) {
       payload.map(function (value) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, state.timeline.length, value);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.posts, state.posts.length, value);
       });
-      state.timeline = Array.from(new Set(state.timeline));
+    },
+    updatePost: function updatePost(state, payload) {
+      var timelineposts = state.posts;
+      var postIndexInTimeline = timelineposts.findIndex(function (val) {
+        return val.id == payload.id;
+      });
+
+      if (postIndexInTimeline != -1) {
+        setTimeout(function () {
+          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.posts, postIndexInTimeline, payload.updatedPost);
+        }, 500);
+      }
     }
   },
   actions: {
-    timeline: function timeline(context) {
+    timeline: function timeline(context, commit, rootState) {
       axios.post('/api/timeline/posts', {}, {
         headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('access_token')),
+          "Authorization": "Bearer ".concat(context.rootState.authentication.userToken),
           "X-Requested-With": "XMLHttpRequest"
         }
       }).then(function (response) {
         console.log(response.data);
-        context.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
-        context.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
         context.commit('fillMyTimeline', response.data.posts);
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    },
+    loadMorePosts: function loadMorePosts(context, data, rootState) {
+      axios.post("/api/timeline/load-more", {
+        offset: data.offset
+      }, {
+        headers: {
+          "Authorization": "Bearer ".concat(context.rootState.authentication.userToken)
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        context.commit('loadMore', response.data.loaded_posts);
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
@@ -100239,88 +100394,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  //posts
-  fillMyPost: function fillMyPost(state, payload) {
-    state.myPosts = payload;
-  },
-  deletePost: function deletePost(state, payload) {
-    state.myPosts.splice(payload, 1);
-  },
-  fillLikedPosts: function fillLikedPosts(state, payload) {
-    state.likedPosts = payload;
-  },
-  fillDisLikedPosts: function fillDisLikedPosts(state, payload) {
-    state.disLikedPosts = payload;
-  },
-  addToLikedPosts: function addToLikedPosts(state, payload) {
-    var liked = state.likedPosts;
-    var disliked = state.disLikedPosts;
-
-    if (_typeof(payload) != "object") {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
-
-      if (disliked.indexOf(payload) != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.disLikedPosts, disliked.indexOf(payload), null);
-      }
-    } else {
-      payload.map(function (val) {
-        liked.push(val);
-      });
-    }
-  },
-  addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
-    console.log('typeof payload', _typeof(payload));
-    var liked = state.likedPosts;
-    var disliked = state.disLikedPosts;
-
-    if (_typeof(payload) !== "object") {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
-
-      if (liked.indexOf(payload) != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.likedPosts, liked.indexOf(payload), null);
-      }
-    } else {
-      payload.map(function (val) {
-        disliked.push(val);
-      });
-    }
-  },
-  noAction: function noAction(state, payload) {
-    var liked = state.likedPosts;
-    var disliked = state.disLikedPosts;
-
-    if (liked.indexOf(payload) !== -1) {
-      liked.splice(liked.indexOf(payload), 1);
-    }
-
-    if (disliked.indexOf(payload) !== -1) {
-      disliked.splice(disliked.indexOf(payload), 1);
-    }
-
-    state.likedPosts = Array.from(new Set(state.likedPosts));
-    state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
-  },
-  updatePost: function updatePost(state, payload) {
-    var timelineposts = state.timeline.timeline;
-    var profilePosts = state.profilePosts;
-    var postIndexInTimeline = timelineposts.findIndex(function (val) {
-      return val.id == payload.id;
-    });
-
-    if (postIndexInTimeline != -1) {
-      setTimeout(function () {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline.timeline, postIndexInTimeline, payload.updatedPost);
-      }, 500);
-    }
-
-    var postIndexInUserProfile = profilePosts.findIndex(function (val) {
-      return val.id == payload.id;
-    });
-
-    if (postIndexInUserProfile != -1) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
-    }
-  },
   //Notifications
   fillNotifications: function fillNotifications(state, payload) {
     state.notifications = payload;
@@ -100435,40 +100508,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.suggestedPeople = payload;
   },
   //profile
-  showProfile: function showProfile(state, payload) {
-    if (payload.profile.profile.user_id == state.authentication.userId) {
-      state.following = Array.from(new Set(state.following));
-      state.showProfile = payload.profile;
-      state.isFollow = payload.isFollow;
-      state.profilePosts = payload.posts;
-      state.myPosts = state.profilePosts;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
-      console.log('its mine');
-    } else {
-      state.showProfile = payload.profile;
-      state.isFollow = payload.isFollow;
-      state.profilePosts = payload.posts;
-      console.log('it doesnt mine');
-    }
-
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
-    state.following = Array.from(new Set(state.following));
-  },
-  truncateProfile: function truncateProfile(state) {
-    state.showProfile = [];
-    state.profileFollowers[0] = 0;
-    state.profileFollowers[1] = 0;
-    state.isFollow = null;
-    state.profilePosts = [];
-  },
-  loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
-    payload.map(function (val) {
-      return state.profilePosts.push(val);
-    });
-    state.myPosts = state.profilePosts;
-  },
   //trend
   trend: function trend(state) {
     state.trend = JSON.parse(localStorage.getItem('trend'));
@@ -100501,12 +100540,6 @@ var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
   unreadNotifications: false,
   //Countries
   countries: ['Turkey', 'Egypt', 'Filstin'],
-  //posts
-  posts: [],
-  myPosts: [],
-  likedPosts: [],
-  disLikedPosts: [],
-  publishingPostErrors: [],
   //Topics
   topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
   //trend
@@ -100520,13 +100553,7 @@ var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
   myFollowingIds: [],
   isFollow: null,
   //suggestion
-  suggestedPeople: [],
-  //profile
-  showProfile: {
-    profile: 0
-  },
-  profilePosts: [],
-  profileFollowers: [0, 0]
+  suggestedPeople: []
 });
 
 /***/ }),

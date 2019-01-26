@@ -14,12 +14,6 @@ export default{
       //Countries
       countries:['Turkey','Egypt','Filstin'],
 
-      //posts
-      posts:[],
-      myPosts:[],
-      likedPosts:[],
-      disLikedPosts:[],
-      publishingPostErrors:[],
 
       //Topics
       topics:['politics',
@@ -48,10 +42,6 @@ export default{
       //suggestion
       suggestedPeople:[],
 
-      //profile
-      showProfile:{profile:0},
-      profilePosts:[],
-      profileFollowers:[0,0],
 
 
 }

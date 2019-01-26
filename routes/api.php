@@ -23,7 +23,6 @@ Route::post('/confirm-verify','API\AdminController@approve');
 Route::get('user-profile/{user_id}',"API\ProfileController@get_user_profile")->middleware('auth:api');
 Route::get('user/{display_name}',"API\ProfileController@show_user_profile")->middleware('auth:api');
 Route::post('user-posts',"API\ProfileController@load_more_profile_posts")->middleware('auth:api');
-Route::post('user-reacted',"API\TimelineController@reacted_posts")->middleware('auth:api');
 Route::post('update-profile','API\ProfileController@update_profile')->middleware('auth:api');
 Route::post('update-email','API\AuthControllerApi@update_email')->middleware('auth:api');
 Route::post('change-email','API\AuthControllerApi@change_email')->middleware('auth:api');
@@ -49,7 +48,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'timeline'], function()
     Route::post('/my-following','API\FollowingController@my_following');
     Route::post('/my-followers','API\FollowingController@my_followers');
     Route::post('/followings','API\FollowingController@get_user_following');
-
+    Route::post('/reacted-posts','API\TimelineController@reacted_posts');
     Route::post('/notifications','API\TimelineController@fetch_notifications');
     Route::post('/unread-notifications','API\TimelineController@unread_notifications');
     Route::post('/load-more-notifications','API\TimelineController@load_more_notifications');
@@ -71,3 +70,4 @@ Route::group(['middleware'=>'auth:api','prefix'=>'trend'],function(){
       Route::post('posts','API\TrendController@show');
       Route::post('load-more','API\TrendController@load_more');
 });
+Route::get('/test_posts','API\TimelineController@test_posts');

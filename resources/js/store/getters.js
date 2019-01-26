@@ -7,20 +7,6 @@ export default{
   topics(state){
     return state.topics;
   },
-
-  posts(state){
-    return state.posts;
-  },
-  myPosts(state){
-    return state.myPosts;
-  },
-  likedPosts(state){
-    return  state.likedPosts;
-  },
-  disLikedPosts(state){
-    return  state.disLikedPosts;
-  },
-
   followers(state){
     return state.followers;
   },
@@ -40,19 +26,11 @@ export default{
     return state.myFollowingIds;
   },
 
-  showProfile(state){
-    return state.showProfile;
-  },
 
   isFollow(state){
     return state.isFollow;
   },
-  profileFollowers(state){
-      return  state.profileFollowers;
-  },
-  profilePosts(state){
-    return state.profilePosts;
-  },
+  
   notifications(state){
     return state.notifications;
   },

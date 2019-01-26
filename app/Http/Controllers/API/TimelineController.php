@@ -144,6 +144,27 @@ class TimelineController extends Controller
       return $other_posts;
     }
 
+
+        public function reacted_posts()
+        {
+            $liked_posts = DB::table('love_likes')
+            ->whereUserId(Auth::id())
+            ->where('type_id','LIKE')
+            ->offset(0)
+            ->limit(80000)
+            ->pluck('likeable_id');
+
+            $disliked_posts = DB::table('love_likes')
+            ->whereUserId(Auth::id())
+            ->where('type_id','DISLIKE')
+            ->offset(0)
+            ->limit(80000)
+            ->pluck('likeable_id');
+
+
+            return response()->json(['liked_posts'=>$liked_posts
+                                    ,'disliked_posts'=>$disliked_posts]);
+        }
       public function time_line_posts(Request $request)
       {
 
@@ -152,34 +173,15 @@ class TimelineController extends Controller
 
           if ($this->fetch_following_posts()->get()->count() != 0) {
 
-
               $posts =$this->fetch_following_posts()->get();
-              $loaded_posts_id =$this->fetch_following_posts()->pluck('id');
-
-
           }
 
           else{
             $posts = $this->fetch_other_posts()->get();
-            $loaded_posts_id =$this->fetch_other_posts()->pluck('id');
 
           }
 
-
-
-
-
-
-          $posts_liked_by_current_user = $this->liked_posts($loaded_posts_id);
-          $posts_disliked_by_current_user = $this->disliked_posts($loaded_posts_id);
-
-        return response()->json([
-
-        'posts'=>$posts,
-        'posts_liked_by_current_user'=>$posts_liked_by_current_user,
-        'posts_disliked_by_current_user'=>$posts_disliked_by_current_user,
-
-      ],201);
+        return response()->json(['posts'=>$posts],201);
     }
 
 
@@ -194,24 +196,18 @@ class TimelineController extends Controller
 
 
                   $posts =$this->fetch_following_posts($offset)->get();
-                  $loaded_posts_id =$this->fetch_following_posts($offset)->pluck('id');
 
 
               }
 
               else{
                 $posts = $this->fetch_other_posts($offset)->get();
-                $loaded_posts_id =$this->fetch_other_posts($offset)->pluck('id');
 
               }
 
 
       return response()->json(['offset'=>$offset,
-                              'loaded_posts'=>$posts,
-                              'following'=>$this->get_user_following(),
-                              'liked_posts'=>$this->liked_posts($loaded_posts_id),
-                              'disliked_posts'=>$this->disliked_posts($loaded_posts_id)
-                                ],201);
+                              'loaded_posts'=>$posts],201);
     }
 
 
@@ -289,44 +285,7 @@ class TimelineController extends Controller
           return response()->json(["isdis"=>$is_disliked_by_user,"is"=>$is_liked_by_user,"result"=>$result,"updated_post"=>$updated_post]);
     }
 
-      public function liked_posts($posts)
-      {
 
-                $posts_liked_by_current_user = post::whereLikedBy(Auth::id())
-                ->whereIn('id',$posts)
-                ->with('likesCounter')
-                ->pluck('id');
-
-                return $posts_liked_by_current_user;
-
-      }
-
-      public function disliked_posts($posts)
-      {
-
-                    $posts_disliked_by_current_user = post::whereDislikedBy(Auth::id())
-                    ->whereIn('id',$posts)
-                    ->with('dislikesCounter')
-                    ->pluck('id');
-
-                    return $posts_disliked_by_current_user;
-      }
-
-      public function reacted_posts(Request $request)
-      {
-
-      $posts_liked_by_current_user = $this->liked_posts();
-      $posts_disliked_by_current_user = $this->disliked_posts();
-
-
-              return response()->json([
-
-              'posts_liked_by_current_user'=>$posts_liked_by_current_user,
-              'posts_disliked_by_current_user'=>$posts_disliked_by_current_user,
-
-            ],201);
-
-    }
 
       public function fetch_notifications(Request $request)
       {
@@ -364,5 +323,6 @@ class TimelineController extends Controller
                                         ->get();
         return response()->json(['notifications'=>$more_notifications],201);
     }
+
 
 }
