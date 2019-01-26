@@ -14,9 +14,6 @@ export default{
       //Countries
       countries:['Turkey','Egypt','Filstin'],
 
-      //tryimeline
-      timeline:[],
-
       //posts
       posts:[],
       myPosts:[],

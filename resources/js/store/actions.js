@@ -40,29 +40,7 @@ export default {
           });
       },
 
-        timeline(context){
-          if(context.state.authentication.isLoggedIn){
-        axios.post('/api/timeline/posts',{},{
-          headers:{
-            "Authorization":`Bearer ${context.state.authentication.userToken}`,
-            "X-Requested-With":"XMLHttpRequest"
-          },
-
-        }).then((response)=>{
-
-
-            console.log(response.data);
-
-            context.commit('fillLikedPosts',response.data.posts_liked_by_current_user);
-            context.commit('fillDisLikedPosts',response.data.posts_disliked_by_current_user);
-            context.commit('fillMyTimeline',response.data.posts);
-
-        }).catch((errors)=>{
-            console.log(errors);
-            console.log(errors.response);
-        })}
-      },
-
+        
         loadMore(context,data){
 
           axios.post(`/api/${data.url}`,{

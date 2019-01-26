@@ -22,8 +22,6 @@ export default {
   mounted(){
     this.$store.dispatch('timeline');
     this.loadMore();
-
-
   },
   computed:{
           timelinePosts(){

@@ -94,7 +94,7 @@ export default{
 
   updatePost(state,payload){
 
-    let timelineposts = state.timeline;
+    let timelineposts = state.timeline.timeline;
     let profilePosts = state.profilePosts;
 
 
@@ -106,7 +106,7 @@ export default{
     if (postIndexInTimeline != -1) {
 
       setTimeout(function(){
-        Vue.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+        Vue.set(state.timeline.timeline, postIndexInTimeline, payload.updatedPost);
       },500)
     }
 
@@ -121,32 +121,7 @@ export default{
   },
 
 
-      fillMyTimeline(state,payload){
 
-          state.showProfile = [];
-          state.isFollow = null;
-          state.profilePosts = [];
-          state.timeline = payload;
-
-        //state.timeline = Array.from(new Set(state.timeline));
-
-        },
-
-        loadMore(state,payload){
-
-            payload.map((value)=>{
-              //state.timeline.push(value);
-              Vue.set(state.timeline, state.timeline.length,value);
-
-            });
-
-            state.timeline = Array.from(new Set(state.timeline));
-
-        },
-
-        truncateTimeline(state){
-          state.timeline = [];
-        },
 
   //Notifications
     fillNotifications(state,payload){

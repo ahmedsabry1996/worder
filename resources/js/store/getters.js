@@ -14,9 +14,6 @@ export default{
   myPosts(state){
     return state.myPosts;
   },
-  timeline(state){
-    return state.timeline;
-  },
   likedPosts(state){
     return  state.likedPosts;
   },

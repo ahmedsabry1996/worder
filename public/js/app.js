@@ -17588,7 +17588,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -99608,24 +99608,6 @@ __webpack_require__.r(__webpack_exports__);
       console.log(errors.response);
     });
   },
-  timeline: function timeline(context) {
-    if (context.state.authentication.isLoggedIn) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/posts', {}, {
-        headers: {
-          "Authorization": "Bearer ".concat(context.state.authentication.userToken),
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      }).then(function (response) {
-        console.log(response.data);
-        context.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
-        context.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
-        context.commit('fillMyTimeline', response.data.posts);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    }
-  },
   loadMore: function loadMore(context, data) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(data.url), {
       offset: data.offset,
@@ -99798,9 +99780,6 @@ __webpack_require__.r(__webpack_exports__);
   myPosts: function myPosts(state) {
     return state.myPosts;
   },
-  timeline: function timeline(state) {
-    return state.timeline;
-  },
   likedPosts: function likedPosts(state) {
     return state.likedPosts;
   },
@@ -99874,7 +99853,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/notifications */ "./resources/js/store/modules/notifications.js");
 /* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_modules_notifications__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/timeline */ "./resources/js/store/modules/timeline.js");
-/* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_modules_timeline__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
 /* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_modules_posts__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
@@ -99901,7 +99879,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   modules: {
-    authentication: _modules_authentication__WEBPACK_IMPORTED_MODULE_6__["default"]
+    authentication: _modules_authentication__WEBPACK_IMPORTED_MODULE_6__["default"],
+    timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -100178,10 +100157,59 @@ var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
 /*!************************************************!*\
   !*** ./resources/js/store/modules/timeline.js ***!
   \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    timeline: []
+  },
+  getters: {
+    timeline: function timeline(state) {
+      return state.timeline;
+    }
+  },
+  mutations: {
+    fillMyTimeline: function fillMyTimeline(state, payload) {
+      state.showProfile = [];
+      state.isFollow = null;
+      state.profilePosts = [];
+      state.timeline = payload;
+    },
+    truncateTimeline: function truncateTimeline(state) {
+      state.timeline = [];
+    },
+    loadMore: function loadMore(state, payload) {
+      payload.map(function (value) {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, state.timeline.length, value);
+      });
+      state.timeline = Array.from(new Set(state.timeline));
+    }
+  },
+  actions: {
+    timeline: function timeline(context) {
+      axios.post('/api/timeline/posts', {}, {
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.getItem('access_token')),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        context.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
+        context.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
+        context.commit('fillMyTimeline', response.data.posts);
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -100273,7 +100301,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.disLikedPosts = Array.from(new Set(state.disLikedPosts));
   },
   updatePost: function updatePost(state, payload) {
-    var timelineposts = state.timeline;
+    var timelineposts = state.timeline.timeline;
     var profilePosts = state.profilePosts;
     var postIndexInTimeline = timelineposts.findIndex(function (val) {
       return val.id == payload.id;
@@ -100281,7 +100309,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     if (postIndexInTimeline != -1) {
       setTimeout(function () {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, postIndexInTimeline, payload.updatedPost);
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline.timeline, postIndexInTimeline, payload.updatedPost);
       }, 500);
     }
 
@@ -100292,22 +100320,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     if (postIndexInUserProfile != -1) {
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
     }
-  },
-  fillMyTimeline: function fillMyTimeline(state, payload) {
-    state.showProfile = [];
-    state.isFollow = null;
-    state.profilePosts = [];
-    state.timeline = payload; //state.timeline = Array.from(new Set(state.timeline));
-  },
-  loadMore: function loadMore(state, payload) {
-    payload.map(function (value) {
-      //state.timeline.push(value);
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.timeline, state.timeline.length, value);
-    });
-    state.timeline = Array.from(new Set(state.timeline));
-  },
-  truncateTimeline: function truncateTimeline(state) {
-    state.timeline = [];
   },
   //Notifications
   fillNotifications: function fillNotifications(state, payload) {
@@ -100489,8 +100501,6 @@ var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
   unreadNotifications: false,
   //Countries
   countries: ['Turkey', 'Egypt', 'Filstin'],
-  //tryimeline
-  timeline: [],
   //posts
   posts: [],
   myPosts: [],

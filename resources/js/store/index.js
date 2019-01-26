@@ -17,7 +17,8 @@ import createMutationsSharer from 'vuex-shared-mutations';
 export default {
 
   modules:{
-    authentication
+    authentication,
+    timeline
   },
 
   state,
