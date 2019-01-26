@@ -160,7 +160,7 @@ methods:{
   },
 
   updateEmail(){
-      const currentUserEmail= this.$store.state.currentUser.email;
+      const currentUserEmail= this.$store.state.authentication.currentUser.email;
     if (this.email != currentUserEmail && this.email.length > 0) {
         axios.post('/api/update-email',{
           email:this.email,
@@ -218,7 +218,7 @@ methods:{
     }
   },
   forgetPasswrd(){
-    const currentUserEmail= this.$store.state.currentUser.email;
+    const currentUserEmail= this.$store.state.authentication.currentUser.email;
 
     let sendVerificationCode = confirm(`${this.$t('sendto')} ${currentUserEmail} ?`);
     if (sendVerificationCode) {
@@ -245,7 +245,7 @@ methods:{
   },
 
   isCorrectPassword(){
-    const currentUserPassword =this.$store.state.currentUser.original_password;
+    const currentUserPassword =this.$store.state.authentication.currentUser.original_password;
     if (this.password == currentUserPassword) {
         this.correctOldPassowrd = true;
     }
@@ -256,7 +256,7 @@ methods:{
   },
 
   changePassword(){
-    const currentUserPassword =this.$store.state.currentUser.original_password;
+    const currentUserPassword =this.$store.state.authentication.currentUser.original_password;
 
     if (this.correctOldPassowrd) {
       if (this.newPassowrd.length >= 6 && this.confirmPassword.length >=6) {

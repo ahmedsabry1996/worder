@@ -158,7 +158,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: '',
       displayName: '',
-      avatar: "storage/avatars/".concat(this.$store.state.currentUserProfile.avatar),
+      avatar: "storage/avatars/".concat(this.$store.state.authentication.currentUserProfile.avatar),
       avatarState: 'same',
       gender: [this.$t('male'), this.$t('female')],
       topics: this.$store.state.topics,
@@ -212,12 +212,12 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push('/');
     },
     fillUserData: function fillUserData() {
-      var topics = this.$store.state.currentUserTopics;
+      var topics = this.$store.state.authentication.currentUserTopics;
       var topics_id = topics.map(function (val) {
         return val.pivot.topic_id;
       });
-      var currentUserProfile = this.$store.state.currentUserProfile;
-      var currentUser = this.$store.state.currentUser;
+      var currentUserProfile = this.$store.state.authentication.currentUserProfile;
+      var currentUser = this.$store.state.authentication.currentUser;
       this.selectedTopics = topics_id;
       this.selectedGender = currentUserProfile.gender_id;
       this.selectedCountry = currentUserProfile.country_id;

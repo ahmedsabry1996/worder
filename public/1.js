@@ -167,7 +167,7 @@ __webpack_require__.r(__webpack_exports__);
     updateEmail: function updateEmail() {
       var _this = this;
 
-      var currentUserEmail = this.$store.state.currentUser.email;
+      var currentUserEmail = this.$store.state.authentication.currentUser.email;
 
       if (this.email != currentUserEmail && this.email.length > 0) {
         axios.post('/api/update-email', {
@@ -223,7 +223,7 @@ __webpack_require__.r(__webpack_exports__);
     forgetPasswrd: function forgetPasswrd() {
       var _this3 = this;
 
-      var currentUserEmail = this.$store.state.currentUser.email;
+      var currentUserEmail = this.$store.state.authentication.currentUser.email;
       var sendVerificationCode = confirm("".concat(this.$t('sendto'), " ").concat(currentUserEmail, " ?"));
 
       if (sendVerificationCode) {
@@ -245,7 +245,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     isCorrectPassword: function isCorrectPassword() {
-      var currentUserPassword = this.$store.state.currentUser.original_password;
+      var currentUserPassword = this.$store.state.authentication.currentUser.original_password;
 
       if (this.password == currentUserPassword) {
         this.correctOldPassowrd = true;
@@ -258,7 +258,7 @@ __webpack_require__.r(__webpack_exports__);
     changePassword: function changePassword() {
       var _this4 = this;
 
-      var currentUserPassword = this.$store.state.currentUser.original_password;
+      var currentUserPassword = this.$store.state.authentication.currentUser.original_password;
 
       if (this.correctOldPassowrd) {
         if (this.newPassowrd.length >= 6 && this.confirmPassword.length >= 6) {

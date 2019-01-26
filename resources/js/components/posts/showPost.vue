@@ -243,7 +243,7 @@ export default {
         user_id:localStorage.getItem('user_id')
     },{
       headers:{
-        "Authorization":`Bearer ${this.$store.state.userToken}`,
+        "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
       }
     })
     .then((response)=>{
@@ -256,12 +256,12 @@ export default {
 
               //push to my liked posts
               console.log('to liked');
-              this.$store.commit('addToLikedPosts',Number(this.$route.params.postId))
+              this.$store.commit('addToLikedPosts',(this.$route.params.postId))
         }
 
         if (response.data.type.type_id == 'DISLIKE') {
             console.log('to disliked');
-            this.$store.commit('addToDisLikedPosts',Number(this.$route.params.postId));
+            this.$store.commit('addToDisLikedPosts',(this.$route.params.postId));
         }
 
       }
@@ -286,7 +286,7 @@ export default {
            post_id:`${this.$route.params.postId}`
        },{
          headers:{
-           "Authorization":`Bearer ${this.$store.state.userToken}`,
+           "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
          }
        })
        .then((response)=>{
@@ -312,7 +312,7 @@ export default {
        },
        {
          headers:{
-           "Authorization":`Bearer ${this.$store.state.userToken}`,
+           "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
          }
        })
        .then((response)=>{
@@ -320,7 +320,7 @@ export default {
          if (response.data.result == 'like') {
 
              console.log(response.data);
-             this.$store.commit('updatePost',{id:Number(postId),updatedPost:response.data.updated_post});
+             this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
 
 
          }
@@ -328,15 +328,15 @@ export default {
          if (response.data.result == 'dislike') {
 
                  console.log(response.data);
-                 this.$store.commit('updatePost',{id:Number(postId),updatedPost:response.data.updated_post});
+                 this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
 
          }
 
          if (response.data.result == null) {
 
              console.log(response.data);
-             this.$store.commit('updatePost',{id:Number(postId),updatedPost:response.data.updated_post});
-             this.$store.commit('noAction',Number(postId));
+             this.$store.commit('updatePost',{id:(postId),updatedPost:response.data.updated_post});
+             this.$store.commit('noAction',(postId));
 
          }
         this.post = response.data.updated_post;

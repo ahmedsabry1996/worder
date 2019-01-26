@@ -258,7 +258,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       user_id: localStorage.getItem('user_id')
     }, {
       headers: {
-        "Authorization": "Bearer ".concat(this.$store.state.userToken)
+        "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
       }
     }).then(function (response) {
       //push to liked post;
@@ -267,13 +267,13 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           //push to my liked posts
           console.log('to liked');
 
-          _this.$store.commit('addToLikedPosts', Number(_this.$route.params.postId));
+          _this.$store.commit('addToLikedPosts', _this.$route.params.postId);
         }
 
         if (response.data.type.type_id == 'DISLIKE') {
           console.log('to disliked');
 
-          _this.$store.commit('addToDisLikedPosts', Number(_this.$route.params.postId));
+          _this.$store.commit('addToDisLikedPosts', _this.$route.params.postId);
         }
       }
 
@@ -296,7 +296,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         post_id: "".concat(this.$route.params.postId)
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.userToken)
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         _this2.post = response.data.post;
@@ -320,14 +320,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         action: react
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.userToken)
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         if (response.data.result == 'like') {
           console.log(response.data);
 
           _this3.$store.commit('updatePost', {
-            id: Number(postId),
+            id: postId,
             updatedPost: response.data.updated_post
           });
         }
@@ -336,7 +336,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           console.log(response.data);
 
           _this3.$store.commit('updatePost', {
-            id: Number(postId),
+            id: postId,
             updatedPost: response.data.updated_post
           });
         }
@@ -345,11 +345,11 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           console.log(response.data);
 
           _this3.$store.commit('updatePost', {
-            id: Number(postId),
+            id: postId,
             updatedPost: response.data.updated_post
           });
 
-          _this3.$store.commit('noAction', Number(postId));
+          _this3.$store.commit('noAction', postId);
         }
 
         _this3.post = response.data.updated_post;

@@ -148,7 +148,7 @@ export default {
   return {
     name:'',
     displayName:'',
-    avatar:`storage/avatars/${this.$store.state.currentUserProfile.avatar}`,
+    avatar:`storage/avatars/${this.$store.state.authentication.currentUserProfile.avatar}`,
     avatarState : 'same',
     gender:[this.$t('male'),this.$t('female')],
     topics:this.$store.state.topics,
@@ -210,13 +210,13 @@ export default {
         this.$router.push('/');
     },
     fillUserData(){
-      let topics = this.$store.state.currentUserTopics;
+      let topics = this.$store.state.authentication.currentUserTopics;
         const topics_id = topics.map((val)=>{
           return val.pivot.topic_id;
         });
 
-        const currentUserProfile = this.$store.state.currentUserProfile;
-        const currentUser = this.$store.state.currentUser;
+        const currentUserProfile = this.$store.state.authentication.currentUserProfile;
+        const currentUser = this.$store.state.authentication.currentUser;
         this.selectedTopics = topics_id;
         this.selectedGender = currentUserProfile.gender_id;
         this.selectedCountry = currentUserProfile.country_id;
