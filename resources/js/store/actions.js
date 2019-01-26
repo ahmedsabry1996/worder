@@ -1,82 +1,5 @@
 import axios from 'axios';
 export default {
-
-
-        signup(context,credionals){
-
-        return new Promise ((resolve,reject)=>{
-
-            axios.post("/api/auth/signup",credionals)
-            .then((response)=>{
-
-              console.log(response.data);
-
-              localStorageSettter('current_user',JSON.stringify(response.data.user))
-              localStorageSettter('access_token',response.data.access_token.accessToken);
-              localStorageSettter('verification_code',response.data.verification_code);
-              localStorageSettter('user_id',response.data.user.id);
-              context.commit('signupSuccess');
-              resolve();
-
-            })
-            .catch((errors)=>{
-
-                console.log(errors.response);
-                console.log(errors.response.data.errors);
-                context.commit('signupFails',errors.response.data.errors);
-                reject();
-            })
-        })
-      },
-
-    //for signup
-        confrimEmail(context){
-            let userId = (context.state.currentUser).id;
-                axios.post("/api/auth/verify/"+userId)
-                .then((response)=>{
-                  console.log(response);
-                  localStorageSettter("user_id",userId);
-                  localStorageSettter("is_verified",1);
-                  context.commit('verified');
-
-                })
-                .catch((errors)=>{
-                  console.log(errors.response);
-                });
-
-      },
-
-    //the 3rd condition in login
-        sendVerificationCode(context,email,token){
-
-                return new Promise(function(resolve, reject) {
-                  axios.post("/api/auth/sendcode",{
-                    email,
-                  },{
-                    headers:{
-                      "Authorization":`Bearer ${token}`
-                    }
-                  })
-                  .then((response)=>{
-                    console.log(response.data);
-                    localStorageSettter('verification_code',response.data.verification_code);
-                    context.commit('signupSuccess');
-                    resolve()
-                  })
-
-                  .catch((errors)=>{
-                    console.log(errors.response);
-                  })
-                });
-            },
-
-        accountCreated(context){
-
-              localStorage.removeItem('verification_code');
-              localStorage.setItem('has_profile',"1");
-              context.commit('accountCreated');
-    },
-
         createPost(context,post){
 
 
@@ -84,7 +7,7 @@ export default {
           axios.post("/api/post/create-post",post,
           {
             headers:{
-              "Authorization": `Bearer  ${context.state.userToken}`,
+              "Authorization": `Bearer  ${context.state.authentication.userToken}`,
             }
           }
           )
@@ -107,7 +30,7 @@ export default {
           axios.get(`/api/post/delete-post/${post.id}`,
           {
             headers:{
-              Authorization:`Bearer ${context.state.userToken}`,
+              Authorization:`Bearer ${context.state.authentication.userToken}`,
             },
           }).then((response)=>{
               console.log(response.data);
@@ -118,10 +41,10 @@ export default {
       },
 
         timeline(context){
-          if(context.state.isLoggedIn){
+          if(context.state.authentication.isLoggedIn){
         axios.post('/api/timeline/posts',{},{
           headers:{
-            "Authorization":`Bearer ${context.state.userToken}`,
+            "Authorization":`Bearer ${context.state.authentication.userToken}`,
             "X-Requested-With":"XMLHttpRequest"
           },
 
@@ -147,7 +70,7 @@ export default {
               user_id:data.userId
           },{
             headers:{
-              "Authorization":`Bearer ${context.state.userToken}`,
+              "Authorization":`Bearer ${context.state.authentication.userToken}`,
             }
           })
           .then((response)=>{
@@ -182,7 +105,7 @@ export default {
 
               axios.post('/api/timeline/notifications',{},{
                 headers:{
-                  "Authorization":`Bearer ${context.state.userToken}`
+                  "Authorization":`Bearer ${context.state.authentication.userToken}`
                 }
               }).then((response)=>{
 
@@ -198,7 +121,7 @@ export default {
         unreadNotifications(context){
           axios.post('/api/timeline/unread-notifications',{},{
             headers:{
-              Authorization:`Bearer ${context.state.userToken}`
+              Authorization:`Bearer ${context.state.authentication.userToken}`
             },
           })
           .then((response)=>{
@@ -217,7 +140,7 @@ export default {
       axios.get('/api/timeline/suggest-people',{
           headers:{
 
-          "Authorization" :`Bearer ${context.state.userToken}`
+          "Authorization" :`Bearer ${context.state.authentication.userToken}`
 
           }
       })
@@ -250,7 +173,7 @@ export default {
         },{
 
           headers:{
-            "Authorization" : `Bearer ${context.state.userToken}`
+            "Authorization" : `Bearer ${context.state.authentication.userToken}`
           }
         })
         .then((response)=>{
@@ -282,7 +205,7 @@ export default {
 
             axios.get(`/api/user/${displayName}`,{
               headers:{
-                "Authorization" :`Bearer ${context.state.userToken}`
+                "Authorization" :`Bearer ${context.state.authentication.userToken}`
               }
             })
             .then((response)=>{

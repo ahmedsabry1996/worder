@@ -107,7 +107,7 @@ export const routes = [
     component:Createprofile,
     name:"create-profile",
     beforeEnter:((to,from,next)=>{
-      if (from.path == '/signup' || (store.state.hasProfile == 0 && store.state.isVerified == 1) ) {
+      if (from.path == '/signup' || (store.state.authentication.hasProfile == 0 && store.state.authentication.isVerified == 1) ) {
             next();
       }
 

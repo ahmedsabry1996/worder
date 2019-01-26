@@ -54,7 +54,7 @@ export default {
 
     computed:{
         getFollowers(){
-          return this.$stroe.getters.followers;
+          return this.$store.getters.followers;
         },
         getFollowing(){
           return this.$store.getters.following;

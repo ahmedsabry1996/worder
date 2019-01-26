@@ -391,7 +391,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       followingOffset: 0,
       displayName: this.$route.params.name,
       newDisp: this.$route.params.name,
-      currentUserDisplayName: this.$store.state.currentUserProfile.display_name,
+      currentUserDisplayName: this.$store.state.authentication.currentUserProfile.display_name,
       showModal: true,
       likers: [],
       dislikers: []
@@ -415,7 +415,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   created: function created() {
     this.$store.dispatch('showProfile', this.displayName);
 
-    if (this.$route.params.name == this.$store.state.currentUserProfile.display_name) {
+    if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
     }
   },
@@ -580,7 +580,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         action: react
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.userToken)
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         console.log("ee", response.data.updated_post);
@@ -668,7 +668,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user-reacted', null, {
         headers: {
-          'Authorization': "Bearer ".concat(this.$store.state.userToken)
+          'Authorization': "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         console.log(response.data.posts_liked_by_current_user);

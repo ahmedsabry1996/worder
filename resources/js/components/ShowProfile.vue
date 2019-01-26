@@ -4,7 +4,7 @@
       <div class="row">
       <div class="col-md-6 pc">
         <div class="card">
-            <img  :src="`/storage/avatars/${showProfile.profile.avatar}`"                       :alt="showProfile.profile.display_name"
+            <img  :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
             style="width:100%">
 
       <p  v-if="showProfile.profile.is_verified == 1"
@@ -378,7 +378,7 @@ export default {
         followingOffset:0,
         displayName:this.$route.params.name,
         newDisp :this.$route.params.name,
-        currentUserDisplayName : this.$store.state.currentUserProfile.display_name,
+        currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         showModal:true,
         likers:[],
         dislikers:[]
@@ -407,7 +407,7 @@ export default {
   },
   created(){
     this.$store.dispatch('showProfile',this.displayName);
-    if (this.$route.params.name == this.$store.state.currentUserProfile.display_name) {
+    if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
 
     }
@@ -584,7 +584,7 @@ export default {
       },
       {
         headers:{
-          "Authorization":`Bearer ${this.$store.state.userToken}`,
+          "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
 
         }
       })
@@ -668,7 +668,7 @@ export default {
   loadreactedPosts(){
     axios.post('/api/user-reacted',null,{
       headers:{
-        'Authorization':`Bearer ${this.$store.state.userToken}`
+        'Authorization':`Bearer ${this.$store.state.authentication.userToken}`
       }
     })
     .then((response)=>{

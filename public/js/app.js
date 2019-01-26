@@ -12497,7 +12497,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     getFollowers: function getFollowers() {
-      return this.$stroe.getters.followers;
+      return this.$store.getters.followers;
     },
     getFollowing: function getFollowing() {
       return this.$store.getters.following;
@@ -13143,7 +13143,7 @@ __webpack_require__.r(__webpack_exports__);
         action: react
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.userToken)
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         if (response.data.result == 'like') {
@@ -79840,10 +79840,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "text-left trend-link",
-                attrs: {
-                  exact: "",
-                  to: { name: "trend", params: { word: key } }
-                }
+                attrs: { to: "/trend/" + key, exact: "" }
               },
               [_vm._v("\n              " + _vm._s(key) + "\n          ")]
             ),
@@ -97842,7 +97839,7 @@ router.beforeEach(function (to, from, next) {
   window.scrollTo(0, 0);
 
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
-    if (store.state.isLoggedIn == true && store.state.hasProfile == "1" && store.state.isVerified == "1") {
+    if (store.state.authentication.isLoggedIn == true && store.state.authentication.hasProfile == "1" && store.state.authentication.isVerified == "1") {
       next();
     } else {
       console.log("need to v or p or lo");
@@ -99535,7 +99532,7 @@ var routes = [{
   component: Createprofile,
   name: "create-profile",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (from.path == '/signup' || store.state.hasProfile == 0 && store.state.isVerified == 1) {
+    if (from.path == '/signup' || store.state.authentication.hasProfile == 0 && store.state.authentication.isVerified == 1) {
       next();
     } else {
       console.log(from);
@@ -99583,65 +99580,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  signup: function signup(context, credionals) {
-    return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/signup", credionals).then(function (response) {
-        console.log(response.data);
-        localStorageSettter('current_user', JSON.stringify(response.data.user));
-        localStorageSettter('access_token', response.data.access_token.accessToken);
-        localStorageSettter('verification_code', response.data.verification_code);
-        localStorageSettter('user_id', response.data.user.id);
-        context.commit('signupSuccess');
-        resolve();
-      }).catch(function (errors) {
-        console.log(errors.response);
-        console.log(errors.response.data.errors);
-        context.commit('signupFails', errors.response.data.errors);
-        reject();
-      });
-    });
-  },
-  //for signup
-  confrimEmail: function confrimEmail(context) {
-    var userId = context.state.currentUser.id;
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/verify/" + userId).then(function (response) {
-      console.log(response);
-      localStorageSettter("user_id", userId);
-      localStorageSettter("is_verified", 1);
-      context.commit('verified');
-    }).catch(function (errors) {
-      console.log(errors.response);
-    });
-  },
-  //the 3rd condition in login
-  sendVerificationCode: function sendVerificationCode(context, email, token) {
-    return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/auth/sendcode", {
-        email: email
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        console.log(response.data);
-        localStorageSettter('verification_code', response.data.verification_code);
-        context.commit('signupSuccess');
-        resolve();
-      }).catch(function (errors) {
-        console.log(errors.response);
-      });
-    });
-  },
-  accountCreated: function accountCreated(context) {
-    localStorage.removeItem('verification_code');
-    localStorage.setItem('has_profile', "1");
-    context.commit('accountCreated');
-  },
   createPost: function createPost(context, post) {
     return new Promise(function (resolve, reject) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/post/create-post", post, {
         headers: {
-          "Authorization": "Bearer  ".concat(context.state.userToken)
+          "Authorization": "Bearer  ".concat(context.state.authentication.userToken)
         }
       }).then(function (response) {
         console.log(response);
@@ -99656,7 +99599,7 @@ __webpack_require__.r(__webpack_exports__);
   deletePost: function deletePost(context, post) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/post/delete-post/".concat(post.id), {
       headers: {
-        Authorization: "Bearer ".concat(context.state.userToken)
+        Authorization: "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       console.log(response.data);
@@ -99666,10 +99609,10 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   timeline: function timeline(context) {
-    if (context.state.isLoggedIn) {
+    if (context.state.authentication.isLoggedIn) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/posts', {}, {
         headers: {
-          "Authorization": "Bearer ".concat(context.state.userToken),
+          "Authorization": "Bearer ".concat(context.state.authentication.userToken),
           "X-Requested-With": "XMLHttpRequest"
         }
       }).then(function (response) {
@@ -99689,7 +99632,7 @@ __webpack_require__.r(__webpack_exports__);
       user_id: data.userId
     }, {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       console.log(response.data); //timeline posts
@@ -99713,7 +99656,7 @@ __webpack_require__.r(__webpack_exports__);
   getNotifications: function getNotifications(context) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/notifications', {}, {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       console.log(response.data);
@@ -99726,7 +99669,7 @@ __webpack_require__.r(__webpack_exports__);
   unreadNotifications: function unreadNotifications(context) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/unread-notifications', {}, {
       headers: {
-        Authorization: "Bearer ".concat(context.state.userToken)
+        Authorization: "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       if (response.data.unread) {
@@ -99740,7 +99683,7 @@ __webpack_require__.r(__webpack_exports__);
   suggestPeople: function suggestPeople(context) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/timeline/suggest-people', {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       //console.log("sugg",response.data);
@@ -99766,7 +99709,7 @@ __webpack_require__.r(__webpack_exports__);
       followed_id: payload.followed_id
     }, {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       var action = response.data.action;
@@ -99796,7 +99739,7 @@ __webpack_require__.r(__webpack_exports__);
   showProfile: function showProfile(context, displayName) {
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/user/".concat(displayName), {
       headers: {
-        "Authorization": "Bearer ".concat(context.state.userToken)
+        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
       }
     }).then(function (response) {
       console.log(response.data.followers);
@@ -99843,33 +99786,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  isLoggedIn: function isLoggedIn(state) {
-    return state.isLoggedIn;
-  },
-  currentUser: function currentUser(state) {
-    return state.currentUser;
-  },
-  currentUserProfile: function currentUserProfile(state) {
-    return state.currentUserProfile;
-  },
-  currentUserTopics: function currentUserTopics(state) {
-    return state.currentUserTopics;
-  },
-  userToken: function userToken(state) {
-    return state.userToken;
-  },
-  signupErrors: function signupErrors(state) {
-    return state.signupErrors;
-  },
-  verificationCode: function verificationCode(state) {
-    return state.verificationCode;
-  },
-  isVerified: function isVerified(state) {
-    return state.isVerified;
-  },
-  hasProfile: function hasProfile(state) {
-    return state.hasProfile;
-  },
   countries: function countries(state) {
     return state.countries;
   },
@@ -99954,8 +99870,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getters */ "./resources/js/store/getters.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions */ "./resources/js/store/actions.js");
 /* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _modules_authentication__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/authentication */ "./resources/js/store/modules/authentication.js");
+/* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/notifications */ "./resources/js/store/modules/notifications.js");
+/* harmony import */ var _modules_notifications__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_modules_notifications__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/timeline */ "./resources/js/store/modules/timeline.js");
+/* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_modules_timeline__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
+/* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_modules_posts__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
+/* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_modules_profile__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
+/* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_trend__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
+/* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_modules_following__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__);
+
+
+
+
+
+
+
 
 
 
@@ -99964,14 +99900,299 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  modules: {
+    authentication: _modules_authentication__WEBPACK_IMPORTED_MODULE_6__["default"]
+  },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
   actions: _actions__WEBPACK_IMPORTED_MODULE_4__["default"],
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_5__["default"],
-  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_6___default()({
+  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default()({
     predicate: ['signupSuccess', 'loginSuccess', 'verified', 'addToLikedPosts', 'addToDisLikedPosts', 'fillDisLikedPosts', 'fillLikedPosts', 'updatePost', 'noAction', 'logout', 'truncateProfile', 'addToFollowing', 'removeFromFollowing', 'addToMyFollowing', 'removeFromMyFollowing', 'showProfile', 'loadMoreProfilePosts', 'isFollow']
   })]
 });
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/authentication.js":
+/*!******************************************************!*\
+  !*** ./resources/js/store/modules/authentication.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../auth */ "./resources/js/auth.js");
+/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../localstorage.js */ "./resources/js/localstorage.js");
+
+
+var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUser"])();
+var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserProfile"])();
+var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserTopics"])();
+var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userToken"])();
+var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["isVerified"])();
+var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["verificationCode"])();
+var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userId"])();
+var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["hasProfile"])();
+var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["email"])();
+var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    //Authentication
+    isLoggedIn: !!USER,
+    signupErrors: null,
+    currentUser: USER,
+    currentUserProfile: USER_PROFILE,
+    currentUserTopics: USER_TOPICS,
+    userToken: ACCESS_TOKEN,
+    isVerified: IS_VERIFIED,
+    verificationCode: VERIFICATION_CODE,
+    hasProfile: HAS_PROFILE,
+    userId: USER_ID,
+    email: EMAIL,
+    password: PASSWORD
+  },
+  getters: {
+    isLoggedIn: function isLoggedIn(state) {
+      return state.isLoggedIn;
+    },
+    currentUser: function currentUser(state) {
+      return state.currentUser;
+    },
+    currentUserProfile: function currentUserProfile(state) {
+      return state.currentUserProfile;
+    },
+    currentUserTopics: function currentUserTopics(state) {
+      return state.currentUserTopics;
+    },
+    userToken: function userToken(state) {
+      return state.userToken;
+    },
+    signupErrors: function signupErrors(state) {
+      return state.signupErrors;
+    },
+    verificationCode: function verificationCode(state) {
+      return state.verificationCode;
+    },
+    isVerified: function isVerified(state) {
+      return state.isVerified;
+    },
+    hasProfile: function hasProfile(state) {
+      return state.hasProfile;
+    }
+  },
+  mutations: {
+    //Authentication
+    signupFails: function signupFails(state, payload) {
+      state.signupErrors = payload;
+    },
+    signupSuccess: function signupSuccess(state) {
+      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+      state.userToken = localStorage.getItem("access_token");
+      state.verificationCode = localStorage.getItem("verification_code");
+      state.userId = localStorage.getItem('user_id');
+      state.signupErrors = null;
+    },
+    verified: function verified(state) {
+      state.isVerified = localStorage.getItem('is_verified');
+      state.userId = localStorage.getItem('user_id');
+      state.isLoggedIn = true;
+      state.signupErrors = null;
+    },
+    accountCreated: function accountCreated(state) {
+      state.verificationCode = localStorage.getItem("verification_code");
+      state.hasProfile = localStorage.getItem('has_profile');
+    },
+    loginSuccess: function loginSuccess(state, payload) {
+      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+      state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
+      state.missedNotifications = payload;
+      state.userToken = localStorage.getItem("access_token");
+      state.hasProfile = localStorage.getItem('has_profile');
+      state.isVerified = localStorage.getItem('is_verified');
+      state.userId = localStorage.getItem('user_id');
+      state.isLoggedIn = !!state.currentUser;
+      state.loginErrors = null;
+    },
+    userHasProfile: function userHasProfile(state) {
+      state.hasProfile = localStorage.getItem('has_profile');
+    },
+    needProfile: function needProfile(state) {
+      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+      state.isVerified = localStorage.getItem('is_verified');
+      state.hasProfile = localStorage.getItem('has_profile');
+      state.userToken = localStorage.getItem("access_token");
+      state.userId = localStorage.getItem("user_id");
+      state.isLoggedIn = !!localStorage.getItem("current_user");
+      state.loginErrors = null;
+    },
+    userCredionals: function userCredionals(state) {
+      state.email = localStorage.getItem('email');
+      state.password = localStorage.getItem('password');
+    },
+    updateUser: function updateUser(state) {
+      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+    },
+    updateProfile: function updateProfile(state) {
+      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+    },
+    logout: function logout(state) {
+      state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+      state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+      state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_profile"));
+      state.trend = JSON.parse(localStorage.getItem('trend'));
+      state.userToken = localStorage.getItem("access_token");
+      state.hasProfile = localStorage.getItem('has_profile');
+      state.isVerified = localStorage.getItem('is_verified');
+      state.userId = localStorage.getItem("userId");
+      state.verificationCode = localStorage.getItem('verification_code');
+      state.email = localStorage.getItem('email');
+      state.password = localStorage.getItem('password');
+      state.isLoggedIn = !!state.currentUser;
+      state.loginErrors = null;
+      state.posts = [];
+      state.myPosts = [];
+      state.publishingPostErrors = [];
+      state.timeline = [];
+      state.likedPosts = [];
+      state.disLikedPosts = [];
+      state.followers = [];
+      state.following = [];
+      state.myFollowers = [];
+      state.myFollowing = [];
+      state.suggestedPeople = [];
+      state.showProfile = [];
+      state.profilePosts = [];
+      state.profileFollowers = [0, 0];
+      state.isFollow = null;
+    }
+  },
+  actions: {
+    signup: function signup(context, credionals) {
+      return new Promise(function (resolve, reject) {
+        axios.post("/api/auth/signup", credionals).then(function (response) {
+          console.log(response.data);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])('current_user', JSON.stringify(response.data.user));
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])('access_token', response.data.access_token.accessToken);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])('verification_code', response.data.verification_code);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])('user_id', response.data.user.id);
+          context.commit('signupSuccess');
+          resolve();
+        }).catch(function (errors) {
+          console.log(errors.response);
+          console.log(errors.response.data.errors);
+          context.commit('signupFails', errors.response.data.errors);
+          reject();
+        });
+      });
+    },
+    //for signup
+    confrimEmail: function confrimEmail(context) {
+      var userId = context.state.currentUser.id;
+      axios.post("/api/auth/verify/" + userId).then(function (response) {
+        console.log(response);
+        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])("user_id", userId);
+        Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])("is_verified", 1);
+        context.commit('verified');
+      }).catch(function (errors) {
+        console.log(errors.response);
+      });
+    },
+    //the 3rd condition in login
+    sendVerificationCode: function sendVerificationCode(context, email, token) {
+      return new Promise(function (resolve, reject) {
+        axios.post("/api/auth/sendcode", {
+          email: email
+        }, {
+          headers: {
+            "Authorization": "Bearer ".concat(token)
+          }
+        }).then(function (response) {
+          console.log(response.data);
+          Object(_localstorage_js__WEBPACK_IMPORTED_MODULE_1__["localStorageSettter"])('verification_code', response.data.verification_code);
+          context.commit('signupSuccess');
+          resolve();
+        }).catch(function (errors) {
+          console.log(errors.response);
+        });
+      });
+    },
+    accountCreated: function accountCreated(context) {
+      localStorage.removeItem('verification_code');
+      localStorage.setItem('has_profile', "1");
+      context.commit('accountCreated');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/following.js":
+/*!*************************************************!*\
+  !*** ./resources/js/store/modules/following.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/notifications.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/modules/notifications.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/posts.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/posts.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/profile.js":
+/*!***********************************************!*\
+  !*** ./resources/js/store/modules/profile.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/timeline.js":
+/*!************************************************!*\
+  !*** ./resources/js/store/modules/timeline.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/trend.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/trend.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
 
 /***/ }),
 
@@ -99990,106 +100211,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  signupFails: function signupFails(state, payload) {
-    state.signupErrors = payload;
-  },
-  signupSuccess: function signupSuccess(state) {
-    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-    state.userToken = localStorage.getItem("access_token");
-    state.verificationCode = localStorage.getItem("verification_code");
-    state.userId = localStorage.getItem('user_id');
-    state.signupErrors = null;
-  },
-  updateUser: function updateUser(state) {
-    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-  },
-  updateProfile: function updateProfile(state) {
-    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-  },
-  verified: function verified(state) {
-    state.isVerified = localStorage.getItem('is_verified');
-    state.userId = localStorage.getItem('user_id');
-    state.isLoggedIn = true;
-    state.signupErrors = null;
-  },
-  accountCreated: function accountCreated(state) {
-    state.verificationCode = localStorage.getItem("verification_code");
-    state.hasProfile = localStorage.getItem('has_profile');
-  },
-  loginSuccess: function loginSuccess(state, payload) {
-    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-    state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
-    state.missedNotifications = payload;
-    state.userToken = localStorage.getItem("access_token");
-    state.hasProfile = localStorage.getItem('has_profile');
-    state.isVerified = localStorage.getItem('is_verified');
-    state.userId = localStorage.getItem('user_id');
-    state.isLoggedIn = !!state.currentUser;
-    state.loginErrors = null;
-  },
-  userHasProfile: function userHasProfile(state) {
-    state.hasProfile = localStorage.getItem('has_profile');
-  },
-  needProfile: function needProfile(state) {
-    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-    state.isVerified = localStorage.getItem('is_verified');
-    state.hasProfile = localStorage.getItem('has_profile');
-    state.userToken = localStorage.getItem("access_token");
-    state.userId = localStorage.getItem("user_id");
-    state.isLoggedIn = !!localStorage.getItem("current_user");
-    state.loginErrors = null;
-  },
-  userCredionals: function userCredionals(state) {
-    state.email = localStorage.getItem('email');
-    state.password = localStorage.getItem('password');
-  },
+  //posts
   fillMyPost: function fillMyPost(state, payload) {
     state.myPosts = payload;
   },
   deletePost: function deletePost(state, payload) {
     state.myPosts.splice(payload, 1);
-  },
-  fillNotifications: function fillNotifications(state, payload) {
-    state.notifications = payload;
-    state.unreadNotifications = false;
-  },
-  unreadNotifications: function unreadNotifications(state) {
-    state.unreadNotifications = true;
-  },
-  PushToNotificatiosn: function PushToNotificatiosn(state, payload) {
-    payload.map(function (val) {
-      state.notifications.push(val);
-    });
-  },
-  fillMyFollowers: function fillMyFollowers(state, payload) {
-    if (state.myFollowers.length === 0) {
-      state.myFollowers = payload;
-    } else {
-      payload.map(function (val) {
-        state.myFollowers.push(val);
-      });
-    }
-
-    state.myFollowers = Array.from(new Set(state.myFollowers));
-  },
-  fillMyFollowing: function fillMyFollowing(state, payload) {
-    if (state.myFollowing.length === 0) {
-      state.myFollowing = payload;
-    } else {
-      payload.map(function (val) {
-        state.myFollowing.push(val);
-      });
-    }
-
-    state.myFollowing = Array.from(new Set(state.myFollowing));
-  },
-  fillMyTimeline: function fillMyTimeline(state, payload) {
-    state.showProfile = [];
-    state.isFollow = null;
-    state.profilePosts = [];
-    state.timeline = payload; //state.timeline = Array.from(new Set(state.timeline));
   },
   fillLikedPosts: function fillLikedPosts(state, payload) {
     state.likedPosts = payload;
@@ -100166,6 +100293,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndexInUserProfile, payload.updatedPost);
     }
   },
+  fillMyTimeline: function fillMyTimeline(state, payload) {
+    state.showProfile = [];
+    state.isFollow = null;
+    state.profilePosts = [];
+    state.timeline = payload; //state.timeline = Array.from(new Set(state.timeline));
+  },
   loadMore: function loadMore(state, payload) {
     payload.map(function (value) {
       //state.timeline.push(value);
@@ -100176,8 +100309,41 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   truncateTimeline: function truncateTimeline(state) {
     state.timeline = [];
   },
-  suggestedPeople: function suggestedPeople(state, payload) {
-    state.suggestedPeople = payload;
+  //Notifications
+  fillNotifications: function fillNotifications(state, payload) {
+    state.notifications = payload;
+    state.unreadNotifications = false;
+  },
+  unreadNotifications: function unreadNotifications(state) {
+    state.unreadNotifications = true;
+  },
+  PushToNotificatiosn: function PushToNotificatiosn(state, payload) {
+    payload.map(function (val) {
+      state.notifications.push(val);
+    });
+  },
+  //Following
+  fillMyFollowers: function fillMyFollowers(state, payload) {
+    if (state.myFollowers.length === 0) {
+      state.myFollowers = payload;
+    } else {
+      payload.map(function (val) {
+        state.myFollowers.push(val);
+      });
+    }
+
+    state.myFollowers = Array.from(new Set(state.myFollowers));
+  },
+  fillMyFollowing: function fillMyFollowing(state, payload) {
+    if (state.myFollowing.length === 0) {
+      state.myFollowing = payload;
+    } else {
+      payload.map(function (val) {
+        state.myFollowing.push(val);
+      });
+    }
+
+    state.myFollowing = Array.from(new Set(state.myFollowing));
   },
   addToFollowing: function addToFollowing(state, payload) {
     if (typeof payload.followed_id == 'number') {
@@ -100249,8 +100415,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.following = Array.from(new Set(state.following));
     state.profileFollowers[1] = state.profileFollowers[1] - 1;
   },
+  isFollow: function isFollow(state, payload) {
+    state.isFollow = payload;
+  },
+  //suggestion
+  suggestedPeople: function suggestedPeople(state, payload) {
+    state.suggestedPeople = payload;
+  },
+  //profile
   showProfile: function showProfile(state, payload) {
-    if (payload.profile.profile.user_id == state.userId) {
+    if (payload.profile.profile.user_id == state.authentication.userId) {
       state.following = Array.from(new Set(state.following));
       state.showProfile = payload.profile;
       state.isFollow = payload.isFollow;
@@ -100270,15 +100444,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
     state.following = Array.from(new Set(state.following));
   },
-  isFollow: function isFollow(state, payload) {
-    state.isFollow = payload;
-  },
-  loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
-    payload.map(function (val) {
-      return state.profilePosts.push(val);
-    });
-    state.myPosts = state.profilePosts;
-  },
   truncateProfile: function truncateProfile(state) {
     state.showProfile = [];
     state.profileFollowers[0] = 0;
@@ -100286,36 +100451,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     state.isFollow = null;
     state.profilePosts = [];
   },
-  logout: function logout(state) {
-    state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-    state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-    state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_profile"));
-    state.trend = JSON.parse(localStorage.getItem('trend'));
-    state.userToken = localStorage.getItem("access_token");
-    state.hasProfile = localStorage.getItem('has_profile');
-    state.isVerified = localStorage.getItem('is_verified');
-    state.userId = localStorage.getItem("userId");
-    state.verificationCode = localStorage.getItem('verification_code');
-    state.email = localStorage.getItem('email');
-    state.password = localStorage.getItem('password');
-    state.isLoggedIn = !!state.currentUser;
-    state.loginErrors = null;
-    state.posts = [];
-    state.myPosts = [];
-    state.publishingPostErrors = [];
-    state.timeline = [];
-    state.likedPosts = [];
-    state.disLikedPosts = [];
-    state.followers = [];
-    state.following = [];
-    state.myFollowers = [];
-    state.myFollowing = [];
-    state.suggestedPeople = [];
-    state.showProfile = [];
-    state.profilePosts = [];
-    state.profileFollowers = [0, 0];
-    state.isFollow = null;
+  loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
+    payload.map(function (val) {
+      return state.profilePosts.push(val);
+    });
+    state.myPosts = state.profilePosts;
   },
+  //trend
   trend: function trend(state) {
     state.trend = JSON.parse(localStorage.getItem('trend'));
   },
@@ -100338,58 +100480,43 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../auth */ "./resources/js/auth.js");
-/* harmony import */ var _localstorage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../localstorage.js */ "./resources/js/localstorage.js");
+/* harmony import */ var _auth_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../auth.js */ "./resources/js/auth.js");
 
-
-var USER = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUser"])();
-var USER_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserProfile"])();
-var USER_TOPICS = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["currentUserTopics"])();
-var ACCESS_TOKEN = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userToken"])();
-var IS_VERIFIED = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["isVerified"])();
-var VERIFICATION_CODE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["verificationCode"])();
-var USER_ID = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["userId"])();
-var HAS_PROFILE = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["hasProfile"])();
-var EMAIL = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["email"])();
-var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
-var TREND = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
+var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
-  isLoggedIn: !!USER,
-  signupErrors: null,
-  currentUser: USER,
-  currentUserProfile: USER_PROFILE,
-  currentUserTopics: USER_TOPICS,
-  userToken: ACCESS_TOKEN,
-  isVerified: IS_VERIFIED,
-  verificationCode: VERIFICATION_CODE,
-  hasProfile: HAS_PROFILE,
-  userId: USER_ID,
-  email: EMAIL,
-  password: PASSWORD,
+  //Notifications
   notifications: [],
   unreadNotifications: false,
-  topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
+  //Countries
   countries: ['Turkey', 'Egypt', 'Filstin'],
+  //tryimeline
   timeline: [],
+  //posts
   posts: [],
   myPosts: [],
   likedPosts: [],
   disLikedPosts: [],
   publishingPostErrors: [],
+  //Topics
+  topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
+  //trend
+  trend: TREND,
+  newTrend: false,
+  //Following
   followers: [],
   following: [],
   myFollowers: [],
   myFollowing: [],
   myFollowingIds: [],
+  isFollow: null,
+  //suggestion
   suggestedPeople: [],
+  //profile
   showProfile: {
     profile: 0
   },
   profilePosts: [],
-  profileFollowers: [0, 0],
-  isFollow: null,
-  trend: TREND,
-  newTrend: false
+  profileFollowers: [0, 0]
 });
 
 /***/ }),

@@ -89,7 +89,7 @@ export default {
 
               {
                 headers:{
-                  "Authorization":`Bearer ${this.$store.state.userToken}`,
+                  "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
                 }})
 
               .then((response)=>{

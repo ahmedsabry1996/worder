@@ -4,10 +4,21 @@ import state from './state';
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
+import authentication from './modules/authentication';
+import notifications from './modules/notifications';
+import timeline from './modules/timeline';
+import posts from './modules/posts';
+import profile from './modules/profile';
+import trend from './modules/trend';
+import following from './modules/following';
 
 import createMutationsSharer from 'vuex-shared-mutations';
 
 export default {
+
+  modules:{
+    authentication
+  },
 
   state,
 

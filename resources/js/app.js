@@ -63,7 +63,7 @@ router.beforeEach((to,from,next)=>{
 
   if (to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
 
-      if (store.state.isLoggedIn == true && store.state.hasProfile == "1" && store.state.isVerified == "1") {
+      if (store.state.authentication.isLoggedIn == true && store.state.authentication.hasProfile == "1" && store.state.authentication.isVerified == "1") {
           next();
       }
       else{

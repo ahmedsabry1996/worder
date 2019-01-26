@@ -15,7 +15,7 @@
     <ul class="list-group" @mouseover="newTrendOff">
         <li v-for="(value,key) in trend" :key="key"   class="list-group-item">
 
-          <router-link exact :to="{ name: 'trend', params: {word:key} }" class="text-left trend-link">
+          <router-link  :to="`/trend/${key}`" class="text-left trend-link" exact>
               {{key}}
           </router-link>
 
