@@ -311,6 +311,7 @@ export default {
             }
           })
           .then((response)=>{
+            console.log(50);
           context.commit('fillMyFollowers',response.data.followers);
           context.commit('fillMyFollowing',response.data.following);
           context.commit('myFollowingIds',response.data.following_ids);

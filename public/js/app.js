@@ -99820,6 +99820,7 @@ __webpack_require__.r(__webpack_exports__);
         Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
       }
     }).then(function (response) {
+      console.log(50);
       context.commit('fillMyFollowers', response.data.followers);
       context.commit('fillMyFollowing', response.data.following);
       context.commit('myFollowingIds', response.data.following_ids);
