@@ -99756,8 +99756,10 @@ __webpack_require__.r(__webpack_exports__);
       context.commit('addToFollowing', {
         followed_id: payload.followed_id
       });
+      context.commit('myFollowingIds', payload.followed_id);
     } else {
       context.commit('removeFromFollowing', payload.followed_id);
+      context.commit('myFollowingIds', payload.followed_id);
     }
 
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
@@ -100069,7 +100071,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    console.log('tak');
+    state.myFollowers = Array.from(new Set(state.myFollowers));
   },
   fillMyFollowing: function fillMyFollowing(state, payload) {
     if (state.myFollowing.length === 0) {
@@ -100080,7 +100082,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
     }
 
-    console.log('tik');
+    state.myFollowing = Array.from(new Set(state.myFollowing));
   },
   fillMyTimeline: function fillMyTimeline(state, payload) {
     state.showProfile = [];
@@ -100189,11 +100191,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       payload.followed_id.map(function (val) {
         return state.following.push(val);
       });
-    } //state.following = Array.from(new Set(state.following));
-
-
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
+    }
   },
   removeFromFollowing: function removeFromFollowing(state, payload) {
     var following = state.following;
@@ -100208,9 +100206,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var updateFollowing = following.filter(function (val) {
       return val !== payload;
     }); //  state.following = Array.from(new Set(state.following));
-
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
   },
   addToMyFollowing: function addToMyFollowing(state, payload) {
     if (_typeof(payload) != 'object') {
@@ -100224,12 +100219,18 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     console.log(_typeof(payload));
 
     if (_typeof(payload) !== 'object') {
-      state.myFollowingIds.push(payload);
+      if (state.myFollowingIds.indexOf(payload) != -1) {
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.myFollowingIds, state.myFollowingIds.indexOf(payload), null);
+      } else {
+        state.myFollowingIds.push(payload);
+      }
     } else {
       payload.map(function (val) {
         state.myFollowingIds.push(val);
       });
     }
+
+    state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
   },
   removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
     var following = state.following;

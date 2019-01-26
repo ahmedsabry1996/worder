@@ -104,8 +104,8 @@ state.signupErrors = payload;
               state.myFollowers.push(val);
             });
         }
+        state.myFollowers = Array.from(new Set(state.myFollowers));
 
-        console.log('tak');
 
     },
 
@@ -119,7 +119,8 @@ state.signupErrors = payload;
             state.myFollowing.push(val);
           });
       }
-      console.log('tik');
+      state.myFollowing = Array.from(new Set(state.myFollowing));
+
     },
 
     fillMyTimeline(state,payload){
@@ -282,10 +283,6 @@ state.signupErrors = payload;
           })
       }
 
-      //state.following = Array.from(new Set(state.following));
-
-      Vue.set(state.profileFollowers, 0, payload.followers);
-      Vue.set(state.profileFollowers, 1, payload.following);
 
 
     },
@@ -308,8 +305,6 @@ state.signupErrors = payload;
     //  state.following = Array.from(new Set(state.following));
 
 
-      Vue.set(state.profileFollowers, 0, payload.followers);
-      Vue.set(state.profileFollowers, 1, payload.following);
 
 
     },
@@ -330,7 +325,12 @@ state.signupErrors = payload;
           console.log(typeof(payload));
 
           if (typeof(payload) !== 'object') {
-            state.myFollowingIds.push(payload);
+            if (state.myFollowingIds.indexOf(payload) != -1) {
+                Vue.set(state.myFollowingIds,state.myFollowingIds.indexOf(payload),null);
+            }
+            else{
+              state.myFollowingIds.push(payload);
+            }
 
           }
           else{
@@ -339,6 +339,8 @@ state.signupErrors = payload;
           state.myFollowingIds.push(val);
         })
           }
+          state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
+
         },
     removeFromMyFollowing(state,payload){
 

@@ -354,6 +354,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1720,12 +1731,20 @@ var render = function() {
                             _c(
                               "ul",
                               _vm._l(_vm.myFollowers, function(follower) {
-                                return _c(
-                                  "li",
-                                  [
-                                    _c(
-                                      "p",
-                                      {
+                                return _c("li", [
+                                  _c(
+                                    "p",
+                                    [
+                                      _c("img", {
+                                        staticClass: "img-rounded",
+                                        attrs: {
+                                          src:
+                                            "/storage/avatars/" +
+                                            follower.profile.avatar,
+                                          alt: follower.profile.display_name,
+                                          width: "50",
+                                          height: "50"
+                                        },
                                         on: {
                                           click: function($event) {
                                             _vm.openProfile(
@@ -1733,56 +1752,88 @@ var render = function() {
                                             )
                                           }
                                         }
-                                      },
-                                      [
-                                        _c("img", {
-                                          staticClass: "img-rounded",
-                                          attrs: {
-                                            src:
-                                              "/storage/avatars/" +
-                                              follower.profile.avatar,
-                                            alt: follower.profile.display_name,
-                                            width: "50",
-                                            height: "50"
-                                          }
-                                        }),
-                                        _vm._v(
-                                          "\n              " +
-                                            _vm._s(follower.name) +
-                                            "\n              "
-                                        ),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c(
-                                          "i",
-                                          { staticStyle: { opacity: ".5" } },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
+                                      }),
+                                      _vm._v(
+                                        "\n              " +
+                                          _vm._s(follower.name) +
+                                          "\n              "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "i",
+                                        {
+                                          staticStyle: { opacity: ".5" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.openProfile(
                                                 follower.profile.display_name
                                               )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              follower.profile.display_name
+                                            )
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.myFollowingIds.indexOf(
+                                        follower.profile.user_id
+                                      ) == -1
+                                        ? [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-primary btn-xs",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.follow(
+                                                      follower.id,
+                                                      "follow"
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                  follow\n                "
+                                                )
+                                              ]
                                             )
                                           ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.myFollowingIds.indexOf(
-                                      follower.profile.user_id
-                                    ) == -1
-                                      ? [
-                                          _c("h2", [
-                                            _vm._v("\n      follow\n  ")
-                                          ])
-                                        ]
-                                      : [
-                                          _c("h2", [
-                                            _vm._v("\n    unfollow\n  ")
-                                          ])
-                                        ]
-                                  ],
-                                  2
-                                )
+                                        : [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-danger btn-xs",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.follow(
+                                                      follower.id,
+                                                      "unfollow"
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                  unfollow\n                "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                    ],
+                                    2
+                                  )
+                                ])
                               }),
                               0
                             )
@@ -1814,15 +1865,6 @@ var render = function() {
                                 return _c("li", [
                                   _c(
                                     "p",
-                                    {
-                                      on: {
-                                        click: function($event) {
-                                          _vm.openProfile(
-                                            following.profile.display_name
-                                          )
-                                        }
-                                      }
-                                    },
                                     [
                                       _c("img", {
                                         staticClass: "img-rounded",
@@ -1833,6 +1875,13 @@ var render = function() {
                                           alt: following.profile.display_name,
                                           width: "50",
                                           height: "50"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.openProfile(
+                                              following.profile.display_name
+                                            )
+                                          }
                                         }
                                       }),
                                       _vm._v(
@@ -1844,7 +1893,16 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "i",
-                                        { staticStyle: { opacity: ".5" } },
+                                        {
+                                          staticStyle: { opacity: ".5" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.openProfile(
+                                                following.profile.display_name
+                                              )
+                                            }
+                                          }
+                                        },
                                         [
                                           _vm._v(
                                             _vm._s(
@@ -1852,16 +1910,60 @@ var render = function() {
                                             )
                                           )
                                         ]
-                                      )
-                                    ]
-                                  ),
-                                  _c("h3", [
-                                    _vm._v(
-                                      "\n\n                  unfollow\n                "
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("p")
+                                      ),
+                                      _vm._v(" "),
+                                      _vm.myFollowingIds.indexOf(
+                                        following.profile.user_id
+                                      ) == -1
+                                        ? [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-primary btn-xs",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.follow(
+                                                      following.id,
+                                                      "follow"
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                    follow\n                  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        : [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-danger btn-xs",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.follow(
+                                                      following.id,
+                                                      "unfollow"
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                    unfollow\n                  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                    ],
+                                    2
+                                  )
                                 ])
                               }),
                               0

@@ -283,22 +283,25 @@
       <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
         <ul>
           <li v-for="follower in myFollowers">
-            <p @click="openProfile(follower.profile.display_name)">
-              <img :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name" class="img-rounded" width="50" height="50">
+            <p>
+              <img @click="openProfile(follower.profile.display_name)" :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name" class="img-rounded" width="50" height="50">
               {{follower.name}}
               <br>
-              <i style="opacity:.5;">{{follower.profile.display_name}}</i>
-</p>
-<template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
-  <h2 >
-      follow
-  </h2>
-  </template>
-<template v-else>
-  <h2>
-    unfollow
-  </h2>
-</template>
+              <i @click="openProfile(follower.profile.display_name)" style="opacity:.5;">{{follower.profile.display_name}}</i>
+
+              <template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
+                <button type="button" class="btn btn-primary btn-xs" @click="follow(follower.id,'follow')">
+                  follow
+                </button>
+
+
+                </template>
+              <template v-else>
+                <button type="button" class="btn btn-danger btn-xs" @click="follow(follower.id,'unfollow')">
+                  unfollow
+                </button>
+              </template>
+              </p>
           </li>
         </ul>
       </div>
@@ -312,15 +315,23 @@
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
           <ul>
             <li v-for="following in myFollowing">
-              <p @click="openProfile(following.profile.display_name)">
-                <img :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name" class="img-rounded" width="50" height="50">
+              <p>
+                <img @click="openProfile(following.profile.display_name)" :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name" class="img-rounded" width="50" height="50">
                 {{following.name}}
                 <br>
-                <i style="opacity:.5;">{{following.profile.display_name}}</i>
-                <h3>
+                <i @click="openProfile(following.profile.display_name)" style="opacity:.5;">{{following.profile.display_name}}</i>
+                <template v-if="myFollowingIds.indexOf(following.profile.user_id) == -1">
+                  <button type="button" class="btn btn-primary btn-xs" @click="follow(following.id,'follow')">
+                    follow
+                  </button>
 
-                  unfollow
-                </h3>
+
+                  </template>
+                <template v-else>
+                  <button type="button" class="btn btn-danger btn-xs" @click="follow(following.id,'unfollow')">
+                    unfollow
+                  </button>
+                </template>
               </p>
             </li>
           </ul>
