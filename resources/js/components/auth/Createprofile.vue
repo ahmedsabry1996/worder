@@ -180,10 +180,10 @@ handleFile(e){
 
 createProfile(){
 
-    axios.post("/api/create-profile/"+this.$store.state.userId,
+    axios.post("/api/create-profile/"+this.$store.state.authentication.userId,
       {
         "avatar":this.avatar,
-        "user_id":this.$store.state.userId,
+        "user_id":this.$store.state.authentication.userId,
         "display_name":this.displayName,
         "gender_id":this.selectedGender,
         "topics":this.selectedTopics,
@@ -194,7 +194,7 @@ createProfile(){
         "password":this.$store.getters.passowrd
       },{
         headers:{
-          "Authorization":`Bearer ${this.$store.state.userToken}`
+          "Authorization":`Bearer ${this.$store.state.authentication.userToken}`
         }
       })
       .then((response)=>{

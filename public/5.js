@@ -182,9 +182,9 @@ __webpack_require__.r(__webpack_exports__);
     createProfile: function createProfile() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/create-profile/" + this.$store.state.userId, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/create-profile/" + this.$store.state.authentication.userId, {
         "avatar": this.avatar,
-        "user_id": this.$store.state.userId,
+        "user_id": this.$store.state.authentication.userId,
         "display_name": this.displayName,
         "gender_id": this.selectedGender,
         "topics": this.selectedTopics,
@@ -195,7 +195,7 @@ __webpack_require__.r(__webpack_exports__);
         "password": this.$store.getters.passowrd
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.userToken)
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         swal({
