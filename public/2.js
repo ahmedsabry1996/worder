@@ -409,7 +409,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   mounted: function mounted() {
     this.$store.commit('truncateProfile');
-    this.loadMore();
+    this.loadMorePosts();
     console.log("".concat(this.$route.params.name, " show profile"));
   },
   created: function created() {
@@ -457,16 +457,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       return this.$store.getters.currentUserProfile;
     },
     myFollowers: function myFollowers() {
-      return this.$store.getters.myFollowers;
+      return this.$store.getters.myFollowersProfiles;
     },
     myFollowing: function myFollowing() {
-      return this.$store.getters.myFollowing;
-    },
-    getFollowers: function getFollowers() {
-      return this.$store.getters.followers;
-    },
-    getFollowing: function getFollowing() {
-      return this.$store.getters.following;
+      return this.$store.getters.myFollowingProfiles;
     },
     myFollowingIds: function myFollowingIds() {
       return this.$store.getters.myFollowingIds;
@@ -482,48 +476,26 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     loadMoreFollowers: function loadMoreFollowers(e) {
-      var _this = this;
-
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
         this.followerOffset += 50;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-followers', {
+        this.$store.dispatch('loadMoreFollowers', {
           offset: this.followerOffset
-        }, {
-          headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-          }
-        }).then(function (response) {
-          _this.$store.commit('fillMyFollowers', response.data.followers);
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.response);
         });
       }
     },
     loadMoreFollowing: function loadMoreFollowing(e) {
-      var _this2 = this;
-
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
         this.followingOffset += 50;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/my-following', {
+        this.$store.dispatch('loadMoreFollowing', {
           offset: this.followingOffset
-        }, {
-          headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-          }
-        }).then(function (response) {
-          _this2.$store.commit('fillMyFollowing', response.data.following);
-        }).catch(function (error) {
-          console.log(error);
-          console.log(error.response);
         });
       }
     },
@@ -540,19 +512,19 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     gooo: function gooo() {
       this.$refs.likers.close();
     },
-    loadMore: function loadMore() {
-      var _this3 = this;
+    loadMorePosts: function loadMorePosts() {
+      var _this = this;
 
       window.onscroll = function () {
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          _this3.$store.dispatch('loadMoreProfilePosts', {
-            "offset": _this3.offset,
-            'userId': _this3.$store.state.profile.currentProfile.id
+          _this.$store.dispatch('loadMoreProfilePosts', {
+            "offset": _this.offset,
+            'userId': _this.$store.state.profile.currentProfile.id
           });
 
-          _this3.offset += 10;
+          _this.offset += 10;
         }
       };
     },
@@ -566,7 +538,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push("/".concat(displayName));
     },
     postReact: function postReact(react, postId, postIndex) {
-      var _this4 = this;
+      var _this2 = this;
 
       if (react == 'like') {
         this.$store.commit('addToLikedPosts', postId);
@@ -587,7 +559,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'like') {
           console.log(response.data.result);
 
-          _this4.$store.commit('updateProfilePosts', {
+          _this2.$store.commit('updateProfilePosts', {
             index: postIndex,
             post: response.data.updated_post
           });
@@ -596,7 +568,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'dislike') {
           console.log(response.data.result);
 
-          _this4.$store.commit('updateProfilePosts', {
+          _this2.$store.commit('updateProfilePosts', {
             index: postIndex,
             post: response.data.updated_post
           });
@@ -605,12 +577,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == null) {
           console.log(response.data.result);
 
-          _this4.$store.commit('updateProfilePosts', {
+          _this2.$store.commit('updateProfilePosts', {
             index: postIndex,
             post: response.data.updated_post
           });
 
-          _this4.$store.commit('noAction', postId);
+          _this2.$store.commit('noAction', postId);
         }
       }).catch(function (error) {
         console.log(error);
@@ -618,7 +590,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     deletePost: function deletePost(postId, postIndex) {
-      var _this5 = this;
+      var _this3 = this;
 
       swal(this.$t('confirmdelete'), {
         buttons: {
@@ -631,12 +603,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (value) {
         switch (value) {
           case "Delete":
-            _this5.$store.dispatch('deletePost', {
+            _this3.$store.dispatch('deletePost', {
               id: postId,
               index: postIndex
             });
 
-            swal(_this5.$t('done'), _this5.$t('deletedsuccessfully'), "success");
+            swal(_this3.$t('done'), _this3.$t('deletedsuccessfully'), "success");
             break;
 
           default:
@@ -650,16 +622,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         action: action
       });
     },
-    loadMoreFans: function loadMoreFans(e) {
-      var elHeight = e.target.clientHeight;
-      var elscrollHeight = e.target.scrollHeight;
-      var elScrollTop = e.target.scrollTop;
-
-      if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.followerOffset += 10;
-        this.$store.dispatch('showFans', this.followerOffset);
-      }
-    },
     updateProfile: function updateProfile() {
       this.$router.push('update-profile');
     },
@@ -667,7 +629,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this6 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -678,16 +640,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this6.likers = response.data.likers;
+        _this4.likers = response.data.likers;
 
-        _this6.$refs.likers.open();
+        _this4.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this7 = this;
+      var _this5 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -704,7 +666,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this7.likers.push(val);
+            _this5.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -713,7 +675,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this8 = this;
+      var _this6 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -723,9 +685,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this8.dislikers = response.data.dislikers;
+        _this6.dislikers = response.data.dislikers;
 
-        _this8.$refs.dislikers.open();
+        _this6.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -733,7 +695,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this9 = this;
+      var _this7 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -750,7 +712,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this9.dislikers.push(val);
+            _this7.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -942,12 +904,14 @@ var render = function() {
                       "div",
                       { staticClass: "text-center" },
                       [
-                        _vm.isFollow
+                        _vm.myFollowingIds.indexOf(
+                          _vm.showProfile.profile.user_id
+                        ) !== -1
                           ? [
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-danger",
+                                  staticClass: "btn btn-danger ",
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
@@ -1789,7 +1753,7 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     _vm.follow(
-                                                      follower.id,
+                                                      follower.profile.user_id,
                                                       "follow"
                                                     )
                                                   }
@@ -1812,7 +1776,7 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     _vm.follow(
-                                                      follower.id,
+                                                      follower.profile.user_id,
                                                       "unfollow"
                                                     )
                                                   }
@@ -1920,7 +1884,7 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     _vm.follow(
-                                                      following.id,
+                                                      following.profile.user_id,
                                                       "follow"
                                                     )
                                                   }
@@ -1943,7 +1907,7 @@ var render = function() {
                                                 on: {
                                                   click: function($event) {
                                                     _vm.follow(
-                                                      following.id,
+                                                      following.profile.user_id,
                                                       "unfollow"
                                                     )
                                                   }

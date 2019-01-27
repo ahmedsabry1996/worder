@@ -7,26 +7,9 @@ export default{
   topics(state){
     return state.topics;
   },
-  followers(state){
-    return state.followers;
-  },
-  following(state){
-    return state.following;
-  },
   suggestedPeople(state){
     return state.suggestedPeople;
   },
-  myFollowers(state){
-    return state.myFollowers;
-  },
-  myFollowing(state){
-    return  state.myFollowing;
-  },
-
-  isFollow(state){
-    return state.isFollow;
-  },
-
   notifications(state){
     return state.notifications;
   },

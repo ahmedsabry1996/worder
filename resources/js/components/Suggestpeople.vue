@@ -2,7 +2,7 @@
 
         <!-- suggested -->
         <div class="suggested">
-
+          <h1>{{getFollowing}}</h1>
           <h3 style="text-transform:uppercase" class="text-primary text-center">
             <b>{{$t('likeyou')}}</b>
           </h3>
@@ -53,9 +53,7 @@ export default {
 
 
     computed:{
-        getFollowers(){
-          return this.$store.getters.followers;
-        },
+
         getFollowing(){
           return this.$store.getters.myFollowingIds;
         },

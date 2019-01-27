@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\DB;
 class FollowingController extends Controller
 {
 
-
+  public function following_ids(Request $request)
+  {
+      $following_ids = $this->get_user_following();
+      return response()->json(['following_ids'=>$following_ids]);
+  }
       public function get_user_following($offset=0){
 
                 $current_user = Auth::user();
@@ -93,13 +97,12 @@ class FollowingController extends Controller
 
     $num_of_followed_followers = $followed_user->follower_counter->followers;
     $num_of_followed_following = $followed_user->follower_counter->following;
-
+    $following_profile = user::whereId($followed_id)->with('profile')->first();
 
     return response()->json([
 
     'action'=>$action,
-    'followers'=>$num_of_followed_followers,
-    'following'=>$num_of_followed_following,],201);
+    'following_profile'=>$following_profile],201);
 
   }
 

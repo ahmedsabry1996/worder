@@ -21,6 +21,7 @@ export default {
   },
   created(){
     this.$store.dispatch('reactedPosts');
+    this.$store.dispatch('myFollowingIds');
   },
   mounted(){
 

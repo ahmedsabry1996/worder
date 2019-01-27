@@ -47,6 +47,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'timeline'], function()
     Route::post('/my-fans','API\FollowingController@my_fans');
     Route::post('/my-following','API\FollowingController@my_following');
     Route::post('/my-followers','API\FollowingController@my_followers');
+    Route::post('/following-ids','API\FollowingController@following_ids');
     Route::post('/followings','API\FollowingController@get_user_following');
     Route::post('/reacted-posts','API\TimelineController@reacted_posts');
     Route::post('/notifications','API\TimelineController@fetch_notifications');

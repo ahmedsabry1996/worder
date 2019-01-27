@@ -48,8 +48,8 @@
 
 
   <div class="text-center" v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-    <template v-if="isFollow">
-      <button type="button" class="btn btn-danger" @click="follow(showProfile.id,'unfollow')">
+    <template v-if="myFollowingIds.indexOf(showProfile.profile.user_id)!== -1">
+      <button type="button" class="btn btn-danger " @click="follow(showProfile.id,'unfollow')">
           {{$t('unfollow')}}
       </button>
     </template>
@@ -292,14 +292,14 @@
               <i @click="openProfile(follower.profile.display_name)" style="opacity:.5;">{{follower.profile.display_name}}</i>
 
               <template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
-                <button type="button" class="btn btn-primary btn-xs" @click="follow(follower.id,'follow')">
+                <button type="button" class="btn btn-primary btn-xs" @click="follow(follower.profile.user_id,'follow')">
                   follow
                 </button>
 
 
                 </template>
               <template v-else>
-                <button type="button" class="btn btn-danger btn-xs" @click="follow(follower.id,'unfollow')">
+                <button type="button" class="btn btn-danger btn-xs" @click="follow(follower.profile.user_id,'unfollow')">
                   unfollow
                 </button>
               </template>
@@ -323,14 +323,14 @@
                 <br>
                 <i @click="openProfile(following.profile.display_name)" style="opacity:.5;">{{following.profile.display_name}}</i>
                 <template v-if="myFollowingIds.indexOf(following.profile.user_id) == -1">
-                  <button type="button" class="btn btn-primary btn-xs" @click="follow(following.id,'follow')">
+                  <button type="button" class="btn btn-primary btn-xs" @click="follow(following.profile.user_id,'follow')">
                     follow
                   </button>
 
 
                   </template>
                 <template v-else>
-                  <button type="button" class="btn btn-danger btn-xs" @click="follow(following.id,'unfollow')">
+                  <button type="button" class="btn btn-danger btn-xs" @click="follow(following.profile.user_id,'unfollow')">
                     unfollow
                   </button>
                 </template>
@@ -400,7 +400,7 @@ export default {
 
 
       this.$store.commit('truncateProfile');
-      this.loadMore();
+      this.loadMorePosts();
       console.log(`${this.$route.params.name} show profile`);
 
 
@@ -457,16 +457,10 @@ export default {
       return  this.$store.getters.currentUserProfile;
     },
     myFollowers(){
-      return  this.$store.getters.myFollowers;
+      return  this.$store.getters.myFollowersProfiles;
     },
     myFollowing(){
-      return  this.$store.getters.myFollowing;
-    },
-    getFollowers(){
-      return this.$store.getters.followers;
-    }
-    ,getFollowing(){
-      return this.$store.getters.following;
+      return  this.$store.getters.myFollowingProfiles;
     },
     myFollowingIds(){
       return this.$store.getters.myFollowingIds;
@@ -493,21 +487,7 @@ export default {
 
       if ((elHeight+elScrollTop) - elscrollHeight == 0) {
         this.followerOffset +=50;
-
-        axios.post('/api/timeline/my-followers',{
-          offset:this.followerOffset
-        },{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
-          }
-        })
-        .then((response)=>{
-          this.$store.commit('fillMyFollowers',response.data.followers);
-        })
-        .catch((error)=>{
-          console.log(error);
-          console.log(error.response);
-        })
+          this.$store.dispatch('loadMoreFollowers',{offset:this.followerOffset})
       }
     },
     loadMoreFollowing(e)
@@ -520,21 +500,7 @@ export default {
 
       if ((elHeight+elScrollTop) - elscrollHeight == 0) {
         this.followingOffset +=50;
-
-        axios.post('/api/timeline/my-following',{
-          offset:this.followingOffset
-        },{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
-          }
-        })
-        .then((response)=>{
-          this.$store.commit('fillMyFollowing',response.data.following);
-        })
-        .catch((error)=>{
-          console.log(error);
-          console.log(error.response);
-        })
+        this.$store.dispatch('loadMoreFollowing',{offset:this.followingOffset})
       }
     } ,
     fans(){
@@ -552,7 +518,7 @@ export default {
     gooo(){
     this.$refs.likers.close();
     },
-    loadMore(){
+    loadMorePosts(){
                 window.onscroll = () =>{
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
@@ -658,20 +624,7 @@ export default {
         myFollow(followed_id,action){
           this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
         },
-        loadMoreFans(e){
 
-    let elHeight = e.target.clientHeight;
-
-    let elscrollHeight = e.target.scrollHeight;
-
-    let elScrollTop = e.target.scrollTop;
-
-    if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-      this.followerOffset +=10;
-      this.$store.dispatch('showFans',this.followerOffset);
-
-    }
-  },
   updateProfile(){
     this.$router.push('update-profile');
   },

@@ -7,7 +7,6 @@ export default{
     followersNum:0,
     followingNum:0,
     isFollow:null,
-    myFollowingIds:[],
     profilePosts:[],
     likers:[],
     dislikers:[],
@@ -31,9 +30,6 @@ export default{
     followersNum(state){
       return state.followersNum;
     },
-    myFollowingIds(state){
-      return state.myFollowingIds;
-    }
   },
 
   mutations:{
@@ -43,10 +39,7 @@ export default{
       state.followersNum = payload.followers;
       state.followingNum = payload.following;
       state.profilePosts = payload.posts;
-    },
-    fillMyFollowingIds(state,payload){
-      state.myFollowingIds = payload;
-
+      state.isFollow = payload.is_follow;
     },
     loadMoreProfilePosts(state,payload){
 
@@ -81,6 +74,7 @@ truncateProfile(state){
   },
 
   actions:{
+
     showProfile(context,displayName,rootState){
 
         axios.get(`/api/user/${displayName}`,{
@@ -110,7 +104,6 @@ truncateProfile(state){
 
             });
 
-            context.commit('fillMyFollowingIds',response.data.following_ids);
 
         })
         .catch((errors)=>{
@@ -126,8 +119,8 @@ truncateProfile(state){
         }
       })
       .then((response)=>{
-      context.commit('fillMyFollowers',response.data.followers);
-      context.commit('fillMyFollowing',response.data.following);
+      context.commit('fillMyFollowersProfiles',response.data.followers);
+      context.commit('fillMyFollowingProfiles',response.data.following);
       })
       .catch((error)=>{
         console.log(error);
