@@ -409,7 +409,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   mounted: function mounted() {
     this.$store.commit('truncateProfile');
-    this.loadreactedPosts();
     this.loadMore();
     console.log("".concat(this.$route.params.name, " show profile"));
   },
@@ -442,8 +441,11 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     posts: function posts() {
       return this.$store.getters.profilePosts;
     },
-    profileFollowers: function profileFollowers() {
-      return this.$store.getters.profileFollowers;
+    followersNum: function followersNum() {
+      return this.$store.getters.followersNum;
+    },
+    followingNum: function followingNum() {
+      return this.$store.getters.followingNum;
     },
     currentUserProfile: function currentUserProfile() {
       return this.$store.getters.currentUserProfile;
@@ -470,7 +472,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       return this.$store.getters.following;
     },
     myFollowingIds: function myFollowingIds() {
-      return this.$store.state.myFollowingIds;
+      return this.$store.getters.myFollowingIds;
     }
   },
   methods: {
@@ -551,7 +553,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           _this3.$store.dispatch('loadMore', {
             "url": 'user-posts',
             "offset": _this3.offset,
-            'userId': _this3.$store.state.profile.showProfile.id
+            'userId': _this3.$store.state.profile.currentProfile.id
           });
 
           _this3.offset += 10;
@@ -664,24 +666,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         this.$store.dispatch('showFans', this.followerOffset);
       }
     },
-    loadreactedPosts: function loadreactedPosts() {
-      var _this6 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user-reacted', null, {
-        headers: {
-          'Authorization': "Bearer ".concat(this.$store.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        console.log(response.data.posts_liked_by_current_user);
-
-        _this6.$store.commit('fillLikedPosts', response.data.posts_liked_by_current_user);
-
-        _this6.$store.commit('fillDisLikedPosts', response.data.posts_disliked_by_current_user);
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
-      });
-    },
     updateProfile: function updateProfile() {
       this.$router.push('update-profile');
     },
@@ -689,7 +673,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this7 = this;
+      var _this6 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -700,16 +684,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this7.likers = response.data.likers;
+        _this6.likers = response.data.likers;
 
-        _this7.$refs.likers.open();
+        _this6.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this8 = this;
+      var _this7 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -726,7 +710,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this8.likers.push(val);
+            _this7.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -735,7 +719,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this9 = this;
+      var _this8 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -745,9 +729,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this9.dislikers = response.data.dislikers;
+        _this8.dislikers = response.data.dislikers;
 
-        _this9.$refs.dislikers.open();
+        _this8.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -755,7 +739,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this10 = this;
+      var _this9 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -772,7 +756,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this10.dislikers.push(val);
+            _this9.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -941,7 +925,7 @@ var render = function() {
                 _c("div", { staticClass: "num-of-followers" }, [
                   _c("p", [
                     _c("bdi", [
-                      _c("b", [_vm._v(_vm._s(_vm.profileFollowers[0]))]),
+                      _c("b", [_vm._v(_vm._s(_vm.followersNum))]),
                       _vm._v(
                         "\n        " + _vm._s(_vm.$t("followers")) + "\n      "
                       )
@@ -950,7 +934,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _c("bdi", [
-                      _c("b", [_vm._v(_vm._s(_vm.profileFollowers[1]))]),
+                      _c("b", [_vm._v(_vm._s(_vm.followingNum))]),
                       _vm._v(
                         "\n        " + _vm._s(_vm.$t("following")) + "\n      "
                       )

@@ -1,17 +1,24 @@
 import Vue from 'vue';
 export default{
-  
+
   state:{
 
-    showProfile:{profile:0},
-    profileFollowers:[0,0],
-    myPosts:[],
+    currentProfile:{profile:0},
+    followersNum:0,
+    followingNum:0,
+    isFollow:null,
+    myFollowers:[],
+    myFollowing:[],
+    myFollowingIds:[],
+    profilePosts:[],
+    likers:[],
+    dislikers:[],
 
   },
 
   getters:{
     showProfile(state){
-      return state.showProfile;
+      return state.currentProfile;
     },
 
     profileFollowers(state){
@@ -20,40 +27,37 @@ export default{
     profilePosts(state){
       return state.profilePosts;
     },
+    followingNum(state){
+      return  state.followingNum;
+    },
+    followersNum(state){
+      return state.followersNum;
+    },
+    myFollowingIds(state){
+      return state.myFollowingIds;
+    }
   },
 
   mutations:{
     showProfile(state,payload){
-      if (!!payload.isMyProfile) {
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-
-
-        Vue.set(state.profileFollowers, 0, payload.followers);
-        Vue.set(state.profileFollowers, 1, payload.following);
-
-
-        console.log('its mine');
-      }
-else {
-
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-        console.log('it doesnt mine');
-}
-
-      Vue.set(state.profileFollowers, 0, payload.followers);
-      Vue.set(state.profileFollowers, 1, payload.following);
-
-      state.following = Array.from(new Set(state.following));
-
+      console.log(payload);
+      state.currentProfile = payload.profile;
+      state.followersNum = payload.followers;
+      state.followingNum = payload.following;
+      state.myFollowingIds = payload.followingIds;
     },
+
+    followersNum(state,payload){
+        state.followersNum = payload;
+    },
+    followingNum(state,payload){
+      state.followingNum = payload
+    },
+
 truncateProfile(state){
-  state.showProfile = [];
-  state.profileFollowers[0]= 0 ;
-  state.profileFollowers[1]= 0 ;
+  state.currentProfile = [];
+  state.followingNum= 0 ;
+  state.followersNum= 0 ;
   state.isFollow = null;
   state.profilePosts = [];
 },
@@ -89,13 +93,14 @@ loadMoreProfilePosts(state,payload){
             context.commit('showProfile',
 
             {
-              isMyProfile,
-            profile:response.data.profile,
-            posts:response.data.posts,
-            followers:response.data.followers,
-            following:response.data.following,
-            following_id:response.data.following_id,
-            isFollow:response.data.is_follow});
+              profile:response.data.profile,
+              followingIds:response.data.following_ids,
+              followers:response.data.followers,
+              following:response.data.following,
+              isFollow:response.data.is_follow,
+              posts:response.data.posts,
+
+            });
 
 
         })
@@ -115,7 +120,6 @@ loadMoreProfilePosts(state,payload){
         console.log(50);
       context.commit('fillMyFollowers',response.data.followers);
       context.commit('fillMyFollowing',response.data.following);
-      context.commit('myFollowingIds',response.data.following_ids);
       })
       .catch((error)=>{
         console.log(error);

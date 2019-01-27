@@ -99572,11 +99572,9 @@ __webpack_require__.r(__webpack_exports__);
     if (payload.action == 'follow') {
       context.commit('addToFollowing', {
         followed_id: payload.followed_id
-      });
-      context.commit('myFollowingIds', payload.followed_id);
+      }); //context.commit('myFollowingIds',payload.followed_id);
     } else {
-      context.commit('removeFromFollowing', payload.followed_id);
-      context.commit('myFollowingIds', payload.followed_id);
+      context.commit('removeFromFollowing', payload.followed_id); //context.commit('myFollowingIds',payload.followed_id);
     }
 
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
@@ -99645,7 +99643,7 @@ __webpack_require__.r(__webpack_exports__);
   myFollowing: function myFollowing(state) {
     return state.myFollowing;
   },
-  myFollowingIds: function myFollowingIds(state) {
+  myFollowaingIds: function myFollowaingIds(state) {
     return state.myFollowingIds;
   },
   isFollow: function isFollow(state) {
@@ -100186,47 +100184,57 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    showProfile: {
+    currentProfile: {
       profile: 0
     },
-    profileFollowers: [0, 0],
-    myPosts: []
+    followersNum: 0,
+    followingNum: 0,
+    isFollow: null,
+    myFollowers: [],
+    myFollowing: [],
+    myFollowingIds: [],
+    profilePosts: [],
+    likers: [],
+    dislikers: []
   },
   getters: {
     showProfile: function showProfile(state) {
-      return state.showProfile;
+      return state.currentProfile;
     },
     profileFollowers: function profileFollowers(state) {
       return state.profileFollowers;
     },
     profilePosts: function profilePosts(state) {
       return state.profilePosts;
+    },
+    followingNum: function followingNum(state) {
+      return state.followingNum;
+    },
+    followersNum: function followersNum(state) {
+      return state.followersNum;
+    },
+    myFollowingIds: function myFollowingIds(state) {
+      return state.myFollowingIds;
     }
   },
   mutations: {
     showProfile: function showProfile(state, payload) {
-      if (!!payload.isMyProfile) {
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
-        console.log('its mine');
-      } else {
-        state.showProfile = payload.profile;
-        state.isFollow = payload.isFollow;
-        state.profilePosts = payload.posts;
-        console.log('it doesnt mine');
-      }
-
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 0, payload.followers);
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profileFollowers, 1, payload.following);
-      state.following = Array.from(new Set(state.following));
+      console.log(payload);
+      state.currentProfile = payload.profile;
+      state.followersNum = payload.followers;
+      state.followingNum = payload.following;
+      state.myFollowingIds = payload.followingIds;
+    },
+    followersNum: function followersNum(state, payload) {
+      state.followersNum = payload;
+    },
+    followingNum: function followingNum(state, payload) {
+      state.followingNum = payload;
     },
     truncateProfile: function truncateProfile(state) {
-      state.showProfile = [];
-      state.profileFollowers[0] = 0;
-      state.profileFollowers[1] = 0;
+      state.currentProfile = [];
+      state.followingNum = 0;
+      state.followersNum = 0;
       state.isFollow = null;
       state.profilePosts = [];
     },
@@ -100254,13 +100262,12 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         context.commit('showProfile', {
-          isMyProfile: isMyProfile,
           profile: response.data.profile,
-          posts: response.data.posts,
+          followingIds: response.data.following_ids,
           followers: response.data.followers,
           following: response.data.following,
-          following_id: response.data.following_id,
-          isFollow: response.data.is_follow
+          isFollow: response.data.is_follow,
+          posts: response.data.posts
         });
       }).catch(function (errors) {
         console.log(errors);
@@ -100276,7 +100283,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(50);
         context.commit('fillMyFollowers', response.data.followers);
         context.commit('fillMyFollowing', response.data.following);
-        context.commit('myFollowingIds', response.data.following_ids);
       }).catch(function (error) {
         console.log(error);
         console.log(error.response);
@@ -100466,24 +100472,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       state.following = payload;
     }
   },
-  myFollowingIds: function myFollowingIds(state, payload) {
-    console.log('ttt');
-    console.log(_typeof(payload));
-
-    if (_typeof(payload) !== 'object') {
-      if (state.myFollowingIds.indexOf(payload) != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.myFollowingIds, state.myFollowingIds.indexOf(payload), null);
-      } else {
-        state.myFollowingIds.push(payload);
-      }
-    } else {
-      payload.map(function (val) {
-        state.myFollowingIds.push(val);
-      });
-    }
-
-    state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
-  },
+  // myFollowingIds(state,payload){
+  //   console.log('ttt');
+  //   console.log(typeof(payload));
+  //
+  //   if (typeof(payload) !== 'object') {
+  //     if (state.myFollowingIds.indexOf(payload) != -1) {
+  //         Vue.set(state.myFollowingIds,state.myFollowingIds.indexOf(payload),null);
+  //     }
+  //     else{
+  //       state.myFollowingIds.push(payload);
+  //     }
+  //
+  //   }
+  //   else{
+  //
+  // payload.map((val)=>{
+  //   state.myFollowingIds.push(val);
+  // })
+  //   }
+  //   state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
+  //
+  // },
   removeFromMyFollowing: function removeFromMyFollowing(state, payload) {
     var following = state.following;
     var isInFollowing = following.findIndex(function (value, index) {

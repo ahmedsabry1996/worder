@@ -101,28 +101,28 @@ export default{
 
 
               },
-              myFollowingIds(state,payload){
-                console.log('ttt');
-                console.log(typeof(payload));
-
-                if (typeof(payload) !== 'object') {
-                  if (state.myFollowingIds.indexOf(payload) != -1) {
-                      Vue.set(state.myFollowingIds,state.myFollowingIds.indexOf(payload),null);
-                  }
-                  else{
-                    state.myFollowingIds.push(payload);
-                  }
-
-                }
-                else{
-
-              payload.map((val)=>{
-                state.myFollowingIds.push(val);
-              })
-                }
-                state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
-
-              },
+              // myFollowingIds(state,payload){
+              //   console.log('ttt');
+              //   console.log(typeof(payload));
+              //
+              //   if (typeof(payload) !== 'object') {
+              //     if (state.myFollowingIds.indexOf(payload) != -1) {
+              //         Vue.set(state.myFollowingIds,state.myFollowingIds.indexOf(payload),null);
+              //     }
+              //     else{
+              //       state.myFollowingIds.push(payload);
+              //     }
+              //
+              //   }
+              //   else{
+              //
+              // payload.map((val)=>{
+              //   state.myFollowingIds.push(val);
+              // })
+              //   }
+              //   state.myFollowingIds = Array.from(new Set(state.myFollowingIds));
+              //
+              // },
           removeFromMyFollowing(state,payload){
 
             let following = state.following ;
@@ -155,7 +155,7 @@ export default{
 
 
     //profile
-  
+
   //trend
   trend(state){
     state.trend = JSON.parse(localStorage.getItem('trend'));

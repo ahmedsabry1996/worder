@@ -33,13 +33,13 @@
   <div class="num-of-followers">
     <p>
     <bdi>
-        <b>{{profileFollowers[0]}}</b>
+        <b>{{followersNum}}</b>
         {{$t('followers')}}
       </bdi>
     </p>
   <p>
       <bdi>
-        <b>{{profileFollowers[1]}}</b>
+        <b>{{followingNum}}</b>
         {{$t('following')}}
       </bdi>
   </p>
@@ -400,7 +400,6 @@ export default {
 
 
       this.$store.commit('truncateProfile');
-      this.loadreactedPosts();
       this.loadMore();
       console.log(`${this.$route.params.name} show profile`);
 
@@ -440,8 +439,12 @@ export default {
     posts(){
         return this.$store.getters.profilePosts;
     },
-    profileFollowers(){
-        return  this.$store.getters.profileFollowers;
+    followersNum(){
+        return  this.$store.getters.followersNum;
+    },
+    followingNum(){
+      return  this.$store.getters.followingNum;
+
     },
     currentUserProfile(){
       return this.$store.getters.currentUserProfile;
@@ -468,7 +471,7 @@ export default {
       return this.$store.getters.following;
     },
     myFollowingIds(){
-      return this.$store.state.myFollowingIds;
+      return this.$store.getters.myFollowingIds;
     }
   },
 
@@ -556,7 +559,7 @@ export default {
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
-                this.$store.dispatch('loadMore',{"url":'user-posts',"offset":this.offset,'userId':this.$store.state.profile.showProfile.id});
+                this.$store.dispatch('loadMore',{"url":'user-posts',"offset":this.offset,'userId':this.$store.state.profile.currentProfile.id});
                 this.offset +=10;
                 }
                 }
@@ -665,22 +668,6 @@ export default {
       this.$store.dispatch('showFans',this.followerOffset);
 
     }
-  },
-  loadreactedPosts(){
-    axios.post('/api/user-reacted',null,{
-      headers:{
-        'Authorization':`Bearer ${this.$store.state.authentication.userToken}`
-      }
-    })
-    .then((response)=>{
-      console.log(response.data.posts_liked_by_current_user);
-      this.$store.commit('fillLikedPosts',response.data.posts_liked_by_current_user);
-      this.$store.commit('fillDisLikedPosts',response.data.posts_disliked_by_current_user);
-    })
-    .catch((errors)=>{
-      console.log(errors);
-        console.log(errors.response);
-    })
   },
   updateProfile(){
     this.$router.push('update-profile');

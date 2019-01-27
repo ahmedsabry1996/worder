@@ -60,11 +60,11 @@ export default {
 
           if (payload.action == 'follow') {
             context.commit('addToFollowing',{followed_id:payload.followed_id});
-            context.commit('myFollowingIds',payload.followed_id);
+            //context.commit('myFollowingIds',payload.followed_id);
           }
           else{
             context.commit('removeFromFollowing',payload.followed_id);
-            context.commit('myFollowingIds',payload.followed_id);
+            //context.commit('myFollowingIds',payload.followed_id);
 
           }
         axios.post('/api/timeline/follow',{
@@ -83,6 +83,7 @@ export default {
             context.commit('addToFollowing',{followed_id:payload.followed_id,
               followers:response.data.followers,
               following:response.data.following});
+              
               context.commit('isFollow',true);
           }
           else{
@@ -100,6 +101,6 @@ export default {
         })
       },
 
-        
+
 
   }

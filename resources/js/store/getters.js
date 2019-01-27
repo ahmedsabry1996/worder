@@ -22,7 +22,7 @@ export default{
   myFollowing(state){
     return  state.myFollowing;
   },
-  myFollowingIds(state){
+  myFollowaingIds(state){
     return state.myFollowingIds;
   },
 
@@ -30,7 +30,7 @@ export default{
   isFollow(state){
     return state.isFollow;
   },
-  
+
   notifications(state){
     return state.notifications;
   },

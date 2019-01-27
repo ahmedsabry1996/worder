@@ -242,6 +242,22 @@ class ProfileController extends Controller
       {
 
 
+
+
+              $current_user = Auth::user();
+
+              $user_id = Auth::id();
+
+              $user_country = Auth::user()->profile->country_id;
+
+
+              $following_ids = Auth::user()
+              ->following()
+              ->pluck('user_id');
+
+
+
+
           $user_id = profile::whereDisplayName($display_name)->first()->user_id;
 
           $user = user::whereId($user_id)
@@ -273,6 +289,7 @@ class ProfileController extends Controller
                                     'posts'=>$posts,
                                     'followers'=>$num_of_followers,
                                     'following'=>$num_of_following,
+                                    'following_ids'=>$following_ids,
                                     'is_follow'=>$is_follow]);
 
       }
