@@ -310,7 +310,7 @@ class ProfileController extends Controller
           ->distinct()
           ->get();
 
-          return response()->json(['loaded_posts'=>$posts,$user_id,$offset],201);
+          return response()->json(['posts'=>$posts],201);
       }
 
 }

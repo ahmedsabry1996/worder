@@ -31,7 +31,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'post'],function(){
 
   Route::post('create-post','API\PostController@create_new_post');
   Route::get('my-posts','API\PostController@my_posts');
-  Route::get('delete-post/{post_id}','API\PostController@delete_post');
+  Route::post('delete-post','API\PostController@delete_post');
   Route::post('likers','API\PostController@likers');
   Route::post('dislikers','API\PostController@dislikers');
 

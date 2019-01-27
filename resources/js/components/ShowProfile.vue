@@ -115,33 +115,33 @@
 
             <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
               <font-awesome-icon
-              :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id)"/>
+              :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id,index)"/>
             </span>
 
             <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-              <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id)"/></span>
+              <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
           <p class="text-center" v-if="likedPosts.indexOf(post.id) !== -1 && disLikedPosts.indexOf(post.id) == -1">
 
             <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
               <font-awesome-icon
-              :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id)"/>
+              :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id,index)"/>
             </span>
 
             <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-              <font-awesome-icon  :icon="['fas','thumbs-up']" @click="postReact('like',post.id)"/></span>
+              <font-awesome-icon  :icon="['fas','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
           <p class="text-center" v-if="likedPosts.indexOf(post.id) == -1 && disLikedPosts.indexOf(post.id) !== -1">
 
             <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
               <font-awesome-icon
-              :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)"@click="postReact('dislike',post.id)"/>
+              :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)"@click="postReact('dislike',post.id,index)"/>
             </span>
 
             <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-              <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id)"/></span>
+              <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
 
@@ -196,7 +196,7 @@
 <!-- MY PROFILE -->
 <template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
 
-  <div class="text-center post" v-for="(post,index) in getMyPosts" >
+  <div class="text-center post" v-for="(post,index) in posts" >
     <div class="row">
 
     <div class="avatar">
@@ -452,9 +452,7 @@ export default {
     topics(){
          return this.$store.getters.topics;
     },
-    getMyPosts(){
-      return this.$store.getters.myPosts;
-    },
+
     userProfile(){
       return  this.$store.getters.currentUserProfile;
     },
@@ -559,7 +557,8 @@ export default {
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
-                this.$store.dispatch('loadMore',{"url":'user-posts',"offset":this.offset,'userId':this.$store.state.profile.currentProfile.id});
+                this.$store.dispatch('loadMoreProfilePosts',{"offset":this.offset,
+                'userId':this.$store.state.profile.currentProfile.id});
                 this.offset +=10;
                 }
                 }
@@ -574,7 +573,8 @@ export default {
     ShowProfile(displayName){
       this.$router.push(`/${displayName}`);
     },
-    postReact(react,postId){
+    postReact(react,postId,postIndex){
+
       if (react == 'like') {
         this.$store.commit('addToLikedPosts',postId);
       }
@@ -598,22 +598,26 @@ export default {
         if (response.data.result == 'like') {
 
             console.log(response.data.result);
-            this.$store.commit('updatePost',{id:postId,updatedPost:response.data.updated_post});
 
+
+            this.$store.commit('updateProfilePosts',
+            {index:postIndex,post:response.data.updated_post});
 
         }
 
         if (response.data.result == 'dislike') {
 
                 console.log(response.data.result);
-                this.$store.commit('updatePost',{id:postId,updatedPost:response.data.updated_post});
+                this.$store.commit('updateProfilePosts',
+                {index:postIndex,post:response.data.updated_post});
 
         }
 
         if (response.data.result == null) {
 
-            console.log(response.data.result);
-            this.$store.commit('updatePost',{id:postId,updatedPost:response.data.updated_post});
+            console.log(response.data.result);            this.$store.commit('updateProfilePosts',
+                        {index:postIndex,post:response.data.updated_post});
+
             this.$store.commit('noAction',postId);
 
         }
@@ -642,7 +646,6 @@ export default {
                         case "Delete":
 
                           this.$store.dispatch('deletePost',{id:postId,index:postIndex});
-                          this.$store.commit('deletePost',postIndex);
                           swal(this.$t('done'),this.$t('deletedsuccessfully'),"success");
                         break;
 

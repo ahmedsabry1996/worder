@@ -60,8 +60,11 @@ class PostController extends Controller
     return response()->json(['my_posts'=>$my_posts]);
   }
 
-  public function delete_post($post_id)
+  public function delete_post(Request $request)
   {
+
+    $post_id = $request->post_id;
+
     $country_id = Auth::user()->profile->country_id;
 
     $country = country::find($country_id);

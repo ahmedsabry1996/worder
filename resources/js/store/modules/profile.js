@@ -7,8 +7,6 @@ export default{
     followersNum:0,
     followingNum:0,
     isFollow:null,
-    myFollowers:[],
-    myFollowing:[],
     myFollowingIds:[],
     profilePosts:[],
     likers:[],
@@ -45,6 +43,15 @@ export default{
       state.followersNum = payload.followers;
       state.followingNum = payload.following;
       state.myFollowingIds = payload.followingIds;
+
+      state.profilePosts = payload.posts;
+    },
+
+    loadMoreProfilePosts(state,payload){
+
+        payload.map((val)=>{
+            state.profilePosts.push(val);
+        })
     },
 
     followersNum(state,payload){
@@ -61,14 +68,15 @@ truncateProfile(state){
   state.isFollow = null;
   state.profilePosts = [];
 },
-loadMoreProfilePosts(state,payload){
+  deletePost(state,payload){
+    state.profilePosts.splice(payload,1);
+  },
 
-  payload.map((val)=>{
-  return  state.profilePosts.push(val);
-  })
-  state.myPosts = state.profilePosts;
-},
+  updateProfilePosts(state,payload){
 
+    Vue.set(state.profilePosts,payload.index,payload.post)
+    console.log(5010);
+  }
   },
 
   actions:{
@@ -125,8 +133,47 @@ loadMoreProfilePosts(state,payload){
         console.log(error);
         console.log(error.response);
       })
-    }
+    },
 
+    loadMoreProfilePosts(context,commit,rootState){
+
+      axios.post('/api/user-posts',{
+          offset:commit.offset,
+          user_id:commit.userId,
+      },{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      .then((response)=>{
+          console.log(response.data.posts);
+        context.commit('loadMoreProfilePosts',response.data.posts)
+      })
+      .catch((error)=>{
+          console.log(error);
+          console.log(error.response);
+      })
+    },
+
+    deletePost(context,commit,rootState){
+
+      axios.post('/api/post/delete-post',{
+        post_id:commit.id,
+      },{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+      .then((response)=>{
+        console.log(response.data);
+        context.commit('deletePost',commit.index)
+      })
+      .catch((error)=>{
+        console.log(error);
+        console.log(error.response);
+      })
+
+    },
 
   }
 

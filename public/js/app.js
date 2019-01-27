@@ -100190,8 +100190,6 @@ __webpack_require__.r(__webpack_exports__);
     followersNum: 0,
     followingNum: 0,
     isFollow: null,
-    myFollowers: [],
-    myFollowing: [],
     myFollowingIds: [],
     profilePosts: [],
     likers: [],
@@ -100224,6 +100222,12 @@ __webpack_require__.r(__webpack_exports__);
       state.followersNum = payload.followers;
       state.followingNum = payload.following;
       state.myFollowingIds = payload.followingIds;
+      state.profilePosts = payload.posts;
+    },
+    loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
+      payload.map(function (val) {
+        state.profilePosts.push(val);
+      });
     },
     followersNum: function followersNum(state, payload) {
       state.followersNum = payload;
@@ -100238,11 +100242,12 @@ __webpack_require__.r(__webpack_exports__);
       state.isFollow = null;
       state.profilePosts = [];
     },
-    loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
-      payload.map(function (val) {
-        return state.profilePosts.push(val);
-      });
-      state.myPosts = state.profilePosts;
+    deletePost: function deletePost(state, payload) {
+      state.profilePosts.splice(payload, 1);
+    },
+    updateProfilePosts: function updateProfilePosts(state, payload) {
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, payload.index, payload.post);
+      console.log(5010);
     }
   },
   actions: {
@@ -100283,6 +100288,37 @@ __webpack_require__.r(__webpack_exports__);
         console.log(50);
         context.commit('fillMyFollowers', response.data.followers);
         context.commit('fillMyFollowing', response.data.following);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    loadMoreProfilePosts: function loadMoreProfilePosts(context, commit, rootState) {
+      axios.post('/api/user-posts', {
+        offset: commit.offset,
+        user_id: commit.userId
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        console.log(response.data.posts);
+        context.commit('loadMoreProfilePosts', response.data.posts);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    deletePost: function deletePost(context, commit, rootState) {
+      axios.post('/api/post/delete-post', {
+        post_id: commit.id
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        context.commit('deletePost', commit.index);
       }).catch(function (error) {
         console.log(error);
         console.log(error.response);

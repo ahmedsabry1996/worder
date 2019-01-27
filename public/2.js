@@ -453,9 +453,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     topics: function topics() {
       return this.$store.getters.topics;
     },
-    getMyPosts: function getMyPosts() {
-      return this.$store.getters.myPosts;
-    },
     userProfile: function userProfile() {
       return this.$store.getters.currentUserProfile;
     },
@@ -550,8 +547,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          _this3.$store.dispatch('loadMore', {
-            "url": 'user-posts',
+          _this3.$store.dispatch('loadMoreProfilePosts', {
             "offset": _this3.offset,
             'userId': _this3.$store.state.profile.currentProfile.id
           });
@@ -569,7 +565,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     ShowProfile: function ShowProfile(displayName) {
       this.$router.push("/".concat(displayName));
     },
-    postReact: function postReact(react, postId) {
+    postReact: function postReact(react, postId, postIndex) {
       var _this4 = this;
 
       if (react == 'like') {
@@ -591,27 +587,27 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         if (response.data.result == 'like') {
           console.log(response.data.result);
 
-          _this4.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
+          _this4.$store.commit('updateProfilePosts', {
+            index: postIndex,
+            post: response.data.updated_post
           });
         }
 
         if (response.data.result == 'dislike') {
           console.log(response.data.result);
 
-          _this4.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
+          _this4.$store.commit('updateProfilePosts', {
+            index: postIndex,
+            post: response.data.updated_post
           });
         }
 
         if (response.data.result == null) {
           console.log(response.data.result);
 
-          _this4.$store.commit('updatePost', {
-            id: postId,
-            updatedPost: response.data.updated_post
+          _this4.$store.commit('updateProfilePosts', {
+            index: postIndex,
+            post: response.data.updated_post
           });
 
           _this4.$store.commit('noAction', postId);
@@ -639,8 +635,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
               id: postId,
               index: postIndex
             });
-
-            _this5.$store.commit('deletePost', postIndex);
 
             swal(_this5.$t('done'), _this5.$t('deletedsuccessfully'), "success");
             break;
@@ -1163,7 +1157,11 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("dislike", post.id)
+                                          _vm.postReact(
+                                            "dislike",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1186,7 +1184,7 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id)
+                                          _vm.postReact("like", post.id, index)
                                         }
                                       }
                                     })
@@ -1217,7 +1215,11 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("dislike", post.id)
+                                          _vm.postReact(
+                                            "dislike",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1240,7 +1242,7 @@ var render = function() {
                                       attrs: { icon: ["fas", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id)
+                                          _vm.postReact("like", post.id, index)
                                         }
                                       }
                                     })
@@ -1271,7 +1273,11 @@ var render = function() {
                                       attrs: { icon: ["fas", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("dislike", post.id)
+                                          _vm.postReact(
+                                            "dislike",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1294,7 +1300,7 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id)
+                                          _vm.postReact("like", post.id, index)
                                         }
                                       }
                                     })
@@ -1422,7 +1428,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.currentUserProfile.user_id ==
                 _vm.showProfile.profile.user_id
-                  ? _vm._l(_vm.getMyPosts, function(post, index) {
+                  ? _vm._l(_vm.posts, function(post, index) {
                       return _c("div", { staticClass: "text-center post" }, [
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "avatar" }, [
