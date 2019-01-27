@@ -57,12 +57,7 @@ export default{
         else if (liked.indexOf(payload) == -1 && disliked.indexOf(payload) == -1) {
           liked.push(payload);
         }
-      // Vue.set(liked,liked.length,payload);
-      //
-      // if (disliked.indexOf(payload) != -1) {
-      //
-      //       Vue.set(state.disLikedPosts,disliked.indexOf(payload),null);
-      // }
+
 
 
     },
@@ -88,35 +83,11 @@ export default{
               }
 
 
-      // Vue.set(disliked,disliked.length,payload);
-      //
-      // if(liked.indexOf(payload) != -1) {
-      //
-      //   Vue.set(state.likedPosts,liked.indexOf(payload),null);
-      //
-      // }
-
 
 
     },
 
-  noAction(state,payload){
 
-      let liked = state.likedPosts;
-      let disliked = state.disLikedPosts;
-
-            if (liked.indexOf(payload) != -1) {
-                  liked.splice(liked.indexOf(payload),1);
-                  //Vue.set(liked,liked.indexOf(payload),null);
-                    console.log('exist in liked and index is ', liked.indexOf(payload));
-            }
-
-              if (disliked.indexOf(payload) != -1) {
-              disliked.splice(disliked.indexOf(payload),1);
-              //Vue.set(disliked,disliked.indexOf(payload),null);
-              console.log('exist in disliked and index is ', disliked.indexOf(payload));
-
-    }},
 
   post(state,payload){
       state.post = payload;
@@ -200,28 +171,11 @@ export default{
               }})
 
             .then((response)=>{
-              // if (response.data.result == 'like') {
-              //     console.log(response.data);
-              //     context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
-              //     context.commit('showPost',response.data.updated_post)
-              //
-              //     }
 
-              //if (response.data.result == 'dislike') {
               console.log(response.data);
               context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
               context.commit('showPost',response.data.updated_post)
 
-              //}
-              //
-              // if (response.data.result == null) {
-              //
-              // console.log(response.data.result);
-              // context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
-              // context.commit('noAction',commit.postId);
-              // context.commit('showPost',response.data.updated_post)
-              //
-              // }
             })
             .catch((error)=>{
               console.log(error);
@@ -239,25 +193,6 @@ export default{
               }
             })
             .then((response)=>{
-
-                //push to liked post;
-              //
-              //   if (response.data.type != null) {
-              //
-              //   if (response.data.type.type_id == 'LIKE' ) {
-              //
-              //         //push to my liked posts
-              //         console.log('to liked');
-              //       context.commit('addToLikedPosts',postId)
-              //   }
-              //
-              //   if (response.data.type.type_id == 'DISLIKE') {
-              //       console.log('to disliked');
-              //       context.commit('addToDisLikedPosts',postId);
-              //
-              //   }
-              //
-              // }
 
               context.commit('showPost',response.data.post)
               console.log('post loaded Successfully');

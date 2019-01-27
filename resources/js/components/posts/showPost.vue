@@ -1,7 +1,5 @@
 <template>
   <div>
-    <pre>{{likedPosts}}</pre>
-    <pre>{{disLikedPosts}}</pre>
     <div v-if="!post" class="text-center">
       <img :src="`/storage/avatars/loader.gif`" alt="loading" width="100" height="100">
     </div>
