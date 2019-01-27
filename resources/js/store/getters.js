@@ -22,10 +22,6 @@ export default{
   myFollowing(state){
     return  state.myFollowing;
   },
-  myFollowaingIds(state){
-    return state.myFollowingIds;
-  },
-
 
   isFollow(state){
     return state.isFollow;

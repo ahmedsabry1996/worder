@@ -12500,7 +12500,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.followers;
     },
     getFollowing: function getFollowing() {
-      return this.$store.getters.following;
+      return this.$store.getters.myFollowingIds;
     },
     suggestPeople: function suggestPeople() {
       return this.$store.getters.suggestedPeople;
@@ -99567,46 +99567,6 @@ __webpack_require__.r(__webpack_exports__);
       console.log(errors);
       console.log(errors.response);
     });
-  },
-  toggleFollow: function toggleFollow(context, payload) {
-    if (payload.action == 'follow') {
-      context.commit('addToFollowing', {
-        followed_id: payload.followed_id
-      }); //context.commit('myFollowingIds',payload.followed_id);
-    } else {
-      context.commit('removeFromFollowing', payload.followed_id); //context.commit('myFollowingIds',payload.followed_id);
-    }
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/follow', {
-      followed_id: payload.followed_id
-    }, {
-      headers: {
-        "Authorization": "Bearer ".concat(context.state.authentication.userToken)
-      }
-    }).then(function (response) {
-      var action = response.data.action;
-
-      if (action == 'follow') {
-        context.commit('addToFollowing', {
-          followed_id: payload.followed_id,
-          followers: response.data.followers,
-          following: response.data.following
-        });
-        context.commit('isFollow', true);
-      } else {
-        context.commit('removeFromFollowing', {
-          followed_id: payload.followed_id,
-          followers: response.data.followers,
-          following: response.data.following
-        });
-        context.commit('isFollow', false);
-      }
-
-      console.log(action);
-    }).catch(function (errors) {
-      console.log(errors);
-      console.log(errors.response);
-    });
   }
 });
 
@@ -99642,9 +99602,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   myFollowing: function myFollowing(state) {
     return state.myFollowing;
-  },
-  myFollowaingIds: function myFollowaingIds(state) {
-    return state.myFollowingIds;
   },
   isFollow: function isFollow(state) {
     return state.isFollow;
@@ -99691,7 +99648,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
 /* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_trend__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
-/* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_modules_following__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__);
 
@@ -99713,7 +99669,8 @@ __webpack_require__.r(__webpack_exports__);
     authentication: _modules_authentication__WEBPACK_IMPORTED_MODULE_6__["default"],
     timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"],
     posts: _modules_posts__WEBPACK_IMPORTED_MODULE_9__["default"],
-    profile: _modules_profile__WEBPACK_IMPORTED_MODULE_10__["default"]
+    profile: _modules_profile__WEBPACK_IMPORTED_MODULE_10__["default"],
+    following: _modules_following__WEBPACK_IMPORTED_MODULE_12__["default"]
   },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -99946,10 +99903,81 @@ var PASSWORD = Object(_auth__WEBPACK_IMPORTED_MODULE_0__["password"])();
 /*!*************************************************!*\
   !*** ./resources/js/store/modules/following.js ***!
   \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    myFollowersProfiles: [],
+    myFollowingProfiles: []
+  },
+  getters: {
+    myFollowersProfiles: function myFollowersProfiles(state) {
+      return state.myFollowersProfiles;
+    },
+    myFollowingProfiles: function myFollowingProfiles(state) {
+      return state.myFollowingProfiles;
+    }
+  },
+  mutations: {
+    fillMyFollowersProfiles: function fillMyFollowersProfiles(state, payload) {
+      state.myFollowersProfiles = payload;
+    },
+    addToMyFollowersProfiles: function addToMyFollowersProfiles(state, payload) {
+      state.myFollowersProfiles.push(payload);
+    },
+    fillMyFollowingProfiles: function fillMyFollowingProfiles(state, payload) {
+      state.myFollowingProfiles = payload;
+    },
+    addToMyFollowingProfiles: function addToMyFollowingProfiles(state, payload) {
+      state.myFollowingProfiles.push(payload);
+    }
+  },
+  actions: {
+    toggleFollow: function toggleFollow(context, payload) {
+      if (payload.action == 'follow') {
+        context.commit('addToFollowing', {
+          followed_id: payload.followed_id
+        }); //context.commit('myFollowingIds',payload.followed_id);
+      } else {
+        context.commit('removeFromFollowing', payload.followed_id); //context.commit('myFollowingIds',payload.followed_id);
+      }
 
+      axios.post('/api/timeline/follow', {
+        followed_id: payload.followed_id
+      }, {
+        headers: {
+          "Authorization": "Bearer ".concat(context.state.authentication.userToken)
+        }
+      }).then(function (response) {
+        var action = response.data.action;
+
+        if (action == 'follow') {
+          context.commit('addToFollowing', {
+            followed_id: payload.followed_id,
+            followers: response.data.followers,
+            following: response.data.following
+          });
+          context.commit('isFollow', true);
+        } else {
+          context.commit('removeFromFollowing', {
+            followed_id: payload.followed_id,
+            followers: response.data.followers,
+            following: response.data.following
+          });
+          context.commit('isFollow', false);
+        }
+
+        console.log(action);
+      }).catch(function (errors) {
+        console.log(errors);
+        console.log(errors.response);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -100221,8 +100249,10 @@ __webpack_require__.r(__webpack_exports__);
       state.currentProfile = payload.profile;
       state.followersNum = payload.followers;
       state.followingNum = payload.following;
-      state.myFollowingIds = payload.followingIds;
       state.profilePosts = payload.posts;
+    },
+    fillMyFollowingIds: function fillMyFollowingIds(state, payload) {
+      state.myFollowingIds = payload;
     },
     loadMoreProfilePosts: function loadMoreProfilePosts(state, payload) {
       payload.map(function (val) {
@@ -100268,12 +100298,12 @@ __webpack_require__.r(__webpack_exports__);
 
         context.commit('showProfile', {
           profile: response.data.profile,
-          followingIds: response.data.following_ids,
           followers: response.data.followers,
           following: response.data.following,
           isFollow: response.data.is_follow,
           posts: response.data.posts
         });
+        context.commit('fillMyFollowingIds', response.data.following_ids);
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
@@ -100285,7 +100315,6 @@ __webpack_require__.r(__webpack_exports__);
           Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        console.log(50);
         context.commit('fillMyFollowers', response.data.followers);
         context.commit('fillMyFollowing', response.data.following);
       }).catch(function (error) {

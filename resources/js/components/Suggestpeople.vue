@@ -57,7 +57,7 @@ export default {
           return this.$store.getters.followers;
         },
         getFollowing(){
-          return this.$store.getters.following;
+          return this.$store.getters.myFollowingIds;
         },
         suggestPeople(){
           return this.$store.getters.suggestedPeople;

@@ -42,11 +42,12 @@ export default{
       state.currentProfile = payload.profile;
       state.followersNum = payload.followers;
       state.followingNum = payload.following;
-      state.myFollowingIds = payload.followingIds;
-
       state.profilePosts = payload.posts;
     },
+    fillMyFollowingIds(state,payload){
+      state.myFollowingIds = payload;
 
+    },
     loadMoreProfilePosts(state,payload){
 
         payload.map((val)=>{
@@ -102,7 +103,6 @@ truncateProfile(state){
 
             {
               profile:response.data.profile,
-              followingIds:response.data.following_ids,
               followers:response.data.followers,
               following:response.data.following,
               isFollow:response.data.is_follow,
@@ -110,6 +110,7 @@ truncateProfile(state){
 
             });
 
+            context.commit('fillMyFollowingIds',response.data.following_ids);
 
         })
         .catch((errors)=>{
@@ -125,7 +126,6 @@ truncateProfile(state){
         }
       })
       .then((response)=>{
-        console.log(50);
       context.commit('fillMyFollowers',response.data.followers);
       context.commit('fillMyFollowing',response.data.following);
       })
