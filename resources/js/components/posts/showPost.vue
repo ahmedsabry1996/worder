@@ -1,10 +1,11 @@
 <template>
   <div>
+    <pre>{{likedPosts}}</pre>
+    <pre>{{disLikedPosts}}</pre>
     <div v-if="!post" class="text-center">
       <img :src="`/storage/avatars/loader.gif`" alt="loading" width="100" height="100">
     </div>
-    <div class="post text-center" v-if="post">
-      {{post}}
+    <div class="post text-center" v-else="post">
 
         <div class="avatar">
                 <img  :src="`/storage/avatars/${post.user.profile.avatar}`" width='60' height="60" :alt="post.user_id" class="img-circle">
@@ -181,6 +182,13 @@ export default {
       React,
   },
   computed:{
+    likedPosts(){
+      return this.$store.getters.likedPosts;
+
+  },
+  disLikedPosts(){
+    return this.$store.getters.disLikedPosts;
+  },
     post(){
       if (!!this.$store.getters.post) {
         return this.$store.getters.post;
@@ -190,9 +198,9 @@ export default {
       return this.$store.getters.topics;
     },
 
-          currentUserProfile(){
-            return this.$store.getters.currentUserProfile;
-          }
+    currentUserProfile(){
+      return this.$store.getters.currentUserProfile;
+    }
   },
   watch:{
     '$route'(to,from){

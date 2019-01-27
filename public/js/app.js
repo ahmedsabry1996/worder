@@ -13109,6 +13109,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post_id'],
   computed: {
@@ -17649,7 +17654,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -80351,13 +80356,12 @@ var render = function() {
                 "font-size": "20pt",
                 color: "#EA003A",
                 margin: "auto 14px",
-                cursor: "pointer",
                 top: "3px"
               }
             },
             [
               _c("font-awesome-icon", {
-                staticStyle: { transform: "scalex(-1)" },
+                staticStyle: { transform: "scalex(-1)", cursor: "pointer" },
                 attrs: { icon: ["far", "thumbs-down"] },
                 on: {
                   click: function($event) {
@@ -80375,12 +80379,12 @@ var render = function() {
               staticStyle: {
                 "font-size": "20pt",
                 color: "#192FDD",
-                margin: "auto 14px",
-                cursor: "pointer"
+                margin: "auto 14px"
               }
             },
             [
               _c("font-awesome-icon", {
+                staticStyle: { cursor: "pointer" },
                 attrs: { icon: ["far", "thumbs-up"] },
                 on: {
                   click: function($event) {
@@ -80405,13 +80409,12 @@ var render = function() {
                 "font-size": "20pt",
                 color: "#EA003A",
                 margin: "auto 14px",
-                cursor: "pointer",
                 top: "3px"
               }
             },
             [
               _c("font-awesome-icon", {
-                staticStyle: { transform: "scalex(-1)" },
+                staticStyle: { transform: "scalex(-1)", cursor: "pointer" },
                 attrs: { icon: ["far", "thumbs-down"] },
                 on: {
                   click: function($event) {
@@ -80429,12 +80432,12 @@ var render = function() {
               staticStyle: {
                 "font-size": "20pt",
                 color: "#192FDD",
-                margin: "auto 14px",
-                cursor: "pointer"
+                margin: "auto 14px"
               }
             },
             [
               _c("font-awesome-icon", {
+                staticStyle: { cursor: "pointer" },
                 attrs: { icon: ["fas", "thumbs-up"] },
                 on: {
                   click: function($event) {
@@ -80459,13 +80462,12 @@ var render = function() {
                 "font-size": "20pt",
                 color: "#EA003A",
                 margin: "auto 14px",
-                cursor: "pointer",
                 top: "3px"
               }
             },
             [
               _c("font-awesome-icon", {
-                staticStyle: { transform: "scalex(-1)" },
+                staticStyle: { transform: "scalex(-1)", cursor: "pointer" },
                 attrs: { icon: ["fas", "thumbs-down"] },
                 on: {
                   click: function($event) {
@@ -80483,12 +80485,12 @@ var render = function() {
               staticStyle: {
                 "font-size": "20pt",
                 color: "#192FDD",
-                margin: "auto 14px",
-                cursor: "pointer"
+                margin: "auto 14px"
               }
             },
             [
               _c("font-awesome-icon", {
+                staticStyle: { cursor: "pointer" },
                 attrs: { icon: ["far", "thumbs-up"] },
                 on: {
                   click: function($event) {
@@ -100073,20 +100075,41 @@ __webpack_require__.r(__webpack_exports__);
     addToLikedPosts: function addToLikedPosts(state, payload) {
       var liked = state.likedPosts;
       var disliked = state.disLikedPosts;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(liked, liked.length, payload);
 
-      if (disliked.indexOf(payload) != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.disLikedPosts, disliked.indexOf(payload), null);
-      }
+      if (liked.indexOf(payload) != -1) {
+        liked.splice(liked.indexOf(payload), 1);
+      } else if (liked.indexOf(payload) == -1 && disliked.indexOf(payload) != -1) {
+        liked.push(payload);
+        disliked.splice(disliked.indexOf(payload), 1);
+      } else if (liked.indexOf(payload) == -1 && disliked.indexOf(payload) == -1) {
+        liked.push(payload);
+      } // Vue.set(liked,liked.length,payload);
+      //
+      // if (disliked.indexOf(payload) != -1) {
+      //
+      //       Vue.set(state.disLikedPosts,disliked.indexOf(payload),null);
+      // }
+
     },
     addToDisLikedPosts: function addToDisLikedPosts(state, payload) {
       var liked = state.likedPosts;
       var disliked = state.disLikedPosts;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(disliked, disliked.length, payload);
 
-      if (liked.indexOf(payload) != -1) {
-        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.likedPosts, liked.indexOf(payload), null);
-      }
+      if (disliked.indexOf(payload) != -1) {
+        disliked.splice(disliked.indexOf(payload), 1);
+      } else if (disliked.indexOf(payload) == -1 && liked.indexOf(payload) != -1) {
+        disliked.push(payload);
+        liked.splice(liked.indexOf(payload), 1);
+      } else if (liked.indexOf(payload) == -1 && disliked.indexOf(payload) == -1) {
+        disliked.push(payload);
+      } // Vue.set(disliked,disliked.length,payload);
+      //
+      // if(liked.indexOf(payload) != -1) {
+      //
+      //   Vue.set(state.likedPosts,liked.indexOf(payload),null);
+      //
+      // }
+
     },
     noAction: function noAction(state, payload) {
       var liked = state.likedPosts;
@@ -100151,15 +100174,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     postReact: function postReact(context, commit, rootState) {
       if (commit.react == 'like') {
-        if (context.state.likedPosts.indexOf(commit.postId) == -1) {
-          context.commit('addToLikedPosts', commit.postId);
-        }
+        context.commit('addToLikedPosts', commit.postId);
       }
 
       if (commit.react == 'dislike') {
-        if (context.state.disLikedPosts.indexOf(commit.postId) == -1) {
-          context.commit('addToDisLikedPosts', commit.postId);
-        }
+        context.commit('addToDisLikedPosts', commit.postId);
       }
 
       axios.post('/api/timeline/react', {
@@ -100170,33 +100189,28 @@ __webpack_require__.r(__webpack_exports__);
           "Authorization": "Bearer ".concat(context.rootState.authentication.userToken)
         }
       }).then(function (response) {
-        if (response.data.result == 'like') {
-          console.log(response.data);
-          context.commit('updatePost', {
-            id: commit.postId,
-            updatedPost: response.data.updated_post
-          });
-          context.commit('showPost', response.data.updated_post);
-        }
-
-        if (response.data.result == 'dislike') {
-          console.log(response.data);
-          context.commit('updatePost', {
-            id: commit.postId,
-            updatedPost: response.data.updated_post
-          });
-          context.commit('showPost', response.data.updated_post);
-        }
-
-        if (response.data.result == null) {
-          console.log(response.data.result);
-          context.commit('updatePost', {
-            id: commit.postId,
-            updatedPost: response.data.updated_post
-          });
-          context.commit('noAction', commit.postId);
-          context.commit('showPost', response.data.updated_post);
-        }
+        // if (response.data.result == 'like') {
+        //     console.log(response.data);
+        //     context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
+        //     context.commit('showPost',response.data.updated_post)
+        //
+        //     }
+        //if (response.data.result == 'dislike') {
+        console.log(response.data);
+        context.commit('updatePost', {
+          id: commit.postId,
+          updatedPost: response.data.updated_post
+        });
+        context.commit('showPost', response.data.updated_post); //}
+        //
+        // if (response.data.result == null) {
+        //
+        // console.log(response.data.result);
+        // context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
+        // context.commit('noAction',commit.postId);
+        // context.commit('showPost',response.data.updated_post)
+        //
+        // }
       }).catch(function (error) {
         console.log(error);
         console.log(error.response);
@@ -100212,19 +100226,23 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         //push to liked post;
-        if (response.data.type != null) {
-          if (response.data.type.type_id == 'LIKE') {
-            //push to my liked posts
-            console.log('to liked');
-            context.commit('addToLikedPosts', postId);
-          }
-
-          if (response.data.type.type_id == 'DISLIKE') {
-            console.log('to disliked');
-            context.commit('addToDisLikedPosts', postId);
-          }
-        }
-
+        //
+        //   if (response.data.type != null) {
+        //
+        //   if (response.data.type.type_id == 'LIKE' ) {
+        //
+        //         //push to my liked posts
+        //         console.log('to liked');
+        //       context.commit('addToLikedPosts',postId)
+        //   }
+        //
+        //   if (response.data.type.type_id == 'DISLIKE') {
+        //       console.log('to disliked');
+        //       context.commit('addToDisLikedPosts',postId);
+        //
+        //   }
+        //
+        // }
         context.commit('showPost', response.data.post);
         console.log('post loaded Successfully');
       }).catch(function (errors) {

@@ -1,50 +1,55 @@
 <template>
+
 <div class="">
   <p class="text-center"
   v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) == -1" >
 
-<span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+<span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;top:3px">
   <font-awesome-icon
+
   :icon= "['far','thumbs-down']"
-  style="transform:scalex(-1)"
+  style="transform:scalex(-1);cursor:pointer;"
   @click="postReact('dislike',post_id)"/>
 </span>
 
-<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;">
   <font-awesome-icon
+  style="cursor:pointer;"
   :icon="['far','thumbs-up']"
-  @click="postReact('like',post_id)"/>
+    @click="postReact('like',post_id)"/>
 </span>
 </p>
 <p class="text-center"
 v-if="likedPosts.indexOf(post_id) !== -1 && disLikedPosts.indexOf(post_id) == -1">
 
 <span
-style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;top:3px">
   <font-awesome-icon
   :icon= "['far','thumbs-down']"
-  style="transform:scalex(-1)"
+  style="transform:scalex(-1);cursor:pointer;"
   @click="postReact('dislike',post_id)"/>
 
 </span>
 
-<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;">
   <font-awesome-icon
   :icon="['fas','thumbs-up']"
+  style="cursor:pointer;"
   @click="postReact('like',post_id)"/></span>
 </p>
 <p class="text-center"
 v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) !== -1">
 
-<span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+<span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;top:3px">
   <font-awesome-icon
   :icon= "['fas','thumbs-down']"
-  style="transform:scalex(-1)"
+  style="transform:scalex(-1);cursor:pointer;"
   @click="postReact('dislike',post_id)"/>
 </span>
 
-<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+<span style="font-size:20pt ;color:#192FDD;margin: auto 14px;">
   <font-awesome-icon
+  style="cursor:pointer;"
   :icon="['far','thumbs-up']"
   @click="postReact('like',post_id)"/></span>
 

@@ -176,6 +176,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -195,6 +196,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     React: _React_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   computed: {
+    likedPosts: function likedPosts() {
+      return this.$store.getters.likedPosts;
+    },
+    disLikedPosts: function disLikedPosts() {
+      return this.$store.getters.disLikedPosts;
+    },
     post: function post() {
       if (!!this.$store.getters.post) {
         return this.$store.getters.post;
@@ -390,6 +397,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("pre", [_vm._v(_vm._s(_vm.likedPosts))]),
+    _vm._v(" "),
+    _c("pre", [_vm._v(_vm._s(_vm.disLikedPosts))]),
+    _vm._v(" "),
     !_vm.post
       ? _c("div", { staticClass: "text-center" }, [
           _c("img", {
@@ -401,11 +412,7 @@ var render = function() {
             }
           })
         ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.post
-      ? _c("div", { staticClass: "post text-center" }, [
-          _vm._v("\n      " + _vm._s(_vm.post) + "\n\n        "),
+      : _c("div", { staticClass: "post text-center" }, [
           _c("div", { staticClass: "avatar" }, [
             _c("img", {
               staticClass: "img-circle",
@@ -626,8 +633,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("hr")
-        ])
-      : _vm._e(),
+        ]),
     _vm._v(" "),
     _c(
       "div",
