@@ -147,23 +147,14 @@ class TimelineController extends Controller
 
         public function reacted_posts()
         {
-            $liked_posts = DB::table('love_likes')
-            ->whereUserId(Auth::id())
-            ->where('type_id','LIKE')
-            ->offset(0)
-            ->limit(80000)
-            ->pluck('likeable_id');
-
-            $disliked_posts = DB::table('love_likes')
-            ->whereUserId(Auth::id())
-            ->where('type_id','DISLIKE')
-            ->offset(0)
-            ->limit(80000)
-            ->pluck('likeable_id');
+            $liked_posts = post::whereLikedBy(Auth::id())
+                ->pluck('id');
+            $disliked_posts = post::whereDislikedBy(Auth::id())
+              ->pluck('id');
 
 
             return response()->json(['liked_posts'=>$liked_posts
-                                    ,'disliked_posts'=>$disliked_posts]);
+                                    ,'disliked_posts'=>$disliked_posts],201);
         }
       public function time_line_posts(Request $request)
       {
@@ -282,7 +273,7 @@ class TimelineController extends Controller
           ->with('topic')
           ->with('user')
           ->first();
-          return response()->json(["isdis"=>$is_disliked_by_user,"is"=>$is_liked_by_user,"result"=>$result,"updated_post"=>$updated_post]);
+          return response()->json(["result"=>$result,"updated_post"=>$updated_post]);
     }
 
 

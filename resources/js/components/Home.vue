@@ -16,7 +16,7 @@
       </template>
 
         </div>
-    
+
           <template v-if="profileRoutes">
             <div class="col-md-12">
               <router-view></router-view>
@@ -73,10 +73,7 @@
         mounted() {
 
           //console.log(this.route.path);
-          alert(this.$route.name);
               this.$Progress.finish();
-
-
         },
 
         methods:{

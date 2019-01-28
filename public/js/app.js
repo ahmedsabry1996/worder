@@ -12382,7 +12382,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //console.log(this.route.path);
-    alert(this.$route.name);
     this.$Progress.finish();
   },
   methods: {},
