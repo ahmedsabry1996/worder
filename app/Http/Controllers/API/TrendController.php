@@ -56,37 +56,9 @@ class TrendController extends Controller
                        ->latest()
                        ->pluck('id');
 
-      $liked_posts = $this->liked_posts($posts_id);
-      $disliked_posts = $this->disliked_posts($posts_id);
-
-    return response()->json(['posts'=>$posts,'liked_posts'=>$liked_posts,'disliked_posts'=>$disliked_posts]);
+    return response()->json(['posts'=>$posts],201);
 
   }
-
-
-      public function liked_posts($posts)
-      {
-
-                $posts_liked_by_current_user = post::whereLikedBy(Auth::id())
-                ->whereIn('id',$posts)
-                ->with('likesCounter')
-                ->pluck('id');
-
-                return $posts_liked_by_current_user;
-
-      }
-
-      public function disliked_posts($posts)
-      {
-
-                    $posts_disliked_by_current_user = post::whereDislikedBy(Auth::id())
-                    ->whereIn('id',$posts)
-                    ->with('dislikesCounter')
-                    ->pluck('id');
-
-                    return $posts_disliked_by_current_user;
-      }
-
 
       public function load_more(Request $request)
       {
@@ -115,10 +87,7 @@ class TrendController extends Controller
                            ->latest()
                            ->pluck('id');
 
-          $liked_posts = $this->liked_posts($posts_id);
-          $disliked_posts = $this->disliked_posts($posts_id);
-
-        return response()->json(['posts'=>$posts,'liked_posts'=>$liked_posts,'disliked_posts'=>$disliked_posts]);
+        return response()->json(['posts'=>$posts],201);
 
 
       }

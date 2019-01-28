@@ -12142,13 +12142,8 @@ __webpack_require__.r(__webpack_exports__);
     unreadNotifications: function unreadNotifications() {
       return this.$store.getters.unreadNotifications;
     },
-    trend: {
-      get: function get() {
-        return this.$store.getters.trend;
-      },
-      set: function set() {
-        return null;
-      }
+    trend: function trend() {
+      return this.$store.getters.topTen;
     }
   },
   watch: {
@@ -12206,7 +12201,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    trend: function trend() {},
     listen: function listen() {
       var self = this;
       this.inter = window.setInterval(function () {
@@ -12238,9 +12232,8 @@ __webpack_require__.r(__webpack_exports__);
             }).then(function (response) {
               console.log(response.data);
               self.notificationSound();
-              var trend = localStorage.setItem('trend', response.data.trend.top_words);
-              self.$store.commit('trend');
-              self.$store.commit('newTrend');
+              localStorage.setItem('trend', response.data.trend.top_words);
+              self.$store.commit('topTen');
             }).catch(function (errors) {
               console.log(errors);
               console.log(errors.response);
@@ -12363,13 +12356,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -12396,6 +12382,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     //console.log(this.route.path);
+    alert(this.$route.name);
     this.$Progress.finish();
   },
   methods: {},
@@ -12583,16 +12570,21 @@ __webpack_require__.r(__webpack_exports__);
     ListPosts: _posts_ListPosts__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
-    this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('myFollowingIds');
+    if (this.isLoggedIn) {
+      this.$store.dispatch('reactedPosts');
+      this.$store.dispatch('myFollowingIds');
+      this.$store.dispatch('timeline');
+    }
   },
   mounted: function mounted() {
-    this.$store.dispatch('timeline');
     this.loadMore();
   },
   computed: {
     timelinePosts: function timelinePosts() {
       return this.$store.getters.posts;
+    },
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     }
   },
   methods: {
@@ -12687,22 +12679,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
-    trend: function trend() {
-      return this.$store.getters.trend;
-    },
-    newTrend: function newTrend() {
-      return this.$store.getters.newTrend;
-    }
-  },
-  methods: {
-    newTrendOff: function newTrendOff() {
-      this.$store.commit('newTrendOff');
+    topTen: function topTen() {
+      return this.$store.getters.topTen;
     }
   }
 });
@@ -13128,7 +13108,8 @@ __webpack_require__.r(__webpack_exports__);
     postReact: function postReact(react, postId) {
       this.$store.dispatch('postReact', {
         react: react,
-        postId: postId
+        postId: postId,
+        routeName: this.$route.name
       });
     }
   }
@@ -17540,7 +17521,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -17654,7 +17635,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -79437,26 +79418,22 @@ var render = function() {
                 2
               ),
               _vm._v(" "),
-              _vm.currentRoute.path == "/"
-                ? [_c("div", { staticClass: "col-md-6" }, [_c("time-line")], 1)]
+              _vm.profileRoutes
+                ? [
+                    _c(
+                      "div",
+                      { staticClass: "col-md-12" },
+                      [_c("router-view")],
+                      1
+                    )
+                  ]
                 : [
-                    _vm.profileRoutes
-                      ? [
-                          _c(
-                            "div",
-                            { staticClass: "col-md-12" },
-                            [_c("router-view")],
-                            1
-                          )
-                        ]
-                      : [
-                          _c(
-                            "div",
-                            { staticClass: "col-md-6" },
-                            [_c("router-view")],
-                            1
-                          )
-                        ]
+                    _c(
+                      "div",
+                      { staticClass: "col-md-6" },
+                      [_c("router-view")],
+                      1
+                    )
                   ],
               _vm._v(" "),
               !_vm.profileRoutes
@@ -79667,21 +79644,23 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("list-posts", {
-        staticClass: "text-center",
-        attrs: { posts: _vm.timelinePosts },
-        on: {
-          "update:posts": function($event) {
-            _vm.timelinePosts = $event
-          }
-        }
-      })
-    ],
-    1
-  )
+  return _vm.isLoggedIn
+    ? _c(
+        "div",
+        [
+          _c("list-posts", {
+            staticClass: "text-center",
+            attrs: { posts: _vm.timelinePosts },
+            on: {
+              "update:posts": function($event) {
+                _vm.timelinePosts = $event
+              }
+            }
+          })
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -79757,35 +79736,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _c(
-      "div",
-      [
-        !_vm.newTrend ? _c("h4", [_c("b", [_vm._v("Trend")])]) : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "transition",
-          { attrs: { name: "bounce", "leave-active-class": "hide" } },
-          [
-            _vm.newTrend
-              ? _c(
-                  "h4",
-                  {
-                    staticClass: "new-trend",
-                    on: { mouseover: _vm.newTrendOff }
-                  },
-                  [_c("b", [_vm._v("new trend")])]
-                )
-              : _vm._e()
-          ]
-        )
-      ],
-      1
-    ),
+    _vm._m(0),
     _vm._v(" "),
     _c(
       "ul",
-      { staticClass: "list-group", on: { mouseover: _vm.newTrendOff } },
-      _vm._l(_vm.trend, function(value, key) {
+      { staticClass: "list-group" },
+      _vm._l(_vm.topTen, function(value, key) {
         return _c(
           "li",
           { key: key, staticClass: "list-group-item" },
@@ -79796,7 +79752,7 @@ var render = function() {
                 staticClass: "text-left trend-link",
                 attrs: { to: "/trend/" + key, exact: "" }
               },
-              [_vm._v("\n              " + _vm._s(key) + "\n          ")]
+              [_vm._v("\n            " + _vm._s(key) + "\n        ")]
             ),
             _vm._v(" "),
             _c("span", { staticClass: "badge" }, [
@@ -79814,7 +79770,14 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h4", [_c("b", [_vm._v("Trend")])])])
+  }
+]
 render._withStripped = true
 
 
@@ -99380,8 +99343,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _components_Test_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Test.vue */ "./resources/js/components/Test.vue");
-/* harmony import */ var _components_auth_Veifyemail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/auth/Veifyemail.vue */ "./resources/js/components/auth/Veifyemail.vue");
+/* harmony import */ var _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Timeline.vue */ "./resources/js/components/Timeline.vue");
+/* harmony import */ var _components_Test_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Test.vue */ "./resources/js/components/Test.vue");
+/* harmony import */ var _components_auth_Veifyemail_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/auth/Veifyemail.vue */ "./resources/js/components/auth/Veifyemail.vue");
+
 
 
 
@@ -99396,55 +99361,55 @@ __webpack_require__.r(__webpack_exports__);
 //import UpdateAuth from './components/UpdateAuth.vue';
 
 var Login = function Login(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(10), __webpack_require__.e(6)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(21), __webpack_require__.e(17)]).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Login.vue */ "./resources/js/components/auth/Login.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Topic = function Topic(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 9).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 20).then((function () {
     resolve(__webpack_require__(/*! ./components/topics/topic.vue */ "./resources/js/components/topics/topic.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Signup = function Signup(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 7).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 18).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Signup.vue */ "./resources/js/components/auth/Signup.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Post = function Post(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 19).then((function () {
     resolve(__webpack_require__(/*! ./components/posts/showPost.vue */ "./resources/js/components/posts/showPost.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Createprofile = function Createprofile(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 5).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 16).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Createprofile.vue */ "./resources/js/components/auth/Createprofile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Showprofile = function Showprofile(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(0), __webpack_require__.e(2)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(11), __webpack_require__.e(13)]).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowProfile.vue */ "./resources/js/components/ShowProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var UpdateProfile = function UpdateProfile(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 4).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 15).then((function () {
     resolve(__webpack_require__(/*! ./components/UpdateProfile.vue */ "./resources/js/components/UpdateProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var UpdateAuth = function UpdateAuth(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 1).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 12).then((function () {
     resolve(__webpack_require__(/*! ./components/UpdateAuth.vue */ "./resources/js/components/UpdateAuth.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Trend = function Trend(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 14).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowTrend.vue */ "./resources/js/components/ShowTrend.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99453,7 +99418,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var routes = [{
   path: '/test',
-  component: _components_Test_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _components_Test_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
+  path: '/',
+  component: _components_Timeline_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  name: 'root'
 }, {
   path: '/signup',
   component: Signup,
@@ -99598,12 +99567,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   unreadNotifications: function unreadNotifications(state) {
     return state.unreadNotifications;
-  },
-  trend: function trend(state) {
-    return state.trend;
-  },
-  newTrend: function newTrend(state) {
-    return state.newTrend;
   }
 });
 
@@ -99633,7 +99596,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
 /* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
-/* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_trend__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
 /* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__);
@@ -99657,7 +99619,8 @@ __webpack_require__.r(__webpack_exports__);
     timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"],
     posts: _modules_posts__WEBPACK_IMPORTED_MODULE_9__["default"],
     profile: _modules_profile__WEBPACK_IMPORTED_MODULE_10__["default"],
-    following: _modules_following__WEBPACK_IMPORTED_MODULE_12__["default"]
+    following: _modules_following__WEBPACK_IMPORTED_MODULE_12__["default"],
+    trend: _modules_trend__WEBPACK_IMPORTED_MODULE_11__["default"]
   },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -100161,11 +100124,18 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         console.log(response.data);
-        context.commit('updatePost', {
-          id: commit.postId,
-          updatedPost: response.data.updated_post
-        });
         context.commit('showPost', response.data.updated_post);
+
+        if (commit.routeName == 'root') {
+          context.commit('updatePost', {
+            id: commit.postId,
+            updatedPost: response.data.updated_post
+          });
+        } else if (commit.routeName == 'trend') {
+          context.commit('updateTrendPost', response.data.updated_post);
+        } else if (commit.routeName == 'show-profile') {
+          context.commit('updateProfilePosts', response.data.updated_post);
+        }
       }).catch(function (error) {
         console.log(error);
         console.log(error.response);
@@ -100264,8 +100234,11 @@ __webpack_require__.r(__webpack_exports__);
       state.profilePosts.splice(payload, 1);
     },
     updateProfilePosts: function updateProfilePosts(state, payload) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, payload.index, payload.post);
-      console.log(5010);
+      var posts = state.profilePosts;
+      var postIndex = posts.findIndex(function (val) {
+        return val.id == payload.id;
+      });
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.profilePosts, postIndex, payload);
     }
   },
   actions: {
@@ -100430,10 +100403,81 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************!*\
   !*** ./resources/js/store/modules/trend.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _auth_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../auth.js */ "./resources/js/auth.js");
 
 
+var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_1__["newTrend"])();
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    topTen: TREND,
+    trendPosts: []
+  },
+  getters: {
+    trendPosts: function trendPosts(state) {
+      return state.trendPosts;
+    },
+    topTen: function topTen(state) {
+      return state.topTen;
+    }
+  },
+  mutations: {
+    topTen: function topTen(state, payload) {
+      state.topTen = JSON.parse(localStorage.getItem('trend'));
+    },
+    fillTrendPosts: function fillTrendPosts(state, payload) {
+      state.trendPosts = payload;
+    },
+    addToTrendPosts: function addToTrendPosts(state, payload) {
+      payload.map(function (val) {
+        state.trendPosts.push(val);
+      });
+    },
+    updateTrendPost: function updateTrendPost(state, payload) {
+      var trend = state.trendPosts;
+      var trendIndex = trend.findIndex(function (val) {
+        return val.id == payload.id;
+      });
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.trendPosts, trendIndex, payload);
+    }
+  },
+  actions: {
+    showTrendPosts: function showTrendPosts(context, commit, rootState) {
+      axios.post('/api/trend/posts', {
+        word: commit.word
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        context.commit('fillTrendPosts', response.data.posts);
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    },
+    loadMoreTrendPosts: function loadMoreTrendPosts(context, commit, rootState) {
+      axios.post('/api/trend/load-more', {
+        offset: commit.offset,
+        word: commit.word
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        console.log(response.data.posts);
+        context.commit('addToTrendPosts', response.data.posts);
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -100466,17 +100510,6 @@ __webpack_require__.r(__webpack_exports__);
   //suggestion
   suggestedPeople: function suggestedPeople(state, payload) {
     state.suggestedPeople = payload;
-  },
-  //profile
-  //trend
-  trend: function trend(state) {
-    state.trend = JSON.parse(localStorage.getItem('trend'));
-  },
-  newTrend: function newTrend(state) {
-    state.newTrend = true;
-  },
-  newTrendOff: function newTrendOff(state) {
-    state.newTrend = false;
   }
 });
 
@@ -100491,9 +100524,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _auth_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../auth.js */ "./resources/js/auth.js");
-
-var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
 /* harmony default export */ __webpack_exports__["default"] = ({
   //Notifications
   notifications: [],
@@ -100502,9 +100532,6 @@ var TREND = Object(_auth_js__WEBPACK_IMPORTED_MODULE_0__["newTrend"])();
   countries: ['Turkey', 'Egypt', 'Filstin'],
   //Topics
   topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
-  //trend
-  trend: TREND,
-  newTrend: false,
   //Following
   followers: [],
   following: [],

@@ -16,10 +16,4 @@ export default{
   unreadNotifications(state){
     return state.unreadNotifications;
   },
-  trend(state){
-      return state.trend;
-  },
-  newTrend(state){
-    return  state.newTrend;
-  }
 }

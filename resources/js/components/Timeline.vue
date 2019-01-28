@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isLoggedIn">
 
         <list-posts class="text-center" :posts.sync="timelinePosts"></list-posts>
     </div>
@@ -20,19 +20,25 @@ export default {
     ListPosts,
   },
   created(){
-    this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('myFollowingIds');
+    if (this.isLoggedIn) {
+
+      this.$store.dispatch('reactedPosts');
+      this.$store.dispatch('myFollowingIds');
+      this.$store.dispatch('timeline');
+    }
   },
   mounted(){
 
-    this.$store.dispatch('timeline');
 
     this.loadMore();
   },
   computed:{
-          timelinePosts(){
+      timelinePosts(){
         return this.$store.getters.posts;
       },
+      isLoggedIn(){
+        return this.$store.getters.isLoggedIn;
+      }
 
   },
   methods:{

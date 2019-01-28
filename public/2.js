@@ -509,9 +509,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$refs.dislikers.close();
       this.$router.push("/".concat(displayName));
     },
-    gooo: function gooo() {
-      this.$refs.likers.close();
-    },
     loadMorePosts: function loadMorePosts() {
       var _this = this;
 
@@ -538,59 +535,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push("/".concat(displayName));
     },
     postReact: function postReact(react, postId, postIndex) {
-      var _this2 = this;
-
-      if (react == 'like') {
-        this.$store.commit('addToLikedPosts', postId);
-      } else if (react == 'dislike') {
-        this.$store.commit('addToDisLikedPosts', postId);
-      }
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/timeline/react', {
-        post_id: postId,
-        action: react
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
-        }
-      }).then(function (response) {
-        console.log("ee", response.data.updated_post);
-
-        if (response.data.result == 'like') {
-          console.log(response.data.result);
-
-          _this2.$store.commit('updateProfilePosts', {
-            index: postIndex,
-            post: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == 'dislike') {
-          console.log(response.data.result);
-
-          _this2.$store.commit('updateProfilePosts', {
-            index: postIndex,
-            post: response.data.updated_post
-          });
-        }
-
-        if (response.data.result == null) {
-          console.log(response.data.result);
-
-          _this2.$store.commit('updateProfilePosts', {
-            index: postIndex,
-            post: response.data.updated_post
-          });
-
-          _this2.$store.commit('noAction', postId);
-        }
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response);
+      this.$store.dispatch('postReact', {
+        react: react,
+        postId: postId,
+        routeName: this.$route.name
       });
     },
     deletePost: function deletePost(postId, postIndex) {
-      var _this3 = this;
+      var _this2 = this;
 
       swal(this.$t('confirmdelete'), {
         buttons: {
@@ -603,12 +555,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (value) {
         switch (value) {
           case "Delete":
-            _this3.$store.dispatch('deletePost', {
+            _this2.$store.dispatch('deletePost', {
               id: postId,
               index: postIndex
             });
 
-            swal(_this3.$t('done'), _this3.$t('deletedsuccessfully'), "success");
+            swal(_this2.$t('done'), _this2.$t('deletedsuccessfully'), "success");
             break;
 
           default:
@@ -629,7 +581,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this4 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -640,16 +592,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this4.likers = response.data.likers;
+        _this3.likers = response.data.likers;
 
-        _this4.$refs.likers.open();
+        _this3.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this5 = this;
+      var _this4 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -666,7 +618,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this5.likers.push(val);
+            _this4.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -675,7 +627,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this6 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -685,9 +637,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this6.dislikers = response.data.dislikers;
+        _this5.dislikers = response.data.dislikers;
 
-        _this6.$refs.dislikers.open();
+        _this5.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -695,7 +647,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this7 = this;
+      var _this6 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -712,7 +664,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this7.dislikers.push(val);
+            _this6.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);

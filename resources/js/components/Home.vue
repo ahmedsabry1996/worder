@@ -16,13 +16,7 @@
       </template>
 
         </div>
-        <template v-if="currentRoute.path == '/'">
-          <div class="col-md-6">
-            <time-line></time-line>
-
-          </div>
-          </template>
-        <template v-else>
+    
           <template v-if="profileRoutes">
             <div class="col-md-12">
               <router-view></router-view>
@@ -34,7 +28,6 @@
               <router-view></router-view>
             </div>
           </template>
-        </template>
 
 
       <div class="col-md-3 text-center" v-if="!profileRoutes">
@@ -80,6 +73,7 @@
         mounted() {
 
           //console.log(this.route.path);
+          alert(this.$route.name);
               this.$Progress.finish();
 
 

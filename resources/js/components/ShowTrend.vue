@@ -21,8 +21,12 @@ export default {
   },
   data(){
     return {
-      posts:[],
       offset:0
+    }
+  },
+  computed:{
+    posts(){
+      return this.$store.getters.trendPosts;
     }
   },
   mounted(){
@@ -31,7 +35,6 @@ export default {
   },
   watch:{
     '$route'(to,from){
-      this.posts = [];
       this.offset = 0;
       this.getTrendPosts();
     }
@@ -39,25 +42,7 @@ export default {
   },
   methods:{
     getTrendPosts(){
-
-      axios.post('/api/trend/posts',{
-        word:this.$route.params.word
-      }
-      ,{
-        headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-      .then((response)=>{
-        console.log(response.data);
-          this.posts = response.data.posts;
-          this.posts =  Array.from(new Set(this.posts));
-          this.$store.commit('addToLikedPosts',response.data.liked_posts);
-          this.$store.commit('addToDisLikedPosts',response.data.disliked_posts);
-      })
-      .catch((error)=>{
-        console.log(error.response);
-      })
+      this.$store.dispatch('showTrendPosts',{word:this.$route.params.word});
     },
     loadMore(){
 
@@ -68,7 +53,7 @@ export default {
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
-            //alert(!!localStorage.getItem('access_token'));
+
             if (!!localStorage.getItem('access_token') && this.$route.name == 'trend') {
                 this.morePosts();
 
@@ -81,24 +66,8 @@ export default {
     morePosts(){
 
         this.offset +=100;
-        axios.post('/api/trend/load-more',{
-          offset:this.offset,
-          word : this.$route.params.word
-        },{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
-          }
-        })
-        .then((response)=>{
-
-          this.posts = this.posts.concat(response.data.posts);
-          this.posts =  Array.from(new Set(this.posts));
-          this.$store.commit('addToLikedPosts',response.data.liked_posts);
-          this.$store.commit('addToDisLikedPosts',response.data.disliked_posts);
-        })
-        .catch((error)=>{
-          console.log(error.response);
-        })
+        this.$store.dispatch('loadMoreTrendPosts',{offset:this.offset,
+                                                  word:this.$route.params.word})
     }
 
   }

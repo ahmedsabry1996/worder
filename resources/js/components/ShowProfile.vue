@@ -478,6 +478,7 @@ export default {
           this.$store.dispatch('showFans');
         }
     },
+
     loadMoreFollowers(e){
       let elHeight = e.target.clientHeight;
 
@@ -490,8 +491,8 @@ export default {
           this.$store.dispatch('loadMoreFollowers',{offset:this.followerOffset})
       }
     },
-    loadMoreFollowing(e)
-    {
+
+    loadMoreFollowing(e){
       let elHeight = e.target.clientHeight;
 
       let elscrollHeight = e.target.scrollHeight;
@@ -503,11 +504,13 @@ export default {
         this.$store.dispatch('loadMoreFollowing',{offset:this.followingOffset})
       }
     } ,
+
     fans(){
       this.$refs.fans.open();
 
       this.getMyFans();
     },
+
     openProfile(displayName){
         this.$refs.fans.close();
         this.$refs.likers.close();
@@ -515,9 +518,6 @@ export default {
         this.$router.push(`/${displayName}`);
     },
 
-    gooo(){
-    this.$refs.likers.close();
-    },
     loadMorePosts(){
                 window.onscroll = () =>{
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
@@ -536,104 +536,61 @@ export default {
       this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
 
     },
+
     ShowProfile(displayName){
       this.$router.push(`/${displayName}`);
     },
+
     postReact(react,postId,postIndex){
-
-      if (react == 'like') {
-        this.$store.commit('addToLikedPosts',postId);
-      }
-      else if (react == 'dislike') {
-        this.$store.commit('addToDisLikedPosts',postId);
-      }
-
-      axios.post('/api/timeline/react',{
-        post_id:postId,
-        action:react
+          this.$store.dispatch('postReact',{
+                                  react:react,
+                                  postId:postId,
+                                  routeName:this.$route.name});
       },
-      {
-        headers:{
-          "Authorization":`Bearer ${this.$store.state.authentication.userToken}`,
 
-        }
-      })
-      .then((response)=>{
-
-          console.log("ee",response.data.updated_post);
-        if (response.data.result == 'like') {
-
-            console.log(response.data.result);
-
-
-            this.$store.commit('updateProfilePosts',
-            {index:postIndex,post:response.data.updated_post});
-
-        }
-
-        if (response.data.result == 'dislike') {
-
-                console.log(response.data.result);
-                this.$store.commit('updateProfilePosts',
-                {index:postIndex,post:response.data.updated_post});
-
-        }
-
-        if (response.data.result == null) {
-
-            console.log(response.data.result);            this.$store.commit('updateProfilePosts',
-                        {index:postIndex,post:response.data.updated_post});
-
-            this.$store.commit('noAction',postId);
-
-        }
-      })
-      .catch((error)=>{
-        console.log(error);
-        console.log(error.response);
-      })
-    },
     deletePost(postId,postIndex){
 
 
 
-                  swal(this.$t('confirmdelete'),{
-                    buttons:{
-                      cancel:this.$t('cancel'),
-                      confirmDelete:{
-                        text:this.$t('delete'),
-                        value:"Delete"
-                      },
+                swal(this.$t('confirmdelete'),{
+                  buttons:{
+                    cancel:this.$t('cancel'),
+                    confirmDelete:{
+                      text:this.$t('delete'),
+                      value:"Delete"
                     },
+                  },
 
-                  }).then((value)=>{
+                }).then((value)=>{
 
-                      switch (value) {
-                        case "Delete":
+                    switch (value) {
+                      case "Delete":
 
-                          this.$store.dispatch('deletePost',{id:postId,index:postIndex});
-                          swal(this.$t('done'),this.$t('deletedsuccessfully'),"success");
-                        break;
+                        this.$store.dispatch('deletePost',{id:postId,index:postIndex});
+                        swal(this.$t('done'),this.$t('deletedsuccessfully'),"success");
+                      break;
 
-                        default:
-                          return ;
+                      default:
+                        return ;
 
-                      }
-                  })
-        },
-        myFollow(followed_id,action){
-          this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
-        },
+                    }
+                })
+      },
+      myFollow(followed_id,action){
+        this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
+      },
 
-  updateProfile(){
+    updateProfile(){
     this.$router.push('update-profile');
   },
-  updateAuthData(){
+
+    updateAuthData(){
 
     this.$router.push('update-auth');
 
   },
-  showLikers(id){
+
+    showLikers(id){
 
     axios.post('/api/post/likers',{
       offset:this.likersOffset,
@@ -654,7 +611,8 @@ export default {
        console.log(errors.response);
     })
   },
-  loadMoreLikers(e){
+
+    loadMoreLikers(e){
 
 
 
@@ -688,7 +646,7 @@ export default {
         }
   },
 
-  showDisLikers(id){
+    showDisLikers(id){
 
     axios.post('/api/post/dislikers',{
       offset:this.dislikersOffset,
@@ -712,7 +670,7 @@ export default {
     })
   },
 
-  loadMoreDisLikers(e){
+    loadMoreDisLikers(e){
 
 
 

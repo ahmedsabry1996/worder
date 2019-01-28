@@ -21,17 +21,5 @@ export default{
     },
 
 
-    //profile
 
-  //trend
-  trend(state){
-    state.trend = JSON.parse(localStorage.getItem('trend'));
-  },
-  newTrend(state){
-    state.newTrend = true ;
-  },
-  newTrendOff(state){
-    state.newTrend = false ;
-
-  }
 }

@@ -21,7 +21,8 @@ export default {
     timeline,
     posts,
     profile,
-    following
+    following,
+    trend,
   },
 
   state,

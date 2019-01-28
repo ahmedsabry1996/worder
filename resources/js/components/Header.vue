@@ -236,14 +236,11 @@
         unreadNotifications(){
           return this.$store.getters.unreadNotifications;
         },
-        trend:{
-          get(){
-            return this.$store.getters.trend ;
+        trend(){
 
-          },
-          set(){
-              return null;
-          }
+            return this.$store.getters.topTen ;
+
+
         }
         },
         watch:{
@@ -309,9 +306,6 @@
               }
 
           },
-          trend(){
-
-          },
         listen(){
           const self = this ;
           this.inter =  window.setInterval(function () {
@@ -349,9 +343,8 @@
           console.log(response.data);
 
           self.notificationSound();
-          let trend = localStorage.setItem('trend',response.data.trend.top_words);
-          self.$store.commit('trend');
-          self.$store.commit('newTrend');
+          localStorage.setItem('trend',(response.data.trend.top_words))
+          self.$store.commit('topTen');
                      })
                      .catch((errors)=>{
                        console.log(errors);

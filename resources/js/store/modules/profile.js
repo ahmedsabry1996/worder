@@ -68,8 +68,15 @@ truncateProfile(state){
 
   updateProfilePosts(state,payload){
 
-    Vue.set(state.profilePosts,payload.index,payload.post)
-    console.log(5010);
+    let posts = state.profilePosts;
+
+    let postIndex = posts.findIndex((val)=>{
+          return val.id == payload.id
+    })
+
+      Vue.set(state.profilePosts,postIndex,payload)
+
+
   }
   },
 

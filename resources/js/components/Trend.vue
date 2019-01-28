@@ -2,18 +2,14 @@
   <div class="">
     <div>
 
-    <h4 v-if="!newTrend">
+    <h4>
       <b>Trend</b>
     </h4>
-<transition name="bounce" leave-active-class="hide">
 
-      <h4 v-if="newTrend" class="new-trend" @mouseover="newTrendOff" >
-        <b >new trend</b>
-      </h4>
-</transition>
       </div>
-    <ul class="list-group" @mouseover="newTrendOff">
-        <li v-for="(value,key) in trend" :key="key"   class="list-group-item">
+    <ul class="list-group">
+
+        <li v-for="(value,key) in topTen" :key="key"   class="list-group-item">
 
           <router-link  :to="`/trend/${key}`" class="text-left trend-link" exact>
               {{key}}
@@ -29,21 +25,12 @@
 export default {
 
           computed:{
-              trend(){
-                return this.$store.getters.trend;
+              topTen(){
+                return this.$store.getters.topTen;
               },
-              newTrend(){
-                return this.$store.getters.newTrend;
 
-              }
           },
 
-          methods:{
-              newTrendOff(){
-                this.$store.commit('newTrendOff');
-              }
-
-          }
 }
 </script>
 

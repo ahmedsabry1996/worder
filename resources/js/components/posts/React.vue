@@ -75,7 +75,10 @@ export default {
   methods:{
 
             postReact(react,postId){
-                this.$store.dispatch('postReact',{react:react,postId:postId});
+                this.$store.dispatch('postReact',{
+                                        react:react,
+                                        postId:postId,
+                                        routeName:this.$route.name});
       }
   }
 

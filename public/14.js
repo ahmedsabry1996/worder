@@ -30,9 +30,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      posts: [],
       offset: 0
     };
+  },
+  computed: {
+    posts: function posts() {
+      return this.$store.getters.trendPosts;
+    }
   },
   mounted: function mounted() {
     this.getTrendPosts();
@@ -40,67 +44,34 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     '$route': function $route(to, from) {
-      this.posts = [];
       this.offset = 0;
       this.getTrendPosts();
     }
   },
   methods: {
     getTrendPosts: function getTrendPosts() {
-      var _this = this;
-
-      axios.post('/api/trend/posts', {
+      this.$store.dispatch('showTrendPosts', {
         word: this.$route.params.word
-      }, {
-        headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        console.log(response.data);
-        _this.posts = response.data.posts;
-        _this.posts = Array.from(new Set(_this.posts));
-
-        _this.$store.commit('addToLikedPosts', response.data.liked_posts);
-
-        _this.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
-      }).catch(function (error) {
-        console.log(error.response);
       });
     },
     loadMore: function loadMore() {
-      var _this2 = this;
+      var _this = this;
 
       window.onscroll = function () {
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
-          //alert(!!localStorage.getItem('access_token'));
-          if (!!localStorage.getItem('access_token') && _this2.$route.name == 'trend') {
-            _this2.morePosts();
+          if (!!localStorage.getItem('access_token') && _this.$route.name == 'trend') {
+            _this.morePosts();
           }
         }
       };
     },
     morePosts: function morePosts() {
-      var _this3 = this;
-
       this.offset += 100;
-      axios.post('/api/trend/load-more', {
+      this.$store.dispatch('loadMoreTrendPosts', {
         offset: this.offset,
         word: this.$route.params.word
-      }, {
-        headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        _this3.posts = _this3.posts.concat(response.data.posts);
-        _this3.posts = Array.from(new Set(_this3.posts));
-
-        _this3.$store.commit('addToLikedPosts', response.data.liked_posts);
-
-        _this3.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
-      }).catch(function (error) {
-        console.log(error.response);
       });
     }
   }
@@ -120,7 +91,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

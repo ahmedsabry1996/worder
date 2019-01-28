@@ -148,11 +148,10 @@ export default{
                   console.log(error.response);
               })
           },
+
           postReact(context,commit,rootState){
             if (commit.react == 'like') {
                         context.commit('addToLikedPosts',commit.postId);
-
-
             }
             if (commit.react == 'dislike') {
 
@@ -173,9 +172,22 @@ export default{
             .then((response)=>{
 
               console.log(response.data);
-              context.commit('updatePost',{id:commit.postId,updatedPost:response.data.updated_post});
-              context.commit('showPost',response.data.updated_post)
 
+
+              context.commit('showPost',response.data.updated_post);
+              if (commit.routeName=='root') {
+
+            context.commit('updatePost',{id:commit.postId,
+                                         updatedPost:response.data.updated_post});
+              }
+
+              else if (commit.routeName == 'trend') {
+                context.commit('updateTrendPost',response.data.updated_post)
+              }
+
+              else if (commit.routeName == 'show-profile') {
+                context.commit('updateProfilePosts',response.data.updated_post)
+              }
             })
             .catch((error)=>{
               console.log(error);
