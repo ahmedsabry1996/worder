@@ -265,7 +265,7 @@ class TimelineController extends Controller
             ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
                                     ->where('notifiable_id',$post_publisher->id)
                                     ->delete();
-          }
+          } 
 
           $updated_post = post::whereId($post_id)
           ->with('likesCounter')
