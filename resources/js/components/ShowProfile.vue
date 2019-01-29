@@ -471,8 +471,8 @@ export default {
 
     getMyFans(){
 
-        let followers = this.$store.state.myFollowers.length;
-        let following = this.$store.state.myFollowing.length;
+        let followers = this.$store.state.following.myFollowersProfiles.length;
+        let following = this.$store.state.following.myFollowersProfiles.length;
         if (followers === 0 && following === 0) {
 
           this.$store.dispatch('showFans');

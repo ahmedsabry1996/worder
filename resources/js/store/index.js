@@ -9,6 +9,7 @@ import notifications from './modules/notifications';
 import timeline from './modules/timeline';
 import posts from './modules/posts';
 import profile from './modules/profile';
+import topics from './modules/topics';
 import trend from './modules/trend';
 import following from './modules/following';
 
@@ -23,6 +24,7 @@ export default {
     profile,
     following,
     trend,
+    topics
   },
 
   state,

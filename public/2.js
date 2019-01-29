@@ -468,8 +468,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   methods: {
     getMyFans: function getMyFans() {
-      var followers = this.$store.state.myFollowers.length;
-      var following = this.$store.state.myFollowing.length;
+      var followers = this.$store.state.following.myFollowersProfiles.length;
+      var following = this.$store.state.following.myFollowersProfiles.length;
 
       if (followers === 0 && following === 0) {
         this.$store.dispatch('showFans');

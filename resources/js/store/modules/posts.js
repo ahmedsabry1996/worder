@@ -185,6 +185,10 @@ export default{
                 context.commit('updateTrendPost',response.data.updated_post)
               }
 
+              else if (commit.routeName == 'topic') {
+                context.commit('updateTopicPost',response.data.updated_post)
+              }
+
               else if (commit.routeName == 'show-profile') {
                 context.commit('updateProfilePosts',response.data.updated_post)
               }

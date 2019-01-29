@@ -20,8 +20,12 @@ export default {
 
     data(){
         return {
-          posts:[],
           offset:0
+        }
+    },
+    computed:{
+        posts(){
+          return  this.$store.getters.topicPosts;
         }
     },
     mounted(){
@@ -36,7 +40,6 @@ export default {
     watch:{
       '$route'(to,from){
 
-          this.posts = [];
           this.offset = 0;
         this.getTopicPosts();
       }
@@ -44,31 +47,7 @@ export default {
     methods:{
 
       getTopicPosts(){
-          let currentTopic = this.$route.params.topic;
-          let id =this.$store.state.topics.indexOf(currentTopic)+1;
-
-        axios.post(`/api/topic/show`,{
-          topic_id:id
-        },{
-          headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
-          }
-        }).
-        then((response)=>{
-
-          this.posts = response.data.posts;
-          this.posts =  Array.from(new Set(this.posts));
-          this.$store.commit('addToLikedPosts',response.data.liked_posts);
-          this.$store.commit('addToDisLikedPosts',response.data.disliked_posts);
-          console.log(response.data.posts);
-
-        }).
-        catch((error)=>{
-
-          console.log(error);
-          console.log(error.response.data);
-
-        })
+        this.$store.dispatch('fillTopicPosts',{topic:this.$route.params.topic});
       },
       loadMore(){
 
@@ -92,28 +71,14 @@ export default {
 
       morePosts(){
 
-          let currentTopic = this.$route.params.topic;
-          let id =this.$store.state.topics.indexOf(currentTopic)+1;
           this.offset +=100;
-          axios.post('/api/topic/load-more',{
-            offset:this.offset,
-            topic_id : id
-          },{
-            headers:{
-              Authorization:`Bearer ${localStorage.getItem('access_token')}`
-            }
-          })
-          .then((response)=>{
+        this.$store.dispatch('loadMoreTopicPosts',
+                            {topic:this.$route.params.topic
+                              ,offset:this.offset})
 
-            this.posts = this.posts.concat(response.data.posts);
-            this.posts =  Array.from(new Set(this.posts));
-            this.$store.commit('addToLikedPosts',response.data.liked_posts);
-            this.$store.commit('addToDisLikedPosts',response.data.disliked_posts);
-          })
-          .catch((error)=>{
-            console.log(error.response);
-          })
-      }
+
+
+              }
 
     }
 }

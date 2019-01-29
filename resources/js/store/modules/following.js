@@ -69,6 +69,7 @@ export default{
         }
       }).
       then((response)=>{
+          console.log(response.data.following_ids);
         context.commit('fillMyFollowingIds',response.data.following_ids);
 
       }).

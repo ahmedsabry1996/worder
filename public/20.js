@@ -26,9 +26,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      posts: [],
       offset: 0
     };
+  },
+  computed: {
+    posts: function posts() {
+      return this.$store.getters.topicPosts;
+    }
   },
   mounted: function mounted() {
     this.loadMore();
@@ -48,46 +52,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getTopicPosts: function getTopicPosts() {
-      var _this = this;
-
-      var currentTopic = this.$route.params.topic;
-      var id = this.$store.state.topics.indexOf(currentTopic) + 1;
-      axios.post("/api/topic/show", {
-        topic_id: id
-      }, {
-        headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        _this.posts = response.data.posts;
-        _this.posts = Array.from(new Set(_this.posts));
-
-        _this.$store.commit('addToLikedPosts', response.data.liked_posts);
-
-        _this.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
-
-        console.log(response.data.posts);
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response.data);
-      });
+      this.$store.dispatch('fillTopicPosts');
     },
     loadMore: function loadMore() {
-      var _this2 = this;
+      var _this = this;
 
       window.onscroll = function () {
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
           //alert(!!localStorage.getItem('access_token'));
-          if (!!localStorage.getItem('access_token') && _this2.$route.name == 'topic') {
-            _this2.morePosts();
+          if (!!localStorage.getItem('access_token') && _this.$route.name == 'topic') {
+            _this.morePosts();
           }
         }
       };
     },
     morePosts: function morePosts() {
-      var _this3 = this;
+      var _this2 = this;
 
       var currentTopic = this.$route.params.topic;
       var id = this.$store.state.topics.indexOf(currentTopic) + 1;
@@ -100,12 +82,12 @@ __webpack_require__.r(__webpack_exports__);
           Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this3.posts = _this3.posts.concat(response.data.posts);
-        _this3.posts = Array.from(new Set(_this3.posts));
+        _this2.posts = _this2.posts.concat(response.data.posts);
+        _this2.posts = Array.from(new Set(_this2.posts));
 
-        _this3.$store.commit('addToLikedPosts', response.data.liked_posts);
+        _this2.$store.commit('addToLikedPosts', response.data.liked_posts);
 
-        _this3.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
+        _this2.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
       }).catch(function (error) {
         console.log(error.response);
       });
@@ -127,7 +109,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

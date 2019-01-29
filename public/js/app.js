@@ -99360,55 +99360,55 @@ __webpack_require__.r(__webpack_exports__);
 //import UpdateAuth from './components/UpdateAuth.vue';
 
 var Login = function Login(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(21), __webpack_require__.e(17)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(10), __webpack_require__.e(6)]).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Login.vue */ "./resources/js/components/auth/Login.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Topic = function Topic(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 20).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 9).then((function () {
     resolve(__webpack_require__(/*! ./components/topics/topic.vue */ "./resources/js/components/topics/topic.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Signup = function Signup(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 18).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 7).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Signup.vue */ "./resources/js/components/auth/Signup.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Post = function Post(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 19).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 8).then((function () {
     resolve(__webpack_require__(/*! ./components/posts/showPost.vue */ "./resources/js/components/posts/showPost.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Createprofile = function Createprofile(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 16).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 5).then((function () {
     resolve(__webpack_require__(/*! ./components/auth/Createprofile.vue */ "./resources/js/components/auth/Createprofile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Showprofile = function Showprofile(resolve) {
-  Promise.all(/*! require.ensure */[__webpack_require__.e(11), __webpack_require__.e(13)]).then((function () {
+  Promise.all(/*! require.ensure */[__webpack_require__.e(0), __webpack_require__.e(2)]).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowProfile.vue */ "./resources/js/components/ShowProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var UpdateProfile = function UpdateProfile(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 15).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 4).then((function () {
     resolve(__webpack_require__(/*! ./components/UpdateProfile.vue */ "./resources/js/components/UpdateProfile.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var UpdateAuth = function UpdateAuth(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 12).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 1).then((function () {
     resolve(__webpack_require__(/*! ./components/UpdateAuth.vue */ "./resources/js/components/UpdateAuth.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 var Trend = function Trend(resolve) {
-  __webpack_require__.e(/*! require.ensure */ 14).then((function () {
+  __webpack_require__.e(/*! require.ensure */ 3).then((function () {
     resolve(__webpack_require__(/*! ./components/ShowTrend.vue */ "./resources/js/components/ShowTrend.vue"));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -99555,9 +99555,6 @@ __webpack_require__.r(__webpack_exports__);
   countries: function countries(state) {
     return state.countries;
   },
-  topics: function topics(state) {
-    return state.topics;
-  },
   suggestedPeople: function suggestedPeople(state) {
     return state.suggestedPeople;
   },
@@ -99594,10 +99591,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_timeline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/timeline */ "./resources/js/store/modules/timeline.js");
 /* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
-/* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
-/* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
-/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _modules_topics__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/topics */ "./resources/js/store/modules/topics.js");
+/* harmony import */ var _modules_trend__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/trend */ "./resources/js/store/modules/trend.js");
+/* harmony import */ var _modules_following__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/following */ "./resources/js/store/modules/following.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuex-shared-mutations */ "./node_modules/vuex-shared-mutations/dist/vuex-shared-mutations.js");
+/* harmony import */ var vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_14__);
+
 
 
 
@@ -99618,14 +99617,15 @@ __webpack_require__.r(__webpack_exports__);
     timeline: _modules_timeline__WEBPACK_IMPORTED_MODULE_8__["default"],
     posts: _modules_posts__WEBPACK_IMPORTED_MODULE_9__["default"],
     profile: _modules_profile__WEBPACK_IMPORTED_MODULE_10__["default"],
-    following: _modules_following__WEBPACK_IMPORTED_MODULE_12__["default"],
-    trend: _modules_trend__WEBPACK_IMPORTED_MODULE_11__["default"]
+    following: _modules_following__WEBPACK_IMPORTED_MODULE_13__["default"],
+    trend: _modules_trend__WEBPACK_IMPORTED_MODULE_12__["default"],
+    topics: _modules_topics__WEBPACK_IMPORTED_MODULE_11__["default"]
   },
   state: _state__WEBPACK_IMPORTED_MODULE_2__["default"],
   getters: _getters__WEBPACK_IMPORTED_MODULE_3__["default"],
   actions: _actions__WEBPACK_IMPORTED_MODULE_4__["default"],
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_5__["default"],
-  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_13___default()({
+  plugins: [vuex_shared_mutations__WEBPACK_IMPORTED_MODULE_14___default()({
     predicate: ['signupSuccess', 'loginSuccess', 'verified', 'addToLikedPosts', 'addToDisLikedPosts', 'fillDisLikedPosts', 'fillLikedPosts', 'updatePost', 'noAction', 'logout', 'truncateProfile', 'addToFollowing', 'removeFromFollowing', 'addToMyFollowing', 'removeFromMyFollowing', 'showProfile', 'loadMoreProfilePosts', 'isFollow']
   })]
 });
@@ -99909,6 +99909,7 @@ __webpack_require__.r(__webpack_exports__);
           Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
+        console.log(response.data.following_ids);
         context.commit('fillMyFollowingIds', response.data.following_ids);
       }).catch(function (errors) {
         console.log(errors);
@@ -100132,6 +100133,8 @@ __webpack_require__.r(__webpack_exports__);
           });
         } else if (commit.routeName == 'trend') {
           context.commit('updateTrendPost', response.data.updated_post);
+        } else if (commit.routeName == 'topic') {
+          context.commit('updateTopicPost', response.data.updated_post);
         } else if (commit.routeName == 'show-profile') {
           context.commit('updateProfilePosts', response.data.updated_post);
         }
@@ -100398,6 +100401,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/topics.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/topics.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {
+    topicPosts: [],
+    topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education']
+  },
+  getters: {
+    topics: function topics(state) {
+      return state.topics;
+    },
+    topicPosts: function topicPosts(state) {
+      return state.topicPosts;
+    }
+  },
+  mutations: {
+    fillTopicPosts: function fillTopicPosts(state, payload) {
+      state.topicPosts = payload;
+    },
+    addToTopicPosts: function addToTopicPosts(state, payload) {
+      payload.map(function (val) {
+        state.topicPosts.push(val);
+      });
+    },
+    updateTopicPost: function updateTopicPost(state, payload) {
+      var posts = state.topicPosts;
+      var postIndex = posts.findIndex(function (val) {
+        return val.id == payload.id;
+      });
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(posts, postIndex, payload);
+    }
+  },
+  actions: {
+    fillTopicPosts: function fillTopicPosts(context, commit, rootState) {
+      var currentTopic = commit.topic;
+      var id = context.state.topics.indexOf(currentTopic) + 1;
+      axios.post("/api/topic/show", {
+        topic_id: id
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        context.commit('fillTopicPosts', response.data.posts);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(error.response.data);
+      });
+    },
+    loadMoreTopicPosts: function loadMoreTopicPosts(context, commit, rootState) {
+      var currentTopic = commit.topic;
+      var id = context.state.topics.indexOf(currentTopic) + 1;
+      axios.post('/api/topic/load-more', {
+        offset: commit.offset,
+        topic_id: id
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+        }
+      }).then(function (response) {
+        context.commit('addToTopicPosts', response.data.posts);
+      }).catch(function (error) {
+        console.log(error.response);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/trend.js":
 /*!*********************************************!*\
   !*** ./resources/js/store/modules/trend.js ***!
@@ -100529,15 +100612,6 @@ __webpack_require__.r(__webpack_exports__);
   unreadNotifications: false,
   //Countries
   countries: ['Turkey', 'Egypt', 'Filstin'],
-  //Topics
-  topics: ['politics', 'sport', 'films', 'love', 'economy', 'trade', 'industry', 'travel', 'migration', 'education'],
-  //Following
-  followers: [],
-  following: [],
-  myFollowers: [],
-  myFollowing: [],
-  myFollowingIds: [],
-  isFollow: null,
   //suggestion
   suggestedPeople: []
 });
