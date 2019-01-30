@@ -265,7 +265,7 @@ class TimelineController extends Controller
             ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
                                     ->where('notifiable_id',$post_publisher->id)
                                     ->delete();
-          } 
+          }
 
           $updated_post = post::whereId($post_id)
           ->with('likesCounter')
@@ -286,7 +286,7 @@ class TimelineController extends Controller
         $all_notifications = $current_user->notifications()
                                           ->orderBy('created_at','desc')
                                           ->offset($offset)
-                                          ->limit(100)
+                                          ->limit(10)
                                           ->get();
 
       return response()->json(['all_notifications'=>$all_notifications],201);
@@ -310,7 +310,7 @@ class TimelineController extends Controller
       $more_notifications = $current_user->notifications()
                                         ->orderBy('created_at','desc')
                                         ->offset($offset)
-                                        ->limit(100)
+                                        ->limit(10)
                                         ->get();
         return response()->json(['notifications'=>$more_notifications],201);
     }

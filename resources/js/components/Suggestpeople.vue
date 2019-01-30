@@ -2,9 +2,14 @@
 
         <!-- suggested -->
         <div class="suggested">
+
           <h1>{{getFollowing}}</h1>
           <h3 style="text-transform:uppercase" class="text-primary text-center">
             <b>{{$t('likeyou')}}</b>
+            <br>
+            <button @click="refreshSuggested" type="button" class="btn btn-success">
+                refresh
+            </button>
           </h3>
 
             <div v-for="perosn in suggestPeople">
@@ -59,19 +64,25 @@ export default {
         },
         suggestPeople(){
           return this.$store.getters.suggestedPeople;
-
+        },
+        isLoggedIn(){
+          return this.$store.getters.isLoggedIn;
         }
     },
     created(){
-      if(this.$store.state.suggestedPeople.length === 0){
-        this.$store.dispatch('suggestPeople');
-        console.log('zero');
-      }
 
+            if (this.isLoggedIn) {
+                if (this.suggestPeople.length === 0) {
+                  this.$store.dispatch('suggestPeople');
+                }
+            }
     },
     mounted(){
 
-      //this.dosuggestPeople();
+
+      if (this.isLoggedIn) {
+          this.refreshSuggestedAutomatically();
+      }
     },
     methods:{
       follow(followed_id,action){
@@ -79,14 +90,15 @@ export default {
         this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
 
       },
-        dosuggestPeople(){
+        refreshSuggestedAutomatically(){
           const self = this ;
             setInterval(()=>{
-              self.$store.dispatch('suggestPeople');
-              console.log('zerr');
-            },10000)
+              self.$store.commit('shuffleSuggested')
+            },300000)
         },
-
+        refreshSuggested(){
+          this.$store.commit('shuffleSuggested')
+        },
     ShowProfile(displayName){
       this.$router.push(`/${displayName}`);
     }

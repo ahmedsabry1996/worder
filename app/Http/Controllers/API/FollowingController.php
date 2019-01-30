@@ -140,7 +140,7 @@ class FollowingController extends Controller
     			->where('user_id','<>',$current_user_id)
           ->inRandomOrder()
           ->distinct()
-          ->limit(5)
+          ->limit(100)
           ->select('user_id')
           ->pluck('user_id');
 
@@ -154,10 +154,7 @@ class FollowingController extends Controller
                                   ->get();
 
 
-    		return response()->json(['n'=>$people_like_me->count(),
-                                  'like'=>$my_topics,
-                                'suggest_people'=>$suggested_people,
-                                'following'=>$this->get_user_following()],201);
+    		return response()->json(['suggest_people'=>$suggested_people],201);
     }
 
     public function my_following(Request $request)

@@ -1,10 +1,13 @@
 require('./bootstrap');
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueRouter from 'vue-router';
+// import BootstrapVue from 'bootstrap-vue';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap-vue/dist/bootstrap-vue.css';
 import vuexI18n from 'vuex-i18n';
 import axios from 'axios';
 import storeData from './store/index';
-import VueRouter from 'vue-router';
 import {routes} from './routes';
 import Home from './components/Home.vue';
 import swal from 'sweetalert';
@@ -27,7 +30,7 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(Popover,{ tooltip: true });
 Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
-
+//Vue.use(BootstrapVue);
 
 Vue.use(VueProgressBar, {
   color: 'green',

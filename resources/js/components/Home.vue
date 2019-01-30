@@ -40,7 +40,6 @@
 
       </div>
 <tooltip class="text-center totool"/>
-
   </div>
 </template>
 

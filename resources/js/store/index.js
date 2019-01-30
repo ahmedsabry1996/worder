@@ -8,6 +8,7 @@ import authentication from './modules/authentication';
 import notifications from './modules/notifications';
 import timeline from './modules/timeline';
 import posts from './modules/posts';
+import suggest from './modules/suggest';
 import profile from './modules/profile';
 import topics from './modules/topics';
 import trend from './modules/trend';
@@ -24,7 +25,9 @@ export default {
     profile,
     following,
     trend,
-    topics
+    topics,
+    notifications,
+    suggest
   },
 
   state,
