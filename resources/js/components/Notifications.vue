@@ -75,9 +75,19 @@ export default {
       return this.$store.getters.unreadNotifications;
     },
     isLoggedIn(){
-    return  this.$store.getters.isLoggedIn
-    ;
-    }
+    return  this.$store.getters.isLoggedIn;
+  },
+    userToken(){
+      return  this.$store.getters.userToken;
+
+    },
+    isVerified(){
+      return this.$store.getters.isVerified;
+    },
+    hasProfile(){
+      return this.$store.getters.hasProfile;
+    },
+
   },
 
   mounted(){
@@ -103,8 +113,8 @@ export default {
     },
     listen(){
       const self = this ;
-      this.inter =  window.setInterval(function () {
-      if (localStorage.getItem('access_token') && localStorage.getItem('is_verified') == "1" && localStorage.getItem('has_profile') == 1  ) {
+      //this.inter =  window.setInterval(function () {
+      if (this.isLoggedIn && this.hasProfile && this.isVerified ) {
         window.Echo = new Echo({
          broadcaster: 'pusher',
          key: 'mykey',
@@ -149,11 +159,11 @@ export default {
                  })
                    });
 
-        clearInterval(self.inter);
+  //      clearInterval(self.inter);
       }
 
 
-    }, 1000);
+//    }, 1000);
 
     },
 

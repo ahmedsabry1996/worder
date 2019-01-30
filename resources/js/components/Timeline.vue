@@ -1,7 +1,11 @@
 <template>
   <div v-if="isLoggedIn">
-
         <list-posts class="text-center" :posts.sync="timelinePosts"></list-posts>
+        <div class="text-center" v-if="isLoadingMoreTimeline">
+
+          <img src="/storage/avatars/loader.gif" alt="loading">
+
+        </div>
     </div>
 </template>
 
@@ -13,7 +17,6 @@ export default {
   data(){
       return {
         offset:0,
-        followingOffset:0,
       }
   },
   components:{
@@ -21,7 +24,7 @@ export default {
   },
   created(){
     if (this.isLoggedIn) {
-
+      this.isLoading = true;
       this.$store.dispatch('reactedPosts');
       this.$store.dispatch('myFollowingIds');
       this.$store.dispatch('timeline');
@@ -29,15 +32,17 @@ export default {
   },
   mounted(){
 
-
     this.loadMore();
   },
   computed:{
+      isLoggedIn(){
+        return this.$store.getters.isLoggedIn;
+      },
       timelinePosts(){
         return this.$store.getters.posts;
       },
-      isLoggedIn(){
-        return this.$store.getters.isLoggedIn;
+      isLoadingMoreTimeline(){
+        return this.$store.getters.isLoadingMoreTimeline;
       }
 
   },
@@ -46,17 +51,20 @@ export default {
       this.$router.push(`post/${postId}`)
     },
     loadMore(){
-
-            window.onscroll = () => {
+      const self = this;
+            window.onscroll = function() {
 
 
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
-            if (!!localStorage.getItem('access_token') && this.$route.path == '/') {
-            this.offset +=100;
-            this.followingOffset +=100;
-            this.$store.dispatch('loadMorePosts',{"offset":this.offset});
+            if (!!localStorage.getItem('access_token') && self.$route.path == '/') {
+              console.log(5);
+              window.scrollTo(0,document.documentElement.offsetHeight - 200);
+              console.log(window);
+            self.offset +=27;
+            self.$store.dispatch('loadMorePosts',{"offset":self.offset})
+
           }
           }}
 

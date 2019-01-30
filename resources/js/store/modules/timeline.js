@@ -5,7 +5,7 @@ export default {
 
 
           posts:[],
-
+          isLoadingMoreTimeline:false
   },
 
   getters:{
@@ -13,6 +13,9 @@ export default {
     posts(state){
       return state.posts;
     },
+    isLoadingMoreTimeline(state){
+      return state.isLoadingMoreTimeline;
+    }
 
   },
 
@@ -34,7 +37,10 @@ export default {
         });
 
     },
-
+    isLoadingMoreTimeline(state){
+      state.isLoadingMoreTimeline = !state.isLoadingMoreTimeline;
+      console.log(state.isLoadingMoreTimeline);
+    },
       updatePost(state,payload){
 
         let timelineposts = state.posts;
@@ -48,9 +54,10 @@ export default {
 
         if (postIndexInTimeline != -1) {
 
-          setTimeout(function(){
+          // setTimeout(function(){
             Vue.set(state.posts, postIndexInTimeline, payload.updatedPost);
-          },500)
+          // },500)
+
         }
 
       },
@@ -82,15 +89,17 @@ export default {
 
 
     loadMorePosts(context,data,rootState){
+        context.commit("isLoadingMoreTimeline");
       axios.post(`/api/timeline/load-more`,{
           offset:data.offset,
         },{
         headers:{
-          "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
+          "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
         }
       })
       .then((response)=>{
           console.log(response.data);
+            context.commit("isLoadingMoreTimeline")
             context.commit('loadMore',response.data.loaded_posts);
       })
       .catch((errors)=>{

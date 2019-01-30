@@ -12312,6 +12312,15 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     },
     isLoggedIn: function isLoggedIn() {
       return this.$store.getters.isLoggedIn;
+    },
+    userToken: function userToken() {
+      return this.$store.getters.userToken;
+    },
+    isVerified: function isVerified() {
+      return this.$store.getters.isVerified;
+    },
+    hasProfile: function hasProfile() {
+      return this.$store.getters.hasProfile;
     }
   },
   mounted: function mounted() {
@@ -12331,47 +12340,46 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     listen: function listen() {
-      var self = this;
-      this.inter = window.setInterval(function () {
-        if (localStorage.getItem('access_token') && localStorage.getItem('is_verified') == "1" && localStorage.getItem('has_profile') == 1) {
-          window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]({
-            broadcaster: 'pusher',
-            key: 'mykey',
-            cluster: 'eu',
-            encrypted: false,
-            wsHost: window.location.hostname,
-            wsPort: 6001,
-            disableStats: true,
-            auth: {
-              headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("access_token")
-              }
+      var self = this; //this.inter =  window.setInterval(function () {
+
+      if (this.isLoggedIn && this.hasProfile && this.isVerified) {
+        window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]({
+          broadcaster: 'pusher',
+          key: 'mykey',
+          cluster: 'eu',
+          encrypted: false,
+          wsHost: window.location.hostname,
+          wsPort: 6001,
+          disableStats: true,
+          auth: {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("access_token")
             }
-          });
-          var decoded = self.jwt_decode(localStorage.getItem("access_token"));
-          window.Echo.private("App.User.".concat(decoded.sub)).notification(function (Notification) {
-            console.log();
+          }
+        });
+        var decoded = self.jwt_decode(localStorage.getItem("access_token"));
+        window.Echo.private("App.User.".concat(decoded.sub)).notification(function (Notification) {
+          console.log();
+          self.notificationSound();
+          self.$store.commit('unreadNotifications');
+        });
+        window.Echo.channel('trend').listen('.newTrend', function () {
+          axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/trend/update', {}, {
+            headers: {
+              Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+            }
+          }).then(function (response) {
+            console.log(response.data);
             self.notificationSound();
-            self.$store.commit('unreadNotifications');
+            localStorage.setItem('trend', response.data.trend.top_words);
+            self.$store.commit('topTen');
+          }).catch(function (errors) {
+            console.log(errors);
+            console.log(errors.response);
           });
-          window.Echo.channel('trend').listen('.newTrend', function () {
-            axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/trend/update', {}, {
-              headers: {
-                Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-              }
-            }).then(function (response) {
-              console.log(response.data);
-              self.notificationSound();
-              localStorage.setItem('trend', response.data.trend.top_words);
-              self.$store.commit('topTen');
-            }).catch(function (errors) {
-              console.log(errors);
-              console.log(errors.response);
-            });
-          });
-          clearInterval(self.inter);
-        }
-      }, 1000);
+        }); //      clearInterval(self.inter);
+      } //    }, 1000);
+
     },
     loadMoreNotifications: function loadMoreNotifications(e) {
       var elHeight = e.target.clientHeight;
@@ -12556,12 +12564,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      offset: 0,
-      followingOffset: 0
+      offset: 0
     };
   },
   components: {
@@ -12569,6 +12580,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.isLoggedIn) {
+      this.isLoading = true;
       this.$store.dispatch('reactedPosts');
       this.$store.dispatch('myFollowingIds');
       this.$store.dispatch('timeline');
@@ -12578,11 +12590,14 @@ __webpack_require__.r(__webpack_exports__);
     this.loadMore();
   },
   computed: {
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
     timelinePosts: function timelinePosts() {
       return this.$store.getters.posts;
     },
-    isLoggedIn: function isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
+    isLoadingMoreTimeline: function isLoadingMoreTimeline() {
+      return this.$store.getters.isLoadingMoreTimeline;
     }
   },
   methods: {
@@ -12590,18 +12605,19 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push("post/".concat(postId));
     },
     loadMore: function loadMore() {
-      var _this = this;
+      var self = this;
 
       window.onscroll = function () {
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
-          if (!!localStorage.getItem('access_token') && _this.$route.path == '/') {
-            _this.offset += 100;
-            _this.followingOffset += 100;
-
-            _this.$store.dispatch('loadMorePosts', {
-              "offset": _this.offset
+          if (!!localStorage.getItem('access_token') && self.$route.path == '/') {
+            console.log(5);
+            window.scrollTo(0, document.documentElement.offsetHeight - 200);
+            console.log(window);
+            self.offset += 27;
+            self.$store.dispatch('loadMorePosts', {
+              "offset": self.offset
             });
           }
         }
@@ -17538,7 +17554,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -79489,7 +79505,15 @@ var render = function() {
                 _vm.timelinePosts = $event
               }
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm.isLoadingMoreTimeline
+            ? _c("div", { staticClass: "text-center" }, [
+                _c("img", {
+                  attrs: { src: "/storage/avatars/loader.gif", alt: "loading" }
+                })
+              ])
+            : _vm._e()
         ],
         1
       )
@@ -100347,11 +100371,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    posts: []
+    posts: [],
+    isLoadingMoreTimeline: false
   },
   getters: {
     posts: function posts(state) {
       return state.posts;
+    },
+    isLoadingMoreTimeline: function isLoadingMoreTimeline(state) {
+      return state.isLoadingMoreTimeline;
     }
   },
   mutations: {
@@ -100366,6 +100394,10 @@ __webpack_require__.r(__webpack_exports__);
         vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.posts, state.posts.length, value);
       });
     },
+    isLoadingMoreTimeline: function isLoadingMoreTimeline(state) {
+      state.isLoadingMoreTimeline = !state.isLoadingMoreTimeline;
+      console.log(state.isLoadingMoreTimeline);
+    },
     updatePost: function updatePost(state, payload) {
       var timelineposts = state.posts;
       var postIndexInTimeline = timelineposts.findIndex(function (val) {
@@ -100373,9 +100405,8 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       if (postIndexInTimeline != -1) {
-        setTimeout(function () {
-          vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.posts, postIndexInTimeline, payload.updatedPost);
-        }, 500);
+        // setTimeout(function(){
+        vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.posts, postIndexInTimeline, payload.updatedPost); // },500)
       }
     }
   },
@@ -100395,14 +100426,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     loadMorePosts: function loadMorePosts(context, data, rootState) {
+      context.commit("isLoadingMoreTimeline");
       axios.post("/api/timeline/load-more", {
         offset: data.offset
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(context.rootState.authentication.userToken)
+          "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
         console.log(response.data);
+        context.commit("isLoadingMoreTimeline");
         context.commit('loadMore', response.data.loaded_posts);
       }).catch(function (errors) {
         console.log(errors);

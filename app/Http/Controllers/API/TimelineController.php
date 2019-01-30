@@ -107,7 +107,7 @@ class TimelineController extends Controller
         $user_following = $this->get_user_following();
           $following_posts = post::whereIn('user_id',$user_following)
           ->offset($offset)
-          ->limit(100)
+          ->limit(27)
           ->whereCountryId($user_country)
           ->latest()
           ->with('dislikesCounter')
@@ -133,7 +133,7 @@ class TimelineController extends Controller
       ->where('user_id','<>',$user_id)
       ->whereCountryId($user_country)
       ->offset($offset)
-      ->limit(100)
+      ->limit(27)
       ->latest()
       ->with('likesCounter')
       ->with('dislikesCounter')
