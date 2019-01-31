@@ -151,7 +151,7 @@ export default {
     avatar:`storage/avatars/${this.$store.state.authentication.currentUserProfile.avatar}`,
     avatarState : 'same',
     gender:[this.$t('male'),this.$t('female')],
-    topics:this.$store.state.topics,
+    topics:this.$store.state.topics.topics,
     countries:this.$store.state.countries,
     selectedGender:null,
     selectedCountry:null,

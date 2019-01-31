@@ -197,7 +197,9 @@ methods:{
           }
         }).then((response)=>{
           localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
+          localStorage.setItem('email',this.email);
           this.$store.commit('updateUser');
+          this.$store.commit('updateEmail');
           swal({
             "title":this.$t('done'),
             "text":this.$t('emailupdated'),
@@ -217,6 +219,7 @@ methods:{
       this.errors = {code:'error in inserted code'}
     }
   },
+
   forgetPasswrd(){
     const currentUserEmail= this.$store.state.authentication.currentUser.email;
 
@@ -323,6 +326,7 @@ methods:{
       });
     }
   },
+
   reset(){
     this.email='';
     this.password='';

@@ -99546,6 +99546,12 @@ __webpack_require__.r(__webpack_exports__);
   updateUser: function updateUser(state) {
     state.currentUser = JSON.parse(localStorage.getItem("current_user"));
   },
+  updateEmail: function updateEmail(state) {
+    state.email = localStorage.getItem('email');
+  },
+  updatePassword: function updatePassword(state) {
+    state.password = localStorage.getItem('password');
+  },
   updateProfile: function updateProfile(state) {
     state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
   },

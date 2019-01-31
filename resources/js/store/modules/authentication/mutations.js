@@ -65,6 +65,13 @@ export default{
           updateUser(state){
             state.currentUser = JSON.parse(localStorage.getItem("current_user"));
           },
+          updateEmail(state){
+            state.email = localStorage.getItem('email');
+          },
+          updatePassword(state){
+            state.password = localStorage.getItem('password');
+
+          },
           updateProfile(state){
             state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
           },
