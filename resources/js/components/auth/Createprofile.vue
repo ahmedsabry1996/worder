@@ -170,10 +170,6 @@ handleFile(e){
       }
 
     }
-  console.log("****************** file data **********************");
-  console.log(e.target.files[0].name);
-  console.log(e.target.files[0].type);
-  console.log(e.target.files[0].size);
 
 
 },

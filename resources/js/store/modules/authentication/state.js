@@ -9,7 +9,6 @@ import {currentUser,
   ,email
   ,password
   ,newTrend}  from './../../../auth';
-import {localStorageSettter} from './../../../localstorage';
 const USER = currentUser();
 const USER_PROFILE = currentUserProfile();
 const USER_TOPICS = currentUserTopics();

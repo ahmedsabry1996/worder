@@ -398,7 +398,6 @@ export default {
   },
   mounted(){
 
-
       this.$store.commit('truncateProfile');
       this.loadMorePosts();
       console.log(`${this.$route.params.name} show profile`);

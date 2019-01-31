@@ -97,6 +97,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -118,6 +119,9 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
     },
     signupErrors: function signupErrors() {
       return this.$store.getters.signupErrors;
+    },
+    currentUser: function currentUser() {
+      return this.$store.getters.currentUser;
     }
   },
   methods: {
@@ -141,6 +145,8 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
         localStorage.setItem('password', _this.password);
 
         _this.$store.commit('userCredionals');
+
+        _this.signupLoading = false;
       }).catch(function (errors) {
         _this.signupLoading = false;
         swal({
@@ -155,7 +161,7 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
       console.log(this.signupLoading);
 
       if (this.code == this.$store.getters.verificationCode) {
-        localStorage.setItem('user_id', this.$store.getters.currentUser.id);
+        localStorage.setItem('user_id', this.currentUser.id);
         this.$store.dispatch('confrimEmail');
         this.$router.push('create-profile');
       } else {
@@ -185,7 +191,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

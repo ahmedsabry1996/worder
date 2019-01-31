@@ -173,11 +173,6 @@ __webpack_require__.r(__webpack_exports__);
           _this.avatar = e.target.result;
         };
       }
-
-      console.log("****************** file data **********************");
-      console.log(e.target.files[0].name);
-      console.log(e.target.files[0].type);
-      console.log(e.target.files[0].size);
     },
     createProfile: function createProfile() {
       var _this2 = this;

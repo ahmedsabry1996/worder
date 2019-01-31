@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import storeData from './store';
 import Timeline from './components/Timeline.vue'
-import Test from './components/Test.vue';
+//import Test from './components/Test.vue';
 import Veifyemail from './components/auth/Veifyemail.vue';
 
 //import Home from './components/Home.vue';
@@ -71,10 +71,7 @@ const store = new Vuex.Store(storeData);
 
 
 export const routes = [
-  {
-    path:'/test',
-    component:Test
-  },
+
   {
       path:'/',
       component:Timeline,

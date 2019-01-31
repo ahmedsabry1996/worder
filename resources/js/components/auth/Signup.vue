@@ -4,6 +4,7 @@
 
     <template v-if="!verificationCode">
 
+      <!-- Default signup form -->
         <form @submit.prevent="signup">
 
             <div class="form-group">
@@ -112,7 +113,9 @@ export default {
     signupErrors(){
       return this.$store.getters.signupErrors;
     },
-
+    currentUser(){
+      return this.$store.getters.currentUser;
+    }
 
   },
   methods:{
@@ -134,7 +137,9 @@ export default {
           });
           localStorage.setItem('email',this.email);
           localStorage.setItem('password',this.password);
-          this.$store.commit('userCredionals')
+          this.$store.commit('userCredionals');
+          this.signupLoading = false;
+
         })
         .catch((errors)=>{
 
@@ -151,7 +156,7 @@ export default {
             this.signupLoading = true;
             console.log(this.signupLoading);
             if (this.code == this.$store.getters.verificationCode) {
-                localStorage.setItem('user_id',this.$store.getters.currentUser.id);
+                localStorage.setItem('user_id',this.currentUser.id);
                 this.$store.dispatch('confrimEmail');
                 this.$router.push('create-profile');
 

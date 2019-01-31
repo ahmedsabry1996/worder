@@ -11,7 +11,6 @@
 
         <div class="col-md-3 suggest">
           <template v-if="!profileRoutes">
-
                 <suggested-people></suggested-people>
       </template>
 
@@ -37,7 +36,9 @@
             <topics></topics>
             </template>
       </div>
-
+      </div>
+      <div v-if="needProfile">
+        <router-view></router-view>
       </div>
 <tooltip class="text-center totool"/>
   </div>
@@ -92,14 +93,18 @@
 
             },
             perfectUser(){
-                return this.$store.getters.isLoggedIn == true &&
+                return (this.$store.getters.isLoggedIn == true &&
                       this.$store.getters.isVerified == "1" &&
-                      this.$store.getters.hasProfile == "1";
+                      this.$store.getters.hasProfile == "1");
             },
-
+          needProfile(){
+            return (this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "0");
+          },
           currentRoute(){
           return this.$route ;
           },
+
+
           profileRoutes(){
             if (this.$route.name) {
               return this.$route.name.includes('-profile');
