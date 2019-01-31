@@ -20,6 +20,7 @@ class ProfileController extends Controller
 
       public $user_id;
 
+      //create profile
       public function store(Request $request){
 
           $validate = $request->validate([
@@ -122,7 +123,7 @@ class ProfileController extends Controller
 
           return response()->json([
 
-              'profile'=>Auth::user()->profile()->get()[0],
+              'profile'=>Auth::user()->profile,
               'topics'=>$user_topics,
               'message'=>"Account Created Successfully"
           ]);
@@ -130,6 +131,7 @@ class ProfileController extends Controller
 
       }
 
+      //edit user profile
       public function update_profile(Request $request)
       {
 
@@ -230,6 +232,7 @@ class ProfileController extends Controller
                       'updated_topics'=>$user->topics]);
 
       }
+
 
       public function get_user_profile($user_id)
       {

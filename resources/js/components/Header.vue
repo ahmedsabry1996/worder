@@ -193,7 +193,8 @@
           logout(){
               localStorage.clear();
               this.$store.commit('logout');
-            //  alert('logged out');
+              window.location.href =  "http://127.0.0.1:8000";
+
           }
         },
 

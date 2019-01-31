@@ -12087,7 +12087,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     logout: function logout() {
       localStorage.clear();
-      this.$store.commit('logout'); //  alert('logged out');
+      this.$store.commit('logout');
+      window.location.href = "http://127.0.0.1:8000";
     }
   }
 });

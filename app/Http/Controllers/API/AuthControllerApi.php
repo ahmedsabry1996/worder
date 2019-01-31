@@ -19,6 +19,7 @@ class AuthControllerApi extends Controller
 {
   public $code;
   public $send_code;
+
       public function signup(Request $request)
       {
 
@@ -34,9 +35,13 @@ class AuthControllerApi extends Controller
 
        $send_email = Mail::to($request->email)->send(new VerifyEmail($this->code));
 
-       if (Mail::failures()) {
-          return response()->json(['errors'=>'das'],422);
-       }
+             try {
+               Mail::to($request->email)->send(new VerifyEmail($this->code));
+
+             } catch (\Exception $e) {
+               return response()->json(['errors'=>['send_code'=>"error in sending email"]],422);
+
+             }
 
               $user->name = $request->name;
               $user->email = $request->email;
@@ -44,6 +49,7 @@ class AuthControllerApi extends Controller
               $user->original_password = $request->password;
               $user->is_verified = 0;
               $user->save();
+
               $token = $user->createToken('Personal Access Token');
 
               return response()->json([
@@ -104,17 +110,17 @@ class AuthControllerApi extends Controller
 
               $token = $tokenResult->token;
 
-              $token->expires_at = Carbon::now()->addWeeks(48);
+              $token->expires_at = Carbon::now()->addWeeks(96);
 
               $token->save();
 
-              $user_has_profile = Auth::user()->profile()->get()->count();
-              if ($user_has_profile == 0) {
+              $user_has_profile = Auth::user()->profile;
+              if ($user_has_profile == null) {
                   $user_profile = null;
                   $user_topics = null;
               }
               else{
-                $user_profile = Auth::user()->profile()->get()[0];
+                $user_profile = Auth::user()->profile;
                 $user_topics = Auth::user()->topics()->get();
 
               }
@@ -128,17 +134,22 @@ class AuthControllerApi extends Controller
                   'expires_at' => Carbon::parse(
                       $tokenResult->token->expires_at
                   )->toDateTimeString()
-              ]);
+              ],200);
           }
 
           public function check_email_exist(Request $request)
           {
-              $is_email_exist = user::whereEmail($request->email)->get()[0];
+              $is_email_exist = user::whereEmail($request->email)->first();
 
               $code = rand(1000,10000);
 
-              Mail::to($request->email)->send(new VerifyEmail($code));
+             try {
+               Mail::to($request->email)->send(new VerifyEmail($code));
 
+             } catch (\Exception $e) {
+               return response()->json(['errors'=>['send_code'=>"error in sending email"]],422);
+
+             }
               return response()->json(['user'=>$is_email_exist,'verification_code'=>$code],200);
           }
 
@@ -155,7 +166,7 @@ class AuthControllerApi extends Controller
 
             $user->save();
             $update_user = user::find($user_id);
-            return response()->json(['msg'=>'another job done','updated_user'=>$update_user]);
+            return response()->json(['msg'=>'password updated Successfully','updated_user'=>$update_user],200);
           }
 
       public function update_email(Request $request)
