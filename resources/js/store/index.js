@@ -4,15 +4,15 @@ import state from './state';
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
-import authentication from './modules/authentication';
-import notifications from './modules/notifications';
-import timeline from './modules/timeline';
-import posts from './modules/posts';
-import suggest from './modules/suggest';
-import profile from './modules/profile';
-import topics from './modules/topics';
-import trend from './modules/trend';
-import following from './modules/following';
+import authentication from './modules/authentication/index';
+import notifications from './modules/notifications/index';
+import profile from './modules/profile/index';
+import posts from './modules/posts/index';
+import suggest from './modules/suggest/index';
+import timeline from './modules/timeline/index';
+import topics from './modules/topics/index';
+import trend from './modules/trend/index';
+import following from './modules/following/index';
 
 import createMutationsSharer from 'vuex-shared-mutations';
 

@@ -84,7 +84,7 @@
         <i style="opacity:.5;color:#000;text-align:right" class="text-center">{{result.profile.display_name}}</i>
       </p>
     </li>
-    <li class="list-group-item" @click="seeMore" v-if="results.length == 5">
+    <li class="list-group-item"  v-if="results.length == 5">
       <a href="#" >see more</a>
     </li>
   </ul>
@@ -177,7 +177,7 @@
             },
           {
             headers:{
-              "Authorization":`Bearer ${this.$store.state.userToken}`
+              "Authorization":`Bearer ${localStorage.getItem('access_token')}`
             }
           }).
           then((response)=>{
