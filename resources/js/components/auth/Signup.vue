@@ -10,6 +10,11 @@
             <div class="form-group">
               <label>{{$t('name')}}</label>
               <input type="text" class="form-control"  :placeholder="$t('name')" v-model="name">
+              <template v-if="signupErrors">
+              <p class="text-danger" v-if="signupErrors.name">
+                <b>{{signupErrors.name[0]}}</b>
+              </p>
+              </template>
             </div>
             <div class="form-group">
               <label>{{$t('email')}}</label>
