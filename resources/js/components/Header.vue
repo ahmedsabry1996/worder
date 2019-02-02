@@ -55,14 +55,14 @@
             <li><router-link :to="`/${currentUserProfile.display_name}`"> <b>{{currentUserProfile.display_name}}</b> </router-link></li>
             <li><a @click.prevent="logout" style="cursor:pointer"> <b>{{$t('logout')}}</b> </a></li>
           </template>
-          <li v-if="needProfile"><router-link  to="/create-profile"> <b>  {{$t('createprofile')}}</b> </router-link></li>
+          <template v-if="needProfile">
+            <li v-if="needProfile"><router-link  to="/create-profile"> <b>  {{$t('createprofile')}}</b> </router-link></li>
+            <li><a @click.prevent="logout"> <b>  {{$t('exit')}}</b> </a></li>
+
+          </template>
 
           <template v-if="cotinueSignup">
             <li><router-link to= "/signup"> <b>  {{$t('continuesignup')}}</b> </router-link></li>
-          </template>
-          <template v-if="cotinueSignup || needProfile">
-            <li><a @click.prevent="logout"> <b>  {{$t('exit')}}</b> </a></li>
-
           </template>
         </ul>
         <form @submit.prevent="showMore()" v-if="perfectUser" class="hidden-xs navbar-form navbar-right col-md-pull-3 col-md-12" >
@@ -123,7 +123,7 @@
             return  this.$store.getters.isLoggedIn;
           },
           needProfile(){
-          return this.$store.state.isVerified == 1 && this.$store.state.hasProfile == 0 && this.$route.path!=='/create-profile';
+          return this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "0"
 
         },
         perfectUser(){

@@ -9,11 +9,11 @@
 
             <div class="form-group">
               <label>{{$t('name')}}</label>
-              <input type="text" class="form-control"  placeholder="name" v-model="name">
+              <input type="text" class="form-control"  :placeholder="$t('name')" v-model="name">
             </div>
             <div class="form-group">
               <label>{{$t('email')}}</label>
-              <input type="text" class="form-control"  placeholder="email" v-model="email">
+              <input type="text" class="form-control"  :placeholder="$t('email')" v-model="email">
               <template v-if="signupErrors">
               <p class="text-danger" v-if="signupErrors.email">
                 <b>{{signupErrors.email[0]}}</b>
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
               <label>{{$t('password')}}</label>
-              <input type="text" class="form-control"  placeholder="pass****" v-model="password">
+              <input type="text" class="form-control"  :placeholder="$t('password')" v-model="password">
               <template v-if="signupErrors">
               <p class="text-danger" v-if="signupErrors.password">
                 <b>  {{signupErrors.password[0]}}
@@ -32,12 +32,12 @@
             </div>
             <div class="form-group">
               <label>{{$t('repeatpass')}}</label>
-              <input type="text" class="form-control"  placeholder="confrim pass****" v-model="passwordConfirm">
+              <input type="text" class="form-control"  :placeholder="$t('repeatpass')" v-model="passwordConfirm">
             </div>
 
             <div class="form-group">
               <template v-if="!signupLoading">
-              <button type="button" class="btn btn-default" @click="signup" >
+              <button type="submit" class="btn btn-default" @click="signup" >
                   {{$t('signup')}}
               </button>
               </template>

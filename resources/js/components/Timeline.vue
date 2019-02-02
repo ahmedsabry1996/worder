@@ -23,7 +23,7 @@ export default {
     ListPosts,
   },
   created(){
-    if (this.isLoggedIn) {
+    if (this.perfectUser) {
       this.isLoading = true;
       this.$store.dispatch('reactedPosts');
       this.$store.dispatch('myFollowingIds');
@@ -37,6 +37,11 @@ export default {
   computed:{
       isLoggedIn(){
         return this.$store.getters.isLoggedIn;
+      },
+      perfectUser(){
+        if (this.$store.getters.isVerified=="1" && this.$store.getters.hasProfile=="1") {
+          return true;
+        }
       },
       timelinePosts(){
         return this.$store.getters.posts;

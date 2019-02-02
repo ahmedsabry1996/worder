@@ -273,7 +273,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "name" },
+                    attrs: { type: "text", placeholder: _vm.$t("name") },
                     domProps: { value: _vm.name },
                     on: {
                       input: function($event) {
@@ -302,7 +302,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "email" },
+                      attrs: { type: "text", placeholder: _vm.$t("email") },
                       domProps: { value: _vm.email },
                       on: {
                         input: function($event) {
@@ -345,7 +345,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "pass****" },
+                      attrs: { type: "text", placeholder: _vm.$t("password") },
                       domProps: { value: _vm.password },
                       on: {
                         input: function($event) {
@@ -389,7 +389,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "confrim pass****" },
+                    attrs: { type: "text", placeholder: _vm.$t("repeatpass") },
                     domProps: { value: _vm.passwordConfirm },
                     on: {
                       input: function($event) {
@@ -412,7 +412,7 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-default",
-                              attrs: { type: "button" },
+                              attrs: { type: "submit" },
                               on: { click: _vm.signup }
                             },
                             [

@@ -28,7 +28,7 @@ export default {
   repeatpass:"repeat password",
   passworderror:"passwords do not match",
   passwordlength:"password must contain at least 6 characters",
-  name:"name",
+  name:"Name",
   profile:"profile",
   profilefail:"creating profile error",
   profileupdatefailed:"something went wrong ",

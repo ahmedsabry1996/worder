@@ -1,6 +1,8 @@
 <template>
 
   <div>
+    <div v-if="perfectUser">
+
     <div class="jaja" v-if="posts.length == 0">
         <img src="/storage/avatars/loader.gif" :alt="$t('loading')">
         <h3>{{$t('loading')}}</h3>
@@ -115,6 +117,7 @@
   </div>
 
 
+  </div>
 </div>
 </template>
 
@@ -138,7 +141,9 @@ export default {
       currentUserProfile(){
           return this.$store.getters.currentUserProfile;
       },
-
+      perfectUser(){
+        return this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile=="1";
+      }
     },
 
 

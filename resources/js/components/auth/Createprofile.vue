@@ -107,8 +107,6 @@ return {
   displayName:'',
   avatar:null,
   gender:['male','female'],
-  topics:['sport','news','politics','love','nature','health'],
-  countries:['Turkey','Filistin','Misir','Azrebijan'],
   selectedGender:null,
   selectedCountry:null,
   selectedTopics:[],
@@ -120,6 +118,12 @@ return {
 },
 
 computed:{
+  countries(){
+    return  this.$store.getters.countries;
+  },
+  topics(){
+    return this.$store.getters.topics;
+  }, 
   username(){
       return   this.$store.getters.currentUser.name;
       },

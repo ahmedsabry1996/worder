@@ -119,8 +119,6 @@ __webpack_require__.r(__webpack_exports__);
       displayName: '',
       avatar: null,
       gender: ['male', 'female'],
-      topics: ['sport', 'news', 'politics', 'love', 'nature', 'health'],
-      countries: ['Turkey', 'Filistin', 'Misir', 'Azrebijan'],
       selectedGender: null,
       selectedCountry: null,
       selectedTopics: [],
@@ -131,6 +129,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    countries: function countries() {
+      return this.$store.getters.countries;
+    },
+    topics: function topics() {
+      return this.$store.getters.topics;
+    },
     username: function username() {
       return this.$store.getters.currentUser.name;
     },
