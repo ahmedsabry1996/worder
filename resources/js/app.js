@@ -2,9 +2,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-// import BootstrapVue from 'bootstrap-vue';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap-vue/dist/bootstrap-vue.css';
+import Vuetify from 'vuetify';
 import vuexI18n from 'vuex-i18n';
 import axios from 'axios';
 import storeData from './store/index';
@@ -28,6 +26,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
+Vue.use(Vuetify);
 Vue.use(Popover,{ tooltip: true });
 Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
 //Vue.use(BootstrapVue);
