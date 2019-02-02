@@ -2,10 +2,10 @@ export  default{
   post(state){
     return state.post;
   },
-  likedPosts(state){
+  likedPosts(state,getters,rootState){
     return  state.likedPosts;
   },
-  disLikedPosts(state){
+  disLikedPosts(state,getters,rootState){
     return  state.disLikedPosts;
   },
 

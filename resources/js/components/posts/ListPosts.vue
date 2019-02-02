@@ -14,7 +14,7 @@
                   <img
                   style="cursor:pointer;"
                   :src="`/storage/avatars/${post.user.profile.avatar}`"
-                  :alt="post.user_id"
+                  :alt="post.user.name"
                   width='45' height="45"  class="img-rounded">
           </div>
 

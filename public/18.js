@@ -97,6 +97,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -118,6 +124,9 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
     },
     signupErrors: function signupErrors() {
       return this.$store.getters.signupErrors;
+    },
+    currentUser: function currentUser() {
+      return this.$store.getters.currentUser;
     }
   },
   methods: {
@@ -141,6 +150,8 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
         localStorage.setItem('password', _this.password);
 
         _this.$store.commit('userCredionals');
+
+        _this.signupLoading = false;
       }).catch(function (errors) {
         _this.signupLoading = false;
         swal({
@@ -155,7 +166,7 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
       console.log(this.signupLoading);
 
       if (this.code == this.$store.getters.verificationCode) {
-        localStorage.setItem('user_id', this.$store.getters.currentUser.id);
+        localStorage.setItem('user_id', this.currentUser.id);
         this.$store.dispatch('confrimEmail');
         this.$router.push('create-profile');
       } else {
@@ -185,7 +196,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -254,31 +265,48 @@ var render = function() {
                 }
               },
               [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v(_vm._s(_vm.$t("name")))]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.name,
-                        expression: "name"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "name" },
-                    domProps: { value: _vm.name },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", [_vm._v(_vm._s(_vm.$t("name")))]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name,
+                          expression: "name"
                         }
-                        _vm.name = $event.target.value
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: _vm.$t("name") },
+                      domProps: { value: _vm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name = $event.target.value
+                        }
                       }
-                    }
-                  })
-                ]),
+                    }),
+                    _vm._v(" "),
+                    _vm.signupErrors
+                      ? [
+                          _vm.signupErrors.name
+                            ? _c("p", { staticClass: "text-danger" }, [
+                                _c("b", [
+                                  _vm._v(_vm._s(_vm.signupErrors.name[0]))
+                                ])
+                              ])
+                            : _vm._e()
+                        ]
+                      : _vm._e()
+                  ],
+                  2
+                ),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -296,7 +324,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "email" },
+                      attrs: { type: "text", placeholder: _vm.$t("email") },
                       domProps: { value: _vm.email },
                       on: {
                         input: function($event) {
@@ -339,7 +367,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "pass****" },
+                      attrs: { type: "text", placeholder: _vm.$t("password") },
                       domProps: { value: _vm.password },
                       on: {
                         input: function($event) {
@@ -383,7 +411,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", placeholder: "confrim pass****" },
+                    attrs: { type: "text", placeholder: _vm.$t("repeatpass") },
                     domProps: { value: _vm.passwordConfirm },
                     on: {
                       input: function($event) {
@@ -406,7 +434,7 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-default",
-                              attrs: { type: "button" },
+                              attrs: { type: "submit" },
                               on: { click: _vm.signup }
                             },
                             [

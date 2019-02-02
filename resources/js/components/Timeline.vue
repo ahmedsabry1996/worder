@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div>
         <list-posts class="text-center" :posts.sync="timelinePosts"></list-posts>
         <div class="text-center" v-if="isLoadingMoreTimeline">
 
@@ -22,18 +22,7 @@ export default {
   components:{
     ListPosts,
   },
-  created(){
-    if (this.perfectUser) {
-      this.isLoading = true;
-      this.$store.dispatch('reactedPosts');
-      this.$store.dispatch('myFollowingIds');
-      this.$store.dispatch('timeline');
-    }
-  },
-  mounted(){
 
-    this.loadMore();
-  },
   computed:{
       isLoggedIn(){
         return this.$store.getters.isLoggedIn;
@@ -51,6 +40,18 @@ export default {
       }
 
   },
+  created(){
+    if (this.perfectUser) {
+      this.isLoading = true;
+      this.$store.dispatch('reactedPosts');
+      this.$store.dispatch('myFollowingIds');
+      this.$store.dispatch('timeline');
+    }
+  },
+  mounted(){
+
+    this.loadMore();
+  },
   methods:{
     showPost(postId){
       this.$router.push(`post/${postId}`)
@@ -59,14 +60,12 @@ export default {
       const self = this;
             window.onscroll = function() {
 
-
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
-            if (!!localStorage.getItem('access_token') && self.$route.path == '/') {
-              console.log(5);
-              window.scrollTo(0,document.documentElement.offsetHeight - 200);
-              console.log(window);
+            if (self.perfectUser && self.$route.name == 'root') {
+
+            window.scrollTo(0,document.documentElement.offsetHeight - 400);
             self.offset +=27;
             self.$store.dispatch('loadMorePosts',{"offset":self.offset})
 

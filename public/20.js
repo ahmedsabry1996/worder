@@ -45,14 +45,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     '$route': function $route(to, from) {
-      this.posts = [];
       this.offset = 0;
       this.getTopicPosts();
     }
   },
   methods: {
     getTopicPosts: function getTopicPosts() {
-      this.$store.dispatch('fillTopicPosts');
+      this.$store.dispatch('fillTopicPosts', {
+        topic: this.$route.params.topic
+      });
     },
     loadMore: function loadMore() {
       var _this = this;
@@ -69,27 +70,10 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     morePosts: function morePosts() {
-      var _this2 = this;
-
-      var currentTopic = this.$route.params.topic;
-      var id = this.$store.state.topics.indexOf(currentTopic) + 1;
       this.offset += 100;
-      axios.post('/api/topic/load-more', {
-        offset: this.offset,
-        topic_id: id
-      }, {
-        headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        _this2.posts = _this2.posts.concat(response.data.posts);
-        _this2.posts = Array.from(new Set(_this2.posts));
-
-        _this2.$store.commit('addToLikedPosts', response.data.liked_posts);
-
-        _this2.$store.commit('addToDisLikedPosts', response.data.disliked_posts);
-      }).catch(function (error) {
-        console.log(error.response);
+      this.$store.dispatch('loadMoreTopicPosts', {
+        topic: this.$route.params.topic,
+        offset: this.offset
       });
     }
   }
@@ -109,7 +93,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

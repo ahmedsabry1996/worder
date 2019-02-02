@@ -5,15 +5,6 @@ import Timeline from './components/Timeline.vue'
 //import Test from './components/Test.vue';
 import Veifyemail from './components/auth/Veifyemail.vue';
 
-//import Home from './components/Home.vue';
-//import Signup from './components/auth/Signup.vue';
-//import Createprofile from './components/auth/Createprofile.vue';
-//import Login from './components/auth/Login.vue';
-//import post from './components/posts/showPost.vue';
-//import Showprofile from './components/ShowProfile.vue';
-//import UpdateProfile from './components/UpdateProfile.vue';
-//import UpdateAuth from './components/UpdateAuth.vue';
-
 const Login = resolve =>{
   require.ensure(['./components/auth/Login.vue'],()=>{
     resolve(require('./components/auth/Login.vue'))

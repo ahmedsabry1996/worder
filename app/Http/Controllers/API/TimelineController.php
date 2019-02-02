@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Notifications\PostReact;
 use App\Notifications\justTest;
 use App\Events\NewLike;
@@ -20,9 +21,10 @@ class TimelineController extends Controller
 
     public function count_following()
     {
-          $user_id =  Auth::id();
 
-          $num_of_following = followerscounter::whereUserId($user_id)->value('following');
+          $current_user = Auth::user();
+          //$num_of_following = followerscounter::whereUserId($user_id)->value('following');
+          $num_of_following = $current_user->follower_counter->following;
 
           return $num_of_following;
     }
@@ -30,9 +32,10 @@ class TimelineController extends Controller
 
   public function count_follower()
   {
-    $user_id =  Auth::id();
 
-    $num_of_followers = followerscounter::whereUserId($user_id)->value('followers');
+    $current_user = Auth::user();
+
+    $num_of_followers = $current_user->follower_counter->followers;
 
     return $num_of_followers;
   }
@@ -41,35 +44,18 @@ class TimelineController extends Controller
   {
 
           $current_user = Auth::user();
+
           $user_id = Auth::id();
-          $user_country = Auth::user()->profile->country_id;
 
           $user_following = $this->count_following();
 
           $user_follower = $this->count_follower();
 
-          if ($user_following == 0 ) {
 
-                      $following = Auth::user()
-                      ->following()
-                      ->offset($offset)
-                      ->limit(500)
-                      ->pluck('user_id');
-          }
+          $following = $current_user
+          ->following()
+          ->pluck('user_id');
 
-          elseif ($user_following > 0 ) {
-                if ($user_following > 2000) {
-
-                        $following = Auth::user()
-                        ->following()
-                        ->offset($offset)
-                        ->limit(500)
-                        ->pluck('user_id');
-                }
-                $following = Auth::user()
-                                  ->following()
-                                  ->pluck('user_id');
-          }
 
           return $following;
 }
@@ -86,12 +72,11 @@ class TimelineController extends Controller
           $user_country = Auth::user()->profile->country_id;
 
 
-          $user_topics = array();
+          $user_topics = $current_user->topics->pluck('id');
 
-          foreach ($current_user->topics as $topic) {
-              array_push($user_topics,$topic->pivot->topic_id);
-          }
+
           return $user_topics;
+
         }
 
 
@@ -104,8 +89,9 @@ class TimelineController extends Controller
 
         $user_country = Auth::user()->profile->country_id;
 
-        $user_following = $this->get_user_following();
-          $following_posts = post::whereIn('user_id',$user_following)
+        $followings = $this->get_user_following();
+
+          $following_posts = post::whereIn('user_id',$followings)
           ->offset($offset)
           ->limit(27)
           ->whereCountryId($user_country)
@@ -117,9 +103,13 @@ class TimelineController extends Controller
 
           return $following_posts;
 
-    }
+}
+
       public function fetch_other_posts($offset = 0)
       {
+
+
+      $current_time = new carbon();
 
       $current_user = Auth::user();
 
@@ -128,78 +118,85 @@ class TimelineController extends Controller
       $user_country = Auth::user()->profile->country_id;
 
       $user_favorite_topics = $this->user_topics();
-      $other_posts = post::whereNotIn('user_id',$this->get_user_following())
+
+      $followings = $this->get_user_following();
+
+      $other_posts = post::whereNotIn('user_id',$followings)
       ->whereIn('topic_id',$user_favorite_topics)
       ->where('user_id','<>',$user_id)
       ->whereCountryId($user_country)
+      ->latest()
       ->offset($offset)
       ->limit(27)
-      ->latest()
       ->with('likesCounter')
       ->with('dislikesCounter')
       ->with('topic')
-      ->with('user')
-      ->distinct();
+      ->with('user');
 
       return $other_posts;
     }
 
+    public function time_line_posts(Request $request)
+    {
+
+
+        $num_of_following = $this->count_following();
+
+        if ($this->fetch_following_posts()->get()->count() != 0) {
+
+            $posts =$this->fetch_following_posts()->get();
+        }
+
+        else{
+          $posts = $this->fetch_other_posts()->get();
+
+        }
+
+      return response()->json(['posts'=>$posts],201);
+  }
+
+  public function load_more(Request $request)
+  {
+
+      $offset = $request->has('offset') ? $request->offset : 0 ;
+
+
+      if ($this->fetch_following_posts($offset)->get()->count() != 0) {
+
+
+          $posts =$this->fetch_following_posts($offset)->get();
+
+
+      }
+
+      else{
+        $posts = $this->fetch_other_posts($offset)->get();
+
+      }
+
+
+return response()->json(['offset'=>$offset,
+                      'loaded_posts'=>$posts],201);
+}
+
 
         public function reacted_posts()
         {
-            $liked_posts = post::whereLikedBy(Auth::id())
+
+            $current_user_id = Auth::id();
+            $liked_posts = post::whereLikedBy($current_user_id)
                 ->pluck('id');
-            $disliked_posts = post::whereDislikedBy(Auth::id())
+            $disliked_posts = post::whereDislikedBy($current_user_id)
               ->pluck('id');
 
 
             return response()->json(['liked_posts'=>$liked_posts
                                     ,'disliked_posts'=>$disliked_posts],201);
         }
-      public function time_line_posts(Request $request)
-      {
 
 
-          $num_of_following = $this->count_following();
-
-          if ($this->fetch_following_posts()->get()->count() != 0) {
-
-              $posts =$this->fetch_following_posts()->get();
-          }
-
-          else{
-            $posts = $this->fetch_other_posts()->get();
-
-          }
-
-        return response()->json(['posts'=>$posts],201);
-    }
 
 
-          /*load more to timeline*/
-          public function load_more(Request $request)
-          {
-
-              $offset = $request->has('offset') ? $request->offset : 0 ;
-
-
-              if ($this->fetch_following_posts($offset)->get()->count() != 0) {
-
-
-                  $posts =$this->fetch_following_posts($offset)->get();
-
-
-              }
-
-              else{
-                $posts = $this->fetch_other_posts($offset)->get();
-
-              }
-
-
-      return response()->json(['offset'=>$offset,
-                              'loaded_posts'=>$posts],201);
-    }
 
 
       public function like_posts(Request $request)

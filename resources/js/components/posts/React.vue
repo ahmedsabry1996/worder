@@ -1,6 +1,9 @@
 <template>
 
 <div class="">
+
+    <h2>{{likedPosts.length}}</h2>
+    <h3>{{disLikedPosts.length}}</h3>
   <p class="text-center"
   v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) == -1" >
 
@@ -65,11 +68,11 @@ export default {
   computed:{
     likedPosts(){
       return this.$store.getters.likedPosts;
+    },
+    disLikedPosts(){
+      return this.$store.getters.disLikedPosts;
+    }
 
-  },
-  disLikedPosts(){
-    return this.$store.getters.disLikedPosts;
-  }
 },
 
   methods:{
