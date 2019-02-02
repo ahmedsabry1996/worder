@@ -164,13 +164,14 @@ class TimelineController extends Controller
       if ($this->fetch_following_posts($offset)->get()->count() != 0) {
 
 
-          $posts =$this->fetch_following_posts($offset)->get();
+          $posts = $this->fetch_following_posts($offset)->get();
 
 
       }
 
       else{
         $posts = $this->fetch_other_posts($offset)->get();
+
 
       }
 

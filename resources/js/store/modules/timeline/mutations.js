@@ -16,6 +16,10 @@ export default{
 
 
     loadMore(state,payload){
+      // 
+      // let shufflePayload = payload.sort(function() {
+      //   return .5 - Math.random();
+      // });
 
         payload.map((value)=>{
             state.posts.push(value);
