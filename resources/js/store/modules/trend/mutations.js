@@ -3,7 +3,9 @@ export default{
   topTen(state,payload){
      state.topTen = JSON.parse(localStorage.getItem('trend'));
   },
-
+  topTenAuth(state,payload){
+     state.topTen = JSON.parse(localStorage.getItem('trend'));
+  },
   fillTrendPosts(state,payload){
     state.trendPosts = payload;
   },

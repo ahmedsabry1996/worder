@@ -13,6 +13,8 @@ use App\User as user;
 use App\Topic as topics;
 use Storage as sotrage ;
 use App\latestPost as latestposts;
+use App\Notifications\PostReact;
+
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -22,7 +24,7 @@ class PostController extends Controller
   {
 
       $post = new post();
-      $latestPost = new latestposts();
+
       $user_id = Auth::id();
       $country_id = Auth::user()->profile->country_id;
 
@@ -49,15 +51,29 @@ class PostController extends Controller
       ]);
 
       $country->latestPosts->increment('posts_number');
+
       return response()->json(['msg'=>'post created Successfully','co'=>$country->latestPosts],201);
+
   }
 
-  public function my_posts()
+  public function show_post(Request $request)
   {
+    $post_id = $request->post_id;
+    $reader_id = $request->user_id;
 
-    $my_posts =Auth::user()->posts()->orderBy('created_at','desc')->get();
+    $type_of_react = DB::table('love_likes')->where('user_id',$reader_id)
+    ->where('likeable_id',$post_id)
+    ->first();
 
-    return response()->json(['my_posts'=>$my_posts]);
+    $post = post::whereId($post_id)
+    ->with('likesCounter')
+    ->with('dislikesCounter')
+    ->with('topic')
+    ->with('user')
+    ->first();
+
+    return response()->json(['post'=>$post,'type'=>$type_of_react]);
+
   }
 
   public function delete_post(Request $request)
@@ -73,7 +89,7 @@ class PostController extends Controller
 
     if ($post->user->id !== Auth::id()) {
 
-        return response()->json(['msg'=>'you don\'t have the permession to do it'],403);
+      return response()->json(['msg'=>'you don\'t have the permession to do it'],403);
     }
 
     $delete_post = $post->delete();
@@ -86,62 +102,132 @@ class PostController extends Controller
     return response()->json(['msg'=>'deleted!'],201 );
   }
 
-  public function show_post(Request $request)
+  public function my_posts()
   {
-    $post_id = $request->post_id;
-    $reader_id = $request->user_id;
 
-    $type_of_react = DB::table('love_likes')->where('user_id',$reader_id)
-                                            ->where('likeable_id',$post_id)
-                                            ->first();
+    $my_posts =Auth::user()->posts()->orderBy('created_at','desc')->get();
 
-    $post = post::whereId($post_id)
-    ->with('likesCounter')
-    ->with('dislikesCounter')
-    ->with('topic')
-    ->with('user')
-    ->first();
-
-    return response()->json(['post'=>$post,'type'=>$type_of_react]);
-
+    return response()->json(['my_posts'=>$my_posts]);
   }
+
   public function likers(Request $request)
   {
 
-      $offset = $request->has('offset') ? $request->offset : 0 ;
+    $offset = $request->has('offset') ? $request->offset : 0 ;
+
+    $post_id = $request->post_id;
+
+    $post_likers = DB::table('love_likes')
+    ->where('likeable_id',$post_id)
+    ->where('type_id','LIKE')
+    ->offset($offset)
+    ->limit(100)
+    ->pluck('user_id');
+
+    $likers =  user::whereIn('id',$post_likers)->with('profile')->get();
+
+    return response()->json(['likers'=>$likers]);
+
+  }
+
+  public function dislikers(Request $request)
+  {
+
+    $offset = $request->has('offset') ? $request->offset : 0 ;
+
+    $post_id = $request->post_id;
+
+    $post_dislikers = DB::table('love_likes')
+    ->where('likeable_id',$post_id)
+    ->where('type_id','DISLIKE')
+    ->offset($offset)
+    ->limit(100)
+    ->pluck('user_id');
+
+    $dislikers =  user::whereIn('id',$post_dislikers)->with('profile')->get();
+
+    return response()->json(['dislikers'=>$dislikers]);
+
+  }
+
+  public function like_posts(Request $request)
+  {
+
+      $current_user = Auth::user();
+      $current_user_id = Auth::id();
+      $is_reacted_before = null;
 
       $post_id = $request->post_id;
 
-      $post_likers = DB::table('love_likes')
-                        ->where('likeable_id',$post_id)
-                        ->where('type_id','LIKE')
-                        ->offset($offset)
-                        ->limit(100)
-                        ->pluck('user_id');
+      //like , dislike or null
+      $action = $request->action;
 
-      $likers =  user::whereIn('id',$post_likers)->with('profile')->get();
+      //post founded
+      $is_real_post = post::findOrFail($post_id);
 
-      return response()->json(['likers'=>$likers]);
+
+      $post_publisher = $is_real_post->user;
+
+      $is_liked_by_user = false;
+      $is_disliked_by_user = false;
+
+      //like
+      if ($action == "like") {
+
+                  $do_toggle_like = $is_real_post->toggleLikeBy();
+                  $is_liked_by_user = $is_real_post->isLikedBy();
+
+      }
+      else{
+
+
+                  $do_toggle_dislike = $is_real_post->toggleDislikeBy();
+                  $is_disliked_by_user = $is_real_post->isDislikedBy();
+
 
       }
 
-    public function dislikers(Request $request)
-    {
 
-            $offset = $request->has('offset') ? $request->offset : 0 ;
+      if ($is_liked_by_user == true && $is_disliked_by_user == false) {
+          $result = "like";
+      $is_reacted_before = DB::table('notifications')
+                          ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
+                        ->where('notifiable_id',$post_publisher->id)
+                        ->first();
+      if ($is_reacted_before == null) {
+        $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
+      }
 
-            $post_id = $request->post_id;
+      }
 
-            $post_dislikers = DB::table('love_likes')
-                              ->where('likeable_id',$post_id)
-                              ->where('type_id','DISLIKE')
-                              ->offset($offset)
-                              ->limit(100)
-                              ->pluck('user_id');
+      elseif ($is_liked_by_user == false && $is_disliked_by_user == true) {
+          $result = "dislike";
 
-            $dislikers =  user::whereIn('id',$post_dislikers)->with('profile')->get();
+          $is_reacted_before = DB::table('notifications')
+                                  ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user}")
+                                  ->where('notifiable_id',$post_publisher->id)
+                                  ->first();
 
-            return response()->json(['dislikers'=>$dislikers]);
+    if ($is_reacted_before == null) {
+      $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
 
-    }
-  }
+}
+
+      }
+      else{
+        $result = null;
+        $is_reacted_before = DB::table('notifications')
+        ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
+                                ->where('notifiable_id',$post_publisher->id)
+                                ->delete();
+      }
+
+      $updated_post = post::whereId($post_id)
+      ->with('likesCounter')
+      ->with('dislikesCounter')
+      ->with('topic')
+      ->with('user')
+      ->first();
+      return response()->json(["result"=>$result,"updated_post"=>$updated_post]);
+}
+}

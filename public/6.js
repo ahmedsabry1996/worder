@@ -154,6 +154,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
         remember_me: this.rememberMe
       }).then(function (response) {
         console.log(response.data.user);
+        localStorage.setItem('trend', response.data.trend.top_words);
         localStorage.setItem('current_user', JSON.stringify(response.data.user));
         localStorage.setItem('current_user_profile', JSON.stringify(response.data.profile));
         localStorage.setItem('current_user_topics', JSON.stringify(response.data.topics));
@@ -164,6 +165,8 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
 
         if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
           _this.$store.commit("loginSuccess", response.data.user.notifications);
+
+          _this.$store.commit("topTen");
 
           _this.$router.push('/');
 

@@ -1,6 +1,6 @@
 export  default{
 
-              createPost(context,post,rootState){
+            createPost(context,post,rootState){
               return new Promise(function(resolve, reject) {
                 axios.post("/api/post/create-post",post,
                 {
@@ -22,8 +22,7 @@ export  default{
               });
             },
 
-
-              deletePost(context,post,rootState){
+            deletePost(context,post,rootState){
 
                 axios.get(`/api/post/delete-post/${post.id}`,
                 {

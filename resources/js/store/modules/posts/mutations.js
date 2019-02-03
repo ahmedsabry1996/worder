@@ -57,12 +57,7 @@ export  default{
                   disliked.push(payload);
                 }
 
-
-
-
       },
-
-
 
     post(state,payload){
         state.post = payload;

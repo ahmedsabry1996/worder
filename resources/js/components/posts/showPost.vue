@@ -208,6 +208,7 @@ export default {
   },
   created(){
 
+    this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showSinglePost',this.$route.params.postId);
   },
   methods:{

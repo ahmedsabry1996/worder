@@ -8,7 +8,7 @@
         <h3>{{$t('loading')}}</h3>
     </div>
 
-          <div class="" v-for="(post,index) in posts" :key="index">
+          <div class="" v-for="(post,index) in posts" :key="post.id">
           <!-- publisher avatar -->
           <div class="avatar" @click="ShowProfile(post.user.profile.display_name)">
                   <img
@@ -129,7 +129,11 @@ import axios from 'axios';
 import React from './React.vue';
 export default {
 
-    props:['posts'],
+    props:{
+      posts:{
+        type:Array || Object,
+      }
+    },
     components:{
       React,
     },

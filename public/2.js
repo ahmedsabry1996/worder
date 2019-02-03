@@ -413,6 +413,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     console.log("".concat(this.$route.params.name, " show profile"));
   },
   created: function created() {
+    this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showProfile', this.displayName);
 
     if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {

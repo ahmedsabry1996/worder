@@ -145,6 +145,7 @@ export default {
         }).then((response)=>{
             console.log(response.data.user);
 
+            localStorage.setItem('trend',(response.data.trend.top_words));
             localStorage.setItem('current_user',JSON.stringify(response.data.user));
             localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
             localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));
@@ -156,6 +157,7 @@ export default {
             if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
 
               this.$store.commit("loginSuccess",response.data.user.notifications);
+              this.$store.commit("topTen");
               this.$router.push('/');
 
               console.log("perfect user!");

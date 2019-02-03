@@ -41,7 +41,6 @@ Route::group(['middleware'=>'auth:api','prefix'=>'timeline'], function()
 {
     Route::get('/suggest-people','API\FollowingController@suggest_people');
     Route::post('posts','API\TimelineController@time_line_posts');
-    Route::post('react','API\TimelineController@like_posts');
     Route::post('load-more','API\TimelineController@load_more');
     Route::post('/follow','API\FollowingController@follow');
     Route::post('/my-fans','API\FollowingController@my_fans');
@@ -53,6 +52,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'timeline'], function()
     Route::post('/notifications','API\TimelineController@fetch_notifications');
     Route::post('/unread-notifications','API\TimelineController@unread_notifications');
     Route::post('/load-more-notifications','API\TimelineController@load_more_notifications');
+    Route::post('react','API\PostController@like_posts');
     Route::post('/post','API\PostController@show_post');
     Route::post('search','API\searchController@search');
 

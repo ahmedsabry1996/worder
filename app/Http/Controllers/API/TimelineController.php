@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\Notifications\PostReact;
 use App\Notifications\justTest;
 use App\Events\NewLike;
 use Auth;
@@ -194,87 +193,6 @@ return response()->json(['offset'=>$offset,
             return response()->json(['liked_posts'=>$liked_posts
                                     ,'disliked_posts'=>$disliked_posts],201);
         }
-
-
-
-
-
-
-      public function like_posts(Request $request)
-      {
-
-          $current_user = Auth::user();
-          $current_user_id = Auth::id();
-          $is_reacted_before = null;
-          $post_id = $request->post_id;
-          $action = $request->action;
-
-          $is_real_post = post::findOrFail($post_id);
-
-          $post_publisher = $is_real_post->user;
-
-          $is_liked_by_user = false;
-          $is_disliked_by_user = false;
-          if ($action == "like") {
-
-                      $do_toggle_like = $is_real_post->toggleLikeBy();
-                      $is_liked_by_user = $is_real_post->isLikedBy();
-
-          }
-          else{
-
-
-                      $do_toggle_dislike = $is_real_post->toggleDislikeBy();
-                      $is_disliked_by_user = $is_real_post->isDislikedBy();
-
-
-          }
-
-
-          if ($is_liked_by_user == true && $is_disliked_by_user == false) {
-              $result = "like";
-          $is_reacted_before = DB::table('notifications')
-                              ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
-                            ->where('notifiable_id',$post_publisher->id)
-                            ->first();
-          if ($is_reacted_before == null) {
-            $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
-          }
-
-          }
-
-          elseif ($is_liked_by_user == false && $is_disliked_by_user == true) {
-              $result = "dislike";
-
-              $is_reacted_before = DB::table('notifications')
-                                      ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user}")
-                                      ->where('notifiable_id',$post_publisher->id)
-                                      ->first();
-
-        if ($is_reacted_before == null) {
-          $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
-
-}
-
-          }
-          else{
-            $result = null;
-            $is_reacted_before = DB::table('notifications')
-            ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
-                                    ->where('notifiable_id',$post_publisher->id)
-                                    ->delete();
-          }
-
-          $updated_post = post::whereId($post_id)
-          ->with('likesCounter')
-          ->with('dislikesCounter')
-          ->with('topic')
-          ->with('user')
-          ->first();
-          return response()->json(["result"=>$result,"updated_post"=>$updated_post]);
-    }
-
-
 
       public function fetch_notifications(Request $request)
       {

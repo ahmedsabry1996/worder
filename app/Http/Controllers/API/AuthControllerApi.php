@@ -14,14 +14,16 @@ use App\User;
 use App\Mail\VerifyEmail ;
 use App\Mail\VerificationCode ;
 use App\VerifyProfile;
+use App\Country as country;
+use App\Trend  as trend;
 use Auth;;
+
 class AuthControllerApi extends Controller
 {
   public $code;
   public $send_code;
 
-      public function signup(Request $request)
-      {
+      public function signup(Request $request) {
 
       $valid = $request->validate([
            'name' => 'required|string',
@@ -77,6 +79,56 @@ class AuthControllerApi extends Controller
 
         return response()->json(['verification_code'=>$this->code],201);
     }
+    public function login(Request $request)
+        {
+            $request->validate([
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+                'remember_me' => 'boolean'
+            ]);
+
+            $credentials = request(['email', 'password']);
+
+            if(!Auth::attempt($credentials))
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+
+            $user = Auth::user();
+
+            $tokenResult = $user->createToken('Personal Access Token');
+
+            $token = $tokenResult->token;
+
+            $token->expires_at = Carbon::now()->addWeeks(96);
+
+            $token->save();
+
+            $user_has_profile = Auth::user()->profile;
+            if ($user_has_profile == null) {
+                $user_profile = null;
+                $user_topics = null;
+                $trend = null;
+            }
+            else{
+              $user_profile = Auth::user()->profile;
+              $user_topics = Auth::user()->topics()->get();
+              $country_id = $user_profile->country_id;
+              $trend = country::find($country_id)->trend;
+            }
+            return response()->json([
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'user'=>$request->user(),
+                'trend'=>$trend,
+                'missed_notifications'=>$user->loadMissing('notifications'),
+                'profile'=>$user_profile,
+                'topics'=>$user_topics,
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
+            ],200);
+        }
 
       public function verify_email($id)
       {
@@ -89,53 +141,6 @@ class AuthControllerApi extends Controller
         return response()->json(['msg'=>"Account Verified!"],201);
       }
 
-      public function login(Request $request)
-          {
-              $request->validate([
-                  'email' => 'required|string|email',
-                  'password' => 'required|string',
-                  'remember_me' => 'boolean'
-              ]);
-
-              $credentials = request(['email', 'password']);
-
-              if(!Auth::attempt($credentials))
-                  return response()->json([
-                      'message' => 'Unauthorized'
-                  ], 401);
-
-              $user = Auth::user();
-
-              $tokenResult = $user->createToken('Personal Access Token');
-
-              $token = $tokenResult->token;
-
-              $token->expires_at = Carbon::now()->addWeeks(96);
-
-              $token->save();
-
-              $user_has_profile = Auth::user()->profile;
-              if ($user_has_profile == null) {
-                  $user_profile = null;
-                  $user_topics = null;
-              }
-              else{
-                $user_profile = Auth::user()->profile;
-                $user_topics = Auth::user()->topics()->get();
-
-              }
-              return response()->json([
-                  'access_token' => $tokenResult->accessToken,
-                  'token_type' => 'Bearer',
-                  'user'=>$request->user(),
-                  'missed_notifications'=>$user->loadMissing('notifications'),
-                  'profile'=>$user_profile,
-                  'topics'=>$user_topics,
-                  'expires_at' => Carbon::parse(
-                      $tokenResult->token->expires_at
-                  )->toDateTimeString()
-              ],200);
-          }
 
           public function check_email_exist(Request $request)
           {

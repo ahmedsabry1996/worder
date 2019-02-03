@@ -224,6 +224,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   created: function created() {
+    this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showSinglePost', this.$route.params.postId);
   },
   methods: {

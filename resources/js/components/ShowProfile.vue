@@ -405,7 +405,9 @@ export default {
 
   },
   created(){
+    this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showProfile',this.displayName);
+
     if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
 
