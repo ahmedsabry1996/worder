@@ -63,7 +63,12 @@ v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) !== -1
 
 <script>
 export default {
-  props:['post_id'],
+  props:{
+    post_id:{
+      type: Number
+    }
+
+  },
 
   computed:{
     likedPosts(){
