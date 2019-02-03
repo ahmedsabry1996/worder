@@ -194,16 +194,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     React: _React_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   computed: {
+    post: function post() {
+      return this.$store.getters.post;
+    },
     likedPosts: function likedPosts() {
       return this.$store.getters.likedPosts;
     },
     disLikedPosts: function disLikedPosts() {
       return this.$store.getters.disLikedPosts;
-    },
-    post: function post() {
-      if (!!this.$store.getters.post) {
-        return this.$store.getters.post;
-      }
     },
     topics: function topics() {
       return this.$store.getters.topics;
@@ -407,7 +405,10 @@ var render = function() {
             }
           })
         ])
-      : _c("div", { staticClass: "post text-center" }, [
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.post
+      ? _c("div", { staticClass: "post text-center" }, [
           _c("div", { staticClass: "avatar" }, [
             _c("img", {
               staticClass: "img-circle",
@@ -628,7 +629,8 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("hr")
-        ]),
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",

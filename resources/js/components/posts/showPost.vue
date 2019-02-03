@@ -3,7 +3,7 @@
     <div v-if="!post" class="text-center">
       <img :src="`/storage/avatars/loader.gif`" alt="loading" width="100" height="100">
     </div>
-    <div class="post text-center" v-else="post">
+    <div class="post text-center" v-if="post">
 
         <div class="avatar">
                 <img  :src="`/storage/avatars/${post.user.profile.avatar}`" width='60' height="60" :alt="post.user_id" class="img-circle">
@@ -180,6 +180,10 @@ export default {
       React,
   },
   computed:{
+    post(){
+      return this.$store.getters.post;
+
+    },
     likedPosts(){
       return this.$store.getters.likedPosts;
 
@@ -187,11 +191,6 @@ export default {
   disLikedPosts(){
     return this.$store.getters.disLikedPosts;
   },
-    post(){
-      if (!!this.$store.getters.post) {
-        return this.$store.getters.post;
-      }
-    },
     topics(){
       return this.$store.getters.topics;
     },
