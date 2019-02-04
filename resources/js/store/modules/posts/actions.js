@@ -103,7 +103,8 @@ export  default{
             },
 
             showSinglePost(context,postId,rootState){
-              axios.post(`/api/timeline/post/`,{
+          return new Promise(function(resolve, reject) {
+            axios.post(`/api/timeline/post/`,{
                   post_id:postId,
                   user_id:localStorage.getItem('user_id')
               },{
@@ -112,14 +113,16 @@ export  default{
                 }
               })
               .then((response)=>{
-
+                resolve();
                 context.commit('showPost',response.data.post)
                 console.log('post loaded Successfully');
               })
               .catch((errors)=>{
+                reject();
                 console.log(errors);
                 console.log(errors.response);
               })
+          });
             }
 
 

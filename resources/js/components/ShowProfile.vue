@@ -379,7 +379,6 @@ export default {
         followerOffset:0,
         followingOffset:0,
         displayName:this.$route.params.name,
-        newDisp :this.$route.params.name,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         showModal:true,
         likers:[],
@@ -389,7 +388,6 @@ export default {
   watch:{
     '$route'(to,from){
       this.offset = 10;
-      //this.newDisp = to.params.name;
 
       this.$router.push(`/${to.params.name}`);
       this.$store.dispatch('showProfile',to.params.name);
@@ -406,7 +404,13 @@ export default {
   },
   created(){
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showProfile',this.displayName);
+    this.$store.dispatch('showProfile',this.displayName)
+    .then((response)=>{
+      console.log('ok ok');
+    })
+    .catch((errors)=>{
+      this.$router.push('/');
+    })
 
     if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');

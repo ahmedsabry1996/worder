@@ -38,8 +38,11 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.trendPosts;
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     this.getTrendPosts();
+    this.$store.dispatch('reactedPosts');
+  },
+  mounted: function mounted() {
     this.loadMore();
   },
   watch: {
@@ -51,7 +54,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getTrendPosts: function getTrendPosts() {
       this.$store.dispatch('showTrendPosts', {
-        word: this.$route.params.word
+        word: this.$route.params.trend
       });
     },
     loadMore: function loadMore() {
@@ -71,7 +74,7 @@ __webpack_require__.r(__webpack_exports__);
       this.offset += 100;
       this.$store.dispatch('loadMoreTrendPosts', {
         offset: this.offset,
-        word: this.$route.params.word
+        word: this.$route.params.trend
       });
     }
   }
@@ -91,7 +94,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

@@ -29,8 +29,12 @@ export default {
       return this.$store.getters.trendPosts;
     }
   },
-  mounted(){
+  created(){
     this.getTrendPosts();
+    this.$store.dispatch('reactedPosts');
+
+  },
+  mounted(){
     this.loadMore();
   },
   watch:{
@@ -42,7 +46,7 @@ export default {
   },
   methods:{
     getTrendPosts(){
-      this.$store.dispatch('showTrendPosts',{word:this.$route.params.word});
+      this.$store.dispatch('showTrendPosts',{word:this.$route.params.trend});
     },
     loadMore(){
 
@@ -67,7 +71,7 @@ export default {
 
         this.offset +=100;
         this.$store.dispatch('loadMoreTrendPosts',{offset:this.offset,
-                                                  word:this.$route.params.word})
+                                                  word:this.$route.params.trend})
     }
 
   }

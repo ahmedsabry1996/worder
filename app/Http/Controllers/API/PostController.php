@@ -70,7 +70,7 @@ class PostController extends Controller
     ->with('dislikesCounter')
     ->with('topic')
     ->with('user')
-    ->first();
+    ->firstOrFail();
 
     return response()->json(['post'=>$post,'type'=>$type_of_react]);
 

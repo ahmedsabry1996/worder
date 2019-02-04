@@ -10,8 +10,11 @@ export default {
           }
         })
         .then((response)=>{
+          console.log(response.data);
 
-                context.commit('fillTrendPosts',response.data.posts)
+                context.commit('fillTrendPosts',response.data.posts);
+                console.log(commit.word);
+                console.log(45);
         })
         .catch((error)=>{
           console.log(error.response);
@@ -28,8 +31,9 @@ export default {
         })
         .then((response)=>{
 
-          console.log(response.data.posts);
-          context.commit('addToTrendPosts',response.data.posts)
+          console.log(response.data);
+          context.commit('addToTrendPosts',response.data.posts);
+          console.log(commit.word);
         })
         .catch((error)=>{
           console.log(error.response);

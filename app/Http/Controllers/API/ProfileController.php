@@ -261,7 +261,7 @@ class ProfileController extends Controller
 
 
 
-          $user_id = profile::whereDisplayName($display_name)->first()->user_id;
+          $user_id = profile::whereDisplayName($display_name)->firstOrFail()->user_id;
 
           $user = user::whereId($user_id)
                   ->with('profile')

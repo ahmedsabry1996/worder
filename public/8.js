@@ -222,17 +222,29 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   created: function created() {
+    var _this = this;
+
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showSinglePost', this.$route.params.postId);
+    this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {
+      console.log('ok ok');
+    }).catch(function (errors) {
+      _this.$router.push('/');
+    });
   },
   methods: {
     goToAnotherPost: function goToAnotherPost() {
+      var _this2 = this;
+
       this.likersOffset = 0;
       this.dislikerOffset = 0;
-      this.$store.dispatch('showSinglePost', this.$route.params.postId);
+      this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {
+        console.log('ok ok');
+      }).catch(function (errors) {
+        _this2.$router.push('/');
+      });
     },
     showLikers: function showLikers(id) {
-      var _this = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -242,14 +254,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this.likers = response.data.likers;
+        _this3.likers = response.data.likers;
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this2 = this;
+      var _this4 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -266,7 +278,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this2.likers.push(val);
+            _this4.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -275,7 +287,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this3 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -286,7 +298,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         if (response.data.dislikers.length > 0) {
-          _this3.dislikers = response.data.dislikers;
+          _this5.dislikers = response.data.dislikers;
         }
       }).catch(function (errors) {
         console.log(errors);
@@ -294,7 +306,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this4 = this;
+      var _this6 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -311,7 +323,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this4.dislikers.push(val);
+            _this6.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);

@@ -208,14 +208,28 @@ export default {
   created(){
 
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showSinglePost',this.$route.params.postId);
+    this.$store.dispatch('showSinglePost',this.$route.params.postId)
+    .then((response)=>{
+      console.log('ok ok');
+    })
+    .catch((errors)=>{
+      this.$router.push('/');
+    })
+
   },
   methods:{
      goToAnotherPost(){
 
            this.likersOffset = 0 ;
            this.dislikerOffset = 0;
-           this.$store.dispatch('showSinglePost',this.$route.params.postId);
+           this.$store.dispatch('showSinglePost',this.$route.params.postId)
+           .then((response)=>{
+             console.log('ok ok');
+           })
+           .catch((errors)=>{
+             this.$router.push('/');
+           })
+;
      },
      showLikers(id){
 

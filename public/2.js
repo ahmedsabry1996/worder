@@ -392,7 +392,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       followerOffset: 0,
       followingOffset: 0,
       displayName: this.$route.params.name,
-      newDisp: this.$route.params.name,
       currentUserDisplayName: this.$store.state.authentication.currentUserProfile.display_name,
       showModal: true,
       likers: [],
@@ -401,8 +400,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   watch: {
     '$route': function $route(to, from) {
-      this.offset = 10; //this.newDisp = to.params.name;
-
+      this.offset = 10;
       this.$router.push("/".concat(to.params.name));
       this.$store.dispatch('showProfile', to.params.name);
     }
@@ -413,8 +411,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     console.log("".concat(this.$route.params.name, " show profile"));
   },
   created: function created() {
+    var _this = this;
+
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showProfile', this.displayName);
+    this.$store.dispatch('showProfile', this.displayName).then(function (response) {
+      console.log('ok ok');
+    }).catch(function (errors) {
+      _this.$router.push('/');
+    });
 
     if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
@@ -511,18 +515,18 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push("/".concat(displayName));
     },
     loadMorePosts: function loadMorePosts() {
-      var _this = this;
+      var _this2 = this;
 
       window.onscroll = function () {
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          _this.$store.dispatch('loadMoreProfilePosts', {
-            "offset": _this.offset,
-            'userId': _this.$store.state.profile.currentProfile.id
+          _this2.$store.dispatch('loadMoreProfilePosts', {
+            "offset": _this2.offset,
+            'userId': _this2.$store.state.profile.currentProfile.id
           });
 
-          _this.offset += 10;
+          _this2.offset += 10;
         }
       };
     },
@@ -543,7 +547,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     deletePost: function deletePost(postId, postIndex) {
-      var _this2 = this;
+      var _this3 = this;
 
       swal(this.$t('confirmdelete'), {
         buttons: {
@@ -556,12 +560,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }).then(function (value) {
         switch (value) {
           case "Delete":
-            _this2.$store.dispatch('deletePost', {
+            _this3.$store.dispatch('deletePost', {
               id: postId,
               index: postIndex
             });
 
-            swal(_this2.$t('done'), _this2.$t('deletedsuccessfully'), "success");
+            swal(_this3.$t('done'), _this3.$t('deletedsuccessfully'), "success");
             break;
 
           default:
@@ -582,7 +586,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
         offset: this.likersOffset,
@@ -593,16 +597,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         }
       }).then(function (response) {
         console.log(response.data.likers);
-        _this3.likers = response.data.likers;
+        _this4.likers = response.data.likers;
 
-        _this3.$refs.likers.open();
+        _this4.$refs.likers.open();
       }).catch(function (errors) {
         console.log(errors);
         console.log(errors.response);
       });
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this4 = this;
+      var _this5 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -619,7 +623,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.likers.map(function (val) {
-            _this4.likers.push(val);
+            _this5.likers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);
@@ -628,7 +632,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
         offset: this.dislikersOffset,
@@ -638,9 +642,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
         }
       }).then(function (response) {
-        _this5.dislikers = response.data.dislikers;
+        _this6.dislikers = response.data.dislikers;
 
-        _this5.$refs.dislikers.open();
+        _this6.$refs.dislikers.open();
       }).catch(function (errors) {
         alert();
         console.log(errors);
@@ -648,7 +652,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       });
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this6 = this;
+      var _this7 = this;
 
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
@@ -665,7 +669,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           }
         }).then(function (response) {
           response.data.dislikers.map(function (val) {
-            _this6.dislikers.push(val);
+            _this7.dislikers.push(val);
           });
         }).catch(function (errors) {
           console.log(errors);

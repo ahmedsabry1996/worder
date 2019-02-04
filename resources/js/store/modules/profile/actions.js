@@ -1,6 +1,8 @@
 export default{
 
-      showProfile(context,displayName,rootState){
+        showProfile(context,displayName,rootState){
+
+      return   new Promise(function(resolve, reject) {
 
           axios.get(`/api/user/${displayName}`,{
             headers:{
@@ -8,16 +10,7 @@ export default{
             }
           })
           .then((response)=>{
-            console.log(response.data.followers);
-            console.log(response.data.following);
 
-            if (context.rootState.authentication.userId == response.data.profile.profile.user_id) {
-
-                var isMyProfile = true;
-            }
-            else{
-                var isMyProfile = false;
-            }
               context.commit('showProfile',
 
               {
@@ -28,13 +21,16 @@ export default{
                 posts:response.data.posts,
 
               });
-
+              resolve();
 
           })
           .catch((errors)=>{
+              reject();
               console.log(errors);
               console.log(errors.response);
+
           })
+          });
       },
 
       showFans(context,someData,rootState){

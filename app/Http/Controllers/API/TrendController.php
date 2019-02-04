@@ -14,11 +14,13 @@ class TrendController extends Controller
 {
     public $data ;
     public $all_posts;
+    public $user_id;
     public function __construct()
     {
       $this->data = array();
 
       $this->all_posts = '';
+
 
     }
 
@@ -34,40 +36,33 @@ class TrendController extends Controller
   public function show(Request $request)
   {
     $word = $request->word;
+    $user_id = Auth::id();
     $country_id = Auth::user()->profile->country_id;
 
     $posts = post::where('post','like', "%$word%")
+                ->where('user_id','<>',$user_id)
                     ->with('user')
                     ->with('topic')
                     ->with('dislikesCounter')
                     ->with('likesCounter')
-                    ->offset(0)
+                    ->latest()
                    ->limit(100)
-                   ->latest()
                    ->get();
 
-        $posts_id =  post::where('post','like', "%$word%")
-                        ->with('user')
-                        ->with('topic')
-                        ->with('dislikesCounter')
-                        ->with('likesCounter')
-                        ->offset(0)
-                       ->limit(100)
-                       ->latest()
-                       ->pluck('id');
-
-    return response()->json(['posts'=>$posts],201);
+    return response()->json(['posts'=>$posts,"word"=>$user_id],201);
 
   }
 
       public function load_more(Request $request)
       {
+        $user_id = Auth::id();
 
         $offset = $request->has('offset') ? $request->offset : 0;
         $word = $request->word;
         $country_id = Auth::user()->profile->country_id;
 
         $posts = post::where('post','like', "%$word%")
+                        ->where('user_id','<>',$user_id)
                         ->with('user')
                         ->with('topic')
                         ->with('dislikesCounter')
@@ -77,15 +72,6 @@ class TrendController extends Controller
                        ->latest()
                        ->get();
 
-            $posts_id =  post::where('post','like', "%$word%")
-                            ->with('user')
-                            ->with('topic')
-                            ->with('dislikesCounter')
-                            ->with('likesCounter')
-                            ->offset($offset)
-                           ->limit(100)
-                           ->latest()
-                           ->pluck('id');
 
         return response()->json(['posts'=>$posts],201);
 
