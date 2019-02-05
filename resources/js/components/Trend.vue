@@ -12,7 +12,8 @@
         <li v-for="(value,key) in topTen" :key="key"   class="list-group-item">
 
           <router-link  :to="`/trend/${key}`" class="text-left trend-link" exact>
-              {{key}}
+              <bdi>              {{key}}
+</bdi>
           </router-link>
 
      <span class="badge">written in {{value | numeral('0.0a') }} posts</span>
