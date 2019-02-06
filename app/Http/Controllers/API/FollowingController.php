@@ -75,12 +75,15 @@ class FollowingController extends Controller
     $followed_user_followers = followercounter::firstOrCreate(['user_id' => $followed_user_id]);
 
     if(!$is_already_follower){
+      $icon = $current_user->profile->avatar;
+      $message = $current_user->profile->display_name." started following you!";
+      $url = $current_user->profile->display_name;
 
       $follow = $current_user->following()->attach($followed_user_id);
       $add_new_follower = $followed_user->follower_counter()->increment('followers');
       $add_new_following = $current_user->follower_counter()->increment('following');
       $action = "follow";
-      $followed_user-> notify(new NewFollower($current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
+      $followed_user-> notify(new NewFollower($icon,$message,$url));
     }
     else{
 
@@ -88,9 +91,7 @@ class FollowingController extends Controller
             $add_new_follower = $followed_user->follower_counter()->decrement('followers');
             $add_new_following = $current_user->follower_counter()->decrement('following');
             $action = "unfollow";
-            DB::table('notifications')->where('notifiable_id',$followed_user_id)
-                                      ->where('data',"{\"message\":\"started following you\",\"follower_id\":$current_user_id,\"follower_display_name\":$current_user->profile->display_name,\"avatar\":$current_user->profile->avatar}")
-                                      ->delete();
+
 
 
     }

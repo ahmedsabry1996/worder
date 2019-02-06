@@ -11,17 +11,19 @@ class PostReact extends Notification
 {
     use Queueable;
 
-    public $msg = "reacted to your post!";
-    public $post_id ;
+
+    public $icon;
+    public $message;
+    public $url;
     public $reacter_id;
-    public $display_name;
-    public $avatar;
-    public function __construct($post_id,$reacter_id,$display_name,$avatar)
+    public $updated_post;
+    public function __construct($icon,$message,$url,$reacter_id,$updated_post)
     {
-        $this->post_id = $post_id;
-        $this->reacter_id = $reacter_id;
-        $this->display_name = $display_name;
-        $this->avatar = $avatar;
+      $this->icon = $icon;
+      $this->message = $message;
+      $this->url = $url ;
+      $this->reacter_id = $reacter_id;
+      $this->updated_post = $updated_post;
     }
 
     public function via($notifiable)
@@ -34,11 +36,11 @@ class PostReact extends Notification
 public function toArray($notifiable)
   {
   return [
-      'message'=>$this->msg,
-      'post_id'=>$this->post_id,
+      'icon'=>$this->icon,
+      'message'=>$this->message,
+      'url'=>$this->url,
       'reacter_id'=>$this->reacter_id,
-      'reacter_display_name'=>$this->display_name,
-      'profile_avatar'=>$this->avatar,
+      'updated_post'=>$this->updated_post
   ];
 }
 

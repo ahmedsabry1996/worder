@@ -171,11 +171,19 @@ class PostController extends Controller
       $is_liked_by_user = false;
       $is_disliked_by_user = false;
 
+      $message = $current_user->profile->display_name." reacted with your post";
+      $icon = $current_user->profile->avatar;
+      $url = "post/$post_id";
+
+      $reacter_id = Auth::id();
+
       //like
       if ($action == "like") {
 
-                  $do_toggle_like = $is_real_post->toggleLikeBy();
-                  $is_liked_by_user = $is_real_post->isLikedBy();
+
+        $do_toggle_like = $is_real_post->toggleLikeBy();
+        $is_liked_by_user = $is_real_post->isLikedBy();
+
 
       }
       else{
@@ -190,36 +198,32 @@ class PostController extends Controller
 
       if ($is_liked_by_user == true && $is_disliked_by_user == false) {
           $result = "like";
-      $is_reacted_before = DB::table('notifications')
-                          ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
-                        ->where('notifiable_id',$post_publisher->id)
-                        ->first();
-      if ($is_reacted_before == null) {
-        $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
-      }
+
+                $updated_post = post::whereId($post_id)
+                ->with('likesCounter')
+                ->with('dislikesCounter')
+                ->with('topic')
+                ->with('user')
+                ->first();
+          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id,$updated_post));
 
       }
 
       elseif ($is_liked_by_user == false && $is_disliked_by_user == true) {
           $result = "dislike";
 
-          $is_reacted_before = DB::table('notifications')
-                                  ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user}")
-                                  ->where('notifiable_id',$post_publisher->id)
-                                  ->first();
+                $updated_post = post::whereId($post_id)
+                ->with('likesCounter')
+                ->with('dislikesCounter')
+                ->with('topic')
+                ->with('user')
+                ->first();
+          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id,$updated_post));
 
-    if ($is_reacted_before == null) {
-      $post_publisher->notify(new PostReact($post_id,$current_user_id,$current_user->profile->display_name,$current_user->profile->avatar));
-
-}
 
       }
       else{
         $result = null;
-        $is_reacted_before = DB::table('notifications')
-        ->where('data',"{\"message\":\"you have new reacts on your post\",\"post_id\":$post_id,\"reacter_id\":$current_user,\"display_name\":$current_user->profile->display_name,\"profile_avatar\":$current_user->profile->avatar}")
-                                ->where('notifiable_id',$post_publisher->id)
-                                ->delete();
       }
 
       $updated_post = post::whereId($post_id)

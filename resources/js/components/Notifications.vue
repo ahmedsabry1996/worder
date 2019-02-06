@@ -1,6 +1,6 @@
 <template >
 
-    <li class="dropdown hidden-xs" >
+    <li class="dropdown" >
     <a class="dropdown-toggle" data-toggle="dropdown" @click="getNotifications">
       <span  v-if="!unreadNotifications">
             <font-awesome-icon
@@ -14,34 +14,16 @@
 
         <ul class="dropdown-menu text-center" @scroll="loadMoreNotifications">
           <li v-for="notification in notifications" class="text-center">
-            <template v-if="notification.type !== 'App\\Notifications\\NewFollower'" class="text-center">
-
-              <router-link :to="{ name: 'post', params: { postId : notification.data.post_id} }">
-              <p class="notification text-center">
-                <router-link :to="`/${notification.data.reacter_display_name}`">
-
-                      <img :src="`/storage/avatars/${notification.data.profile_avatar}`" :alt="`${notification.data.reacter_display_name}`"
-                       width="40" height="40" class="img-circle"  style="z-index:2000">
-                     </router-link>
-                     <router-link :to="{ name: 'post', params: { postId : notification.data.post_id} }">
-
-                        <b style="font-style:italic">{{notification.data.reacter_display_name}}</b> {{notification.data.message}}
-                        <i style="opacity:.5">{{notification.created_at | getDateForHumans}}</i>
-                      </router-link>
-
-              </p>
-              </router-link>
-
-          </template>
-          <template v-else>
-            <router-link :to="`/${notification.data.follower_display_name}`">
+          <template >
+            <router-link :to="'/'+notification.data.url">
       <p>
 
-              <img :src="`/storage/avatars/${notification.data.avatar}`" :alt="`${notification.data.follower_display_name}`"
+              <img :src="`/storage/avatars/${notification.data.icon}`" alt="someone"
                width="40" height="40" class="img-circle"  style="z-index:2000">
 
-                <b>{{notification.data.follower_display_name}}</b> {{notification.data.message}}
-
+                <b>{{notification.data.message}}</b>
+                <br />
+                <i>{{notification.created_at | getDateForHumans}}</i>
       </p>
             </router-link>
 
@@ -87,6 +69,11 @@ export default {
     hasProfile(){
       return this.$store.getters.hasProfile;
     },
+    perfectUser(){
+      if (this.$store.getters.isLoggedIn && this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile == "1") {
+        return true;
+      }
+    }
 
   },
 
@@ -101,7 +88,7 @@ export default {
     getNotifications(){
 
 
-          if (this.isLoggedIn) {
+          if (this.perfectUser) {
             if (this.notifications.length === 0) {
                 this.offset = 0;
               this.$store.dispatch('getNotifications');
@@ -113,8 +100,7 @@ export default {
     },
     listen(){
       const self = this ;
-      //this.inter =  window.setInterval(function () {
-      if (this.isLoggedIn && this.hasProfile && this.isVerified ) {
+      if (this.perfectUser ) {
         window.Echo = new Echo({
          broadcaster: 'pusher',
          key: 'mykey',
@@ -134,9 +120,18 @@ export default {
        let decoded = self.jwt_decode(localStorage.getItem("access_token"));
        window.Echo.private(`App.User.${decoded.sub}`)
        .notification((Notification) => {
-         console.log();
+         console.log(Notification);
          self.notificationSound();
+
          self.$store.commit('unreadNotifications');
+         if (Notification.type == "App\\Notifications\\PostReact") {
+
+           self.$store.commit('updatePost',Notification.updated_post);
+
+         }
+         else if (Notification.type =="App\\Notifications\\NewFollower") {
+           alert(85)
+         }
 
        });
 
@@ -159,11 +154,9 @@ export default {
                  })
                    });
 
-  //      clearInterval(self.inter);
       }
 
 
-//    }, 1000);
 
     },
 

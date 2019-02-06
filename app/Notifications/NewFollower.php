@@ -11,14 +11,17 @@ class NewFollower extends Notification
 {
     use Queueable;
 
-    public $follower_id;
-    public $follower_display_name;
-    public $avatar ;
-    public function __construct($follower_id,$follower_display_name="someone",$avatar)
+    public $icon ;
+    public $message;
+    public $url;
+
+    public function __construct($icon,$message,$url)
     {
-        $this->follower_id = $follower_id;
-        $this->follower_display_name = $follower_display_name;
-        $this->avatar = $avatar;
+
+      $this->icon = $icon;
+      $this->message = $message;
+      $this->url = $url;
+
     }
 
     public function via($notifiable)
@@ -28,10 +31,9 @@ class NewFollower extends Notification
     public function toArray($notifiable)
     {
       return[
-        "message"=>"started following you",
-        "follower_id"=>$this->follower_id,
-        "follower_display_name"=>$this->follower_display_name,
-        "avatar"=>$this->avatar,
+        'icon'=>$this->icon,
+        'message'=>$this->message,
+        'url'=>$this->url
       ];
     }
 
