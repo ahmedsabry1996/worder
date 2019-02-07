@@ -56,6 +56,11 @@ export default{
         console.log(errors.response);
       })
     },
+    broadcastNotifications(context,payload,rootState){
 
-  
+          context.commit('instantNotfication',payload) ;
+
+    }
+
+
 }

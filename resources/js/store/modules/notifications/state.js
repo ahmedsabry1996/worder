@@ -3,4 +3,6 @@ export default{
 
   unreadNotifications:false,
 
+  broadcastNotifications:false,
+
 }

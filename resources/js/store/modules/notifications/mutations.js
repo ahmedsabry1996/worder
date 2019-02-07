@@ -14,10 +14,9 @@ export default{
         });
   },
 
-  instantNootfication(state,payload){
+  instantNotfication(state,payload){
 
-    state.notifications.push(payload);
-    state.notifications = state.notifications.reverse();
+    state.notifications.unshift(payload);
   }
 
 }

@@ -7,4 +7,9 @@ export default{
     return state.unreadNotifications;
   },
 
+  broadcastNotifications(state){
+
+    return state.broadcastNotifications;
+  },
+
 }

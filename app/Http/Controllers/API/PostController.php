@@ -205,7 +205,7 @@ class PostController extends Controller
                 ->with('topic')
                 ->with('user')
                 ->first();
-          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id,$updated_post));
+          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id));
 
       }
 
@@ -218,7 +218,7 @@ class PostController extends Controller
                 ->with('topic')
                 ->with('user')
                 ->first();
-          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id,$updated_post));
+          $post_publisher->notify(new PostReact($icon,$message,$url,$reacter_id));
 
 
       }

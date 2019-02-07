@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Carbon\Carbon;
 class PostReact extends Notification
 {
     use Queueable;
@@ -17,13 +18,12 @@ class PostReact extends Notification
     public $url;
     public $reacter_id;
     public $updated_post;
-    public function __construct($icon,$message,$url,$reacter_id,$updated_post)
+    public function __construct($icon,$message,$url,$reacter_id)
     {
       $this->icon = $icon;
       $this->message = $message;
       $this->url = $url ;
       $this->reacter_id = $reacter_id;
-      $this->updated_post = $updated_post;
     }
 
     public function via($notifiable)
@@ -36,11 +36,13 @@ class PostReact extends Notification
 public function toArray($notifiable)
   {
   return [
+
+    
       'icon'=>$this->icon,
       'message'=>$this->message,
       'url'=>$this->url,
       'reacter_id'=>$this->reacter_id,
-      'updated_post'=>$this->updated_post
+      'created_at'=>Carbon::now()
   ];
 }
 

@@ -23,7 +23,7 @@
 
                 <b>{{notification.data.message}}</b>
                 <br />
-                <i>{{notification.created_at | getDateForHumans}}</i>
+                <i>{{notification.data.created_at.date | getDateForHumans}}</i>
       </p>
             </router-link>
 
@@ -73,6 +73,9 @@ export default {
       if (this.$store.getters.isLoggedIn && this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile == "1") {
         return true;
       }
+    },
+    broadcastNotifications(){
+      return this.$store.getters.broadcastNotifications;
     }
 
   },
@@ -120,18 +123,18 @@ export default {
        let decoded = self.jwt_decode(localStorage.getItem("access_token"));
        window.Echo.private(`App.User.${decoded.sub}`)
        .notification((Notification) => {
+          var newNotification = new Object();
+          newNotification.data = {
+            icon:Notification.icon,
+            message:Notification.message,
+            url:Notification.url,
+            created_at:Notification.created_at,
+          };
+          console.log(newNotification);
          console.log(Notification);
          self.notificationSound();
-
          self.$store.commit('unreadNotifications');
-         if (Notification.type == "App\\Notifications\\PostReact") {
-
-           self.$store.commit('updatePost',Notification.updated_post);
-
-         }
-         else if (Notification.type =="App\\Notifications\\NewFollower") {
-           alert(85)
-         }
+         self.$store.commit('instantNotfication',newNotification)
 
        });
 
