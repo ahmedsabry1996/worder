@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-
+use Carbon\Carbon;
 class NewFollower extends Notification
 {
     use Queueable;
@@ -33,7 +33,8 @@ class NewFollower extends Notification
       return[
         'icon'=>$this->icon,
         'message'=>$this->message,
-        'url'=>$this->url
+        'url'=>$this->url,
+        'created_at'=>Carbon::now(),
       ];
     }
 
