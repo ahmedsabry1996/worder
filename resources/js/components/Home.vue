@@ -52,9 +52,9 @@
   import VueProgressBar from 'vue-progressbar';
   import SuggestedPeople from './Suggestpeople.vue';
   import ListPosts from './posts/ListPosts';
-  import Topics from './Topics.vue';
-  import Ad from './Ad.vue';
-  import Trend from './Trend.vue';
+  import Topics from './topics/Topics.vue';
+  import Ad from './ads/Ad.vue';
+  import Trend from './trend/Trend.vue';
 
 
     export default {

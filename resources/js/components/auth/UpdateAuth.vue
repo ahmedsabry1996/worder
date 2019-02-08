@@ -116,7 +116,7 @@
 </template>
 
 <script>
-  import VerifyProfile from './VerifyProfile.vue';
+  import VerifyProfile from './../profile/VerifyProfile.vue';
 
   export default {
     components:{

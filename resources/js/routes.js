@@ -10,15 +10,15 @@ const Login = resolve =>{
     resolve(require('./components/auth/Login.vue'))
   })
 }
-const Topic = resolve =>{
-  require.ensure(['./components/topics/topic.vue'],()=>{
-    resolve(require('./components/topics/topic.vue'))
-  })
-}
 
 const Signup = resolve =>{
   require.ensure(['./components/auth/Signup.vue'],()=>{
     resolve(require('./components/auth/Signup.vue'))
+  })
+}
+const Topic = resolve =>{
+  require.ensure(['./components/topics/topic.vue'],()=>{
+    resolve(require('./components/topics/topic.vue'))
   })
 }
 
@@ -34,25 +34,25 @@ const Createprofile = resolve =>{
   })
 }
 const Showprofile = resolve =>{
-  require.ensure(['./components/ShowProfile.vue'],()=>{
-    resolve(require('./components/ShowProfile.vue'))
+  require.ensure(['./components/profile/ShowProfile.vue'],()=>{
+    resolve(require('./components/profile/ShowProfile.vue'))
   })
 }
 const UpdateProfile = resolve =>{
-  require.ensure(['./components/UpdateProfile.vue'],()=>{
-    resolve(require('./components/UpdateProfile.vue'))
+  require.ensure(['./components/profile/UpdateProfile.vue'],()=>{
+    resolve(require('./components/profile/UpdateProfile.vue'))
   })
 }
 const UpdateAuth = resolve =>{
-  require.ensure(['./components/UpdateAuth.vue'],()=>{
-    resolve(require('./components/UpdateAuth.vue'));
+  require.ensure(['./components/auth/UpdateAuth.vue'],()=>{
+    resolve(require('./components/auth/UpdateAuth.vue'));
   })
 }
 
 
 const Trend = resolve =>{
-  require.ensure(['./components/ShowTrend.vue'],()=>{
-    resolve(require('./components/ShowTrend.vue'));
+  require.ensure(['./components/trend/ShowTrend.vue'],()=>{
+    resolve(require('./components/trend/ShowTrend.vue'));
   })
 }
 

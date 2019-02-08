@@ -13,7 +13,7 @@
 
 <script>
 
-import ListPosts from './posts/ListPosts.vue';
+import ListPosts from './../posts/ListPosts.vue';
 
 export default {
   components:{

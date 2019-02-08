@@ -13,33 +13,31 @@ class TopicController extends Controller
     public function show(Request $request)
     {
 
+      $user_id = Auth::id();
+
+
       $topic_id = $request->topic_id;
 
       $topic = topic::findOrFail($topic_id);
 
       $posts = $topic->posts()
+      ->where('user_id','<>',$user_id)
       ->with('dislikesCounter')
       ->with('likesCounter')
       ->with('user')
+      ->latest()
       ->offset(0)
       ->limit(100)
       ->get();
 
-      $posts_id = $topic->posts()
-      ->offset(0)
-      ->limit(100)
-      ->pluck('id');
-
-      $liked_posts = $this->liked_posts($posts_id,$topic_id);
-      $disliked_posts = $this->disliked_posts($posts_id,$topic_id);
-      return response()->json(['posts'=>$posts,
-                              'liked_posts'=>$liked_posts,
-                              'disliked_posts'=>$disliked_posts]);
+      return response()->json(['posts'=>$posts],201);
 
     }
 
     public function load_more(Request $request)
     {
+
+      $user_id = Auth::id();
 
       $offset = $request->has('offset') ? $request->offset : 0 ;
 
@@ -48,24 +46,17 @@ class TopicController extends Controller
       $topic = topic::findOrFail($topic_id);
 
       $posts = $topic->posts()
+      ->where('user_id','<>',$user_id)
       ->with('dislikesCounter')
       ->with('likesCounter')
       ->with('user')
+      ->latest()
       ->offset($offset)
       ->limit(100)
       ->get();
 
-      $posts_id = $topic->posts()
-      ->offset($offset)
-      ->limit(100)
-      ->pluck('id');
 
-      $liked_posts = $this->liked_posts($posts_id,$topic_id);
-      $disliked_posts = $this->disliked_posts($posts_id,$topic_id);
-
-      return response()->json(['posts'=>$posts,
-                              'liked_posts'=>$liked_posts,
-                              'disliked_posts'=>$disliked_posts]);
+      return response()->json(['posts'=>$posts],201);
 
     }
 

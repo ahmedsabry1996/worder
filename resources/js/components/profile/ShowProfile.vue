@@ -352,7 +352,7 @@
 
 <script>
 import axios from 'axios';
-import Ad from './Ad.vue';
+import Ad from './../ads/Ad.vue';
 import Popover  from 'vue-js-popover';
 
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'

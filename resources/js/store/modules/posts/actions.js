@@ -2,7 +2,9 @@ export  default{
 
             createPost(context,post,rootState){
               return new Promise(function(resolve, reject) {
-                axios.post("/api/post/create-post",post,
+                axios.post("/api/post/create-post",{
+                  post:post.post
+                },
                 {
                   headers:{
                     "Authorization": `Bearer  ${context.rootState.authentication.userToken}`,

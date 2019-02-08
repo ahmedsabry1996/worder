@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <h2>{{getTopics()}}</h2>
+    <h4>{{currentUserTopics}}</h4>
+    <h4>{{topic}}</h4>
     <div class="row" >
       <form @submit.prevent="createPost">
           <div class="form-group">
@@ -10,7 +13,7 @@
             <div class="col-md-4">
                   <select  v-model="topic">
                         <option   value="" selected disabled >  {{$t('choosetopic')}} </option>
-                        <option  v-for="(topic,index) in currentUserTopics" :value="index + 1"> {{topics[topic.id - 1]}}</option>
+                        <option  v-for="(topic,index) in currentUserTopics" :value="topic.id"> {{topics[topic.id - 1]}}</option>
                   </select>
             </div>
             <div class="col-md-4">
