@@ -2,6 +2,7 @@ export default{
 
     timeline(context,commit,rootState){
 
+
     axios.post('/api/timeline/posts',{},{
       headers:{
         "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
@@ -13,33 +14,41 @@ export default{
 
         console.log(response.data);
 
-        context.commit('fillMyTimeline',response.data.posts);
+        context.commit('fillMyTimeline',{posts:response.data.posts,
+                                         postsNum:response.data.posts_num});
 
     }).catch((errors)=>{
         console.log(errors);
         console.log(errors.response);
     })
+
     },
 
 
     loadMorePosts(context,data,rootState){
-        context.commit("isLoadingMoreTimeline");
-      axios.post(`/api/timeline/load-more`,{
-          offset:data.offset,
-        },{
-        headers:{
-          "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-        }
-      })
-      .then((response)=>{
-          console.log(response.data);
-            context.commit("isLoadingMoreTimeline")
-            context.commit('loadMore',response.data.loaded_posts);
-      })
-      .catch((errors)=>{
-        console.log(errors);
-        console.log(errors.response);
-      })
+      context.commit("isLoadingMoreTimeline");
+      let postsNum = context.state.postsNum;
+      let loadedTimelinePosts = context.state.loadedTimelinePosts;
+      if (postsNum > loadedTimelinePosts) {
+
+
+        axios.post(`/api/timeline/load-more`,{
+            offset:context.state.offset,
+          },{
+          headers:{
+            "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+          }
+        })
+        .then((response)=>{
+            console.log(response.data);
+              context.commit("isLoadingMoreTimeline")
+              context.commit('loadMore',{posts:response.data.loaded_posts});
+        })
+        .catch((errors)=>{
+          console.log(errors);
+          console.log(errors.response);
+        })
+      }
     }
 
 }

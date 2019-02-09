@@ -66,8 +66,7 @@ export default {
             if (self.perfectUser && self.$route.name == 'root') {
 
             window.scrollTo(0,document.documentElement.offsetHeight - 400);
-            self.offset +=27;
-            self.$store.dispatch('loadMorePosts',{"offset":self.offset})
+            self.$store.dispatch('loadMorePosts')
 
           }
           }}

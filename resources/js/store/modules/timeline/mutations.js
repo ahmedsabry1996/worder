@@ -5,7 +5,11 @@ export default{
     fillMyTimeline(state,payload){
 
 
-        state.posts = payload;
+        state.posts = payload.posts;
+        state.loadedTimelinePosts = payload.posts.length;
+        state.postsNum = payload.postsNum;
+        state.offset = 27;
+
       },
 
       //open time....
@@ -16,14 +20,14 @@ export default{
 
 
     loadMore(state,payload){
-      // 
-      // let shufflePayload = payload.sort(function() {
-      //   return .5 - Math.random();
-      // });
 
-        payload.map((value)=>{
+        payload.posts.map((value)=>{
             state.posts.push(value);
         });
+        state.loadedTimelinePosts = state.posts.length;
+        state.offset += 27;
+        console.log('offffffffffff');
+        console.log(state.offset);
 
     },
     isLoadingMoreTimeline(state){
@@ -46,6 +50,8 @@ export default{
         }
 
       },
-
+      NoMore(state){
+        state.NoMore = true;
+      }
 
 }

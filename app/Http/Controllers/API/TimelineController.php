@@ -13,6 +13,7 @@ use App\User as user;
 use App\Profile as profile;
 use App\Post as post ;
 use App\Topic as topic;
+use App\Country as country;
 use App\FollowersCounter as followerscounter;
 class TimelineController extends Controller
 {
@@ -138,20 +139,25 @@ class TimelineController extends Controller
     public function time_line_posts(Request $request)
     {
 
+      $user_country = Auth::user()->profile->country_id;
 
         $num_of_following = $this->count_following();
 
         if ($this->fetch_following_posts()->get()->count() != 0) {
 
             $posts =$this->fetch_following_posts()->get();
+            $posts_num = country::find($user_country)->posts()->count();
         }
 
         else{
           $posts = $this->fetch_other_posts()->get();
+          $posts_num = country::find($user_country)->posts()->count();
 
         }
 
-      return response()->json(['posts'=>$posts],201);
+      return response()->json(['posts'=>$posts,
+                                'posts_num'=>$posts_num,
+                                ],201);
   }
 
   public function load_more(Request $request)
