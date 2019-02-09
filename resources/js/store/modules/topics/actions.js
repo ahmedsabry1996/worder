@@ -13,7 +13,8 @@ export default{
     }).
     then((response)=>{
 
-      context.commit('fillTopicPosts',response.data.posts);
+      context.commit('fillTopicPosts',{posts:response.data.posts,
+                                        postsNum:response.data.posts_num});
 
     }).
     catch((error)=>{
@@ -28,8 +29,12 @@ export default{
 
       let id = context.state.topics.indexOf(currentTopic)+1;
 
-      axios.post('/api/topic/load-more',{
-        offset:commit.offset,
+      let loadedTopicPosts = context.state.loadedTopicPosts;
+      let allTopicPosts = context.state.allTopicPosts;
+
+    if (allTopicPosts > loadedTopicPosts){
+    axios.post('/api/topic/load-more',{
+        offset:context.state.Topicsoffset,
         topic_id : id
       },{
         headers:{
@@ -42,7 +47,7 @@ export default{
       })
       .catch((error)=>{
         console.log(error.response);
-      })
+      })}
 
     }
 

@@ -27,10 +27,14 @@ class TopicController extends Controller
       ->with('user')
       ->latest()
       ->offset(0)
-      ->limit(100)
+      ->limit(27)
       ->get();
 
-      return response()->json(['posts'=>$posts],201);
+      $posts_num = $topic->posts()->count();
+
+      return response()->json(['posts'=>$posts,
+                                'posts_num'=>$posts_num]
+                                ,201);
 
     }
 
@@ -52,7 +56,7 @@ class TopicController extends Controller
       ->with('user')
       ->latest()
       ->offset($offset)
-      ->limit(100)
+      ->limit(27)
       ->get();
 
 
@@ -60,29 +64,6 @@ class TopicController extends Controller
 
     }
 
-    public function liked_posts($posts,$topic_id)
-    {
-
-              $posts_liked_by_current_user = post::whereLikedBy(Auth::id())
-              ->whereTopicId($topic_id)
-              ->whereIn('id',$posts)
-              ->with('likesCounter')
-              ->pluck('id');
-
-              return $posts_liked_by_current_user;
-
-    }
-
-    public function disliked_posts($posts,$topic_id)
-    {
-
-                  $posts_disliked_by_current_user = post::whereDislikedBy(Auth::id())
-                  ->whereTopicId($topic_id)
-                  ->whereIn('id',$posts)
-                  ->with('dislikesCounter')
-                  ->pluck('id');
-
-                  return $posts_disliked_by_current_user;
-    }
+    
 
 }

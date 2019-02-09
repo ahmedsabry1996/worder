@@ -5,6 +5,9 @@ export default{
     },
     topicPosts(state){
       return state.topicPosts;
+    },
+    noTopicPosts(state){
+      return state.noTopicPosts;
     }
 
 }

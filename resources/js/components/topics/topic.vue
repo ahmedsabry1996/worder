@@ -1,12 +1,15 @@
 <template>
 <div class="container-fluid">
 
-
-  <div class=" text-center">
+  <div class=" text-center" v-if="!noTopicPosts">
     <h2>{{this.$route.params.topic}}</h2>
     <list-posts :posts="posts"></list-posts>
   </div>
 
+  <div v-else>
+      <h1>no posts</h1>
+      <h1>come on later</h1>
+  </div>
 </div>
 </template>
 
@@ -20,12 +23,14 @@ export default {
 
     data(){
         return {
-          offset:0
         }
     },
     computed:{
         posts(){
           return  this.$store.getters.topicPosts;
+        },
+        noTopicPosts(){
+          return this.$store.getters.noTopicPosts;
         }
     },
     mounted(){
@@ -40,7 +45,6 @@ export default {
     watch:{
       '$route'(to,from){
 
-          this.offset = 0;
         this.getTopicPosts();
       }
     },
@@ -58,7 +62,6 @@ export default {
             let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
             if (endOfPage) {
-              //alert(!!localStorage.getItem('access_token'));
               if (!!localStorage.getItem('access_token') && this.$route.name == 'topic') {
                   this.morePosts();
 
@@ -70,11 +73,8 @@ export default {
       },
 
       morePosts(){
-
-          this.offset +=100;
         this.$store.dispatch('loadMoreTopicPosts',
-                            {topic:this.$route.params.topic
-                              ,offset:this.offset})
+                            {topic:this.$route.params.topic})
 
 
 

@@ -22,16 +22,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      offset: 0
-    };
+    return {};
   },
   computed: {
     posts: function posts() {
       return this.$store.getters.topicPosts;
+    },
+    noTopicPosts: function noTopicPosts() {
+      return this.$store.getters.noTopicPosts;
     }
   },
   mounted: function mounted() {
@@ -45,7 +49,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     '$route': function $route(to, from) {
-      this.offset = 0;
       this.getTopicPosts();
     }
   },
@@ -62,7 +65,6 @@ __webpack_require__.r(__webpack_exports__);
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
-          //alert(!!localStorage.getItem('access_token'));
           if (!!localStorage.getItem('access_token') && _this.$route.name == 'topic') {
             _this.morePosts();
           }
@@ -70,10 +72,8 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     morePosts: function morePosts() {
-      this.offset += 100;
       this.$store.dispatch('loadMoreTopicPosts', {
-        topic: this.$route.params.topic,
-        offset: this.offset
+        topic: this.$route.params.topic
       });
     }
   }
@@ -146,16 +146,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _c(
-      "div",
-      { staticClass: " text-center" },
-      [
-        _c("h2", [_vm._v(_vm._s(this.$route.params.topic))]),
-        _vm._v(" "),
-        _c("list-posts", { attrs: { posts: _vm.posts } })
-      ],
-      1
-    )
+    !_vm.noTopicPosts
+      ? _c(
+          "div",
+          { staticClass: " text-center" },
+          [
+            _c("h2", [_vm._v(_vm._s(this.$route.params.topic))]),
+            _vm._v(" "),
+            _c("list-posts", { attrs: { posts: _vm.posts } })
+          ],
+          1
+        )
+      : _c("div", [
+          _c("h1", [_vm._v("no posts")]),
+          _vm._v(" "),
+          _c("h1", [_vm._v("come on later")])
+        ])
   ])
 }
 var staticRenderFns = []
