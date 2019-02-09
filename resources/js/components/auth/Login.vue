@@ -156,7 +156,7 @@ export default {
 
             if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
 
-              this.$store.commit("loginSuccess",response.data.user.notifications);
+              this.$store.commit("loginSuccess");
               this.$store.commit("topTen");
               this.$router.push('/');
 

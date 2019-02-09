@@ -164,7 +164,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
         localStorage.setItem('is_verified', response.data.user.is_verified);
 
         if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
-          _this.$store.commit("loginSuccess", response.data.user.notifications);
+          _this.$store.commit("loginSuccess");
 
           _this.$store.commit("topTen");
 

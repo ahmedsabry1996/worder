@@ -166,12 +166,12 @@ __webpack_require__.r(__webpack_exports__);
       var imgType = e.target.files[0].type;
 
       if (imgs.indexOf(imgType) == -1) {
+        this.avatar = null;
         swal({
           "title": "Error",
           "text": this.$t('avatarerror'),
           "icon": "error"
         });
-        this.avatar = null;
       } else {
         fr.onload = function (e) {
           _this.avatar = e.target.result;
@@ -202,12 +202,15 @@ __webpack_require__.r(__webpack_exports__);
           "text": _this2.$t('welcome'),
           "icon": "success"
         });
+        _this2.errors = [];
         localStorage.setItem('has_profile', 1);
         localStorage.setItem('current_user_profile', JSON.stringify(response.data.profile));
         localStorage.setItem('current_user_topics', JSON.stringify(response.data.topics));
-        _this2.errors = [];
+        localStorage.setItem('trend', response.data.trend.top_words);
 
         _this2.$store.commit('loginSuccess');
+
+        _this2.$store.commit("topTen");
 
         console.log('topics');
         console.log(response.data.topics);

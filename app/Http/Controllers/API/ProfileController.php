@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Carbon\Carbon;
 use Storage as storage ;
 use App\User as user ;
 use App\Profile as profile ;
@@ -13,8 +14,7 @@ use App\Topic as topic ;
 use App\Post as post ;
 use App\Gender as gender ;
 use App\FollowersCounter as followercounter;
-use Carbon\Carbon;
-use Session as session;
+use App\Trend as trend ;
 class ProfileController extends Controller
 {
 
@@ -102,7 +102,6 @@ class ProfileController extends Controller
           $user->save();
 
 
-
           if (!Auth::loginUsingId($request->user_id,1)) {
 
             return response()->json(['message'=>'Unauthorized'],401);
@@ -121,11 +120,16 @@ class ProfileController extends Controller
 
           $user_topics = Auth::user()->topics()->get();
 
+          $country_id = $request->country_id;
+
+          $trend = country::find($country_id)->trend;
+
           return response()->json([
 
               'profile'=>Auth::user()->profile,
               'topics'=>$user_topics,
-              'message'=>"Account Created Successfully"
+              'message'=>"Account Created Successfully",
+              'trend'=>$trend,
           ]);
 
 

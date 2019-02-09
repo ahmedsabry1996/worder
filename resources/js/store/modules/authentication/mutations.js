@@ -34,7 +34,6 @@ export default{
             state.currentUser = JSON.parse(localStorage.getItem("current_user"));
             state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
             state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
-            state.missedNotifications = payload;
             state.userToken = localStorage.getItem("access_token");
             state.hasProfile = localStorage.getItem('has_profile');
             state.isVerified = localStorage.getItem('is_verified');

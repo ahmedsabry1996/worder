@@ -123,7 +123,7 @@ computed:{
   },
   topics(){
     return this.$store.getters.topics;
-  }, 
+  },
   username(){
       return   this.$store.getters.currentUser.name;
       },
@@ -160,12 +160,12 @@ handleFile(e){
     let imgType = e.target.files[0].type;
 
     if (imgs.indexOf(imgType) == -1) {
+      this.avatar =null;
         swal({
           "title":"Error",
           "text":this.$t('avatarerror'),
           "icon":"error"
         });
-      this.avatar =null;
     }
     else{
       fr.onload = (e) => {
@@ -205,11 +205,16 @@ createProfile(){
           "icon":"success"
         })
 
+        this.errors = [];
         localStorage.setItem('has_profile',1);
         localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
         localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));
-        this.errors = [];
+        localStorage.setItem('trend',(response.data.trend.top_words));
+
+
         this.$store.commit('loginSuccess');
+        this.$store.commit("topTen");
+
         console.log('topics');
         console.log(response.data.topics);
         console.log("after_profile");
