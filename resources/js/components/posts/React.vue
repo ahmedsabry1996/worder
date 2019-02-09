@@ -1,9 +1,7 @@
 <template>
 
-<div class="">
+<div>
 
-    <h2>{{likedPosts.length}}</h2>
-    <h3>{{disLikedPosts.length}}</h3>
   <p class="text-center"
   v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) == -1" >
 

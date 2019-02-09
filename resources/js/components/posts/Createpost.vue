@@ -1,8 +1,5 @@
 <template>
   <div class="container">
-    <h2>{{getTopics()}}</h2>
-    <h4>{{currentUserTopics}}</h4>
-    <h4>{{topic}}</h4>
     <div class="row" >
       <form @submit.prevent="createPost">
           <div class="form-group">

@@ -42,7 +42,7 @@
 
             <div class="form-group">
               <template v-if="!signupLoading">
-              <button type="submit" class="btn btn-default" @click="signup" >
+              <button type="submit" class="btn btn-default">
                   {{$t('signup')}}
               </button>
               </template>
@@ -135,18 +135,18 @@ export default {
           original_password:this.password
         })
         .then(()=>{
+
+          localStorage.setItem('email',this.email);
+          localStorage.setItem('password',this.password);
+          this.$store.commit('userCredionals');
+          this.signupLoading = false;
           swal({
             title:"Done!",
             text:this.$t('emailcheck'),
             icon:"success"
           });
-          localStorage.setItem('email',this.email);
-          localStorage.setItem('password',this.password);
-          this.$store.commit('userCredionals');
-          this.signupLoading = false;
-
         })
-        .catch((errors)=>{
+        .catch(()=>{
 
           this.signupLoading = false;
           swal({

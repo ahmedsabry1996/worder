@@ -5,7 +5,13 @@ export default{
 
     return new Promise ((resolve,reject)=>{
 
-        axios.post("/api/auth/signup",credionals)
+        axios.post("/api/auth/signup",{
+          name:credionals.name,
+          email:credionals.email,
+          password:credionals.password,
+          original_password:credionals.original_password,
+          password_confirmation:credionals.password_confirmation,
+        })
         .then((response)=>{
 
           console.log(response.data);

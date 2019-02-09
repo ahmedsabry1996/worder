@@ -141,18 +141,18 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
         password_confirmation: this.passwordConfirm,
         original_password: this.password
       }).then(function () {
-        swal({
-          title: "Done!",
-          text: _this.$t('emailcheck'),
-          icon: "success"
-        });
         localStorage.setItem('email', _this.email);
         localStorage.setItem('password', _this.password);
 
         _this.$store.commit('userCredionals');
 
         _this.signupLoading = false;
-      }).catch(function (errors) {
+        swal({
+          title: "Done!",
+          text: _this.$t('emailcheck'),
+          icon: "success"
+        });
+      }).catch(function () {
         _this.signupLoading = false;
         swal({
           title: "Error!qq",
@@ -434,8 +434,7 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-default",
-                              attrs: { type: "submit" },
-                              on: { click: _vm.signup }
+                              attrs: { type: "submit" }
                             },
                             [
                               _vm._v(
