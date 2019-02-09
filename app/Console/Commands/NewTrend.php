@@ -44,19 +44,22 @@ class NewTrend extends Command
 
                 foreach ($top_countries as $id) {
                   $current_country =country::find($id);
-                  $country_posts = $current_country->posts()->where('created_at','>=',$last_hour)->chunk(10000,function($posts){
+                  $country_posts = $current_country
+                  ->posts()
+                  ->where('created_at','>=',$last_hour)
+                  ->chunk(10000,function($posts){
 
-                          foreach ($posts as $post) {
+                  foreach ($posts as $post) {
 
-                              $to_small = strtolower($post->post);
+                      $to_small = strtolower($post->post);
 
-                              $explode = explode(' ', $post->post );
+                      $explode = explode(' ', $post->post );
 
-                              $unique_post = array_unique($explode);
+                      $unique_post = array_unique($explode);
 
-                              $implodes = implode(' ', $unique_post);
+                      $implodes = implode(' ', $unique_post);
 
-                              array_push( $this->data,$implodes);
+                      array_push( $this->data,$implodes);
 
 
                           }
@@ -85,9 +88,8 @@ class NewTrend extends Command
 
 
                 }
+
                  event(new NewTrendEvent());
-
-
 
     }
 }

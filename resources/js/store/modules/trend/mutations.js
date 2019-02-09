@@ -11,7 +11,7 @@ export default{
     state.trendPostsNum = payload.postsNum;
     state.trendLoadedPosts = state.trendPosts.length;
     state.trendOffset = 27;
-    
+
   },
 
   addToTrendPosts(state,payload){
@@ -20,7 +20,7 @@ export default{
           state.trendPosts.push(val);
       });
       state.trendLoadedPosts = state.trendPosts.length;
-      state.trendOffset = 27;
+      state.trendOffset += 27;
 
   },
   updateTrendPost(state,payload){
