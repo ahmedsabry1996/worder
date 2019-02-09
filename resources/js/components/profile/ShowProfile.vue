@@ -375,7 +375,6 @@ export default {
 
   data(){
       return {
-        offset:10,
         followerOffset:0,
         followingOffset:0,
         displayName:this.$route.params.name,
@@ -387,7 +386,6 @@ export default {
   },
   watch:{
     '$route'(to,from){
-      this.offset = 10;
 
       this.$router.push(`/${to.params.name}`);
       this.$store.dispatch('showProfile',to.params.name);
@@ -528,9 +526,8 @@ export default {
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
-                this.$store.dispatch('loadMoreProfilePosts',{"offset":this.offset,
+                this.$store.dispatch('loadMoreProfilePosts',{
                 'userId':this.$store.state.profile.currentProfile.id});
-                this.offset +=10;
                 }
                 }
 

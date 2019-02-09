@@ -8,12 +8,17 @@ export default{
       state.followingNum = payload.following;
       state.profilePosts = payload.posts;
       state.isFollow = payload.is_follow;
+      state.profilePostsNum = payload.postsNum;
+      state.profileLoadedPosts = state.profilePosts.length;
+      state.profilesOffset = 27;
     },
     loadMoreProfilePosts(state,payload){
 
         payload.map((val)=>{
             state.profilePosts.push(val);
-        })
+        });
+        state.profilesOffset += 27;
+        state.profileLoadedPosts = state.profilePosts.length;
     },
 
     followersNum(state,payload){

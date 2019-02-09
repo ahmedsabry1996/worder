@@ -388,7 +388,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   data: function data() {
     return {
-      offset: 10,
       followerOffset: 0,
       followingOffset: 0,
       displayName: this.$route.params.name,
@@ -400,7 +399,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   watch: {
     '$route': function $route(to, from) {
-      this.offset = 10;
       this.$router.push("/".concat(to.params.name));
       this.$store.dispatch('showProfile', to.params.name);
     }
@@ -522,11 +520,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
         if (bottomOfWindow) {
           _this2.$store.dispatch('loadMoreProfilePosts', {
-            "offset": _this2.offset,
             'userId': _this2.$store.state.profile.currentProfile.id
           });
-
-          _this2.offset += 10;
         }
       };
     },

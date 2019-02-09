@@ -19,6 +19,8 @@ export default{
                 following:response.data.following,
                 isFollow:response.data.is_follow,
                 posts:response.data.posts,
+                postsNum:response.data.posts_num,
+
 
               });
               resolve();
@@ -50,9 +52,12 @@ export default{
       },
 
       loadMoreProfilePosts(context,commit,rootState){
-
+        let profileLoadedPosts = context.state.profileLoadedPosts ;
+        let profilePostsNum = context.state.profilePostsNum ;
+        if (profilePostsNum > profileLoadedPosts) {
+          alert(58);
         axios.post('/api/user-posts',{
-            offset:commit.offset,
+            offset:context.state.profilesOffset,
             user_id:commit.userId,
         },{
           headers:{
@@ -67,6 +72,8 @@ export default{
             console.log(error);
             console.log(error.response);
         })
+
+        }
       },
 
       deletePost(context,commit,rootState){

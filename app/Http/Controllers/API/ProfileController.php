@@ -275,7 +275,7 @@ class ProfileController extends Controller
 
           $posts = post::where('user_id',$user_id)
           ->offset(0)
-          ->limit(10)
+          ->limit(27)
           ->latest()
           ->with('user')
           ->with('topic')
@@ -283,6 +283,8 @@ class ProfileController extends Controller
           ->with('dislikesCounter')
           ->distinct()
           ->get();
+
+          $posts_num = user::find($user_id)->posts()->count();
 
           $is_follow = user::find(Auth::id())
                       ->following()
@@ -294,6 +296,7 @@ class ProfileController extends Controller
 
           return response()->json(['profile'=>$user,
                                     'posts'=>$posts,
+                                     'posts_num'=>$posts_num,
                                     'followers'=>$num_of_followers,
                                     'following'=>$num_of_following,
                                     'following_ids'=>$following_ids,
@@ -308,7 +311,7 @@ class ProfileController extends Controller
 
           $posts = post::where('user_id',$user_id)
           ->offset($offset)
-          ->limit(10)
+          ->limit(27)
           ->latest()
           ->with('user')
           ->with('topic')
