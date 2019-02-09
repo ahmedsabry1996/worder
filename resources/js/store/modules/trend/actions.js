@@ -12,7 +12,8 @@ export default {
         .then((response)=>{
           console.log(response.data);
 
-                context.commit('fillTrendPosts',response.data.posts);
+                context.commit('fillTrendPosts',{posts:response.data.posts,
+                                                  postsNum:response.data.posts_num});
                 console.log(commit.word);
                 console.log(45);
         })
@@ -21,8 +22,12 @@ export default {
         })
       },
       loadMoreTrendPosts(context,commit,rootState){
-        axios.post('/api/trend/load-more',{
-          offset:commit.offset,
+        let trendPostsNum = context.state.trendPostsNum;
+        let trendLoadedPosts = context.state.trendLoadedPosts;
+
+        if (trendPostsNum > trendLoadedPosts){
+          axios.post('/api/trend/load-more',{
+          offset:context.state.trendOffset,
           word : commit.word
         },{
           headers:{
@@ -37,7 +42,7 @@ export default {
         })
         .catch((error)=>{
           console.log(error.response);
-        })
+        })}
 
       }
 

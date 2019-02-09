@@ -146,12 +146,12 @@ class TimelineController extends Controller
         if ($this->fetch_following_posts()->get()->count() != 0) {
 
             $posts =$this->fetch_following_posts()->get();
-            $posts_num = country::find($user_country)->posts()->count();
+            $posts_num = country::find($user_country)->posts()->where('user_id','<>',Auth::id())->count();
         }
 
         else{
           $posts = $this->fetch_other_posts()->get();
-          $posts_num = country::find($user_country)->posts()->count();
+          $posts_num = country::find($user_country)->posts()->where('user_id','<>',Auth::id())->count();
 
         }
 

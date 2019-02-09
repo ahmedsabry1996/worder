@@ -46,10 +46,12 @@ class TrendController extends Controller
                     ->with('dislikesCounter')
                     ->with('likesCounter')
                     ->latest()
-                   ->limit(100)
+                   ->limit(27)
                    ->get();
 
-    return response()->json(['posts'=>$posts,"word"=>$user_id],201);
+    $posts_num = post::where('post','like', "%$word%")->where('user_id','<>',$user_id)->count();
+
+    return response()->json(['posts'=>$posts,"posts_num"=>$posts_num],201);
 
   }
 
@@ -68,64 +70,10 @@ class TrendController extends Controller
                         ->with('dislikesCounter')
                         ->with('likesCounter')
                         ->offset($offset)
-                       ->limit(100)
+                       ->limit(27)
                        ->latest()
                        ->get();
 
-
         return response()->json(['posts'=>$posts],201);
-
-
       }
-  public function test()
-  {
-
-
-    $top_countries = latestposts::where('posts_number','<>',0)
-                          ->orderBy('posts_number','desc')->pluck('country_id');
-
-
-
-
-    $country_posts = country::find(3)->posts()->chunk(10000,function($posts){
-
-            foreach ($posts as $post) {
-
-                $to_small = strtolower($post->post);
-
-                $explode = explode(' ', $post->post );
-
-                $unique_post = array_unique($explode);
-
-                $implodes = implode(' ', $unique_post);
-
-                array_push( $this->data,$implodes);
-
-
-            }
-
-    });
-
-
-    $this->data = array_values($this->data);
-
-    $trend = join(' ', $this->data);
-
-    $trend_ex = explode (' ' ,$trend);
-
-    $top_trend = array_count_values($trend_ex);
-
-    $tttt= (array)arsort($top_trend);
-
-    $top_ten = json_encode(array_slice($top_trend,0,10));
-
-
-    return response()->json(['trend'=>($top_ten),'cs'=>$top_countries[1]]);
-
-  }
-
-  public function test2()
-  {
-    event(new NewTrend());
-  }
 }

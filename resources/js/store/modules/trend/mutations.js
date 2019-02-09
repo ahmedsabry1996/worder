@@ -7,7 +7,11 @@ export default{
      state.topTen = JSON.parse(localStorage.getItem('trend'));
   },
   fillTrendPosts(state,payload){
-    state.trendPosts = payload;
+    state.trendPosts = payload.posts;
+    state.trendPostsNum = payload.postsNum;
+    state.trendLoadedPosts = state.trendPosts.length;
+    state.trendOffset = 27;
+    
   },
 
   addToTrendPosts(state,payload){
@@ -15,6 +19,9 @@ export default{
       payload.map((val)=>{
           state.trendPosts.push(val);
       });
+      state.trendLoadedPosts = state.trendPosts.length;
+      state.trendOffset = 27;
+
   },
   updateTrendPost(state,payload){
 

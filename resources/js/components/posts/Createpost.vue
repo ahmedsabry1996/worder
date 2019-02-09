@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="row" >
+      <h1>{{topic}}</h1>
       <form @submit.prevent="createPost">
           <div class="form-group">
             <textarea v-model.trim="post" class="form-control" placeholder="wirte what in your mind :)">
@@ -9,7 +10,7 @@
           <div class="form-group">
             <div class="col-md-4">
                   <select  v-model="topic">
-                        <option   value="" selected disabled >  {{$t('choosetopic')}} </option>
+                        <option  value="" selected disabled >  {{$t('choosetopic')}} </option>
                         <option  v-for="(topic,index) in currentUserTopics" :value="topic.id"> {{topics[topic.id - 1]}}</option>
                   </select>
             </div>

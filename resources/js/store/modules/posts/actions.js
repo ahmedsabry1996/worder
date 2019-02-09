@@ -3,7 +3,8 @@ export  default{
             createPost(context,post,rootState){
               return new Promise(function(resolve, reject) {
                 axios.post("/api/post/create-post",{
-                  post:post.post
+                  post:post.post,
+                  topic:post.topic
                 },
                 {
                   headers:{
@@ -13,12 +14,12 @@ export  default{
                 )
                 .then((response)=>{
                     console.log(response);
-                    return resolve();
+                     resolve();
                 })
                 .catch((errors)=>{
                     console.log(errors);
                     console.log(errors.response);
-                    return reject();
+                     reject();
 
                 })
               });

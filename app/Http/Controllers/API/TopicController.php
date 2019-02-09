@@ -30,7 +30,7 @@ class TopicController extends Controller
       ->limit(27)
       ->get();
 
-      $posts_num = $topic->posts()->count();
+      $posts_num = $topic->posts()->where('user_id','<>',$user_id)->count();
 
       return response()->json(['posts'=>$posts,
                                 'posts_num'=>$posts_num]
@@ -64,6 +64,6 @@ class TopicController extends Controller
 
     }
 
-    
+
 
 }
