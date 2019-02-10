@@ -59,7 +59,7 @@ export  default{
               if (commit.react == 'like') {
                           context.commit('addToLikedPosts',commit.postId);
               }
-              if (commit.react == 'dislike') {
+              else if (commit.react == 'dislike') {
 
                   context.commit('addToDisLikedPosts',commit.postId);
 
@@ -116,17 +116,109 @@ export  default{
                 }
               })
               .then((response)=>{
-                resolve();
-                context.commit('showPost',response.data.post)
-                console.log('post loaded Successfully');
+                console.log(response.data);
+                context.commit('showPost',{post:response.data.post,
+                                          likes:response.data.likes,
+                                          dislikes:response.data.dislikes})
+                resolve(response);
               })
               .catch((errors)=>{
-                reject();
+
                 console.log(errors);
                 console.log(errors.response);
+                reject(errors);
               })
           });
-            }
+        },
 
+            showLikers(context,commit,rootState){
+              axios.post('/api/post/likers',{
+                post_id:commit.postId
+              },{
+                headers:{
+                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                }
+              })
+              .then((response)=>{
+
+                context.commit('likers',response.data.likers)
+              })
+              .catch((errors)=>{
+                 console.log(errors);
+                 console.log(errors.response);
+              })
+            },
+
+            loadMoreLikers(context,commit,rootState){
+                let likesNum = context.state.likesNum;
+                let loadedLikers = context.state.loadedLikers;
+              if (likesNum > loadedLikers) {
+
+              axios.post('/api/post/likers',{
+                offset:context.state.likersOffset,
+                post_id:commit.postId
+              },{
+                headers:{
+                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                }
+              })
+              .then((response)=>{
+                  context.commit('loadMoreLikers',response.data.likers)
+              })
+              .catch((errors)=>{
+                 console.log(errors);
+                 console.log(errors.response);
+              })
+
+
+              }
+            },
+
+            showDisLikers(context,commit,rootState){
+              axios.post('/api/post/dislikers',{
+                post_id:commit.postId
+              },{
+                headers:{
+                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                }
+              })
+              .then((response)=>{
+
+                    context.commit('dislikers',response.data.dislikers)
+
+
+              })
+              .catch((errors)=>{
+                 console.log(errors);
+                 console.log(errors.response);
+              })
+
+            },
+
+            loadMoreDisLikers(context,commit,rootState){
+                let dislikesNum = context.state.dislikesNum;
+                let loadedDislikers = context.state.loadedDislikers;
+if (dislikesNum > loadedDislikers)  {
+
+                axios.post('/api/post/dislikers',{
+                offset:context.state.dislikersOffset,
+                post_id:commit.postId
+              },{
+                headers:{
+                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                }
+              })
+              .then((response)=>{
+
+                  context.commit('loadMoreDisLikers',response.data.dislikers);
+                  alert();
+              })
+              .catch((errors)=>{
+                 console.log(errors);
+                 console.log(errors.response);
+              })
+}
+
+            },
 
 }

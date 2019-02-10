@@ -231,6 +231,32 @@
         <font-awesome-icon :icon="['far','thumbs-up']" /></span>
 
     </p>
+    <div class="post-react-number">
+      <p class="text-center">
+
+        <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;">
+          {{ post.dislikes_counter.count  }}
+        </span>
+
+        <span v-else style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+            0
+          </span>
+
+
+        <span v-if="post.likes_counter" style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+
+          {{post.likes_counter.count }}
+
+    </span>
+
+        <span v-else style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+
+              0
+        </span>
+
+      </p>
+
+    </div>
   </div>
 
   </div>
@@ -246,7 +272,7 @@
 
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
 
-      <div class="likers" v-for="liker in likers">
+      <div class="likers" v-for="liker in postLikers">
           <p @click="openProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
           <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
           <b>{{liker.name}}</b>
@@ -264,7 +290,7 @@
 
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
 
-      <div class="likers" v-for="disliker in dislikers">
+      <div class="likers" v-for="disliker in postDislikers">
           <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
           <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
           <b>{{disliker.name}}</b>
@@ -354,8 +380,8 @@
 import axios from 'axios';
 import Ad from './../ads/Ad.vue';
 import Popover  from 'vue-js-popover';
-
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
+
 var moment = require('moment');
 
 export default {
@@ -380,8 +406,8 @@ export default {
         displayName:this.$route.params.name,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         showModal:true,
-        likers:[],
-        dislikers:[]
+        postId:null,
+
       };
   },
   watch:{
@@ -441,6 +467,12 @@ export default {
       },
     posts(){
         return this.$store.getters.profilePosts;
+    },
+    postLikers(){
+      return this.$store.getters.postLikers;
+    },
+    postDislikers(){
+      return this.$store.getters.postDislikers;
     },
     followersNum(){
         return  this.$store.getters.followersNum;
@@ -594,24 +626,11 @@ export default {
 
     showLikers(id){
 
-    axios.post('/api/post/likers',{
-      offset:this.likersOffset,
-      post_id:id
-    },{
-      headers:{
-        "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-      }
-    })
-    .then((response)=>{
-
-      console.log(response.data.likers);
-      this.likers = response.data.likers;
+      this.postId = id;
+      this.$store.dispatch('showLikers',{postId:id})
       this.$refs.likers.open();
-    })
-    .catch((errors)=>{
-       console.log(errors);
-       console.log(errors.response);
-    })
+      console.log(this.postId);
+
   },
 
     loadMoreLikers(e){
@@ -625,52 +644,20 @@ export default {
         let elScrollTop = e.target.scrollTop;
 
         if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-          this.likersOffset +=100;
-          axios.post('/api/post/likers',{
-            offset:this.likersOffset,
-            post_id:this.$route.params.postId
-          },{
-            headers:{
-              "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-            }
-          })
-          .then((response)=>{
-
-             response.data.likers.map((val)=>{
-               this.likers.push(val);
-             });
-          })
-          .catch((errors)=>{
-             console.log(errors);
-             console.log(errors.response);
-          })
+          console.log(this.postId);
+            this.$store.dispatch('loadMoreLikers',{postId:this.postId})
 
         }
   },
 
     showDisLikers(id){
 
-    axios.post('/api/post/dislikers',{
-      offset:this.dislikersOffset,
-      post_id:id
-    },{
-      headers:{
-        "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-      }
-    })
-    .then((response)=>{
 
-        this.dislikers = response.data.dislikers;
-        this.$refs.dislikers.open();
-
-
-    })
-    .catch((errors)=>{
-        alert();
-       console.log(errors);
-       console.log(errors.response);
-    })
-  },
+      this.postId = id;
+      this.$store.dispatch('showDisLikers',{postId:id});
+      this.$refs.dislikers.open();
+      console.log(this.postId);
+    },
 
     loadMoreDisLikers(e){
 
@@ -683,26 +670,7 @@ export default {
         let elScrollTop = e.target.scrollTop;
 
         if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-          this.dislikerOffset +=100;
-          axios.post('/api/post/dislikers',{
-            offset:this.dislikerOffset,
-            post_id:this.$route.params.postId
-          },{
-            headers:{
-              "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-            }
-          })
-          .then((response)=>{
-
-             response.data.dislikers.map((val)=>{
-               this.dislikers.push(val);
-             });
-          })
-          .catch((errors)=>{
-             console.log(errors);
-             console.log(errors.response);
-          })
-
+            this.$store.dispatch('loadMoreDisLikers',{postId:this.postId})
         }
   },
   },

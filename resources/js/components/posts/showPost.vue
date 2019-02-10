@@ -91,77 +91,52 @@
         <hr>
     </div>
 
-        <div class="modal fade" id="likers" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title text-center">
+    <!-- likers -->
+    <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="320" overlay-theme="dark">
 
-                  <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-                    Likers
+        <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
 
-                    <font-awesome-icon  :icon="['fas','thumbs-up']" @click="postReact('like',((post.id)))"/></span>
+        <div class="likers" v-for="liker in postLikers">
+            <p @click="openProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
+            <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
+            <b>{{liker.name}}</b>
+            <br>
+            <i style="opacity:.5;position:relative">{{liker.profile.display_name}}</i>
+          </p>
 
-                </h4>
-              </div>
-              <div class="modal-body" v-if="likers.length > 0" @scroll="loadMoreLikers">
-                <div class="likers" v-for="liker in likers">
-                    <router-link :to="`/${liker.profile.display_name}`" tag="p" style="cursor:pointer">
-                    <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
-                    <b>{{liker.name}}</b>
-                    <br>
-                    <i style="opacity:.5;position:relative;left">{{liker.profile.display_name}}</i>
-    </router-link>
-
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-primary">ok</button>
-              </div>
-            </div>
-          </div>
         </div>
 
+        </div>
+    </sweet-modal>
 
+    <!-- dislikers -->
+      <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
 
-            <div class="modal fade" id="dislikers" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title text-center">
-
-                      <span style="font-size:20pt ;color:#EA003A;cursor:pointer;">
-                        Dislikers
-                        <font-awesome-icon
-                        :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)" />
-
-                      </span>
-                    </h4>
-                  </div>
-                  <div class="modal-body" v-if="dislikers.length > 0" @scroll="loadMoreDisLikers">
-                    <div class="likers" v-for="disliker in dislikers">
-                        <router-link :to="`/${disliker.profile.display_name}`" tag="p" style="cursor:pointer">
-                        <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
-                        <b>{{disliker.name}}</b>
-                        <br>
-                        <i style="opacity:.5;position:relative;left">{{disliker.profile.display_name}}</i>
-        </router-link>
-
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-primary">ok</button>
-                  </div>
-                </div>
+          <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
+              <div v-for="num in 10">
+                  <h2>{{num}}</h2>
               </div>
-            </div>
+          <div class="likers" v-for="disliker in postDislikers">
+              <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
+              <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
+              <b>{{disliker.name}}</b>
+              <br>
+              <i style="opacity:.5;position:relative">{{disliker.profile.display_name}}</i>
+            </p>
+
+          </div>
+
+          </div>
+      </sweet-modal>
+
+
+
 </div>
 
 </template>
 
 <script>
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import axios from 'axios';
 var moment = require('moment');
 import React from './React.vue';
@@ -170,27 +145,41 @@ export default {
   data(){
     return {
         publisher:null,
-        likersOffset:0,
-        dislikerOffset:0,
-        likers:[],
-        dislikers:[]
+
     }
   },
   components:{
       React,
+      SweetModal,
+      SweetModalTab
+
   },
   computed:{
     post(){
       return this.$store.getters.post;
 
     },
+    likesNum(){
+      return this.$store.getters.likesNum;
+
+    },
+    dislikesNum(){
+      return this.$store.getters.dislikesNum;
+
+    },
+    postLikers(){
+      return this.$store.getters.postLikers;
+    },
+    postDislikers(){
+      return this.$store.getters.postDislikers;
+    },
     likedPosts(){
       return this.$store.getters.likedPosts;
 
   },
-  disLikedPosts(){
+    disLikedPosts(){
     return this.$store.getters.disLikedPosts;
-  },
+    },
     topics(){
       return this.$store.getters.topics;
     },
@@ -206,16 +195,19 @@ export default {
     }
   },
   created(){
-
+    const self = this;
     this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showSinglePost',this.$route.params.postId)
     .then((response)=>{
-      console.log('ok ok');
+
     })
     .catch((errors)=>{
       this.$router.push('/');
     })
-
+  },
+    mounted(){
+          console.log(4000);
+        console.log(this.post);
   },
   methods:{
      goToAnotherPost(){
@@ -232,26 +224,11 @@ export default {
 ;
      },
      showLikers(id){
+       this.$refs.likers.open();
+       this.$store.dispatch('showLikers',{postId:id});
 
-       axios.post('/api/post/likers',{
-         offset:this.likersOffset,
-         post_id:id
-       },{
-         headers:{
-           "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-         }
-       })
-       .then((response)=>{
-
-         this.likers = response.data.likers;
-       })
-       .catch((errors)=>{
-          console.log(errors);
-          console.log(errors.response);
-       })
      },
      loadMoreLikers(e){
-
 
 
            let elHeight = e.target.clientHeight;
@@ -261,51 +238,17 @@ export default {
            let elScrollTop = e.target.scrollTop;
 
            if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-             this.likersOffset +=100;
-             axios.post('/api/post/likers',{
-               offset:this.likersOffset,
-               post_id:this.$route.params.postId
-             },{
-               headers:{
-                 "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-               }
-             })
-             .then((response)=>{
 
-                response.data.likers.map((val)=>{
-                  this.likers.push(val);
-                });
-             })
-             .catch((errors)=>{
-                console.log(errors);
-                console.log(errors.response);
-             })
+             console.log('end of likers');
+             this.$store.dispatch('loadMoreLikers',{postId:this.$route.params.postId});
 
-           }
+                       }
      },
 
      showDisLikers(id){
-
-       axios.post('/api/post/dislikers',{
-         offset:this.dislikersOffset,
-         post_id:id
-       },{
-         headers:{
-           "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-         }
-       })
-       .then((response)=>{
-         if (response.data.dislikers.length > 0) {
-
-           this.dislikers = response.data.dislikers;
-
-         }
-       })
-       .catch((errors)=>{
-          console.log(errors);
-          console.log(errors.response);
-       })
-     },
+       this.$refs.dislikers.open();
+       this.$store.dispatch('showDisLikers',{postId:id})
+        },
 
      loadMoreDisLikers(e){
 
@@ -318,27 +261,12 @@ export default {
            let elScrollTop = e.target.scrollTop;
 
            if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-             this.dislikerOffset +=100;
-             axios.post('/api/post/dislikers',{
-               offset:this.dislikerOffset,
-               post_id:this.$route.params.postId
-             },{
-               headers:{
-                 "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
-               }
-             })
-             .then((response)=>{
 
-                response.data.dislikers.map((val)=>{
-                  this.dislikers.push(val);
-                });
-             })
-             .catch((errors)=>{
-                console.log(errors);
-                console.log(errors.response);
-             })
+                     console.log('end of dislikers');
 
-           }
+             this.$store.dispatch('loadMoreDisLikers',{postId:this.$route.params.postId});
+
+                        }
      },
 
   },
@@ -353,7 +281,7 @@ export default {
 </script>
 
 <style scoped>
-.modal-body {
+.likers, .dislikers {
 	position: relative;
 	padding: 20px;
 	height: 155px;

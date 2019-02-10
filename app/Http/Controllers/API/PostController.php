@@ -52,7 +52,7 @@ class PostController extends Controller
 
       $country->latestPosts->increment('posts_number');
 
-      return response()->json(['msg'=>'post created Successfully','co'=>$country->latestPosts],201);
+      return response()->json("",204);
 
   }
 
@@ -66,13 +66,16 @@ class PostController extends Controller
     ->first();
 
     $post = post::whereId($post_id)
-    ->with('likesCounter')
-    ->with('dislikesCounter')
-    ->with('topic')
     ->with('user')
+    ->with('topic')
     ->firstOrFail();
 
-    return response()->json(['post'=>$post,'type'=>$type_of_react]);
+    $post_likes = $post->likesCount;
+    $post_dislikes = $post->dislikesCount;
+    return response()->json(['post'=>$post,
+                              'likes'=>$post_likes,
+                              'dislikes'=>$post_dislikes
+                              ,'type'=>$type_of_react],201);
 
   }
 
@@ -92,6 +95,8 @@ class PostController extends Controller
       return response()->json(['msg'=>'you don\'t have the permession to do it'],403);
     }
 
+    $post->removeLikes();
+    $post->removeDislikes();
     $delete_post = $post->delete();
     if ($country->latestPosts->posts_number > 0 ) {
 
@@ -99,7 +104,7 @@ class PostController extends Controller
 
     }
 
-    return response()->json(['msg'=>'deleted!'],201 );
+    return response()->json("",204);
   }
 
   public function my_posts()
@@ -117,16 +122,18 @@ class PostController extends Controller
 
     $post_id = $request->post_id;
 
-    $post_likers = DB::table('love_likes')
-    ->where('likeable_id',$post_id)
-    ->where('type_id','LIKE')
-    ->offset($offset)
-    ->limit(100)
-    ->pluck('user_id');
+    $post_likers = post::findOrFail($post_id)
+                        ->collectLikers()
+                        ->pluck('id');
 
-    $likers =  user::whereIn('id',$post_likers)->with('profile')->get();
+    $likers =  user::whereIn('id',$post_likers)
+                    ->offset($offset)
+                    ->limit(27)
+                    ->with('profile')
+                    ->latest()
+                    ->get();
 
-    return response()->json(['likers'=>$likers]);
+    return response()->json(['likers'=>$likers],201);
 
   }
 
@@ -137,16 +144,18 @@ class PostController extends Controller
 
     $post_id = $request->post_id;
 
-    $post_dislikers = DB::table('love_likes')
-    ->where('likeable_id',$post_id)
-    ->where('type_id','DISLIKE')
-    ->offset($offset)
-    ->limit(100)
-    ->pluck('user_id');
+    $post_dislikers = post::findOrFail($post_id)
+                          ->collectDislikers()
+                          ->pluck('id');
 
-    $dislikers =  user::whereIn('id',$post_dislikers)->with('profile')->get();
+    $dislikers =  user::whereIn('id',$post_dislikers)
+                        ->offset($offset)
+                        ->limit(27)
+                        ->with('profile')
+                        ->latest()
+                        ->get();
 
-    return response()->json(['dislikers'=>$dislikers]);
+    return response()->json(['dislikers'=>$dislikers],201);
 
   }
 

@@ -367,6 +367,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -393,8 +419,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       displayName: this.$route.params.name,
       currentUserDisplayName: this.$store.state.authentication.currentUserProfile.display_name,
       showModal: true,
-      likers: [],
-      dislikers: []
+      postId: null
     };
   },
   watch: {
@@ -443,6 +468,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     },
     posts: function posts() {
       return this.$store.getters.profilePosts;
+    },
+    postLikers: function postLikers() {
+      return this.$store.getters.postLikers;
+    },
+    postDislikers: function postDislikers() {
+      return this.$store.getters.postDislikers;
     },
     followersNum: function followersNum() {
       return this.$store.getters.followersNum;
@@ -581,94 +612,41 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$router.push('update-auth');
     },
     showLikers: function showLikers(id) {
-      var _this4 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
-        offset: this.likersOffset,
-        post_id: id
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        console.log(response.data.likers);
-        _this4.likers = response.data.likers;
-
-        _this4.$refs.likers.open();
-      }).catch(function (errors) {
-        console.log(errors);
-        console.log(errors.response);
+      this.postId = id;
+      this.$store.dispatch('showLikers', {
+        postId: id
       });
+      this.$refs.likers.open();
+      console.log(this.postId);
     },
     loadMoreLikers: function loadMoreLikers(e) {
-      var _this5 = this;
-
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.likersOffset += 100;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/likers', {
-          offset: this.likersOffset,
-          post_id: this.$route.params.postId
-        }, {
-          headers: {
-            "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
-          }
-        }).then(function (response) {
-          response.data.likers.map(function (val) {
-            _this5.likers.push(val);
-          });
-        }).catch(function (errors) {
-          console.log(errors);
-          console.log(errors.response);
+        console.log(this.postId);
+        this.$store.dispatch('loadMoreLikers', {
+          postId: this.postId
         });
       }
     },
     showDisLikers: function showDisLikers(id) {
-      var _this6 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
-        offset: this.dislikersOffset,
-        post_id: id
-      }, {
-        headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
-        }
-      }).then(function (response) {
-        _this6.dislikers = response.data.dislikers;
-
-        _this6.$refs.dislikers.open();
-      }).catch(function (errors) {
-        alert();
-        console.log(errors);
-        console.log(errors.response);
+      this.postId = id;
+      this.$store.dispatch('showDisLikers', {
+        postId: id
       });
+      this.$refs.dislikers.open();
+      console.log(this.postId);
     },
     loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var _this7 = this;
-
       var elHeight = e.target.clientHeight;
       var elscrollHeight = e.target.scrollHeight;
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.dislikerOffset += 100;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/post/dislikers', {
-          offset: this.dislikerOffset,
-          post_id: this.$route.params.postId
-        }, {
-          headers: {
-            "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
-          }
-        }).then(function (response) {
-          response.data.dislikers.map(function (val) {
-            _this7.dislikers.push(val);
-          });
-        }).catch(function (errors) {
-          console.log(errors);
-          console.log(errors.response);
+        this.$store.dispatch('loadMoreDisLikers', {
+          postId: this.postId
         });
       }
     }
@@ -1478,7 +1456,94 @@ var render = function() {
                                     ],
                                     1
                                   )
-                                ])
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "post-react-number" },
+                                  [
+                                    _c("p", { staticClass: "text-center" }, [
+                                      post.dislikes_counter
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                position: "relative",
+                                                "font-size": "10pt",
+                                                color: "#EA003A",
+                                                margin: "auto 14px",
+                                                cursor: "pointer"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n          " +
+                                                  _vm._s(
+                                                    post.dislikes_counter.count
+                                                  ) +
+                                                  "\n        "
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                position: "relative",
+                                                "font-size": "10pt",
+                                                color: "#EA003A",
+                                                margin: "auto 14px",
+                                                cursor: "pointer",
+                                                top: "3px"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n            0\n          "
+                                              )
+                                            ]
+                                          ),
+                                      _vm._v(" "),
+                                      post.likes_counter
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "10pt",
+                                                color: "#192FDD",
+                                                margin: "auto 14px",
+                                                cursor: "pointer"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\n          " +
+                                                  _vm._s(
+                                                    post.likes_counter.count
+                                                  ) +
+                                                  "\n\n    "
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "span",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "10pt",
+                                                color: "#192FDD",
+                                                margin: "auto 14px",
+                                                cursor: "pointer"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\n              0\n        "
+                                              )
+                                            ]
+                                          )
+                                    ])
+                                  ]
+                                )
                               ])
                             : _vm._e()
                         ]),
@@ -1509,7 +1574,7 @@ var render = function() {
                   staticStyle: { "overflow-y": "scroll", height: "120px" },
                   on: { scroll: _vm.loadMoreLikers }
                 },
-                _vm._l(_vm.likers, function(liker) {
+                _vm._l(_vm.postLikers, function(liker) {
                   return _c("div", { staticClass: "likers" }, [
                     _c(
                       "p",
@@ -1571,7 +1636,7 @@ var render = function() {
                   staticStyle: { "overflow-y": "scroll", height: "120px" },
                   on: { scroll: _vm.loadMoreDisLikers }
                 },
-                _vm._l(_vm.dislikers, function(disliker) {
+                _vm._l(_vm.postDislikers, function(disliker) {
                   return _c("div", { staticClass: "likers" }, [
                     _c(
                       "p",

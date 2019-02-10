@@ -1,9 +1,51 @@
 import Vue from 'vue';
 export  default{
 
+   post(state,payload){
+     state.post = payload;
+   },
+
       showPost(state,payload){
-        state.post = payload;
+
+        state.post = payload.post;
+        state.likesNum = payload.likes;
+        state.dislikesNum = payload.dislikes;
+
       },
+
+      likers(state,payload){
+        state.postLikers = payload;
+        state.loadedLikers = state.postLikers.length;
+
+      },
+
+      loadMoreLikers(state,payload){
+
+        payload.map((value)=>{
+          state.postLikers.push(value);
+        });
+        state.likersOffset += 27;
+        state.loadedLikers = state.postLikers.length;
+      } ,
+
+      dislikers(state,payload){
+
+          state.postDislikers = payload;
+          state.loadMoreDisLikers = state.postDislikers.length;
+      },
+
+
+      loadMoreDisLikers(state,payload){
+
+        payload.map((value)=>{
+          state.postDislikers.push(value);
+        });
+        state.dislikersOffset += 27;
+        state.loadMoreDisLikers = state.postDislikers.length;
+
+
+      } ,
+
       fillLikedPosts(state,payload){
 
         state.likedPosts=payload;
@@ -37,7 +79,7 @@ export  default{
 
       },
 
-    addToDisLikedPosts(state,payload){
+      addToDisLikedPosts(state,payload){
 
         let liked = state.likedPosts;
         let disliked = state.disLikedPosts;
@@ -58,8 +100,4 @@ export  default{
                 }
 
       },
-
-    post(state,payload){
-        state.post = payload;
-    }
 }
