@@ -393,6 +393,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -414,11 +426,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   data: function data() {
     return {
-      followerOffset: 0,
-      followingOffset: 0,
       displayName: this.$route.params.name,
       currentUserDisplayName: this.$store.state.authentication.currentUserProfile.display_name,
-      showModal: true,
       postId: null
     };
   },
@@ -429,7 +438,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     }
   },
   mounted: function mounted() {
-    this.$store.commit('truncateProfile');
     this.loadMorePosts();
     console.log("".concat(this.$route.params.name, " show profile"));
   },
@@ -481,6 +489,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     followingNum: function followingNum() {
       return this.$store.getters.followingNum;
     },
+    myFollowersNum: function myFollowersNum() {
+      return this.$store.getters.myFollowersNum;
+    },
+    myFollowingNum: function myFollowingNum() {
+      return this.$store.getters.myFollowingNum;
+    },
     currentUserProfile: function currentUserProfile() {
       return this.$store.getters.currentUserProfile;
     },
@@ -516,9 +530,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
         this.followerOffset += 50;
-        this.$store.dispatch('loadMoreFollowers', {
-          offset: this.followerOffset
-        });
+        this.$store.dispatch('loadMoreFollowers');
       }
     },
     loadMoreFollowing: function loadMoreFollowing(e) {
@@ -528,9 +540,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
         this.followingOffset += 50;
-        this.$store.dispatch('loadMoreFollowing', {
-          offset: this.followingOffset
-        });
+        this.$store.dispatch('loadMoreFollowing');
       }
     },
     fans: function fans() {
@@ -808,25 +818,50 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "num-of-followers" }, [
-                  _c("p", [
-                    _c("bdi", [
-                      _c("b", [_vm._v(_vm._s(_vm.followersNum))]),
-                      _vm._v(
-                        "\n        " + _vm._s(_vm.$t("followers")) + "\n      "
-                      )
+                _vm.currentUserProfile.user_id !=
+                _vm.showProfile.profile.user_id
+                  ? _c("div", { staticClass: "num-of-followers" }, [
+                      _c("p", [
+                        _c("bdi", [
+                          _c("b", [_vm._v(_vm._s(_vm.followersNum))]),
+                          _vm._v(
+                            "\n        " +
+                              _vm._s(_vm.$t("followers")) +
+                              "\n      "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("bdi", [
+                          _c("b", [_vm._v(_vm._s(_vm.followingNum))]),
+                          _vm._v(
+                            "\n        " +
+                              _vm._s(_vm.$t("following")) +
+                              "\n      "
+                          )
+                        ])
+                      ])
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c("bdi", [
-                      _c("b", [_vm._v(_vm._s(_vm.followingNum))]),
-                      _vm._v(
-                        "\n        " + _vm._s(_vm.$t("following")) + "\n      "
-                      )
-                    ])
-                  ])
-                ]),
+                  : _c("div", [
+                      _c("p", [
+                        _c("bdi", [
+                          _c("b", [_vm._v(_vm._s(_vm.myFollowersNum))]),
+                          _vm._v(
+                            "\n      " + _vm._s(_vm.$t("followers")) + "\n    "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("bdi", [
+                          _c("b", [_vm._v(_vm._s(_vm.myFollowingNum))]),
+                          _vm._v(
+                            "\n      " + _vm._s(_vm.$t("following")) + "\n    "
+                          )
+                        ])
+                      ])
+                    ]),
                 _vm._v(" "),
                 _vm.currentUserProfile.user_id !==
                 _vm.showProfile.profile.user_id

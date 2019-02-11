@@ -27,7 +27,6 @@ export default{
     followingNum(state,payload){
       state.followingNum = payload
     },
-
   truncateProfile(state){
   state.currentProfile = [];
   state.followingNum= 0 ;

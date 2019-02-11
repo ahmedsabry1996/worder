@@ -9,5 +9,13 @@ export default{
 
     myFollowingIds(state){
       return state.myFollowingIds;
+    },
+    
+    myFollowersNum(state){
+      return state.myFollowersNum;
+    },
+    myFollowingNum(state){
+        return state.myFollowingNum;
     }
+
 }

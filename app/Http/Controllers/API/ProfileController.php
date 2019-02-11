@@ -249,8 +249,6 @@ class ProfileController extends Controller
       {
 
 
-
-
               $current_user = Auth::user();
 
               $user_id = Auth::id();
@@ -296,7 +294,7 @@ class ProfileController extends Controller
 
           return response()->json(['profile'=>$user,
                                     'posts'=>$posts,
-                                     'posts_num'=>$posts_num,
+                                    'posts_num'=>$posts_num,
                                     'followers'=>$num_of_followers,
                                     'following'=>$num_of_following,
                                     'following_ids'=>$following_ids,

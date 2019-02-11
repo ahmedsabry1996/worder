@@ -57,45 +57,55 @@ export default{
       console.log(errors.response);
     })
   },
+
     loadMoreFollowers(context,commit,payload){
+
+      let loadedFollowers = context.state.loadedFollowers;
+      let myFollowersNum = context.state.myFollowersNum;
+        if (myFollowersNum > loadedFollowers) {
+
       axios.post('/api/timeline/my-followers',{
-        offset:commit.offset
+        offset:context.state.followersOffset
       },{
         headers:{
           Authorization:`Bearer ${localStorage.getItem('access_token')}`
         }
       })
       .then((response)=>{
-        if (response.data.followers.length > 0) {
+
           context.commit('addToMyFollowersProfiles',response.data.followers);
 
-        }
       })
       .catch((error)=>{
         console.log(error);
         console.log(error.response);
       })
+
+    }
     },
+
     loadMoreFollowing(context,commit,payload){
+          let loadedFollowing = context.state.loadedFollowing;
+          let myFollowingNum = context.state.myFollowingNum;
+          if (myFollowingNum > loadedFollowing) {
 
               axios.post('/api/timeline/my-following',{
-                offset:commit.offset
+                offset:context.state.followingOffset
               },{
                 headers:{
                   Authorization:`Bearer ${localStorage.getItem('access_token')}`
                 }
               })
               .then((response)=>{
-                if (response.data.following.length > 0) {
 
                   context.commit('addToMyFollowingProfiles',response.data.following);
-
-                }
 
               })
               .catch((error)=>{
                 console.log(error);
                 console.log(error.response);
               })
+
+            }
     }
   }

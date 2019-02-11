@@ -44,6 +44,8 @@ export default{
         .then((response)=>{
         context.commit('fillMyFollowersProfiles',response.data.followers);
         context.commit('fillMyFollowingProfiles',response.data.following);
+        context.commit('pickMyFansNum',{followers:response.data.followers_num,
+                                        following:response.data.following_num})
         })
         .catch((error)=>{
           console.log(error);

@@ -191,6 +191,10 @@ class FollowingController extends Controller
     public function my_fans(Request $request)
     {
       $current_user = Auth::user();
+
+      $num_of_followers = $current_user->followers()->count();
+      $num_of_following = $current_user->following()->count();
+
       $offset = $request->has('offset') ? $request->offset : 0 ;
       $followers = $current_user->followers()
                                 ->with('profile')
@@ -209,6 +213,8 @@ class FollowingController extends Controller
     $following_ids = $this->get_user_following();
       return response()->json(['followers'=>$followers,
                                 'following'=>$following,
+                                'followers_num'=>$num_of_followers,
+                                'following_num'=>$num_of_following,
                                 'following_ids'=>$following_ids],201);
 
     }

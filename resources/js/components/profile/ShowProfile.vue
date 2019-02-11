@@ -30,7 +30,7 @@
     {{$t('about')}}: {{showProfile.profile.description}}
 </bdi>
   </p>
-  <div class="num-of-followers">
+  <div class="num-of-followers" v-if="currentUserProfile.user_id != showProfile.profile.user_id ">
     <p>
     <bdi>
         <b>{{followersNum}}</b>
@@ -43,9 +43,21 @@
         {{$t('following')}}
       </bdi>
   </p>
-
   </div>
-
+<div v-else>
+  <p>
+  <bdi>
+      <b>{{myFollowersNum}}</b>
+      {{$t('followers')}}
+    </bdi>
+  </p>
+  <p>
+    <bdi>
+      <b>{{myFollowingNum}}</b>
+      {{$t('following')}}
+    </bdi>
+  </p>
+</div>
 
   <div class="text-center" v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
     <template v-if="myFollowingIds.indexOf(showProfile.profile.user_id)!== -1">
@@ -401,11 +413,9 @@ export default {
 
   data(){
       return {
-        followerOffset:0,
-        followingOffset:0,
+
         displayName:this.$route.params.name,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
-        showModal:true,
         postId:null,
 
       };
@@ -420,7 +430,6 @@ export default {
   },
   mounted(){
 
-      this.$store.commit('truncateProfile');
       this.loadMorePosts();
       console.log(`${this.$route.params.name} show profile`);
 
@@ -479,7 +488,12 @@ export default {
     },
     followingNum(){
       return  this.$store.getters.followingNum;
-
+    },
+    myFollowersNum(){
+      return this.$store.getters.myFollowersNum;
+    },
+    myFollowingNum(){
+      return  this.$store.getters.myFollowingNum;
     },
     currentUserProfile(){
       return this.$store.getters.currentUserProfile;
@@ -523,7 +537,7 @@ export default {
 
       if ((elHeight+elScrollTop) - elscrollHeight == 0) {
         this.followerOffset +=50;
-          this.$store.dispatch('loadMoreFollowers',{offset:this.followerOffset})
+          this.$store.dispatch('loadMoreFollowers')
       }
     },
 
@@ -536,7 +550,7 @@ export default {
 
       if ((elHeight+elScrollTop) - elscrollHeight == 0) {
         this.followingOffset +=50;
-        this.$store.dispatch('loadMoreFollowing',{offset:this.followingOffset})
+        this.$store.dispatch('loadMoreFollowing')
       }
     } ,
 
