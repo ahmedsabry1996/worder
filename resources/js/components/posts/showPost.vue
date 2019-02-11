@@ -113,9 +113,7 @@
       <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
 
           <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
-              <div v-for="num in 10">
-                  <h2>{{num}}</h2>
-              </div>
+          
           <div class="likers" v-for="disliker in postDislikers">
               <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
               <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
@@ -199,15 +197,11 @@ export default {
     this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showSinglePost',this.$route.params.postId)
     .then((response)=>{
-
+      console.log('ok man');
     })
     .catch((errors)=>{
       this.$router.push('/');
     })
-  },
-    mounted(){
-          console.log(4000);
-        console.log(this.post);
   },
   methods:{
      goToAnotherPost(){

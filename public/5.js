@@ -148,8 +148,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -212,13 +210,11 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 
     var self = this;
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {}).catch(function (errors) {
+    this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {
+      console.log('ok man');
+    }).catch(function (errors) {
       _this.$router.push('/');
     });
-  },
-  mounted: function mounted() {
-    console.log(4000);
-    console.log(this.post);
   },
   methods: {
     goToAnotherPost: function goToAnotherPost() {
@@ -660,51 +656,43 @@ var render = function() {
               staticStyle: { "overflow-y": "scroll", height: "120px" },
               on: { scroll: _vm.loadMoreDisLikers }
             },
-            [
-              _vm._l(10, function(num) {
-                return _c("div", [_c("h2", [_vm._v(_vm._s(num))])])
-              }),
-              _vm._v(" "),
-              _vm._l(_vm.postDislikers, function(disliker) {
-                return _c("div", { staticClass: "likers" }, [
-                  _c(
-                    "p",
-                    {
-                      staticStyle: { cursor: "pointer" },
-                      on: {
-                        click: function($event) {
-                          _vm.openProfile(disliker.profile.display_name)
-                        }
+            _vm._l(_vm.postDislikers, function(disliker) {
+              return _c("div", { staticClass: "likers" }, [
+                _c(
+                  "p",
+                  {
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        _vm.openProfile(disliker.profile.display_name)
                       }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "img-rounded",
-                        attrs: {
-                          src: "/storage/avatars/" + disliker.profile.avatar,
-                          alt: disliker.name,
-                          width: "40",
-                          height: "40"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("b", [_vm._v(_vm._s(disliker.name))]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "i",
-                        {
-                          staticStyle: { opacity: ".5", position: "relative" }
-                        },
-                        [_vm._v(_vm._s(disliker.profile.display_name))]
-                      )
-                    ]
-                  )
-                ])
-              })
-            ],
-            2
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "img-rounded",
+                      attrs: {
+                        src: "/storage/avatars/" + disliker.profile.avatar,
+                        alt: disliker.name,
+                        width: "40",
+                        height: "40"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("b", [_vm._v(_vm._s(disliker.name))]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "i",
+                      { staticStyle: { opacity: ".5", position: "relative" } },
+                      [_vm._v(_vm._s(disliker.profile.display_name))]
+                    )
+                  ]
+                )
+              ])
+            }),
+            0
           )
         ]
       )

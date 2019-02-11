@@ -80,7 +80,7 @@ export  default{
                 console.log(response.data);
 
 
-                context.commit('showPost',response.data.updated_post);
+                context.commit('showPost',{post:response.data.updated_post});
                 if (commit.routeName=='root') {
 
               context.commit('updatePost',{id:commit.postId,
