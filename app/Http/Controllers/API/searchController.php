@@ -16,7 +16,7 @@ class searchController extends Controller
       if (strlen($this->word) > 0) {
 
       $search = user::where('name',"like","%$this->word%")->where('is_verified',"1")->where('has_profile',"1")->orwhereHas("profile",function($query){
-        $query->where('display_name','like',"%$this->word%");
+        $query->where('display_name','like',"%$this->word%")->orWhere('description','like',"%$this->word%");
       })->with('profile')->limit(5)->get();
       return response()->json(['results'=>$search,"w"=>$this->word]);
 

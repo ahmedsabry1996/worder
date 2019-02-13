@@ -403,8 +403,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -444,7 +442,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   created: function created() {
     var _this = this;
 
-    this.$store.dispatch('reactedPosts');
+    this.$store.dispatch('reactedPosts'); //this.$store.dispatch('');
+
     this.$store.dispatch('showProfile', this.displayName).then(function (response) {
       console.log('ok ok');
     }).catch(function (errors) {
@@ -539,7 +538,6 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       var elScrollTop = e.target.scrollTop;
 
       if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.followingOffset += 50;
         this.$store.dispatch('loadMoreFollowing');
       }
     },
@@ -571,6 +569,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         followed_id: followed_id,
         action: action
       });
+      this.$store.commit('toggleIsFollow');
     },
     ShowProfile: function ShowProfile(displayName) {
       this.$router.push("/".concat(displayName));
@@ -739,11 +738,7 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
-          _c("h4", [_vm._v(_vm._s(_vm.myFollowingIds))]),
-          _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(_vm.currentUserProfile.user_id))]),
-          _vm._v(" "),
-          _c("h4", [_vm._v(_vm._s(_vm.showProfile.profile.user_id))]),
+          _c("h4", [_vm._v(_vm._s(_vm.isFollow))]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6 pc" }, [
@@ -869,9 +864,7 @@ var render = function() {
                       "div",
                       { staticClass: "text-center" },
                       [
-                        _vm.myFollowingIds.indexOf(
-                          _vm.showProfile.profile.user_id
-                        ) !== -1
+                        _vm.isFollow
                           ? [
                               _c(
                                 "button",

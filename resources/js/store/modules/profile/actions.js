@@ -10,6 +10,8 @@ export default{
             }
           })
           .then((response)=>{
+            console.log(745);
+              console.log(response.data.is_follow);
 
               context.commit('showProfile',
 
@@ -57,7 +59,7 @@ export default{
         let profileLoadedPosts = context.state.profileLoadedPosts ;
         let profilePostsNum = context.state.profilePostsNum ;
         if (profilePostsNum > profileLoadedPosts) {
-          alert(58);
+      
         axios.post('/api/user-posts',{
             offset:context.state.profilesOffset,
             user_id:commit.userId,

@@ -37,6 +37,7 @@ export default {
         this.loadMore();
     },
     created(){
+      this.$store.dispatch('reactedPosts');
           this.getTopicPosts();
     },
     components:{

@@ -24,6 +24,7 @@ export default{
 
     })
     },
+
     loadMoreTopicPosts(context,commit,rootState){
       let currentTopic = commit.topic;
 

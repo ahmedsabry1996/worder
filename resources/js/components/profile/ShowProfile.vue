@@ -1,8 +1,6 @@
 <template>
   <div class="container" v-if="showProfile.profile">
-    <h4>{{myFollowingIds}}</h4>
-    <h4>{{currentUserProfile.user_id}}</h4>
-    <h4>{{showProfile.profile.user_id}}</h4>
+    <h4>{{isFollow}}</h4>
       <div class="row">
       <div class="col-md-6 pc">
         <div class="card">
@@ -60,7 +58,7 @@
 </div>
 
   <div class="text-center" v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-    <template v-if="myFollowingIds.indexOf(showProfile.profile.user_id)!== -1">
+    <template v-if="isFollow">
       <button type="button" class="btn btn-danger " @click="follow(showProfile.id,'unfollow')">
           {{$t('unfollow')}}
       </button>
@@ -437,6 +435,7 @@ export default {
   },
   created(){
     this.$store.dispatch('reactedPosts');
+    //this.$store.dispatch('');
     this.$store.dispatch('showProfile',this.displayName)
     .then((response)=>{
       console.log('ok ok');
@@ -549,7 +548,6 @@ export default {
       let elScrollTop = e.target.scrollTop;
 
       if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-        this.followingOffset +=50;
         this.$store.dispatch('loadMoreFollowing')
       }
     } ,
@@ -582,7 +580,7 @@ export default {
     follow(followed_id,action){
 
       this.$store.dispatch('toggleFollow',{followed_id:followed_id,action:action});
-
+      this.$store.commit('toggleIsFollow');
     },
 
     ShowProfile(displayName){

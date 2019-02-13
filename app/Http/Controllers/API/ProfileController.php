@@ -251,7 +251,7 @@ class ProfileController extends Controller
 
               $current_user = Auth::user();
 
-              $user_id = Auth::id();
+              $current_user_id = Auth::id();
 
               $user_country = Auth::user()->profile->country_id;
 
@@ -284,10 +284,10 @@ class ProfileController extends Controller
 
           $posts_num = user::find($user_id)->posts()->count();
 
-          $is_follow = user::find(Auth::id())
+          $is_follow = user::find($current_user_id)
                       ->following()
                       ->where('user_id',$user_id)
-                      ->exists() ? true : false;
+                      ->exists() ;
 
           $num_of_followers = user::find($user_id)->follower_counter->followers;
           $num_of_following = user::find($user_id)->follower_counter->following;

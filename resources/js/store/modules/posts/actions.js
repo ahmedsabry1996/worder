@@ -40,21 +40,6 @@ export  default{
                 });
             },
 
-            reactedPosts(context,commit,rootState){
-                axios.post('/api/timeline/reacted-posts',{},{
-                  headers:{
-                    Authorization:`Bearer ${localStorage.getItem('access_token')}`
-                  }
-                })
-                .then((response)=>{
-                    context.commit('fillLikedPosts',response.data.liked_posts);
-                    context.commit('fillDisLikedPosts',response.data.disliked_posts);
-                })
-                .catch((error)=>{
-                    console.log(error.response);
-                })
-            },
-
             postReact(context,commit,rootState){
               if (commit.react == 'like') {
                           context.commit('addToLikedPosts',commit.postId);
@@ -221,4 +206,18 @@ if (dislikesNum > loadedDislikers)  {
 
             },
 
+            reactedPosts(context,commit,rootState){
+                axios.post('/api/timeline/reacted-posts',{},{
+                  headers:{
+                    Authorization:`Bearer ${localStorage.getItem('access_token')}`
+                  }
+                })
+                .then((response)=>{
+                    context.commit('fillLikedPosts',response.data.liked_posts);
+                    context.commit('fillDisLikedPosts',response.data.disliked_posts);
+                })
+                .catch((error)=>{
+                    console.log(error.response);
+                })
+            },
 }
