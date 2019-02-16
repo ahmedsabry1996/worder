@@ -116,9 +116,14 @@
                 </b>
               </p>
           </div>
+
+                                                <div class="post-img" v-if="post.image">
+                                                  <img :src="`/storage/posts_images/${post.image}`" alt="img" width="200" height="200" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
+                                                </div>
           <div class="delete-post">
 
           </div>
+
           <div class="post-react">
 
           <p class="text-center" v-if="likedPosts.indexOf(post.id) == -1 && disLikedPosts.indexOf(post.id) == -1" >
@@ -183,6 +188,7 @@
                       </p>
 
                     </div>
+
           <div class="post-date">
               <p style="opacity:.7;color:blue">
 
@@ -218,12 +224,17 @@
   </bdi>
   </p>
     </div>
+
+                  <div class="post-img" v-if="post.image">
+                    <img :src="`/storage/posts_images/${post.image}`" alt="img" width="200" height="200" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
+                  </div>
     <div class="post-time" style="opacity:.6">
       {{post.created_at | getDateForHumans}}
     </div>
     <div class="post-topic">
       <i style="opacity:.6">{{topics [post.topic_id - 1]}}</i>
     </div>
+
     <div class="post-react" v-if="post.user.profile.user_id == currentUserProfile.user_id">
 
     <p class="text-center">

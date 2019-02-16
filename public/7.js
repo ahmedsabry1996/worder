@@ -290,6 +290,7 @@ __webpack_require__.r(__webpack_exports__);
           icon: "success"
         });
       }).catch(function (errors) {
+        console.log(errors.response);
         swal({
           title: _this2.$t('error'),
           text: _this2.$t('profileupdatefailed'),

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
-use ImageOptimizer;
+use Image;
 use App\Country as country;
 use App\Post as post;
 use App\latestPost ;
@@ -47,7 +47,8 @@ class PostController extends Controller
       ]);
 
         $image = $request->image;
-        if ($image) {
+        $new_image_name = null;
+    if ($image) {
       // code...
       $encoded_image = explode(',', $image)[1];
 
@@ -72,9 +73,14 @@ class PostController extends Controller
 
       $upload = file_put_contents($save_to,$decoded_image);
 
-      $image = imagecreatefrompng($save_to);
+      $image_size = filesize($save_to);
 
-    	imagepng($image,$new_image_name,90);
+      if ($image_size > 1000000) {
+
+
+        $img = Image::make($save_to);
+      	$img->save($save_to,50);
+      }
 
     }
 
@@ -89,7 +95,7 @@ class PostController extends Controller
 
       $country->latestPosts->increment('posts_number');
 
-      return response()->json($size,201);
+      return response()->json("",201);
 
   }
 

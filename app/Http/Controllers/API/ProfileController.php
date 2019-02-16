@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Image;
 use Carbon\Carbon;
 use Storage as storage ;
 use App\User as user ;
@@ -65,6 +66,33 @@ class ProfileController extends Controller
           $save_to = public_path()."/storage/avatars/$new_avatar_name";
 
           $upload = file_put_contents($save_to,$decoded_avatar);
+
+          $image_size = filesize($save_to);
+
+          if ($image_size > 1000000) {
+
+            if ($image_size > 4000000) {
+
+                $img = Image::make($save_to);
+                $img->save($save_to,50);
+
+                $img = Image::make($save_to);
+                $img->save($save_to,40);
+
+                $img = Image::make($save_to);
+                $img->save($save_to,25);
+
+            }
+            else{
+
+              $img = Image::make($save_to);
+              $img->save($save_to,80);
+            }
+          }
+
+
+
+
             }
 
             if ($request->filled('description')) {
@@ -194,13 +222,22 @@ class ProfileController extends Controller
         }
 
         $decoded_avatar = base64_decode($encoded_avatar);
+
         $user_id = Auth::id();
+
         $new_avatar_name = "avatar_$user_id"."$new_avatar_extension";
 
         $save_to = public_path()."/storage/avatars/$new_avatar_name";
 
         $upload = file_put_contents($save_to,$decoded_avatar);
-          }
+
+        $image_size = filesize($save_to);
+
+        $img = Image::make($save_to);
+
+      	$img->save($save_to,50);
+
+    }
 
           if ($request->filled('description')) {
 
@@ -233,7 +270,8 @@ class ProfileController extends Controller
 
           return response()->json(['updated_user'=>$user,
                       'updated_profile'=>$updated_profile,
-                      'updated_topics'=>$user->topics]);
+                      'updated_topics'=>$user->topics,
+                    'size'=>$image_size]);
 
       }
 

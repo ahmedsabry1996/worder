@@ -294,6 +294,7 @@ export default {
           icon:"success"
         })
       }).catch((errors)=>{
+        console.log(errors.response);
         swal({
           title:this.$t('error'),
           text:this.$t('profileupdatefailed'),

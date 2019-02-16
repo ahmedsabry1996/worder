@@ -403,6 +403,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1055,6 +1066,24 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        post.image
+                          ? _c("div", { staticClass: "post-img" }, [
+                              _c("img", {
+                                staticClass: "img-rounded",
+                                staticStyle: {
+                                  "box-shadow": "0px 4px 7px  #000",
+                                  margin: "10px"
+                                },
+                                attrs: {
+                                  src: "/storage/posts_images/" + post.image,
+                                  alt: "img",
+                                  width: "200",
+                                  height: "200"
+                                }
+                              })
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
                         _c("div", { staticClass: "delete-post" }),
                         _vm._v(" "),
                         _c("div", { staticClass: "post-react" }, [
@@ -1382,6 +1411,24 @@ var render = function() {
                               ]
                             )
                           ]),
+                          _vm._v(" "),
+                          post.image
+                            ? _c("div", { staticClass: "post-img" }, [
+                                _c("img", {
+                                  staticClass: "img-rounded",
+                                  staticStyle: {
+                                    "box-shadow": "0px 4px 7px  #000",
+                                    margin: "10px"
+                                  },
+                                  attrs: {
+                                    src: "/storage/posts_images/" + post.image,
+                                    alt: "img",
+                                    width: "200",
+                                    height: "200"
+                                  }
+                                })
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "div",

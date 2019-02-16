@@ -23,6 +23,10 @@
               </b>
             </p>
         </div>
+
+                  <div class="post-img" v-if="post.image">
+                    <img :src="`/storage/posts_images/${post.image}`" alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
+                  </div>
         <div class="delete-post">
 
         </div>
@@ -113,7 +117,7 @@
       <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
 
           <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
-          
+
           <div class="likers" v-for="disliker in postDislikers">
               <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
               <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">

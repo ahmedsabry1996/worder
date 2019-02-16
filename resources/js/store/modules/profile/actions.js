@@ -2,7 +2,7 @@ export default{
 
         showProfile(context,displayName,rootState){
 
-      return   new Promise(function(resolve, reject) {
+      return new Promise(function(resolve, reject) {
 
           axios.get(`/api/user/${displayName}`,{
             headers:{
@@ -59,7 +59,7 @@ export default{
         let profileLoadedPosts = context.state.profileLoadedPosts ;
         let profilePostsNum = context.state.profilePostsNum ;
         if (profilePostsNum > profileLoadedPosts) {
-      
+
         axios.post('/api/user-posts',{
             offset:context.state.profilesOffset,
             user_id:commit.userId,

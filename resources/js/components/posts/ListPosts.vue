@@ -34,7 +34,7 @@
           </div>
 
           <!-- post content  -->
-          <div class="post-content"  style="cursor:pointer;background-color:rgba(0,0,0,.1)">
+          <div class="post-content"  style="cursor:pointer">
 
             <router-link :to="{ name: 'post', params: {postId:post.id} }" tag="p" class="post">
                 <b>
@@ -55,6 +55,10 @@
 
                 </b>
               </router-link>
+          </div>
+
+          <div class="post-img" v-if="post.image">
+            <img :src="`/storage/posts_images/${post.image}`" alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
           </div>
 
           <!-- React to post -->

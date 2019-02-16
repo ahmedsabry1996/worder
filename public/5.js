@@ -148,6 +148,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -397,6 +401,24 @@ var render = function() {
                 ]
               )
             ]),
+            _vm._v(" "),
+            _vm.post.image
+              ? _c("div", { staticClass: "post-img" }, [
+                  _c("img", {
+                    staticClass: "img-rounded",
+                    staticStyle: {
+                      "box-shadow": "0px 4px 7px  #000",
+                      margin: "10px"
+                    },
+                    attrs: {
+                      src: "/storage/posts_images/" + _vm.post.image,
+                      alt: "img",
+                      width: "400",
+                      height: "400"
+                    }
+                  })
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "delete-post" }),
             _vm._v(" "),
