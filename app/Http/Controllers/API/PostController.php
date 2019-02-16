@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+
+use ImageOptimizer;
 use App\Country as country;
 use App\Post as post;
 use App\latestPost ;
@@ -22,6 +24,7 @@ class PostController extends Controller
 
   public function create_new_post(Request $request)
   {
+
 
       $post = new post();
 
@@ -43,8 +46,42 @@ class PostController extends Controller
 
       ]);
 
+        $image = $request->image;
+        if ($image) {
+      // code...
+      $encoded_image = explode(',', $image)[1];
+
+      $image_extension = explode(',', $image)[0];
+
+      if (strpos($image_extension,'jpeg')) {
+        $new_image_extension = ".jpg";
+      }
+      elseif (strpos($image_extension,'png')) {
+        $new_image_extension = ".png";
+      }
+      else {
+        $new_image_extension = ".png";
+      }
+
+      $decoded_image = base64_decode($encoded_image);
+
+      $new_image_name = "post_$user_id"."_".time()."$new_image_extension";
+
+      $save_to = public_path()."/storage/posts_images/$new_image_name";
+
+
+      $upload = file_put_contents($save_to,$decoded_image);
+
+      $image = imagecreatefrompng($save_to);
+
+    	imagepng($image,$new_image_name,90);
+
+    }
+
+
       $post->create([
               'post'=>$request->post,
+              'image'=>$new_image_name,
               'topic_id'=>$request->topic,
               'user_id'=>$user_id,
               'country_id'=>$country_id
@@ -52,7 +89,7 @@ class PostController extends Controller
 
       $country->latestPosts->increment('posts_number');
 
-      return response()->json("",204);
+      return response()->json($size,201);
 
   }
 

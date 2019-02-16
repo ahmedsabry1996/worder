@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->integer('country_id');
             $table->integer('topic_id');
             $table->text('post');
+            $table->text('image')->nullable(); 
             $table->timestamps();
         });
     }

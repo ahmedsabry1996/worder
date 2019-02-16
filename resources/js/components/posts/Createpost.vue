@@ -8,19 +8,22 @@
             </textarea>
           </div>
           <div class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-3">
                   <select  v-model="topic">
                         <option  value="" selected disabled >  {{$t('choosetopic')}} </option>
                         <option  v-for="(topic,index) in currentUserTopics" :value="topic.id"> {{topics[topic.id - 1]}}</option>
                   </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
+              <input type="file" @change="HandlePostImage" />
+            </div>
+            <div class="col-md-3">
               <button type="submit" class="btn btn-primary" :disabled="post.length === 0 || wordsNumber > 100 || !topic ">
                     {{$t('publish')}}
               </button>
               <p>{{wordsNumber}}</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               {{wordsCounter}} / 100
             </div>
           </div>
@@ -43,9 +46,11 @@ export default {
   data(){
     return {
       post:'',
+      image:null,
       topic:'',
       wordsNumber:0,
       writtenPost :'',
+
 
     }
   },
@@ -78,17 +83,46 @@ export default {
     }
   },
   methods:{
+    HandlePostImage(e){
+
+
+
+          var fr  = new FileReader();
+
+          fr.readAsDataURL(e.target.files[0]);
+
+          const imgs = ['image/jpeg','image/png','image/jpg'];
+
+          let imgType = e.target.files[0].type;
+
+          if (imgs.indexOf(imgType) == -1) {
+            this.image =null;
+              swal({
+                "title":"Error",
+                "text":this.$t('avatarerror'),
+                "icon":"error"
+              });
+          }
+          else{
+            fr.onload = (e) => {
+
+                  this.image = e.target.result
+            }
+
+          }
+
+
+    },
       createPost(){
-        console.log(typeof(this.topic));
           this.$store.dispatch('createPost',{
             post:this.post,
-            topic:this.topic
+            topic:this.topic,
+            image:this.image,
           })
           .then(()=>{
             this.post = '';
             this.topic = '';
             this.$toastr.s(this.$t('postdone'));
-
 
           })
           .catch(()=>{

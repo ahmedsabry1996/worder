@@ -11,7 +11,7 @@ class Post extends Model implements LikeableContract
 
     use Likeable;
 
-    protected $fillable = ['post','user_id','country_id','topic_id'];
+    protected $fillable = ['post','image','user_id','country_id','topic_id'];
 
 	public function user()
 	{

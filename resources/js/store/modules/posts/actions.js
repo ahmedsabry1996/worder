@@ -4,7 +4,8 @@ export  default{
               return new Promise(function(resolve, reject) {
                 axios.post("/api/post/create-post",{
                   post:post.post,
-                  topic:post.topic
+                  topic:post.topic,
+                  image:post.image
                 },
                 {
                   headers:{
@@ -13,7 +14,7 @@ export  default{
                 }
                 )
                 .then((response)=>{
-                    console.log(response);
+                    console.log(response.data);
                      resolve();
                 })
                 .catch((errors)=>{
