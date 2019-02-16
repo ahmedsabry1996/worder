@@ -209,15 +209,15 @@ createProfile(){
         localStorage.setItem('has_profile',1);
         localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
         localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));
-        localStorage.setItem('trend',(response.data.trend.top_words));
+        if (!!response.data.trend) {
+
+          localStorage.setItem('trend',(response.data.trend.top_words));
+        }
 
 
         this.$store.commit('loginSuccess');
         this.$store.commit("topTen");
 
-        console.log('topics');
-        console.log(response.data.topics);
-        console.log("after_profile");
 
         this.$router.push('/');
 

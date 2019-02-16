@@ -206,15 +206,14 @@ __webpack_require__.r(__webpack_exports__);
         localStorage.setItem('has_profile', 1);
         localStorage.setItem('current_user_profile', JSON.stringify(response.data.profile));
         localStorage.setItem('current_user_topics', JSON.stringify(response.data.topics));
-        localStorage.setItem('trend', response.data.trend.top_words);
+
+        if (!!response.data.trend) {
+          localStorage.setItem('trend', response.data.trend.top_words);
+        }
 
         _this2.$store.commit('loginSuccess');
 
         _this2.$store.commit("topTen");
-
-        console.log('topics');
-        console.log(response.data.topics);
-        console.log("after_profile");
 
         _this2.$router.push('/');
       }).catch(function (error) {

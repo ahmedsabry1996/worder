@@ -1652,7 +1652,6 @@ var render = function() {
               ref: "dislikers",
               attrs: {
                 "enable-mobile-fullscreen": false,
-                title: _vm.$t("dislikers"),
                 width: "320",
                 "overlay-theme": "dark"
               }

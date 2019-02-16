@@ -144,8 +144,11 @@ export default {
           remember_me:this.rememberMe
         }).then((response)=>{
             console.log(response.data.user);
+            if (!!response.data.trend) {
 
-            localStorage.setItem('trend',(response.data.trend.top_words));
+              localStorage.setItem('trend',(response.data.trend.top_words));
+            }
+
             localStorage.setItem('current_user',JSON.stringify(response.data.user));
             localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
             localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));

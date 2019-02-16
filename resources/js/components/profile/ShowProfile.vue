@@ -296,7 +296,7 @@
   </sweet-modal>
 
 <!-- dislikers -->
-  <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
+  <sweet-modal :enable-mobile-fullscreen="false" ref="dislikers" width="320" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
 
