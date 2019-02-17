@@ -1,111 +1,106 @@
 <template>
-  <div class="login" id="wrapper">
-    <div class="container">
+  <v-content>
+    <v-layout row wrap>
+    <v-flex xs12 md4 offset-md4 >
+      <!-- Login fields -->
+      <template v-if="!forgetPassword">
+        <v-form  @submit.prevent="login">
+          <v-text-field
+            color="white--text"
+            v-model="email"
+            :label="$t('email')"
+            solo-inverted
+              autofocus
 
-  <form @submit.prevent="login" v-if="!forgetPassword">
-    <div class="form-group">
-      <label for="Email">{{$t('email')}}</label>
-      <input type="text" class="form-control" v-model="email" id="Email" placeholder="Your Email">
-    </div>
-    <div class="form-group">
-      <label for="passowrd">{{$t('password')}}</label>
-      <input type="password" class="form-control" v-model="password" id="password" placeholder="password">
-    </div>
-    <div class="form-group">
-      <label for="remember_me"> {{$t('rememberme')}} :
-      <input type="checkbox" value="true" id="remember_me" v-model="rememberMe">
-      </label>
-    </div>
-    <div class="form-group">
-      <template v-if="!loading">
-      <button type="submit" class="btn btn-default">
-          {{$t('login')}}
-      </button>
-    </template>
-    <template v-else>
-      <p ><b>{{$t('loading')}}</b><br>
-    <img src="/storage/avatars/loader.gif"  width="100" >
-</p>
-    </template>
-    </div>
-  </form>
+          ></v-text-field>
+          <v-text-field
 
-  <form @submit.prevent="verifyEmail" v-if="forgetPassword && !hasEmail">
-    <div class="form-group">
-      <label for="email">{{$t('enteremail' )}} :</label>
-      <input type="email" class="form-control" id="email" v-model="email"/>
+            type="password"
+            color="white--text"
+            v-model="password"
+            :label="$t('password')"
+            solo-inverted
+          ></v-text-field>
+          <div class="text-xs-center">
 
-    </div>
-    <div class="form-group">
-      <template v-if="!loading">
-        <button type="submit" class="btn btn-success">
-          {{$t('verify')}}
-        </button>
-      </template>
+          <v-btn round color="primary" @click="login">{{$t('login')}}</v-btn>
+          <v-btn round v-if="!forgetPassword" color="warning" @click="resetPassword">{{$t('forgetpassword')}}</v-btn>
 
-      <template v-else>
-        <p ><b>{{$t('loading')}}</b><br>
-    <img src="/storage/avatars/loader.gif"  width="100" >
-</p>
-      </template>
-    </div>
-  </form>
-  <form @submit.prevent="verifyCode" v-if="hasEmail && !correctValidationCode">
-  <div class="form-group">
-    <label for="confirm_code">{{$t('codesent')}} : <b>{{email}}</b> </label>
-    <input type="text" class="form-control" id="confirm_code" v-model="confirmationCode" placeholder="enter the emailed code">
 
-  </div>
-<div class="form-group">
-  <template v-if="!loading">
-  <button type="submit" class="btn btn-info">
-      {{$t('verify')}}
-  </button>
-  </template>
-  <template v-else>
-    <p ><b>{{$t('loading')}}</b><br>
-    <img src="/storage/avatars/loader.gif"  width="100" >
-</p>
-  </template>
-</div>
-</form>
-  <form @submit.prevent="createNewPassword" v-if="correctValidationCode && hasEmail">
-    <div class="form-group">
-      <label for="new_password">{{$t('newpassword')}} : </label>
-      <input type="password" class="form-control" id="new_password" v-model="password">
-    </div>
-    <div class="form-group">
-      <label for="conifrm_passowrd">
-        {{$t('repeatpass')}}
-      </label>
-      <input type="password" class="form-control" id="confirm_password" v-model="passwordConfirmation" placeholder="confirm password">
-    </div>
-    <div class="form-group">
-      <template v-if="!loading">
-        <button type="submit" class="btn btn-default">
-            {{$t('create')}}
-        </button>
-      </template>
-      <template v-else>
-        <p ><b>{{$t('loading')}}</b><br>
-    <img src="/storage/avatars/loader.gif"  width="100" >
-</p>
-      </template>
-    </div>
-  </form>
-  <div>
+        </div>
+        </v-form>
+        </template>
+<!-- Foreget password -->
+<template v-if="forgetPassword && !hasEmail">
+<v-form @submit.prevent="verifyEmail">
 
-        <button v-if="!forgetPassword" class="btn btn-warning" type="button" id="foreget_passowrd" v-on:click="resetPassword">
-          <b>            {{$t('forgetpassword')}}
-</b>
-        </button>
-    <button type="button" v-if="forgetPassword" class="btn btn-danger" @click="cancelPassowrd">
-        {{$t('cancel')}}
-    </button>
+    <v-text-field
+      :label="$t('email' )"
+        v-model="email"
+      solo-inverted
+    ></v-text-field>
+    <div class="text-xs-center">
+      <v-btn round color="primary" @click="verifyEmail" :loading="loading">{{$t('verify')}}
+</v-btn>
+    </div>
+</v-form>
+</template>
+
+<!-- Verify code  -->
+<template v-if="hasEmail && !correctValidationCode">
+
+  <v-form @submit.prevent="verifyCode">
+    <label for="confirm_code">{{$t('codesent')}} : <b class="white--text">{{email}}</b> </label>
+    <v-text-field
+       v-model="confirmationCode"
+         solo-inverted
+
+    ></v-text-field>
+    <div class="text-xs-center">
+
+    <v-btn :loading="loading" @click="verifyCode" color="primary" round>
+        {{$t('verify')}}
+    </v-btn>
   </div>
 
+</v-form>
+</template>
+
+<!-- Reenter new password -->
+<template v-if="correctValidationCode && hasEmail">
+  <v-form @submit.prevent="createNewPassword">
+    <v-text-field
+      :hint="$t('newpassword')"
+        type="password"
+      v-model="password"
+        solo-inverted
+
+    ></v-text-field>
+
+    <v-text-field
+      :hint="$t('repeatpass')"
+        v-model="passwordConfirmation"
+        solo-inverted
+    ></v-text-field>
+    <div class="text-xs-center">
+
+      <v-btn color="primary" :loading="loading" @click="createNewPassword" round>
+        {{$t('create')}}
+      </v-btn>
+    </div>
+
+
+  </v-form>
+</template>
+<div class="text-xs-center">
+
+  <v-btn round @click="cancelPassowrd" color="error" v-if="forgetPassword">
+    {{$t('cancel')}}
+  </v-btn>
 </div>
-</div>
+      </v-flex>
+    </v-layout>
+</v-content>
 </template>
 
 <script>

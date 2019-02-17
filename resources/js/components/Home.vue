@@ -1,47 +1,58 @@
 <template>
-  <div>
-      <Header/>
-      <div v-if="!isLoggedIn">
-        <router-view></router-view>
-      </div>
-      <div v-if="perfectUser">
-        <div v-if="currentRoute.path=='/'" class="col-md-12">
-        <create-post></create-post>
-        </div>
+    <v-app class="app">
 
-        <div class="col-md-3 suggest">
+      <Header/>
+
+      <v-container grid-list-md>
+
+      <template v-if="!isLoggedIn">
+        <router-view></router-view>
+      </template>
+
+      <template v-if="perfectUser">
+        <template v-if="currentRoute.path=='/'">
+          <v-flex xs12>
+            <create-post></create-post>
+          </v-flex>
+      </template>
+
+        <template >
+          <v-flex md3 class="suggest">
           <template v-if="!profileRoutes">
                 <suggested-people></suggested-people>
       </template>
-
-        </div>
+</v-flex>
+    </template>
 
           <template v-if="profileRoutes">
-            <div class="col-md-12">
+            <v-flex md12>
+
               <router-view></router-view>
-            </div>
+            </v-flex>
           </template>
 
           <template v-else>
-            <div class="col-md-6">
+            <v-flex md6>
               <router-view></router-view>
-            </div>
+            </v-flex>
           </template>
 
 
-      <div class="col-md-3 text-center" v-if="!profileRoutes">
+      <template v-if="!profileRoutes">
 
-          <template>
+          <v-flex md3>
             <trend></trend>
             <topics></topics>
-            </template>
-      </div>
-      </div>
-      <div v-if="needProfile">
+          </v-flex>
+      </template>
+    </template>
+      <template v-if="needProfile">
         <router-view></router-view>
-      </div>
+      </template>
 <tooltip class="text-center totool"/>
-  </div>
+
+      </v-container>
+</v-app>
 </template>
 
 <script>
@@ -136,4 +147,10 @@ body{
   border: 1px solid #ddd;
   border-radius: 7px;
 }
+.app{
+
+ background-image: radial-gradient(circle, #005f5b, #005556, #004c50, #004249, #003942, #06353f, #0c313b, #102d37, #182d36, #1e2d36, #242e34, #282e33) !important;
+     font-family: 'Ubuntu', sans-serif;
+}
+
 </style>

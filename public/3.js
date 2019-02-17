@@ -116,11 +116,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
 
@@ -361,485 +356,307 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "login", attrs: { id: "wrapper" } }, [
-    _c("div", { staticClass: "container" }, [
-      !_vm.forgetPassword
-        ? _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.login($event)
-                }
-              }
-            },
+  return _c(
+    "v-content",
+    [
+      _c(
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", md4: "", "offset-md4": "" } },
             [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "Email" } }, [
-                  _vm._v(_vm._s(_vm.$t("email")))
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.email,
-                      expression: "email"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "Email",
-                    placeholder: "Your Email"
-                  },
-                  domProps: { value: _vm.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.email = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "passowrd" } }, [
-                  _vm._v(_vm._s(_vm.$t("password")))
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "password",
-                    placeholder: "password"
-                  },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "remember_me" } }, [
-                  _vm._v(" " + _vm._s(_vm.$t("rememberme")) + " :\n      "),
-                  _c("input", {
-                    directives: [
+              !_vm.forgetPassword
+                ? [
+                    _c(
+                      "v-form",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.rememberMe,
-                        expression: "rememberMe"
-                      }
-                    ],
-                    attrs: {
-                      type: "checkbox",
-                      value: "true",
-                      id: "remember_me"
-                    },
-                    domProps: {
-                      checked: Array.isArray(_vm.rememberMe)
-                        ? _vm._i(_vm.rememberMe, "true") > -1
-                        : _vm.rememberMe
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.rememberMe,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = "true",
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 && (_vm.rememberMe = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.rememberMe = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.login($event)
                           }
-                        } else {
-                          _vm.rememberMe = $$c
                         }
-                      }
-                    }
-                  })
-                ])
-              ]),
+                      },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            color: "white--text",
+                            label: _vm.$t("email"),
+                            "solo-inverted": "",
+                            autofocus: ""
+                          },
+                          model: {
+                            value: _vm.email,
+                            callback: function($$v) {
+                              _vm.email = $$v
+                            },
+                            expression: "email"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            type: "password",
+                            color: "white--text",
+                            label: _vm.$t("password"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.password,
+                            callback: function($$v) {
+                              _vm.password = $$v
+                            },
+                            expression: "password"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { round: "", color: "primary" },
+                                on: { click: _vm.login }
+                              },
+                              [_vm._v(_vm._s(_vm.$t("login")))]
+                            ),
+                            _vm._v(" "),
+                            !_vm.forgetPassword
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { round: "", color: "warning" },
+                                    on: { click: _vm.resetPassword }
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("forgetpassword")))]
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.forgetPassword && !_vm.hasEmail
+                ? [
+                    _c(
+                      "v-form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.verifyEmail($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            label: _vm.$t("email"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.email,
+                            callback: function($$v) {
+                              _vm.email = $$v
+                            },
+                            expression: "email"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  round: "",
+                                  color: "primary",
+                                  loading: _vm.loading
+                                },
+                                on: { click: _vm.verifyEmail }
+                              },
+                              [_vm._v(_vm._s(_vm.$t("verify")) + "\n")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.hasEmail && !_vm.correctValidationCode
+                ? [
+                    _c(
+                      "v-form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.verifyCode($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("label", { attrs: { for: "confirm_code" } }, [
+                          _vm._v(_vm._s(_vm.$t("codesent")) + " : "),
+                          _c("b", { staticClass: "white--text" }, [
+                            _vm._v(_vm._s(_vm.email))
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: { "solo-inverted": "" },
+                          model: {
+                            value: _vm.confirmationCode,
+                            callback: function($$v) {
+                              _vm.confirmationCode = $$v
+                            },
+                            expression: "confirmationCode"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  loading: _vm.loading,
+                                  color: "primary",
+                                  round: ""
+                                },
+                                on: { click: _vm.verifyCode }
+                              },
+                              [
+                                _vm._v(
+                                  "\n        " +
+                                    _vm._s(_vm.$t("verify")) +
+                                    "\n    "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.correctValidationCode && _vm.hasEmail
+                ? [
+                    _c(
+                      "v-form",
+                      {
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.createNewPassword($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            hint: _vm.$t("newpassword"),
+                            type: "password",
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.password,
+                            callback: function($$v) {
+                              _vm.password = $$v
+                            },
+                            expression: "password"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            hint: _vm.$t("repeatpass"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.passwordConfirmation,
+                            callback: function($$v) {
+                              _vm.passwordConfirmation = $$v
+                            },
+                            expression: "passwordConfirmation"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  color: "primary",
+                                  loading: _vm.loading,
+                                  round: ""
+                                },
+                                on: { click: _vm.createNewPassword }
+                              },
+                              [
+                                _vm._v(
+                                  "\n        " +
+                                    _vm._s(_vm.$t("create")) +
+                                    "\n      "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "form-group" },
+                { staticClass: "text-xs-center" },
                 [
-                  !_vm.loading
-                    ? [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(_vm.$t("login")) +
-                                "\n      "
-                            )
-                          ]
-                        )
-                      ]
-                    : [
-                        _c("p", [
-                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("img", {
-                            attrs: {
-                              src: "/storage/avatars/loader.gif",
-                              width: "100"
-                            }
-                          })
-                        ])
-                      ]
+                  _vm.forgetPassword
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { round: "", color: "error" },
+                          on: { click: _vm.cancelPassowrd }
+                        },
+                        [_vm._v("\n    " + _vm._s(_vm.$t("cancel")) + "\n  ")]
+                      )
+                    : _vm._e()
                 ],
-                2
+                1
               )
-            ]
+            ],
+            2
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.forgetPassword && !_vm.hasEmail
-        ? _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.verifyEmail($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "email" } }, [
-                  _vm._v(_vm._s(_vm.$t("enteremail")) + " :")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.email,
-                      expression: "email"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "email", id: "email" },
-                  domProps: { value: _vm.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.email = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  !_vm.loading
-                    ? [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(_vm.$t("verify")) +
-                                "\n        "
-                            )
-                          ]
-                        )
-                      ]
-                    : [
-                        _c("p", [
-                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("img", {
-                            attrs: {
-                              src: "/storage/avatars/loader.gif",
-                              width: "100"
-                            }
-                          })
-                        ])
-                      ]
-                ],
-                2
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.hasEmail && !_vm.correctValidationCode
-        ? _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.verifyCode($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "confirm_code" } }, [
-                  _vm._v(_vm._s(_vm.$t("codesent")) + " : "),
-                  _c("b", [_vm._v(_vm._s(_vm.email))])
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.confirmationCode,
-                      expression: "confirmationCode"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "confirm_code",
-                    placeholder: "enter the emailed code"
-                  },
-                  domProps: { value: _vm.confirmationCode },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.confirmationCode = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  !_vm.loading
-                    ? [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n      " + _vm._s(_vm.$t("verify")) + "\n  "
-                            )
-                          ]
-                        )
-                      ]
-                    : [
-                        _c("p", [
-                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("img", {
-                            attrs: {
-                              src: "/storage/avatars/loader.gif",
-                              width: "100"
-                            }
-                          })
-                        ])
-                      ]
-                ],
-                2
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.correctValidationCode && _vm.hasEmail
-        ? _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.createNewPassword($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "new_password" } }, [
-                  _vm._v(_vm._s(_vm.$t("newpassword")) + " : ")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "password", id: "new_password" },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "conifrm_passowrd" } }, [
-                  _vm._v(
-                    "\n        " + _vm._s(_vm.$t("repeatpass")) + "\n      "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.passwordConfirmation,
-                      expression: "passwordConfirmation"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "password",
-                    id: "confirm_password",
-                    placeholder: "confirm password"
-                  },
-                  domProps: { value: _vm.passwordConfirmation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.passwordConfirmation = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  !_vm.loading
-                    ? [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default",
-                            attrs: { type: "submit" }
-                          },
-                          [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(_vm.$t("create")) +
-                                "\n        "
-                            )
-                          ]
-                        )
-                      ]
-                    : [
-                        _c("p", [
-                          _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("img", {
-                            attrs: {
-                              src: "/storage/avatars/loader.gif",
-                              width: "100"
-                            }
-                          })
-                        ])
-                      ]
-                ],
-                2
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", [
-        !_vm.forgetPassword
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-warning",
-                attrs: { type: "button", id: "foreget_passowrd" },
-                on: { click: _vm.resetPassword }
-              },
-              [
-                _c("b", [
-                  _vm._v(
-                    "            " + _vm._s(_vm.$t("forgetpassword")) + "\n"
-                  )
-                ])
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.forgetPassword
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                attrs: { type: "button" },
-                on: { click: _vm.cancelPassowrd }
-              },
-              [_vm._v("\n        " + _vm._s(_vm.$t("cancel")) + "\n    ")]
-            )
-          : _vm._e()
-      ])
-    ])
-  ])
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

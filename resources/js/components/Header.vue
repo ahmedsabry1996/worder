@@ -1,7 +1,7 @@
 <template>
-<div>
+<v-content>
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
     <div class="container-fluid">
 
 
@@ -88,8 +88,20 @@
       <a href="#" >see more</a>
     </li>
   </ul>
-
-</div>
+  <v-container grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12 text-xs-center>
+        <h1 class="white--text">{{$t('welcome')}}</h1>
+      </v-flex>
+      <v-flex xs6 class="text-xs-center">
+        <v-btn large flat color="white" router to="/login">{{$t('login')}}</v-btn>
+      </v-flex>
+      <v-flex xs6 class="text-xs-center">
+        <v-btn large flat color="white" router to="/signup">{{$t('signup')}}</v-btn>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</v-content>
 </template>
 
 <script>
