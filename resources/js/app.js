@@ -32,7 +32,7 @@ Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
 //Vue.use(BootstrapVue);
 
 Vue.use(VueProgressBar, {
-  color: 'green',
+  color: '#00C7BF',
   failedColor: 'red',
   thickness: '3px',
 
@@ -57,7 +57,7 @@ Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', en);
 Vue.i18n.add('ar', ar);
 Vue.i18n.add('tr', tr)
-Vue.i18n.set('tr');
+Vue.i18n.set('ar');
 
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{

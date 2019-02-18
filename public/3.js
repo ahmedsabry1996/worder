@@ -197,7 +197,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       }).catch(function (errors) {
         _this.loading = false;
         swal({
-          title: 'Login Error',
+          title: _this.$t('error'),
           text: _this.$t('loginfail'),
           icon: 'error'
         });
@@ -220,14 +220,14 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
         _this2.userId = response.data.user.id;
         _this2.emailedCode = response.data.verification_code;
         swal({
-          title: "Done",
+          title: _this2.$t('done'),
           text: _this2.$t('emailcheck'),
           icon: "success"
         });
       }).catch(function (errors) {
         _this2.loading = false;
         swal({
-          title: "Oops!",
+          title: _this2.$t('error'),
           text: _this2.$t('emailnotexist'),
           icon: "error"
         });
@@ -241,7 +241,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       } else {
         this.loading = false;
         swal({
-          title: "Error",
+          title: this.$t('error'),
           text: this.$t('codeerror'),
           icon: "error"
         });
@@ -268,7 +268,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
         } else {
           this.loading = false;
           swal({
-            'title': "Error",
+            title: this.$t('done'),
             "text": this.$t('passworderror'),
             "icon": "warning"
           });
@@ -276,7 +276,7 @@ var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/di
       } else {
         this.loading = false;
         swal({
-          "title": "warning",
+          title: this.$t('error'),
           "text": this.$t('passwordlength'),
           "icon": "warning"
         });

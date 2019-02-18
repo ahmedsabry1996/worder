@@ -190,7 +190,7 @@ export default {
         }).catch((errors)=>{
           this.loading = false ;
           swal({
-            title:'Login Error',
+            title:this.$t('error'),
             text:this.$t('loginfail'),
             icon:'error'
           });
@@ -213,7 +213,7 @@ export default {
         this.userId = response.data.user.id;
         this.emailedCode = response.data.verification_code;
         swal({
-          title:"Done",
+          title:this.$t('done'),
           text:this.$t('emailcheck'),
           icon:"success"
         });
@@ -221,7 +221,7 @@ export default {
       .catch((errors)=>{
         this.loading  = false;
         swal({
-          title:"Oops!",
+          title:this.$t('error'),
           text:this.$t('emailnotexist'),
           icon:"error",
         });
@@ -238,7 +238,7 @@ export default {
 
           this.loading = false;
         swal({
-          title:"Error",
+          title:this.$t('error'),
           text:this.$t('codeerror'),
           icon:"error"
         });
@@ -272,7 +272,7 @@ export default {
           this.loading = false;
 
           swal({
-            'title':"Error",
+            title:this.$t('done'),
             "text":this.$t('passworderror'),
             "icon":"warning"
           })
@@ -282,7 +282,7 @@ export default {
         this.loading = false;
 
         swal({
-          "title":"warning",
+          title:this.$t('error'),
           "text":this.$t('passwordlength'),
           "icon":"warning"
         })
