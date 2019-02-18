@@ -6,6 +6,7 @@
       <v-container grid-list-md>
 
       <template v-if="!isLoggedIn">
+        
         <router-view></router-view>
       </template>
 
@@ -49,6 +50,10 @@
       <template v-if="needProfile">
         <router-view></router-view>
       </template>
+      <template v-if="needVerify">
+        <router-view></router-view>
+      </template>
+
 <tooltip class="text-center totool"/>
 
       </v-container>
@@ -109,7 +114,15 @@
                       this.$store.getters.hasProfile == "1");
             },
           needProfile(){
-            return (this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "0");
+            return (this.$store.getters.isVerified == "1"
+             && this.$store.getters.hasProfile == "0");
+          },
+          needVerify(){
+            if (this.$store.getters.isVerified == "0"
+    && this.$store.getters.hasProfile == "0"
+   && !!this.$store.getters.verificationCode && this.$store.getters.isLoggedIn){
+    return true;
+    }
           },
           currentRoute(){
           return this.$route ;

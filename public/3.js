@@ -116,6 +116,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
 
@@ -382,6 +387,7 @@ var render = function() {
                       [
                         _c("v-text-field", {
                           attrs: {
+                            "background-color": "#112f41",
                             color: "white--text",
                             label: _vm.$t("email"),
                             "solo-inverted": "",
@@ -398,6 +404,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("v-text-field", {
                           attrs: {
+                            "background-color": "#112f41",
                             type: "password",
                             color: "white--text",
                             label: _vm.$t("password"),

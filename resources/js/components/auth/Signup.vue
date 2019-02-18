@@ -1,95 +1,115 @@
 <template>
 
-  <div class="container">
 
-    <template v-if="!verificationCode">
+    <v-container grid-list-md >
+    <v-layout>
+      <v-flex xs12 md4 offset-md4 class="pa-3">
+        <template v-if="!verificationCode">
 
-      <!-- Default signup form -->
-        <form @submit.prevent="signup">
+          <!-- Default signup form -->
+            <v-form @submit.prevent="signup">
+              <v-text-field
 
-            <div class="form-group">
-              <label>{{$t('name')}}</label>
-              <input type="text" class="form-control"  :placeholder="$t('name')" v-model="name">
+                background-color="#112f41"
+                solo-inverted
+                :label="$t('name')"
+                v-model="name"
+              ></v-text-field>
+
               <template v-if="signupErrors">
-              <p class="text-danger" v-if="signupErrors.name">
+              <p class="white--text" v-if="signupErrors.name">
                 <b>{{signupErrors.name[0]}}</b>
               </p>
               </template>
-            </div>
-            <div class="form-group">
-              <label>{{$t('email')}}</label>
-              <input type="text" class="form-control"  :placeholder="$t('email')" v-model="email">
-              <template v-if="signupErrors">
-              <p class="text-danger" v-if="signupErrors.email">
-                <b>{{signupErrors.email[0]}}</b>
-              </p>
-              </template>
-            </div>
-            <div class="form-group">
-              <label>{{$t('password')}}</label>
-              <input type="text" class="form-control"  :placeholder="$t('password')" v-model="password">
-              <template v-if="signupErrors">
-              <p class="text-danger" v-if="signupErrors.password">
-                <b>  {{signupErrors.password[0]}}
-                </b>
-              </p>
-              </template>
-            </div>
-            <div class="form-group">
-              <label>{{$t('repeatpass')}}</label>
-              <input type="text" class="form-control"  :placeholder="$t('repeatpass')" v-model="passwordConfirm">
-            </div>
 
-            <div class="form-group">
-              <template v-if="!signupLoading">
-              <button type="submit" class="btn btn-default">
-                  {{$t('signup')}}
-              </button>
-              </template>
-              <template v-else class="text-center">
-                <p ><b>{{$t('loading')}}</b><br>
-                    <img src="/storage/avatars/loader.gif"  width="100" >
-                </p>
-              </template>
-            </div>
+              <v-text-field
+              background-color="#112f41"
 
 
+                :label="$t('email')"
+                  v-model="email"
+ solo-inverted
+              ></v-text-field>
 
-        </form>
+                                <template v-if="signupErrors">
+                                <p class="white--text" v-if="signupErrors.email">
+                                  <b>{{signupErrors.email[0]}}</b>
+                                </p>
+                                </template>
+                      <v-text-field
+                      background-color="#112f41"
 
 
-    </template>
-    <template v-else>
+                        :label="$t('password')" v-model="password" solo-inverted
+                      ></v-text-field>
+                      <template v-if="signupErrors">
+                      <p class="white--text" v-if="signupErrors.password">
+                        <b>  {{signupErrors.password[0]}}
+                        </b>
+                      </p>
+                      </template>
+              <v-text-field
+              background-color="#112f41"
 
-      <form @submit.prevent="verify">
-        <div class="text-center">
-            <h3><bdi>{{$t('emailcheck')}}</bdi></h3>
-        </div>
-        <div class="form-group">
-          <label>
-            <bdi>{{$t('codesent')}} : {{email}}</bdi>
-          </label>
-          <input type="text" :placeholder="this.$t('code')" class="form-control" v-model="code">
 
-        </div>
+                 :label="$t('repeatpass')" v-model="passwordConfirm" solo-inverted
+              ></v-text-field>
 
-          <div class="form-group">
-            <template v-if="!signupLoading">
-            <button type="submit" class="btn btn-info">
+              <div class="text-xs-center">
+
+                              <v-btn round color="primary" @click="signup" :loading="signupLoading">
+                                    {{$t('signup')}}
+                              </v-btn>
+              </div>
+            </v-form>
+
+
+        </template>
+
+
+            <template v-if="verificationCode">
+
+              <v-form @submit.prevent="verify" light>
+                <div class="text-xs-center">
+                    <h1 class="white--text"><bdi>{{$t('emailcheck')}}</bdi></h1>
+                    <br />
+                    <label>
+                        <h3>
+                        <bdi class="white--text">{{$t('codesent')}} : <b class="green--text">{{email}}</b></bdi>
+</h3>
+                    </label>
+
+                </div>
+                <br />
+                <v-text-field
+
+                background-color="#112f41"
+                    v-model="code"
+                    :label="this.$t('code')"
+                      solo-inverted
+
+                ></v-text-field>
+
+                <div class="text-xs-center">
+
+                  <v-btn color="primary" round
+                  :loading="signupLoading"
+                   @click="verify">
                   {{$t('create')}}
-            </button>
-            </template>
-            <template v-else>
+                    </v-btn>
 
-              <p ><b>{{$t('loading')}}</b><br>
-                  <img src="/storage/avatars/loader.gif"  width="100" >
-              </p>
-            </template>
-          </div>
+                      <v-btn @click="logout" round color="error">
+                          {{$t('exit')}}
+                      </v-btn>
 
-      </form>
-    </template>
-  </div>
+                </div>
+              </v-form>
+            </template>
+            </v-flex>
+            </v-layout>
+            </v-container>
+</v-content>
+
 </template>
 
 <script>
@@ -98,6 +118,7 @@ export default {
 
   mounted(){
     console.log("signup mounted");
+
   },
 
   data(){
@@ -176,10 +197,21 @@ export default {
                 icon:"warning"
               });
             }
-        }
+        },
+
+                  logout(){
+                      localStorage.clear();
+                      this.$store.commit('logout');
+                      window.location.href =  "http://127.0.0.1:8000";
+
+                  }
+
   }
 }
 </script>
 
 <style scoped>
+#codde{
+  color:green !important
+}
 </style>

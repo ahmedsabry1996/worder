@@ -103,6 +103,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -178,6 +198,11 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
           icon: "warning"
         });
       }
+    },
+    logout: function logout() {
+      localStorage.clear();
+      this.$store.commit('logout');
+      window.location.href = "http://127.0.0.1:8000";
     }
   }
 });
@@ -196,7 +221,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n#codde[data-v-4e709f04]{\n  color:green !important\n}\n", ""]);
 
 // exports
 
@@ -249,311 +274,266 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    { staticClass: "container" },
+    "v-container",
+    { attrs: { "grid-list-md": "" } },
     [
-      !_vm.verificationCode
-        ? [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.signup($event)
-                  }
-                }
-              },
-              [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v(_vm._s(_vm.$t("name")))]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.name,
-                          expression: "name"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: _vm.$t("name") },
-                      domProps: { value: _vm.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.name = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.signupErrors
-                      ? [
-                          _vm.signupErrors.name
-                            ? _c("p", { staticClass: "text-danger" }, [
-                                _c("b", [
-                                  _vm._v(_vm._s(_vm.signupErrors.name[0]))
-                                ])
-                              ])
-                            : _vm._e()
-                        ]
-                      : _vm._e()
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v(_vm._s(_vm.$t("email")))]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.email,
-                          expression: "email"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: _vm.$t("email") },
-                      domProps: { value: _vm.email },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.email = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.signupErrors
-                      ? [
-                          _vm.signupErrors.email
-                            ? _c("p", { staticClass: "text-danger" }, [
-                                _c("b", [
-                                  _vm._v(_vm._s(_vm.signupErrors.email[0]))
-                                ])
-                              ])
-                            : _vm._e()
-                        ]
-                      : _vm._e()
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", [_vm._v(_vm._s(_vm.$t("password")))]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.password,
-                          expression: "password"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: _vm.$t("password") },
-                      domProps: { value: _vm.password },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.password = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.signupErrors
-                      ? [
-                          _vm.signupErrors.password
-                            ? _c("p", { staticClass: "text-danger" }, [
-                                _c("b", [
-                                  _vm._v(
-                                    "  " +
-                                      _vm._s(_vm.signupErrors.password[0]) +
-                                      "\n              "
-                                  )
-                                ])
-                              ])
-                            : _vm._e()
-                        ]
-                      : _vm._e()
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v(_vm._s(_vm.$t("repeatpass")))]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
+      _c(
+        "v-layout",
+        [
+          _c(
+            "v-flex",
+            {
+              staticClass: "pa-3",
+              attrs: { xs12: "", md4: "", "offset-md4": "" }
+            },
+            [
+              !_vm.verificationCode
+                ? [
+                    _c(
+                      "v-form",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.passwordConfirm,
-                        expression: "passwordConfirm"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: _vm.$t("repeatpass") },
-                    domProps: { value: _vm.passwordConfirm },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.signup($event)
+                          }
                         }
-                        _vm.passwordConfirm = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    !_vm.signupLoading
-                      ? [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-default",
-                              attrs: { type: "submit" }
+                      },
+                      [
+                        _c("v-text-field", {
+                          attrs: {
+                            "background-color": "#112f41",
+                            "solo-inverted": "",
+                            label: _vm.$t("name")
+                          },
+                          model: {
+                            value: _vm.name,
+                            callback: function($$v) {
+                              _vm.name = $$v
                             },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(_vm.$t("signup")) +
-                                  "\n            "
-                              )
+                            expression: "name"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.signupErrors
+                          ? [
+                              _vm.signupErrors.name
+                                ? _c("p", { staticClass: "white--text" }, [
+                                    _c("b", [
+                                      _vm._v(_vm._s(_vm.signupErrors.name[0]))
+                                    ])
+                                  ])
+                                : _vm._e()
                             ]
-                          )
-                        ]
-                      : [
-                          _c("p", [
-                            _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("img", {
-                              attrs: {
-                                src: "/storage/avatars/loader.gif",
-                                width: "100"
-                              }
-                            })
-                          ])
-                        ]
-                  ],
-                  2
-                )
-              ]
-            )
-          ]
-        : [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.verify($event)
-                  }
-                }
-              },
-              [
-                _c("div", { staticClass: "text-center" }, [
-                  _c("h3", [_c("bdi", [_vm._v(_vm._s(_vm.$t("emailcheck")))])])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [
-                    _c("bdi", [
-                      _vm._v(
-                        _vm._s(_vm.$t("codesent")) + " : " + _vm._s(_vm.email)
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            "background-color": "#112f41",
+                            label: _vm.$t("email"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.email,
+                            callback: function($$v) {
+                              _vm.email = $$v
+                            },
+                            expression: "email"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.signupErrors
+                          ? [
+                              _vm.signupErrors.email
+                                ? _c("p", { staticClass: "white--text" }, [
+                                    _c("b", [
+                                      _vm._v(_vm._s(_vm.signupErrors.email[0]))
+                                    ])
+                                  ])
+                                : _vm._e()
+                            ]
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            "background-color": "#112f41",
+                            label: _vm.$t("password"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.password,
+                            callback: function($$v) {
+                              _vm.password = $$v
+                            },
+                            expression: "password"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.signupErrors
+                          ? [
+                              _vm.signupErrors.password
+                                ? _c("p", { staticClass: "white--text" }, [
+                                    _c("b", [
+                                      _vm._v(
+                                        "  " +
+                                          _vm._s(_vm.signupErrors.password[0]) +
+                                          "\n                        "
+                                      )
+                                    ])
+                                  ])
+                                : _vm._e()
+                            ]
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            "background-color": "#112f41",
+                            label: _vm.$t("repeatpass"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.passwordConfirm,
+                            callback: function($$v) {
+                              _vm.passwordConfirm = $$v
+                            },
+                            expression: "passwordConfirm"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  round: "",
+                                  color: "primary",
+                                  loading: _vm.signupLoading
+                                },
+                                on: { click: _vm.signup }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(_vm.$t("signup")) +
+                                    "\n                              "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      2
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.verificationCode
+                ? [
+                    _c(
+                      "v-form",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.code,
-                        expression: "code"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text", placeholder: this.$t("code") },
-                    domProps: { value: _vm.code },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                        attrs: { light: "" },
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.verify($event)
+                          }
                         }
-                        _vm.code = $event.target.value
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    !_vm.signupLoading
-                      ? [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-info",
-                              attrs: { type: "submit" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(_vm.$t("create")) +
-                                  "\n          "
-                              )
-                            ]
-                          )
-                        ]
-                      : [
-                          _c("p", [
-                            _c("b", [_vm._v(_vm._s(_vm.$t("loading")))]),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("img", {
-                              attrs: {
-                                src: "/storage/avatars/loader.gif",
-                                width: "100"
-                              }
-                            })
+                      },
+                      [
+                        _c("div", { staticClass: "text-xs-center" }, [
+                          _c("h1", { staticClass: "white--text" }, [
+                            _c("bdi", [_vm._v(_vm._s(_vm.$t("emailcheck")))])
+                          ]),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("label", [
+                            _c("h3", [
+                              _c("bdi", { staticClass: "white--text" }, [
+                                _vm._v(_vm._s(_vm.$t("codesent")) + " : "),
+                                _c("b", { staticClass: "green--text" }, [
+                                  _vm._v(_vm._s(_vm.email))
+                                ])
+                              ])
+                            ])
                           ])
-                        ]
-                  ],
-                  2
-                )
-              ]
-            )
-          ]
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("v-text-field", {
+                          attrs: {
+                            "background-color": "#112f41",
+                            label: this.$t("code"),
+                            "solo-inverted": ""
+                          },
+                          model: {
+                            value: _vm.code,
+                            callback: function($$v) {
+                              _vm.code = $$v
+                            },
+                            expression: "code"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  color: "primary",
+                                  round: "",
+                                  loading: _vm.signupLoading
+                                },
+                                on: { click: _vm.verify }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.$t("create")) +
+                                    "\n                    "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { round: "", color: "error" },
+                                on: { click: _vm.logout }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                          " +
+                                    _vm._s(_vm.$t("exit")) +
+                                    "\n                      "
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        ],
+        1
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

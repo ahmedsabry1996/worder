@@ -6,6 +6,8 @@
       <template v-if="!forgetPassword">
         <v-form  @submit.prevent="login">
           <v-text-field
+
+          background-color="#112f41"
             color="white--text"
             v-model="email"
             :label="$t('email')"
@@ -14,6 +16,7 @@
 
           ></v-text-field>
           <v-text-field
+          background-color="#112f41"
 
             type="password"
             color="white--text"
@@ -30,6 +33,7 @@
         </div>
         </v-form>
         </template>
+
 <!-- Foreget password -->
 <template v-if="forgetPassword && !hasEmail">
 <v-form @submit.prevent="verifyEmail">
@@ -92,6 +96,7 @@
 
   </v-form>
 </template>
+<!-- CANCEL button -->
 <div class="text-xs-center">
 
   <v-btn round @click="cancelPassowrd" color="error" v-if="forgetPassword">
