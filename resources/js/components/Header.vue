@@ -1,6 +1,22 @@
 <template>
 <v-content>
+<v-toolbar app color="#005556" class="hidden-xs-only">
+    <v-toolbar-side-icon class="white--text"></v-toolbar-side-icon>
+    <v-toolbar-title router to="/" class="white--text" >Worder</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-xs-and-down white--text">
 
+      <notifications left></notifications>
+
+
+      <v-btn flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
+        <v-icon>arrow_drop_down</v-icon>
+      </span>
+    </v-btn>
+
+    </v-toolbar-items>
+
+</v-toolbar>
     <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
     <div class="container-fluid">
 
@@ -50,7 +66,6 @@
           <li><router-link to= "/signup"> <b>{{$t('signup')}}</b> </router-link></li>
           </template>
           <template v-if="perfectUser">
-            <notifications></notifications>
 
             <li><router-link :to="`/${currentUserProfile.display_name}`"> <b>{{currentUserProfile.display_name}}</b> </router-link></li>
             <li><a @click.prevent="logout" style="cursor:pointer"> <b>{{$t('logout')}}</b> </a></li>
@@ -88,7 +103,7 @@
       <a href="#" >see more</a>
     </li>
   </ul>
-  <v-container grid-list-md>
+  <v-container grid-list-md v-if="!isLoggedIn">
     <v-layout row wrap>
       <v-flex xs12 text-xs-center>
         <h1 class="white--text">{{$t('welcome')}}</h1>

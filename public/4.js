@@ -123,6 +123,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -168,14 +170,14 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
 
         _this.signupLoading = false;
         swal({
-          title: "Done!",
+          title: _this.$t('done'),
           text: _this.$t('emailcheck'),
           icon: "success"
         });
       }).catch(function () {
         _this.signupLoading = false;
         swal({
-          title: "Error!qq",
+          title: _this.$t('error'),
           text: _this.$t('signupfail'),
           icon: "error"
         });
@@ -193,7 +195,7 @@ var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('e
         this.signupLoading = false;
         console.log(this.signupLoading);
         swal({
-          title: "Error!",
+          title: this.$t('error'),
           text: this.$t('codeerror'),
           icon: "warning"
         });
@@ -302,6 +304,7 @@ var render = function() {
                       [
                         _c("v-text-field", {
                           attrs: {
+                            autofocus: "",
                             "background-color": "#112f41",
                             "solo-inverted": "",
                             label: _vm.$t("name")
@@ -358,6 +361,7 @@ var render = function() {
                           attrs: {
                             "background-color": "#112f41",
                             label: _vm.$t("password"),
+                            type: "password",
                             "solo-inverted": ""
                           },
                           model: {
@@ -389,6 +393,7 @@ var render = function() {
                           attrs: {
                             "background-color": "#112f41",
                             label: _vm.$t("repeatpass"),
+                            type: "password",
                             "solo-inverted": ""
                           },
                           model: {

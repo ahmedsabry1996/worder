@@ -109,6 +109,175 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -116,16 +285,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      modal: false,
       displayName: '',
       avatar: null,
       gender: ['male', 'female'],
       selectedGender: null,
       selectedCountry: null,
       selectedTopics: [],
-      bdate: null,
+      bdate: new Date().toISOString().substr(0, 10),
+      landscape: false,
+      reactive: false,
       description: '',
       writtenDescription: 0,
-      errors: []
+      errors: [],
+      loading: false
     };
   },
   computed: {
@@ -137,6 +310,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     username: function username() {
       return this.$store.getters.currentUser.name;
+    },
+    userCountry: function userCountry() {
+      if (this.$store.getters.countries.indexOf(this.selectedCountry) != -1) {
+        return this.$store.getters.countries.indexOf(this.selectedCountry) + 1;
+      }
     },
     checkDescription: function checkDescription() {
       this.writtenDescription = this.description.split(' ').length;
@@ -188,7 +366,7 @@ __webpack_require__.r(__webpack_exports__);
         "gender_id": this.selectedGender,
         "topics": this.selectedTopics,
         "birth_date": this.bdate,
-        "country_id": this.selectedCountry,
+        "country_id": this.userCountry,
         "description": this.description,
         "email": this.$store.getters.email,
         "password": this.$store.getters.passowrd
@@ -240,7 +418,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.create[data-v-72cd7b71]{\n  border-right: 1px solid #ddd\n}\ntextarea[data-v-72cd7b71]{\n  resize: none;\n}\n#file-picker[data-v-72cd7b71]{\n    border: 2px solid #f90;\n    width:100px;\n    height: 100px;\n    border-radius: 20px;\n}\n#file-picker > input[data-v-72cd7b71]{\n  opacity: 0 !important;\n  width: 0\n}\n.card[data-v-72cd7b71] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 320px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-72cd7b71] {\n  color: grey;\n  font-size: 18px;\n}\nbutton[data-v-72cd7b71] {\n  border: none;\n  outline: 0;\n  display: inline-block;\n  padding: 8px;\n  color: white;\n  background-color: #000;\n  text-align: center;\n  cursor: pointer;\n  width: 100%;\n  font-size: 18px;\n}\na[data-v-72cd7b71] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-72cd7b71]:hover, a[data-v-72cd7b71]:hover {\n  opacity: 0.7;\n}\n", ""]);
+exports.push([module.i, "\n#file[data-v-72cd7b71]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-72cd7b71] {\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#002d37;\n  background-image: url('https://png2.kisspng.com/sh/b56ddb038cc23b8ffc9e03093482bd71/L0KzQYm3UsE1N6l2j5H0aYP2gLBuTfNidZZ3eZ9tcnH6ebBuTfNwdaF6jNd7LXbsfLa0gBFubaNmRadqOETlQ4i4UcFjOZc5RqU7MUS6SIKBUcUyQGc5TqM7OUC6Qoa1kP5o/kisspng-camera-drawing-computer-file-camera-5a84b37111b1f4.3214781815186461290725.png');\n  background-size: 50% 50%;\n  background-position: center;\n  background-attachment: scroll;\n  margin: 10px\n}\n", ""]);
 
 // exports
 
@@ -292,389 +470,527 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "col-md-6 create" }, [
+  return _c(
+    "v-content",
+    [
       _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.createProfile($event)
-            }
-          }
-        },
+        "v-container",
+        { attrs: { "grid-list-xl": "" } },
         [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { id: "file-picker" } }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "file" },
-                on: { change: _vm.handleFile }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v(_vm._s(_vm.$t("displayname")))]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.displayName,
-                  expression: "displayName"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text" },
-              domProps: { value: _vm.displayName },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.displayName = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("p", [
-              _vm.errors.display_name
-                ? _c("b", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.display_name[0]))
-                  ])
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
           _c(
-            "div",
-            { staticClass: "form-group" },
+            "v-layout",
+            { attrs: { row: "", wrap: "" } },
             [
-              _c("h3", [_vm._v(_vm._s(_vm.$t("gender")))]),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _vm._l(_vm.gender, function(gender, index) {
-                return [
-                  _c("label", [
-                    _vm._v(_vm._s(gender)),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.selectedGender,
-                          expression: "selectedGender"
-                        }
-                      ],
-                      attrs: { type: "radio", id: "male" },
-                      domProps: {
-                        value: index + 1,
-                        checked: _vm._q(_vm.selectedGender, index + 1)
-                      },
+              _c(
+                "v-flex",
+                {
+                  staticStyle: { "text-overflow": "ellipsis" },
+                  attrs: { xs12: "", md4: "", "offset-md1": "" }
+                },
+                [
+                  _c(
+                    "v-form",
+                    {
                       on: {
-                        change: function($event) {
-                          _vm.selectedGender = index + 1
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.createProfile($event)
                         }
                       }
-                    })
-                  ])
-                ]
-              }),
-              _vm._v(" "),
-              _c("p", [
-                _vm.errors.gender_id
-                  ? _c("b", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.$t("gendererror")))
-                    ])
-                  : _vm._e()
-              ])
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("h3", { staticClass: "text-center" }, [
-                _vm._v(_vm._s(_vm.$t("selectfavtopics")))
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.topics, function(topic, index) {
-                return [
-                  _c("label", [
-                    _vm._v(_vm._s(topic) + "\n          "),
-                    _c("input", {
-                      directives: [
+                    },
+                    [
+                      _c("v-tooltip", { attrs: { right: "" } }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "text-xs-center",
+                            staticStyle: { height: "200px !important" },
+                            attrs: {
+                              slot: "activator",
+                              id: "file-container",
+                              color: "#e1f7e6"
+                            },
+                            slot: "activator"
+                          },
+                          [
+                            _c("input", {
+                              staticStyle: { opacity: "0" },
+                              attrs: { id: "file", type: "file" },
+                              on: { change: _vm.handleFile }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("Avatar")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { right: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              "solo-inverted": "",
+                              label: _vm.$t("displayname")
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.displayName,
+                              callback: function($$v) {
+                                _vm.displayName = $$v
+                              },
+                              expression: "displayName"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v(_vm._s(_vm.$t("displayName")))])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm.errors.display_name
+                          ? _c("b", { staticClass: "error--text" }, [
+                              _vm._v(_vm._s(_vm.errors.display_name[0]))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-radio-group",
                         {
-                          name: "model",
-                          rawName: "v-model",
+                          staticClass: "white--text",
+                          model: {
+                            value: _vm.selectedGender,
+                            callback: function($$v) {
+                              _vm.selectedGender = $$v
+                            },
+                            expression: "selectedGender"
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: { color: "#f7dde3" },
+                              attrs: { slot: "label" },
+                              slot: "label"
+                            },
+                            [_c("h3", [_vm._v(_vm._s(_vm.$t("gender")))])]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.gender, function(gender, index) {
+                            return [
+                              _c(
+                                "v-radio",
+                                {
+                                  attrs: { color: "#f7dde3", value: index + 1 }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticStyle: { color: "#f7dde3" },
+                                      attrs: { slot: "label" },
+                                      slot: "label"
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                  " +
+                                          _vm._s(gender) +
+                                          "\n                "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm.errors.gender_id
+                          ? _c("b", { staticClass: "error--text" }, [
+                              _vm._v(_vm._s(_vm.$t("gendererror")))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.countries,
+                          label: _vm.$t("country"),
+                          "solo-inverted": "",
+                          "search-input": ""
+                        },
+                        model: {
+                          value: _vm.selectedCountry,
+                          callback: function($$v) {
+                            _vm.selectedCountry = $$v
+                          },
+                          expression: "selectedCountry"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm.errors.country_id
+                          ? _c("b", { staticClass: "error--text" }, [
+                              _vm._v(_vm._s(_vm.$t("countryerror")))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.topics,
+                          "item-text": "topic",
+                          "item-value": "id",
+                          label: _vm.$t("selectfavtopics"),
+                          multiple: "",
+                          chips: "",
+                          "solo-inverted": ""
+                        },
+                        model: {
                           value: _vm.selectedTopics,
+                          callback: function($$v) {
+                            _vm.selectedTopics = $$v
+                          },
                           expression: "selectedTopics"
                         }
-                      ],
-                      attrs: { type: "checkbox" },
-                      domProps: {
-                        value: index + 1,
-                        checked: Array.isArray(_vm.selectedTopics)
-                          ? _vm._i(_vm.selectedTopics, index + 1) > -1
-                          : _vm.selectedTopics
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.selectedTopics,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = index + 1,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                (_vm.selectedTopics = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.selectedTopics = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
+                      }),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm.errors.topics
+                          ? _c("b", { staticClass: "error--text" }, [
+                              _vm._v(_vm._s(_vm.$t("selectfavtopics")))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          ref: "dialog",
+                          attrs: {
+                            "return-value": _vm.bdate,
+                            persistent: "",
+                            lazy: "",
+                            "full-width": "",
+                            width: "290px"
+                          },
+                          on: {
+                            "update:returnValue": function($event) {
+                              _vm.bdate = $event
                             }
-                          } else {
-                            _vm.selectedTopics = $$c
+                          },
+                          model: {
+                            value: _vm.modal,
+                            callback: function($$v) {
+                              _vm.modal = $$v
+                            },
+                            expression: "modal"
                           }
+                        },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              label: _vm.$t("birthday"),
+                              "prepend-icon": "event",
+                              readonly: ""
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.bdate,
+                              callback: function($$v) {
+                                _vm.bdate = $$v
+                              },
+                              expression: "bdate"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-date-picker",
+                            {
+                              attrs: { locale: "ar", scrollable: "" },
+                              model: {
+                                value: _vm.bdate,
+                                callback: function($$v) {
+                                  _vm.bdate = $$v
+                                },
+                                expression: "bdate"
+                              }
+                            },
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.modal = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cancel")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", color: "primary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.$refs.dialog.save(_vm.bdate)
+                                    }
+                                  }
+                                },
+                                [_vm._v("OK")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm.errors.birth_date
+                          ? _c("b", { staticClass: "error--text" }, [
+                              _vm._v(_vm._s(_vm.errors.birth_date[0]))
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("v-textarea", {
+                        attrs: {
+                          "no-resize": "",
+                          label: _vm.$t("description"),
+                          "solo-inverted": ""
+                        },
+                        model: {
+                          value: _vm.description,
+                          callback: function($$v) {
+                            _vm.description = $$v
+                          },
+                          expression: "description"
                         }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("br")
-                ]
-              }),
-              _vm._v(" "),
-              _c("p", [
-                _vm.errors.topics
-                  ? _c("b", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.$t("selectfavtopics")))
-                    ])
-                  : _vm._e()
-              ])
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("  " + _vm._s(_vm.$t("country")) + " : ")]),
-            _vm._v(" "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selectedCountry,
-                    expression: "selectedCountry"
-                  }
-                ],
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selectedCountry = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              [
-                _vm._l(_vm.countries, function(country, index) {
-                  return [
-                    _c("option", { domProps: { value: index + 1 } }, [
-                      _vm._v(_vm._s(country))
-                    ])
-                  ]
-                })
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("p", [
-              _vm.errors.country_id
-                ? _c("b", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.$t("countryerror")))
-                  ])
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v(_vm._s(_vm.$t("birthday")))]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.bdate,
-                  expression: "bdate"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "date" },
-              domProps: { value: _vm.bdate },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.bdate = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("p", [
-              _vm.errors.birth_date
-                ? _c("b", { staticClass: "text-danger" }, [
-                    _vm._v(_vm._s(_vm.errors.birth_date[0]))
-                  ])
-                : _vm._e()
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v(_vm._s(_vm.$t("description")))]),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model.trim",
-                  value: _vm.description,
-                  expression: "description",
-                  modifiers: { trim: true }
-                }
-              ],
-              staticClass: "form-control",
-              domProps: { value: _vm.description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.description = $event.target.value.trim()
-                },
-                blur: function($event) {
-                  _vm.$forceUpdate()
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("b", [_vm._v(_vm._s(_vm.writtenDescription) + "/25 words")]),
-            _vm._v(" "),
-            !_vm.checkDescription
-              ? _c("p", { staticClass: "text-danger" }, [
-                  _c("b", [_vm._v(_vm._s(_vm.$t("descriptionerror")))])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.errors.description
-              ? _c("p", { staticClass: "text-danger" }, [
-                  _c("b", [_vm._v(_vm._s(_vm.errors.description[0]))])
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("input", {
-              staticClass: "btn btn-primary",
-              attrs: { type: "submit" },
-              domProps: { value: _vm.$t("create") }
-            })
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _vm.avatar == null
-          ? _c("img", {
-              staticStyle: { width: "100%" },
-              attrs: {
-                src: "/storage/avatars/avatar_default.jpg",
-                alt: "Ahmed"
-              }
-            })
-          : _c("img", {
-              staticStyle: { width: "100%" },
-              attrs: { src: _vm.avatar, alt: "Ahmed" }
-            }),
-        _vm._v(" "),
-        _vm.avatar !== null
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-danger btn-xs",
-                attrs: { type: "button" },
-                on: { click: _vm.removeSelectedAvatar }
-              },
-              [_vm._v("\n        ×\n    ")]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c("h3", [_vm._v(_vm._s(_vm.username))]),
-        _vm._v(" "),
-        _c("p", { staticClass: "title" }, [
-          _c("i", [_vm._v(_vm._s(_vm.displayName))])
-        ]),
-        _vm._v(" "),
-        _c("p", [_vm._v(_vm._s(_vm.gender[_vm.selectedGender - 1]))]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("From : " + _vm._s(_vm.countries[_vm.selectedCountry - 1]))
-        ]),
-        _vm._v(" "),
-        _vm.topics.length > 0
-          ? _c(
-              "div",
-              { staticStyle: { margin: "24px 0" } },
-              [
-                _c("h4", { staticClass: "text-center" }, [
-                  _vm._v("Favorite topics")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.selectedTopics, function(topic) {
-                  return _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-info",
-                      staticStyle: { margin: "10px" },
-                      attrs: { href: "#" }
-                    },
-                    [_vm._v(_vm._s(_vm.topics[topic - 1]))]
+                      }),
+                      _vm._v(" "),
+                      _c("b", [
+                        _vm._v(_vm._s(_vm.writtenDescription) + "/25 words")
+                      ]),
+                      _vm._v(" "),
+                      !_vm.checkDescription
+                        ? _c("p", { staticClass: "error--text" }, [
+                            _c("b", [
+                              _vm._v(_vm._s(_vm.$t("descriptionerror")))
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.errors.description
+                        ? _c("p", { staticClass: "error--text" }, [
+                            _c("b", [_vm._v(_vm._s(_vm.errors.description[0]))])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "text-xs-center" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary", round: "" },
+                              on: { click: _vm.createProfile }
+                            },
+                            [
+                              _vm._v(
+                                "\n        " +
+                                  _vm._s(_vm.$t("create")) +
+                                  "\n      "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
-                })
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c("div", { staticClass: "bdate" }, [
-          _c("p", { staticStyle: { "white-space": "pre-line" } }, [
-            _vm._v(_vm._s(_vm.description) + "\n")
-          ])
-        ])
-      ])
-    ])
-  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { sm4: "", "hidden-xs-only": "", "offset-sm2": "" } },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      attrs: {
+                        dark: "",
+                        "max-width": "320",
+                        height: "600",
+                        "max-height": "620"
+                      }
+                    },
+                    [
+                      _vm.avatar == null
+                        ? _c("v-img", {
+                            attrs: {
+                              src: "/storage/avatars/avatar_default.jpg",
+                              height: "200"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.avatar != null
+                        ? [
+                            _c("v-img", {
+                              attrs: { src: _vm.avatar, height: "225" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "text-xs-center" },
+                              [
+                                _c(
+                                  "v-tooltip",
+                                  { attrs: { right: "" } },
+                                  [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          slot: "activator",
+                                          small: "",
+                                          color: "error",
+                                          icon: ""
+                                        },
+                                        on: { click: _vm.removeSelectedAvatar },
+                                        slot: "activator"
+                                      },
+                                      [
+                                        _c("v-icon", [
+                                          _vm._v(
+                                            "\n              close\n            "
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("b", [_vm._v(_vm._s(_vm.$t("remove")))])
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ]
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-sm-center" }, [
+                        _c("h1", [_vm._v(_vm._s(_vm.username))]),
+                        _vm._v(" "),
+                        _c("h2", { staticClass: "indigo--text" }, [
+                          _c("i", [_vm._v(_vm._s(_vm.displayName))])
+                        ]),
+                        _vm._v(" "),
+                        _c("h3", [
+                          _vm._v(_vm._s(_vm.gender[_vm.selectedGender - 1]))
+                        ]),
+                        _vm._v(" "),
+                        _c("bdi", [
+                          _c("h4", [
+                            _c("b", [_vm._v(_vm._s(_vm.$t("from")) + " : ")]),
+                            _vm._v(
+                              "\n            " + _vm._s(_vm.selectedCountry)
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm.selectedTopics.length > 0
+                        ? _c(
+                            "div",
+                            { staticClass: "text-sm-center" },
+                            [
+                              _c("h4", [_vm._v(_vm._s(_vm.$t("favtopics")))]),
+                              _vm._v(" "),
+                              _vm._l(_vm.selectedTopics, function(topic) {
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        small: "",
+                                        round: "",
+                                        color: "success"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n            " +
+                                          _vm._s(_vm.topics[topic - 1].topic) +
+                                          "\n          "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              })
+                            ],
+                            2
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "text-sm-center",
+                          staticStyle: {
+                            overflow: "hidden",
+                            "text-overflow": "ellipsis"
+                          }
+                        },
+                        [
+                          _c("bdi", [
+                            _c(
+                              "p",
+                              { staticStyle: { "white-space": "pre-line" } },
+                              [
+                                _c("b", [
+                                  _vm._v(_vm._s(_vm.$t("about")) + " : ")
+                                ]),
+                                _vm._v(" " + _vm._s(_vm.description))
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    2
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

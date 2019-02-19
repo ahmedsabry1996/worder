@@ -1,20 +1,186 @@
 <template>
+<v-content>
+    </div>
+  <v-container grid-list-xl>
 
-    <div class="container">
+    <v-layout row wrap>
+      <v-flex xs12 md4 offset-md1 style="text-overflow: ellipsis;">
+
+        <v-form @submit.prevent="createProfile">
+          <v-tooltip  right>
+
+          <div slot="activator" id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
+
+            <input id="file" type="file" @change="handleFile" style="opacity:0">
+          </div>
+          <span>Avatar</span>
+</v-tooltip>
+
+    <v-tooltip right>
+
+          <v-text-field
+            slot="activator"
+            solo-inverted
+            v-model="displayName"
+            :label="$t('displayname')">
+            </v-text-field>
+            <span>{{$t('displayName')}}</span>
+
+          </v-tooltip>
+          <p><b class="error--text" v-if="errors.display_name">{{errors.display_name[0]}}</b></p>
+
+          <!-- GENDER -->
+        <v-radio-group v-model="selectedGender" class="white--text">
+            <div slot="label" style="color:#f7dde3">
+              <h3>{{$t('gender')}}</h3>
+            </div>
+
+          <template v-for="(gender,index) in gender">
+               <v-radio
+                 color="#f7dde3"
+                :value="index+1">
+                <div slot="label" style="color:#f7dde3">
+                  {{gender}}
+                </div>
+               </v-radio>
+             </template>
+      </v-radio-group>
+      <p><b class="error--text" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
+
+<!-- COUNTRY -->
+      <v-select
+              :items="countries"
+                :label="$t('country')"
+                v-model="selectedCountry"
+                solo-inverted
+               search-input>
+               </v-select>
+               <p><b class="error--text" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
+
+<!-- TOPICS -->
+               <v-select
+                 :items="topics"
+                   item-text="topic"
+                   item-value="id"
+                 v-model="selectedTopics"
+                 :label="$t('selectfavtopics')"
+                  multiple
+                  chips
+                  solo-inverted
+               ></v-select>
+ <p><b class="error--text" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
+               <v-dialog
+       ref="dialog"
+       v-model="modal"
+       :return-value.sync="bdate"
+       persistent
+       lazy
+       full-width
+       width="290px"
+     >
+
+
+     <!-- BIRTHDAY  -->
+       <v-text-field
+         slot="activator"
+         v-model="bdate"
+         :label="$t('birthday')"
+         prepend-icon="event"
+         readonly
+       ></v-text-field>
+       <v-date-picker locale="ar" v-model="bdate" scrollable>
+         <v-spacer></v-spacer>
+         <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+         <v-btn flat color="primary" @click="$refs.dialog.save(bdate)">OK</v-btn>
+       </v-date-picker>
+     </v-dialog>
+
+
+<p><b class="error--text" v-if="errors.birth_date">{{errors.birth_date[0]}}</b></p>
+
+<!--DESCRIPTION  -->
+     <v-textarea
+no-resize
+          :label="$t('description')"
+            solo-inverted
+            v-model="description"
+
+          ></v-textarea>
+<b>{{writtenDescription}}/25 words</b>
+    <p class="error--text" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
+            <p class="error--text" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
+          <div class="text-xs-center">
+
+        <v-btn
+          @click="createProfile"
+          color="primary"
+          round
+        >
+        {{$t('create')}}
+      </v-btn>
+    </div>
+        </v-form>
+      </v-flex>
+      <!-- SIMULATE -->
+      <v-flex sm4 hidden-xs-only offset-sm2>
+        <v-card dark max-width="320" height="600" max-height="620">
+          <v-img
+            v-if="avatar==null"
+          :src="`/storage/avatars/avatar_default.jpg`"
+            height="200"
+        ></v-img>
+        <template  v-if="avatar != null"
+>
+
+          <v-img
+          :src="avatar"
+          height="225"
+        ></v-img>
+        <div class="text-xs-center">
+          <v-tooltip right>
+        <v-btn small slot="activator" color="error" icon @click="removeSelectedAvatar">
+            <v-icon>
+              close
+            </v-icon>
+        </v-btn>
+        <b>{{$t('remove')}}</b>
+      </v-tooltip>
+      </div>
+      </template>
+
+
+        <div class="text-sm-center">
+          <h1>{{username}}</h1>
+          <h2 class="indigo--text"><i>{{displayName}}</i></h2>
+          <h3>{{gender[selectedGender-1]}}</h3>
+            <bdi>
+              <h4>
+              <b>{{$t('from')}} : </b>
+            {{selectedCountry}}</h4>
+   </bdi>
+        </div>
+
+        <div class="text-sm-center" v-if="selectedTopics.length > 0">
+          <h4>{{$t('favtopics')}}</h4>
+          <template v-for="topic in selectedTopics">
+          <v-btn  small round color="success">
+            {{topics[topic-1].topic}}
+          </v-btn>
+        </template>
+
+       </div>
+       <div class="text-sm-center" style="  overflow:hidden;text-overflow: ellipsis;">
+         <bdi>
+           <p style="white-space: pre-line;"><b>{{$t('about')}} : </b> {{description}}</p>
+     </bdi>
+
+       </div>
+        </v-card>
+      </v-flex>
+    </v-layout>
   <!-- pick profile data -->
-    <div class="col-md-6 create">
-      <form @submit.prevent="createProfile">
-          <div class="form-group">
-            <label id="file-picker">
-            <input type="file" class="form-control" @change="handleFile">
-            </label>
-          </div>
-
-          <div class="form-group">
-            <label>{{$t('displayname')}}</label>
-            <input type="text" class="form-control"  v-model="displayName">
-            <p><b class="text-danger" v-if="errors.display_name">{{errors.display_name[0]}}</b></p>
-          </div>
+    <!-- <div class="col-md-6 create">
+      <form>
 
           <div class="form-group">
             <h3>{{$t('gender')}}</h3>
@@ -22,7 +188,7 @@
           <template v-for="(gender,index) in gender">
           <label>{{gender}}<input type="radio"  :value="index+1"  id="male" v-model="selectedGender"></label>
           </template>
-          <p><b class="text-danger" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
+          <p><b class="error--text" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
 
           </div>
 
@@ -34,7 +200,7 @@
             </label>
             <br>
           </template>
-          <p><b class="text-danger" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
+          <p><b class="error--text" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
 
           </div>
           <div class="form-group">
@@ -44,29 +210,30 @@
               <option :value="index+1">{{country}}</option>
               </template>
             </select>
-            <p><b class="text-danger" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
+            <p><b class="error--text" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
 
           </div>
           <div class="form-group">
             <label>{{$t('birthday')}}</label>
             <input type="date" class="form-control" v-model="bdate">
-            <p><b class="text-danger" v-if="errors.birth_date">{{errors.birth_date[0]}}</b></p>
+            <p><b class="error--text" v-if="errors.birth_date">{{errors.birth_date[0]}}</b></p>
 
           </div>
           <div class="form-group">
             <label>{{$t('description')}}</label>
               <textarea v-model.trim="description" class="form-control"></textarea>
               <b>{{writtenDescription}}/25 words</b>
-              <p class="text-danger" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
-              <p class="text-danger" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
+              <p class="error--text" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
+              <p class="error--text" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
           </div>
           <div class="form-group">
 
             <input type="submit" class="btn btn-primary"  :value="$t('create')">
           </div>
       </form>
-    </div>
+    </div> -->
     <!-- simulate -->
+    <!-- <div class="container">
     <div class="col-md-6">
 
       <div class="card">
@@ -84,7 +251,6 @@
         <a href="#" class="btn btn-info" v-for="topic in selectedTopics" style="margin:10px;">{{topics[topic-1]}}</a>
      </div>
      <div class="bdate">
-       <p style="white-space: pre-line;">{{description}}
   </p>
      </div>
     </div>
@@ -92,7 +258,10 @@
     </div>
 
 
-    </div>
+    </div> -->
+
+  </v-container>
+    </v-content>
 </template>
 
 
@@ -104,16 +273,20 @@ mounted(){
 },
 data(){
 return {
+  modal: false,
   displayName:'',
   avatar:null,
   gender:['male','female'],
   selectedGender:null,
   selectedCountry:null,
   selectedTopics:[],
-  bdate:null,
+  bdate: new Date().toISOString().substr(0, 10),
+landscape: false,
+reactive: false,
   description:'',
   writtenDescription:0,
-  errors:[]
+  errors:[],
+  loading:false
 }
 },
 
@@ -128,6 +301,11 @@ computed:{
       return   this.$store.getters.currentUser.name;
       },
 
+      userCountry(){
+         if ( this.$store.getters.countries.indexOf(this.selectedCountry) != -1) {
+          return this.$store.getters.countries.indexOf(this.selectedCountry) + 1
+         }
+      },
   checkDescription(){
     this.writtenDescription = this.description.split(' ').length;
 
@@ -188,7 +366,7 @@ createProfile(){
         "gender_id":this.selectedGender,
         "topics":this.selectedTopics,
         "birth_date":this.bdate,
-        "country_id":this.selectedCountry,
+        "country_id":this.userCountry,
         "description":this.description,
         "email":this.$store.getters.email,
         "password":this.$store.getters.passowrd
@@ -242,58 +420,25 @@ createProfile(){
 </script>
 
 <style scoped>
-.create{
-  border-right: 1px solid #ddd
+#file{
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 }
-textarea{
-  resize: none;
-}
-#file-picker{
-    border: 2px solid #f90;
-    width:100px;
-    height: 100px;
-    border-radius: 20px;
-
-  }
-#file-picker > input{
-  opacity: 0 !important;
-  width: 0
-}
-
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 320px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
-}
-
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
-button {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}
-
-a {
-  text-decoration: none;
-  font-size: 22px;
-  color: black;
-}
-
-button:hover, a:hover {
-  opacity: 0.7;
+#file-container {
+	height: 200px !important;
+	position: relative;
+  background-color:#002d37;
+  background-image: url('https://png2.kisspng.com/sh/b56ddb038cc23b8ffc9e03093482bd71/L0KzQYm3UsE1N6l2j5H0aYP2gLBuTfNidZZ3eZ9tcnH6ebBuTfNwdaF6jNd7LXbsfLa0gBFubaNmRadqOETlQ4i4UcFjOZc5RqU7MUS6SIKBUcUyQGc5TqM7OUC6Qoa1kP5o/kisspng-camera-drawing-computer-file-camera-5a84b37111b1f4.3214781815186461290725.png');
+  background-size: 50% 50%;
+  background-position: center;
+  background-attachment: scroll;
+  margin: 10px
 }
 </style>

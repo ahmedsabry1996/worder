@@ -9,7 +9,7 @@
           <!-- Default signup form -->
             <v-form @submit.prevent="signup">
               <v-text-field
-
+              autofocus
                 background-color="#112f41"
                 solo-inverted
                 :label="$t('name')"
@@ -38,9 +38,10 @@
                                 </template>
                       <v-text-field
                       background-color="#112f41"
-
-
-                        :label="$t('password')" v-model="password" solo-inverted
+                        :label="$t('password')"
+                          type="password"
+                         v-model="password"
+                         solo-inverted
                       ></v-text-field>
                       <template v-if="signupErrors">
                       <p class="white--text" v-if="signupErrors.password">
@@ -51,8 +52,9 @@
               <v-text-field
               background-color="#112f41"
 
-
-                 :label="$t('repeatpass')" v-model="passwordConfirm" solo-inverted
+                 :label="$t('repeatpass')"
+                   type="password"
+                 v-model="passwordConfirm" solo-inverted
               ></v-text-field>
 
               <div class="text-xs-center">
@@ -162,7 +164,7 @@ export default {
           this.$store.commit('userCredionals');
           this.signupLoading = false;
           swal({
-            title:"Done!",
+            title:this.$t('done'),
             text:this.$t('emailcheck'),
             icon:"success"
           });
@@ -171,7 +173,7 @@ export default {
 
           this.signupLoading = false;
           swal({
-            title:"Error!qq",
+            title:this.$t('error'),
             text:this.$t('signupfail'),
             icon:"error"
           });
@@ -192,7 +194,7 @@ export default {
                 this.signupLoading = false;
                 console.log(this.signupLoading);
               swal({
-                title:"Error!",
+                title:this.$t('error'),
                 text:this.$t('codeerror'),
                 icon:"warning"
               });

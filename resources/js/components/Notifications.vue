@@ -1,5 +1,28 @@
 <template >
 
+<v-menu left offset-x width="200" :full-width="true">
+  <v-btn slot="activator" @click="getNotifications" flat class="white--text"  icon>
+    <v-icon>
+      speaker_notes
+    </v-icon>
+  </v-btn>
+  <div class="mm" @scroll="loadMoreNotifications">
+
+  <v-list two-line>
+    <v-list-tile router :to="notification.data.url" v-for="(notification,index) in notifications" :key="index">
+      <v-list-tile-avatar>
+            <img :src="`/storage/avatars/${notification.data.icon}`">
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+
+            <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{notification.data.created_at.date | getDateForHumans}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
+</div>
+</v-menu>
+<!--
     <li class="dropdown" >
     <a class="dropdown-toggle" data-toggle="dropdown" @click="getNotifications">
       <span  v-if="!unreadNotifications">
@@ -30,7 +53,7 @@
           </template>
             </li>
         </ul>
-  </li>
+  </li> -->
 </template>
 
 <script>
@@ -42,7 +65,7 @@ var moment = require('moment');
 export default {
       data(){
   return {
-
+    showMenu:false,
     loading:false,
     offset:0
     }
@@ -164,15 +187,13 @@ export default {
     },
 
     loadMoreNotifications(e){
-
     let elHeight = e.target.clientHeight;
 
     let elscrollHeight = e.target.scrollHeight;
 
     let elScrollTop = e.target.scrollTop;
-
+    console.log(454545);
     if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-
         this.offset +=10;
       this.$store.dispatch('loadMoreNotifications',{offset:this.offset})
       }
@@ -204,9 +225,12 @@ export default {
 </script>
 
 <style scoped>
-.dropdown-menu {
-  min-height: 300px;
-  max-height: 300px;
-	overflow-y: scroll;
-}
+.mm{
+  width:300px !important;
+  margin: 0 auto !important;
+  height: 300px !important;
+  max-height:300px !important;
+  background-color:#fff !important;
+  overflow:scroll;
+  }
 </style>
