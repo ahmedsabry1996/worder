@@ -10,6 +10,7 @@
             <v-form @submit.prevent="signup">
               <v-text-field
               autofocus
+
                 background-color="#112f41"
                 solo-inverted
                 :label="$t('name')"

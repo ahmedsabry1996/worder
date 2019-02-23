@@ -125,6 +125,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {

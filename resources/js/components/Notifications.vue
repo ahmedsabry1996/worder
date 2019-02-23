@@ -14,7 +14,6 @@
             <img :src="`/storage/avatars/${notification.data.icon}`">
           </v-list-tile-avatar>
           <v-list-tile-content>
-
             <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
             <v-list-tile-sub-title>{{notification.data.created_at.date | getDateForHumans}}</v-list-tile-sub-title>
           </v-list-tile-content>

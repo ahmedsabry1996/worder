@@ -1,6 +1,6 @@
 <template>
 <v-content>
-<v-toolbar app color="#005556" class="hidden-xs-only">
+<v-toolbar app color="#005556" class="hidden-xs-only" v-if="perfectUser">
     <v-toolbar-side-icon class="white--text"></v-toolbar-side-icon>
     <v-toolbar-title router to="/" class="white--text" >Worder</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -9,7 +9,7 @@
       <notifications left></notifications>
 
 
-      <v-btn flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
+      <v-btn  flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
         <v-icon>arrow_drop_down</v-icon>
       </span>
     </v-btn>
@@ -17,7 +17,7 @@
     </v-toolbar-items>
 
 </v-toolbar>
-    <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
+    <!-- <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
     <div class="container-fluid">
 
 
@@ -87,7 +87,7 @@
    </form>
       </div>
     </div>
-  </nav>
+  </nav> -->
   <ul class="list-group col-md-3 col-md-offset-7 results-md" id="results-md" v-if="showResults && results.length > 0" >
       <li class="list-group-item" v-for="result in results" style="height:60px;" @click="showResults = false;results = [];keyword='';goTo(result.profile.display_name)">
         <p>

@@ -6,7 +6,7 @@
       <template v-if="!forgetPassword">
         <v-form  @submit.prevent="login">
           <v-text-field
-
+          
           background-color="#112f41"
             color="white--text"
             v-model="email"
