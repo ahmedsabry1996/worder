@@ -1,7 +1,7 @@
 <template>
 
   <v-container grid-list-lg>
-    <v-layout row wrap>
+    <v-layout row wrap v-if="perfectUser">
       <v-flex xs12 md12>
         <create-post></create-post>
       </v-flex>

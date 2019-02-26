@@ -718,7 +718,11 @@ var render = function() {
                           _c(
                             "v-date-picker",
                             {
-                              attrs: { locale: "ar", scrollable: "" },
+                              attrs: {
+                                reactive: true,
+                                locale: "ar",
+                                scrollable: ""
+                              },
                               model: {
                                 value: _vm.bdate,
                                 callback: function($$v) {

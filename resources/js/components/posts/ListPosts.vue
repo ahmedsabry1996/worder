@@ -1,34 +1,37 @@
 <template>
 
 
-    <div v-if="perfectUser">
+    <v-content v-if="perfectUser">
 
     <div class="jaja" v-if="posts.length == 0">
-        <img src="/storage/avatars/loader.gif" :alt="$t('loading')">
-        <h3>{{$t('loading')}}</h3>
+      <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
     </div>
 
-          <div class="text-xs-center" v-for="(post,index) in posts" :key="post.id">
+          <div class="mt-2 text-xs-center" v-for="(post,index) in posts" :key="post.id">
           <!-- publisher avatar -->
           <v-avatar
             size="55"
             class="#005f5b">
             <img
+            @click="ShowProfile(post.user.profile.display_name)"
             :src="`/storage/avatars/${post.user.profile.avatar}`"
             :alt="post.user.name">
           </v-avatar>
 
 
           <!-- post publisher -->
-          <div class="post-publisher" @click="ShowProfile(post.user.profile.display_name)">
+          <div class="post-publisher mt-3 italic" @click="ShowProfile(post.user.profile.display_name)">
               <h3 style="cursor:default" class="white--text">
-                <span v-if="post.user.profile.is_verified == 1" class="text-success">
-                  <b>
-            <font-awesome-icon
-            v-popover:tooltip.left="'verified user'"
-            :icon= "['fas','award']" />
 
+                <span style="position: relative;top: -2px;" v-if="post.user.profile.is_verified == 0">
+                  <v-tooltip left color="success">
+
+                  <b slot="activator">
+        <v-icon size="medium" color="success">check_circle</v-icon>
                 </b>
+                <b class="white--text">verified user</b>
+              </v-tooltip>
+
               </span>
                  <b>{{post.user.profile.display_name}}</b>
               </h3>
@@ -47,12 +50,12 @@
               </router-link>
           </div>
 
-          <div class="post-img" v-if="post.image">
+          <div class="post-img text-xs-center" v-if="post.image">
             <v-img
             :src="`/storage/posts_images/${post.image}`"
-            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
             aspect-ratio="1"
             class="grey lighten-2"
+            position="center center"
           >
         </v-img>
 
@@ -119,7 +122,7 @@
 
 
   </div>
-</div>
+</v-content>
 </template>
 
 <script>
@@ -188,12 +191,5 @@ export default {
 </script>
 
 <style scoped>
-.post {
-	font-size: 25px;
-	overflow-wrap: break-word;
-	width: 100%;
-	height: auto;
-	margin: 0 auto;
-  padding-left: 8px;
-}
+
 </style>

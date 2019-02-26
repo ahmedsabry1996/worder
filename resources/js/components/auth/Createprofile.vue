@@ -88,7 +88,7 @@
          prepend-icon="event"
          readonly
        ></v-text-field>
-       <v-date-picker locale="ar" v-model="bdate" scrollable>
+       <v-date-picker :reactive="true" locale="ar" v-model="bdate" scrollable>
          <v-spacer></v-spacer>
          <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
          <v-btn flat color="primary" @click="$refs.dialog.save(bdate)">OK</v-btn>
