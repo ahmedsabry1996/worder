@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div>
+    <!-- <div>
 
     <h4>
       <b>Trend</b>
@@ -18,8 +18,24 @@
 
      <span class="badge">written in {{value | numeral('0.0a') }} posts</span>
         </li>
-    </ul>
+    </ul> -->
+    <v-list two-line subheader dark>
+      <v-subheader>Trend</v-subheader>
+      <template v-for="(value,key) in topTen">
+
+        <v-list-tile :key="key" router :to="`/trend/${key}`">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ key }}</v-list-tile-title>
+            <v-list-tile-sub-title>written in {{value | numeral('0.0a') }} posts</v-list-tile-sub-title>
+          </v-list-tile-content>
+
+        </v-list-tile>
+
+      </template>
+    </v-list>
   </div>
+
+
 </template>
 
 <script>
@@ -36,19 +52,5 @@ export default {
 </script>
 
 <style scoped>
-a.router-link-active{
-  color: crimson;
-  font-weight: bolder;
-  font-size: 20px;
-  font-style: italic;
-}
-.trend-link{
-  font-size: 18px;
-}
-.new-trend{
-  color: green;
-  font-size: 20px;
-  text-transform: uppercase;
 
-}
 </style>

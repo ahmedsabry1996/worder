@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
+import '@fortawesome/fontawesome-free/css/all.css';
 import vuexI18n from 'vuex-i18n';
 import axios from 'axios';
 import storeData from './store/index';
@@ -26,7 +27,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
-Vue.use(Vuetify);
+Vue.use(Vuetify,{
+   iconfont: 'fa'
+});
 Vue.use(Popover,{ tooltip: true });
 Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
 //Vue.use(BootstrapVue);

@@ -684,6 +684,9 @@ var render = function() {
                           on: {
                             "update:returnValue": function($event) {
                               _vm.bdate = $event
+                            },
+                            "update:return-value": function($event) {
+                              _vm.bdate = $event
                             }
                           },
                           model: {
@@ -746,7 +749,7 @@ var render = function() {
                                   attrs: { flat: "", color: "primary" },
                                   on: {
                                     click: function($event) {
-                                      _vm.$refs.dialog.save(_vm.bdate)
+                                      return _vm.$refs.dialog.save(_vm.bdate)
                                     }
                                   }
                                 },

@@ -10,7 +10,6 @@
 
 
       <v-btn  flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
-        <v-icon>arrow_drop_down</v-icon>
       </span>
     </v-btn>
 

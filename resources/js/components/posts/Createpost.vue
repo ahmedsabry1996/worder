@@ -44,7 +44,14 @@
         ></v-select>
       </div>
       </v-flex>
-
+      <v-flex xs8 v-if="image" md4 offset-md5 offset-xs4>
+        <v-img
+        :src="image"
+        alt="..."
+        width="200"
+        >
+        </v-img>
+      </v-flex>
     </v-layout>
     <!-- <div class="container">
       <div class="row" >
@@ -86,6 +93,21 @@
       </div>
     </div>
      -->
+     <v-divider dark></v-divider>
+
+    <v-snackbar
+      v-model="snackbar"
+      top="top"
+      :timeout="1501"
+      >
+      {{$t('postdone')}}
+      <v-btn
+        color="success"
+        flat
+        @click="snackbar = false">
+      <bdi>  {{$t('done')}}</bdi>
+      </v-btn>
+</v-snackbar>
 </v-content>
 
 </template>
@@ -95,6 +117,7 @@
 export default {
   data(){
     return {
+      snackbar:false,
       post:'',
       image:null,
       topic:'',
@@ -175,8 +198,8 @@ export default {
           .then(()=>{
             this.post = '';
             this.topic = '';
-            this.$toastr.s(this.$t('postdone'));
-
+            this.image = null;
+            this.snackbar=true;
           })
           .catch(()=>{
 

@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+
     <div v-if="perfectUser">
 
     <div class="jaja" v-if="posts.length == 0">
@@ -8,19 +8,20 @@
         <h3>{{$t('loading')}}</h3>
     </div>
 
-          <div class="" v-for="(post,index) in posts" :key="post.id">
+          <div class="text-xs-center" v-for="(post,index) in posts" :key="post.id">
           <!-- publisher avatar -->
-          <div class="avatar" @click="ShowProfile(post.user.profile.display_name)">
-                  <img
-                  style="cursor:pointer;"
-                  :src="`/storage/avatars/${post.user.profile.avatar}`"
-                  :alt="post.user.name"
-                  width='45' height="45"  class="img-rounded">
-          </div>
+          <v-avatar
+            size="55"
+            class="#005f5b">
+            <img
+            :src="`/storage/avatars/${post.user.profile.avatar}`"
+            :alt="post.user.name">
+          </v-avatar>
+
 
           <!-- post publisher -->
           <div class="post-publisher" @click="ShowProfile(post.user.profile.display_name)">
-              <h5 style="cursor:default;">
+              <h3 style="cursor:default" class="white--text">
                 <span v-if="post.user.profile.is_verified == 1" class="text-success">
                   <b>
             <font-awesome-icon
@@ -30,35 +31,33 @@
                 </b>
               </span>
                  <b>{{post.user.profile.display_name}}</b>
-              </h5>
+              </h3>
           </div>
 
           <!-- post content  -->
           <div class="post-content"  style="cursor:pointer">
 
-            <router-link :to="{ name: 'post', params: {postId:post.id} }" tag="p" class="post">
+            <router-link :to="{ name: 'post', params: {postId:post.id} }" tag="p" class="white--text display-1">
                 <b>
 
-                  <bdi>
-                    <font-awesome-icon
-                    :icon= "['fas','quote-left']"
-                    size="xs"
-                    style="width:20px;"/>
-
-                    {{ post.post | subsetPost }}
-
-                    <font-awesome-icon
-                    :icon= "['fas','quote-left']"
-                    style="transform:scalex(-1);width:20px;"
-                    size="xs"/>
-                  </bdi>
-
+                  <p color="white--text ">
+                                  {{ post.post | subsetPost }}
+                          </p>
                 </b>
               </router-link>
           </div>
 
           <div class="post-img" v-if="post.image">
-            <img :src="`/storage/posts_images/${post.image}`" alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
+            <v-img
+            :src="`/storage/posts_images/${post.image}`"
+            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+            aspect-ratio="1"
+            class="grey lighten-2"
+          >
+        </v-img>
+
+            <!-- <img  alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
+          -->
           </div>
 
           <!-- React to post -->
@@ -75,25 +74,25 @@
           <p class="text-center">
 
             <span v-if="post.dislikes_counter"
-            style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;">
+            style="position:relative;font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
               {{post.dislikes_counter.count | numeral('0 a')}}
             </span>
 
             <span v-else
-            style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+            style="position:relative;font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;top:3px">
                 0
               </span>
 
 
             <span v-if="post.likes_counter"
-            style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+            style="font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
 
                     {{post.likes_counter.count | numeral('0 a')}}
 
             </span>
 
             <span v-else
-            style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+            style="font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
                   0
             </span>
 
@@ -116,8 +115,6 @@
             </p>
         </div>
         <hr>
-
-
   </div>
 
 

@@ -884,7 +884,10 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.follow(_vm.showProfile.id, "unfollow")
+                                      return _vm.follow(
+                                        _vm.showProfile.id,
+                                        "unfollow"
+                                      )
                                     }
                                   }
                                 },
@@ -905,7 +908,10 @@ var render = function() {
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
-                                      _vm.follow(_vm.showProfile.id, "follow")
+                                      return _vm.follow(
+                                        _vm.showProfile.id,
+                                        "follow"
+                                      )
                                     }
                                   }
                                 },
@@ -1108,7 +1114,7 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact(
+                                          return _vm.postReact(
                                             "dislike",
                                             post.id,
                                             index
@@ -1135,7 +1141,11 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id, index)
+                                          return _vm.postReact(
+                                            "like",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1166,7 +1176,7 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact(
+                                          return _vm.postReact(
                                             "dislike",
                                             post.id,
                                             index
@@ -1193,7 +1203,11 @@ var render = function() {
                                       attrs: { icon: ["fas", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id, index)
+                                          return _vm.postReact(
+                                            "like",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1224,7 +1238,7 @@ var render = function() {
                                       attrs: { icon: ["fas", "thumbs-down"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact(
+                                          return _vm.postReact(
                                             "dislike",
                                             post.id,
                                             index
@@ -1251,7 +1265,11 @@ var render = function() {
                                       attrs: { icon: ["far", "thumbs-up"] },
                                       on: {
                                         click: function($event) {
-                                          _vm.postReact("like", post.id, index)
+                                          return _vm.postReact(
+                                            "like",
+                                            post.id,
+                                            index
+                                          )
                                         }
                                       }
                                     })
@@ -1470,7 +1488,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          _vm.showDisLikers(post.id)
+                                          return _vm.showDisLikers(post.id)
                                         }
                                       }
                                     },
@@ -1497,7 +1515,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          _vm.deletePost(post.id, index)
+                                          return _vm.deletePost(post.id, index)
                                         }
                                       }
                                     },
@@ -1520,7 +1538,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          _vm.showLikers(post.id)
+                                          return _vm.showLikers(post.id)
                                         }
                                       }
                                     },
@@ -1658,7 +1676,7 @@ var render = function() {
                         attrs: { tag: "p" },
                         on: {
                           click: function($event) {
-                            _vm.openProfile(liker.profile.display_name)
+                            return _vm.openProfile(liker.profile.display_name)
                           }
                         }
                       },
@@ -1718,7 +1736,9 @@ var render = function() {
                         staticStyle: { cursor: "pointer" },
                         on: {
                           click: function($event) {
-                            _vm.openProfile(disliker.profile.display_name)
+                            return _vm.openProfile(
+                              disliker.profile.display_name
+                            )
                           }
                         }
                       },
@@ -1797,7 +1817,7 @@ var render = function() {
                                         },
                                         on: {
                                           click: function($event) {
-                                            _vm.openProfile(
+                                            return _vm.openProfile(
                                               follower.profile.display_name
                                             )
                                           }
@@ -1816,7 +1836,7 @@ var render = function() {
                                           staticStyle: { opacity: ".5" },
                                           on: {
                                             click: function($event) {
-                                              _vm.openProfile(
+                                              return _vm.openProfile(
                                                 follower.profile.display_name
                                               )
                                             }
@@ -1843,7 +1863,7 @@ var render = function() {
                                                 attrs: { type: "button" },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.follow(
+                                                    return _vm.follow(
                                                       follower.profile.user_id,
                                                       "follow"
                                                     )
@@ -1866,7 +1886,7 @@ var render = function() {
                                                 attrs: { type: "button" },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.follow(
+                                                    return _vm.follow(
                                                       follower.profile.user_id,
                                                       "unfollow"
                                                     )
@@ -1928,7 +1948,7 @@ var render = function() {
                                         },
                                         on: {
                                           click: function($event) {
-                                            _vm.openProfile(
+                                            return _vm.openProfile(
                                               following.profile.display_name
                                             )
                                           }
@@ -1947,7 +1967,7 @@ var render = function() {
                                           staticStyle: { opacity: ".5" },
                                           on: {
                                             click: function($event) {
-                                              _vm.openProfile(
+                                              return _vm.openProfile(
                                                 following.profile.display_name
                                               )
                                             }
@@ -1974,7 +1994,7 @@ var render = function() {
                                                 attrs: { type: "button" },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.follow(
+                                                    return _vm.follow(
                                                       following.profile.user_id,
                                                       "follow"
                                                     )
@@ -1997,7 +2017,7 @@ var render = function() {
                                                 attrs: { type: "button" },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.follow(
+                                                    return _vm.follow(
                                                       following.profile.user_id,
                                                       "unfollow"
                                                     )

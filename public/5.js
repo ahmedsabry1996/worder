@@ -442,7 +442,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.showDisLikers(_vm.post.id)
+                            return _vm.showDisLikers(_vm.post.id)
                           }
                         }
                       },
@@ -470,7 +470,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.showLikers(_vm.post.id)
+                            return _vm.showLikers(_vm.post.id)
                           }
                         }
                       },
@@ -627,7 +627,7 @@ var render = function() {
                     attrs: { tag: "p" },
                     on: {
                       click: function($event) {
-                        _vm.openProfile(liker.profile.display_name)
+                        return _vm.openProfile(liker.profile.display_name)
                       }
                     }
                   },
@@ -686,7 +686,7 @@ var render = function() {
                     staticStyle: { cursor: "pointer" },
                     on: {
                       click: function($event) {
-                        _vm.openProfile(disliker.profile.display_name)
+                        return _vm.openProfile(disliker.profile.display_name)
                       }
                     }
                   },

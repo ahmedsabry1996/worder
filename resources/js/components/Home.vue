@@ -3,74 +3,21 @@
 
       <Header/>
 
-      <v-container grid-list-md>
 
-      <template v-if="!isLoggedIn">
-        
         <router-view></router-view>
-      </template>
-
-      <template v-if="perfectUser">
-        <template v-if="currentRoute.path=='/'">
-          <v-flex xs12>
-            <create-post></create-post>
-          </v-flex>
-      </template>
-
-        <template >
-          <v-flex md3 class="suggest">
-          <template v-if="!profileRoutes">
-                <suggested-people></suggested-people>
-      </template>
-</v-flex>
-    </template>
-
-          <template v-if="profileRoutes">
-            <v-flex md12>
-
-              <router-view></router-view>
-            </v-flex>
-          </template>
-
-          <template v-else>
-            <v-flex md6>
-              <router-view></router-view>
-            </v-flex>
-          </template>
-
-
-      <template v-if="!profileRoutes">
-
-          <v-flex md3>
-            <trend></trend>
-            <topics></topics>
-          </v-flex>
-      </template>
-    </template>
-      <template v-if="needProfile">
-        <router-view></router-view>
-      </template>
-      <template v-if="needVerify">
-        <router-view></router-view>
-      </template>
 
 <tooltip class="text-center totool"/>
-
-      </v-container>
 </v-app>
 </template>
 
 <script>
 
   import Header from './Header.vue';
-  import createPost from './posts/Createpost.vue';
   import TimeLine from './Timeline.vue';
   import VueProgressBar from 'vue-progressbar';
-  import SuggestedPeople from './Suggestpeople.vue';
   import ListPosts from './posts/ListPosts';
-  import Topics from './topics/Topics.vue';
+
   import Ad from './ads/Ad.vue';
-  import Trend from './trend/Trend.vue';
 
 
     export default {
@@ -97,11 +44,8 @@
 
         components:{
           Header,
-          createPost,
           TimeLine,
-          SuggestedPeople,
-          Topics,
-          Trend
+
         },
         computed:{
             isLoggedIn(){

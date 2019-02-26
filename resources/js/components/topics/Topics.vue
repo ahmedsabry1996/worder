@@ -1,14 +1,26 @@
 <template >
 <div>
-    <div>
-  <h4>Topics</h4>
-  <ul class="list-group">
-    <li v-for="(topic,index) in topics" :key="index" class="list-group-item">
-      <router-link :to="`/topic/${topic}`" class="topic-link" exact>{{topic}}</router-link>
-    </li>
-  </ul>
 
-</div>
+          <v-list dark subheader>
+          <v-subheader>Topics</v-subheader>
+          <template v-for="(topic,index) in topics">
+              <v-list-tile
+                :key="topic.id"
+                avatar
+                ripple
+                router
+                :to="`/topic/${topic.topic}`"
+              >
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ topic.topic }}</v-list-tile-title>
+                </v-list-tile-content>
+
+              </v-list-tile>
+              <v-divider
+                v-if="index + 1 < topics.length"
+              ></v-divider>
+            </template>
+          </v-list>
 </div>
 </template>
 

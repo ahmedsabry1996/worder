@@ -712,7 +712,7 @@ var render = function() {
                       _vm.description = $event.target.value.trim()
                     },
                     blur: function($event) {
-                      _vm.$forceUpdate()
+                      return _vm.$forceUpdate()
                     }
                   }
                 }),
