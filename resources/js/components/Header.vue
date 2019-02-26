@@ -2,7 +2,9 @@
 <v-content>
 <v-toolbar app color="#005556" class="hidden-xs-only" v-if="perfectUser">
     <v-toolbar-side-icon class="white--text"></v-toolbar-side-icon>
-    <v-toolbar-title router to="/" class="white--text" >Worder</v-toolbar-title>
+    <v-toolbar-title  class="white--text" >
+      <v-btn small flat router to="/" class="white--text headline"> Worder</v-btn>
+    </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-and-down white--text">
 

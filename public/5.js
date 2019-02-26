@@ -152,6 +152,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -221,6 +248,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     });
   },
   methods: {
+    ShowProfile: function ShowProfile(displayName) {
+      this.$router.push("/".concat(displayName));
+    },
     goToAnotherPost: function goToAnotherPost() {
       var _this2 = this;
 
@@ -343,262 +373,349 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-content",
     [
       !_vm.post
-        ? _c("div", { staticClass: "text-center" }, [
-            _c("img", {
-              attrs: {
-                src: "/storage/avatars/loader.gif",
-                alt: "loading",
-                width: "100",
-                height: "100"
-              }
-            })
-          ])
+        ? _c(
+            "div",
+            { staticClass: "text-xs-center" },
+            [
+              _c("v-icon", { attrs: { color: "white" } }, [
+                _vm._v("fas fa-circle-notch fa-spin")
+              ])
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       _vm.post
-        ? _c("div", { staticClass: "post text-center" }, [
-            _c("div", { staticClass: "avatar" }, [
-              _c("img", {
-                staticClass: "img-circle",
-                attrs: {
-                  src: "/storage/avatars/" + _vm.post.user.profile.avatar,
-                  width: "60",
-                  height: "60",
-                  alt: _vm.post.user_id
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-publisher" }, [
-              _c("h5", [
-                _vm._v("by "),
-                _c("b", [_vm._v(_vm._s(_vm.post.user.profile.display_name))])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-content" }, [
+        ? _c(
+            "div",
+            { staticClass: "text-xs-center" },
+            [
               _c(
-                "p",
+                "v-avatar",
+                { staticClass: "#005f5b", attrs: { size: "55" } },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: "/storage/avatars/" + _vm.post.user.profile.avatar,
+                      alt: _vm.post.user.name
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.ShowProfile(
+                          _vm.post.user.profile.display_name
+                        )
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
                 {
-                  staticStyle: {
-                    "font-size": "33px",
-                    "overflow-wrap": "break-word"
+                  staticClass: "post-publisher mt-3 italic",
+                  on: {
+                    click: function($event) {
+                      return _vm.ShowProfile(_vm.post.user.profile.display_name)
+                    }
                   }
                 },
                 [
-                  _c("b", [
-                    _c("bdi", [
-                      _vm._v(
-                        '\n\n                  "\n                  ' +
-                          _vm._s(_vm.post.post) +
-                          '\n                  "\n                '
+                  _c(
+                    "h3",
+                    {
+                      staticClass: "white--text",
+                      staticStyle: { cursor: "default" }
+                    },
+                    [
+                      _vm.post.user.profile.is_verified == 0
+                        ? _c(
+                            "span",
+                            {
+                              staticStyle: { position: "relative", top: "-2px" }
+                            },
+                            [
+                              _c(
+                                "v-tooltip",
+                                { attrs: { left: "", color: "success" } },
+                                [
+                                  _c(
+                                    "b",
+                                    {
+                                      attrs: { slot: "activator" },
+                                      slot: "activator"
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          attrs: {
+                                            size: "medium",
+                                            color: "success"
+                                          }
+                                        },
+                                        [_vm._v("check_circle")]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("b", { staticClass: "white--text" }, [
+                                    _vm._v("verified user")
+                                  ])
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("b", [
+                        _vm._v(_vm._s(_vm.post.user.profile.display_name))
+                      ])
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "post-content",
+                  staticStyle: { cursor: "pointer" }
+                },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "white--text display-1",
+                      attrs: {
+                        to: { name: "post", params: { postId: _vm.post.id } },
+                        tag: "p"
+                      }
+                    },
+                    [
+                      _c("b", [
+                        _c("p", { attrs: { color: "white--text " } }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.post.post) +
+                              "\n                    "
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.post.image
+                ? _c(
+                    "div",
+                    { staticClass: "post-img text-xs-center" },
+                    [
+                      _c("v-img", {
+                        staticClass: "grey lighten-2",
+                        staticStyle: { margin: "0 auto" },
+                        attrs: {
+                          slot: "activator",
+                          src: "/storage/posts_images/" + _vm.post.image,
+                          width: "500",
+                          "aspect-ratio": "1",
+                          position: "center center"
+                        },
+                        slot: "activator"
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.post.user.profile.user_id == _vm.currentUserProfile.user_id
+                ? _c("div", { staticClass: "post-react" }, [
+                    _c("p", { staticClass: "text-center" }, [
+                      _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            position: "relative",
+                            "font-size": "20pt",
+                            color: "#EA003A",
+                            margin: "auto 14px",
+                            cursor: "pointer",
+                            top: "3px"
+                          },
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#dislikers"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showDisLikers(_vm.post.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("font-awesome-icon", {
+                            staticStyle: { transform: "scalex(-1)" },
+                            attrs: { icon: ["far", "thumbs-down"] }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            "font-size": "20pt",
+                            color: "#192FDD",
+                            margin: "auto 14px",
+                            cursor: "pointer"
+                          },
+                          attrs: {
+                            "data-toggle": "modal",
+                            "data-target": "#likers"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.showLikers(_vm.post.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("font-awesome-icon", {
+                            attrs: { icon: ["far", "thumbs-up"] }
+                          })
+                        ],
+                        1
                       )
                     ])
                   ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _vm.post.image
-              ? _c("div", { staticClass: "post-img" }, [
-                  _c("img", {
-                    staticClass: "img-rounded",
-                    staticStyle: {
-                      "box-shadow": "0px 4px 7px  #000",
-                      margin: "10px"
-                    },
-                    attrs: {
-                      src: "/storage/posts_images/" + _vm.post.image,
-                      alt: "img",
-                      width: "400",
-                      height: "400"
-                    }
-                  })
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "delete-post" }),
-            _vm._v(" "),
-            _vm.post.user.profile.user_id == _vm.currentUserProfile.user_id
-              ? _c("div", { staticClass: "post-react" }, [
-                  _c("p", { staticClass: "text-center" }, [
-                    _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          position: "relative",
-                          "font-size": "20pt",
-                          color: "#EA003A",
-                          margin: "auto 14px",
-                          cursor: "pointer",
-                          top: "3px"
-                        },
-                        attrs: {
-                          "data-toggle": "modal",
-                          "data-target": "#dislikers"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.showDisLikers(_vm.post.id)
-                          }
-                        }
-                      },
-                      [
-                        _c("font-awesome-icon", {
-                          staticStyle: { transform: "scalex(-1)" },
-                          attrs: { icon: ["far", "thumbs-down"] }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          "font-size": "20pt",
-                          color: "#192FDD",
-                          margin: "auto 14px",
-                          cursor: "pointer"
-                        },
-                        attrs: {
-                          "data-toggle": "modal",
-                          "data-target": "#likers"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.showLikers(_vm.post.id)
-                          }
-                        }
-                      },
-                      [
-                        _c("font-awesome-icon", {
-                          attrs: { icon: ["far", "thumbs-up"] }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.post.user.profile.user_id != _vm.currentUserProfile.user_id
-              ? _c(
-                  "div",
-                  { staticClass: "post-react" },
-                  [_c("React", { attrs: { post_id: _vm.post.id } })],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-react-number" }, [
-              _c("p", { staticClass: "text-center" }, [
-                _vm.post.dislikes_counter
-                  ? _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          position: "relative",
-                          "font-size": "10pt",
-                          color: "#EA003A",
-                          margin: "auto 14px",
-                          cursor: "pointer"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm.post.dislikes_counter.count) +
-                            "\n                      "
-                        )
-                      ]
-                    )
-                  : _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          position: "relative",
-                          "font-size": "10pt",
-                          color: "#EA003A",
-                          margin: "auto 14px",
-                          cursor: "pointer",
-                          top: "3px"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                          0\n                        "
-                        )
-                      ]
-                    ),
-                _vm._v(" "),
-                _vm.post.likes_counter
-                  ? _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          "font-size": "10pt",
-                          color: "#192FDD",
-                          margin: "auto 14px",
-                          cursor: "pointer"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n\n                        " +
-                            _vm._s(_vm.post.likes_counter.count) +
-                            "\n\n                  "
-                        )
-                      ]
-                    )
-                  : _c(
-                      "span",
-                      {
-                        staticStyle: {
-                          "font-size": "10pt",
-                          color: "#192FDD",
-                          margin: "auto 14px",
-                          cursor: "pointer"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n\n                            0\n                      "
-                        )
-                      ]
-                    )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-date" }, [
-              _c("p", { staticStyle: { opacity: ".7", color: "blue" } }, [
-                _c("b", [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(_vm._f("getDateForHumans")(_vm.post.created_at)) +
-                      "\n\n              "
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.post.user.profile.user_id != _vm.currentUserProfile.user_id
+                ? _c(
+                    "div",
+                    { staticClass: "post-react" },
+                    [_c("React", { attrs: { post_id: _vm.post.id } })],
+                    1
                   )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "post-react-number" }, [
+                _c("p", { staticClass: "text-center" }, [
+                  _vm.post.dislikes_counter
+                    ? _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            position: "relative",
+                            "font-size": "10pt",
+                            color: "#EA003A",
+                            margin: "auto 14px",
+                            cursor: "pointer"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(_vm.post.dislikes_counter.count) +
+                              "\n          "
+                          )
+                        ]
+                      )
+                    : _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            position: "relative",
+                            "font-size": "10pt",
+                            color: "#EA003A",
+                            margin: "auto 14px",
+                            cursor: "pointer",
+                            top: "3px"
+                          }
+                        },
+                        [_vm._v("\n            0\n          ")]
+                      ),
+                  _vm._v(" "),
+                  _vm.post.likes_counter
+                    ? _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            "font-size": "10pt",
+                            color: "#192FDD",
+                            margin: "auto 14px",
+                            cursor: "pointer"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n\n            " +
+                              _vm._s(_vm.post.likes_counter.count) +
+                              "\n\n          "
+                          )
+                        ]
+                      )
+                    : _c(
+                        "span",
+                        {
+                          staticStyle: {
+                            "font-size": "10pt",
+                            color: "#192FDD",
+                            margin: "auto 14px",
+                            cursor: "pointer"
+                          }
+                        },
+                        [_vm._v("\n\n            0\n          ")]
+                      )
                 ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "post-topic" }, [
-              _c(
-                "p",
-                { staticClass: "text-primary", staticStyle: { opacity: ".8" } },
-                [
-                  _c("b", [
-                    _vm._v("  " + _vm._s(_vm.topics[_vm.post.topic_id - 1]))
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("hr")
-          ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "post-date" }, [
+                _c(
+                  "p",
+                  {
+                    staticClass: "white--text",
+                    staticStyle: { opacity: ".7" }
+                  },
+                  [
+                    _c("b", [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(
+                            _vm._f("getDateForHumans")(_vm.post.created_at)
+                          ) +
+                          "\n\n          "
+                      )
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "post-topic" }, [
+                _vm.post.topic
+                  ? _c(
+                      "p",
+                      {
+                        staticClass: "white--text",
+                        staticStyle: { opacity: ".8" }
+                      },
+                      [_c("b", [_vm._v("  " + _vm._s(_vm.post.topic.topic))])]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ],
+            1
+          )
         : _vm._e(),
       _vm._v(" "),
       _c(

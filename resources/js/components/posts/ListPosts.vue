@@ -51,11 +51,13 @@
           </div>
 
           <div class="post-img text-xs-center" v-if="post.image">
+
             <v-img
             :src="`/storage/posts_images/${post.image}`"
             aspect-ratio="1"
             class="grey lighten-2"
             position="center center"
+            @click="showPost(post.id)"
           >
         </v-img>
 
