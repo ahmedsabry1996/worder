@@ -5,16 +5,18 @@
       <v-flex xs12 md12>
         <create-post></create-post>
       </v-flex>
-      <v-flex hidden-xs-only md3>
+      <v-flex hidden-sm-and-down md3>
         <suggested-people></suggested-people>
       </v-flex>
-      <v-flex xs12 md6>
-        <list-posts class="text-center" :posts.sync="timelinePosts"></list-posts>
-        <div class="text-center" v-if="isLoadingMoreTimeline">
-          <img src="/storage/avatars/loader.gif" alt="loading">
+      <v-flex xs11 md6>
+        <list-posts class="text-xs-center" :posts.sync="timelinePosts"></list-posts>
+        <div class="text-xs-center" v-if="isLoadingMoreTimeline">
+
+        <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
+
         </div>
       </v-flex>
-      <v-flex md3>
+      <v-flex md3 hidden-sm-and-down>
         <trend></trend>
         <br />
         <topics></topics>
@@ -27,8 +29,8 @@
 import ListPosts from './posts/ListPosts';
 import createPost from './posts/Createpost.vue';
 import SuggestedPeople from './Suggestpeople.vue';
-  import Topics from './topics/Topics.vue';
-  import Trend from './trend/Trend.vue';
+import Topics from './topics/Topics.vue';
+import Trend from './trend/Trend.vue';
 
 export default {
 

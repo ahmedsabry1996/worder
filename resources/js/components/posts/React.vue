@@ -2,10 +2,10 @@
 
 <div>
 
-  <p class="text-center"
+  <p transition="scale-transition"
   v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) == -1" >
 
-<span style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px">
+<span transition="scale-transition" style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px">
   <font-awesome-icon
 
   :icon= "['far','thumbs-down']"
@@ -13,7 +13,7 @@
   @click="postReact('dislike',post_id)"/>
 </span>
 
-<span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
+<span transition="scale-transition" style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
   <font-awesome-icon
   style="cursor:pointer;"
   :icon="['far','thumbs-up']"
@@ -24,6 +24,7 @@
 v-if="likedPosts.indexOf(post_id) !== -1 && disLikedPosts.indexOf(post_id) == -1">
 
 <span
+transition="scale-transition"
 style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px">
   <font-awesome-icon
   :icon= "['far','thumbs-down']"
@@ -32,7 +33,7 @@ style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px
 
 </span>
 
-<span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
+<span transition="scale-transition" style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
   <font-awesome-icon
   :icon="['fas','thumbs-up']"
   style="cursor:pointer;"
@@ -41,14 +42,13 @@ style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px
 <p class="text-center"
 v-if="likedPosts.indexOf(post_id) == -1 && disLikedPosts.indexOf(post_id) !== -1">
 
-<span style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px">
+<span transition="scale-transition" style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;top:3px">
   <font-awesome-icon
   :icon= "['fas','thumbs-down']"
   style="transform:scalex(-1);cursor:pointer;"
   @click="postReact('dislike',post_id)"/>
 </span>
-
-<span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
+<span transition="scale-transition" style="font-size:20pt ;color:#18DEFF;margin: auto 14px;">
   <font-awesome-icon
   style="cursor:pointer;"
   :icon="['far','thumbs-up']"

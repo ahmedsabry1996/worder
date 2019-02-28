@@ -1,27 +1,30 @@
 <template>
     <v-list two-line dark>
-       <template v-for="(perosn,index) in suggestPeople">
+       <template v-for="(person,index) in suggestPeople">
          <v-list-tile
-           avatar>
+           avatar
+           router
+           :to="`/${person.display_name}`"
+          >
            <v-list-tile-avatar>
-             <img @click="ShowProfile(perosn.display_name)"
-             :src="`/storage/avatars/${perosn.avatar}`" :alt="`${perosn.display_name}`">
+             <img
+             :src="`/storage/avatars/${person.avatar}`" :alt="`${person.display_name}`">
            </v-list-tile-avatar>
 
            <v-list-tile-content>
-             <v-list-tile-title v-html="perosn.user.name"></v-list-tile-title>
-             <v-list-tile-sub-title v-html="perosn.display_name"></v-list-tile-sub-title>
+             <v-list-tile-title v-html="person.user.name"></v-list-tile-title>
+             <v-list-tile-sub-title v-html="person.display_name"></v-list-tile-sub-title>
            </v-list-tile-content>
            <v-list-tile-action>
-             <template v-if="getFollowing.indexOf(perosn.user.id) == -1">
+             <template v-if="getFollowing.indexOf(person.user.id) == -1">
 
-                 <v-btn round color="success" @click="follow(perosn.user.id,'follow')" small>
+                 <v-btn round color="success" @click="follow(person.user.id,'follow')" small>
                       {{$t('follow')}}
                  </v-btn>
              </template>
              <template v-else>
 
-               <v-btn round small color="error" @click="follow(perosn.user.id,'unfollow')">
+               <v-btn round small color="error" @click="follow(person.user.id,'unfollow')">
                  {{$t('unfollow')}}
 
                </v-btn>

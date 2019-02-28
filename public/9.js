@@ -10,6 +10,19 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../posts/ListPosts.vue */ "./resources/js/components/posts/ListPosts.vue");
+/* harmony import */ var _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Suggestpeople.vue */ "./resources/js/components/Suggestpeople.vue");
+/* harmony import */ var _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../topics/Topics.vue */ "./resources/js/components/topics/Topics.vue");
+/* harmony import */ var _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../trend/Trend.vue */ "./resources/js/components/trend/Trend.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -24,9 +37,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ListPosts: _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ListPosts: _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    SuggestedPeople: _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Topics: _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Trend: _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
@@ -97,20 +116,35 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _c("h1", [_vm._v(_vm._s(this.$route.params))]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "text-center" },
-      [
-        _c("h2", [_vm._v("Trend")]),
-        _vm._v(" "),
-        _c("list-posts", { attrs: { posts: _vm.posts } })
-      ],
-      1
-    )
-  ])
+  return _c(
+    "v-container",
+    { attrs: { "grid-list-lg": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { "hidden-sm-and-down": "", row: "", wrap: "" } },
+        [
+          _c("v-flex", { attrs: { md3: "" } }, [_c("suggested-people")], 1),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { md6: "" } },
+            [_c("list-posts", { attrs: { posts: _vm.posts } })],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { md3: "" } },
+            [_c("trend"), _vm._v(" "), _c("br"), _vm._v(" "), _c("topics")],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

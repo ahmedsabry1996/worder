@@ -1,9 +1,9 @@
 <template>
 
 
-    <v-content v-if="perfectUser">
+    <div v-if="perfectUser">
 
-    <div class="jaja" v-if="posts.length == 0">
+    <div class="text-xs-center" v-if="posts.length == 0">
       <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
     </div>
 
@@ -44,21 +44,17 @@
                 <b>
 
                   <p color="white--text ">
-                                  {{ post.post | subsetPost }}
+                      {{ post.post | subsetPost }}
                           </p>
                 </b>
               </router-link>
           </div>
 
-          <div class="post-img text-xs-center" v-if="post.image">
-
+          <div  v-if="post.image">
             <v-img
             :src="`/storage/posts_images/${post.image}`"
-            aspect-ratio="1"
             class="grey lighten-2"
-            position="center center"
-            @click="showPost(post.id)"
-          >
+            @click="showPost(post.id)">
         </v-img>
 
             <!-- <img  alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
@@ -106,11 +102,9 @@
 
         <!-- date of post -->
         <div class="post-date">
-            <p style="opacity:.7;color:blue">
               <b>
               {{ post.created_at | getDateForHumans }}
               </b>
-            </p>
         </div>
 
         <!-- post topic -->
@@ -119,12 +113,12 @@
                 <b>  {{post.topic.topic}}</b>
             </p>
         </div>
-        <hr>
+        <v-divider></v-divider>
   </div>
 
 
   </div>
-</v-content>
+</div>
 </template>
 
 <script>
@@ -161,7 +155,7 @@ export default {
 
 
         showPost(postId){
-          this.$router.push(`post/${postId}`)
+          this.$router.push({ name: 'post', params: { postId: postId } })
         },
 
 

@@ -1,23 +1,39 @@
 <template>
-<div class="container-fluid">
-  <h1>{{this.$route.params}}</h1>
 
+    <v-container grid-list-lg>
+      <v-layout hidden-sm-and-down row wrap>
+        <v-flex md3>
+          <suggested-people></suggested-people>
+        </v-flex>
 
-  <div class="text-center">
-    <h2>Trend</h2>
-    <list-posts :posts="posts"></list-posts>
-  </div>
+        <v-flex md6>
+          <list-posts :posts="posts"></list-posts>
 
-</div>
+        </v-flex>
+
+        <v-flex md3>
+          <trend></trend>
+          <br>
+          <topics></topics>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
 </template>
 
 <script>
 
 import ListPosts from './../posts/ListPosts.vue';
+import SuggestedPeople from './../Suggestpeople.vue';
+import Topics from './../topics/Topics.vue';
+import Trend from './../trend/Trend.vue';
 
 export default {
   components:{
-    ListPosts
+    ListPosts,
+    SuggestedPeople,
+    Topics,
+    Trend
   },
   data(){
     return {

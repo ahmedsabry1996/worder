@@ -423,7 +423,7 @@ export default {
   data(){
       return {
 
-        displayName:this.$route.params.name,
+        displayName:this.$route.params.dName,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         postId:null,
 
@@ -432,15 +432,15 @@ export default {
   watch:{
     '$route'(to,from){
 
-      this.$router.push(`/${to.params.name}`);
-      this.$store.dispatch('showProfile',to.params.name);
+      this.$router.push(`/${to.params.dName}`);
+      this.$store.dispatch('showProfile',to.params.dName);
 
     }
   },
   mounted(){
 
       this.loadMorePosts();
-      console.log(`${this.$route.params.name} show profile`);
+      console.log(`${this.$route.params.dName} show profile`);
 
 
   },
@@ -452,10 +452,10 @@ export default {
       console.log('ok ok');
     })
     .catch((errors)=>{
-      this.$router.push('/');
+      console.log(this.displayName);
     })
 
-    if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
+    if (this.$route.params.dName == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
 
     }

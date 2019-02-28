@@ -1,11 +1,14 @@
 export default{
 
     fillTopicPosts(context,commit,rootState){
-      let currentTopic = commit.topic
-      let id =context.state.topics.indexOf(currentTopic)+1;
+      let currentTopic = commit.topic;
+      let id = context.state.topics.findIndex((val)=>{
+      return val.topic == currentTopic
+});
+
 
     axios.post(`/api/topic/show`,{
-      topic_id:id
+      topic_id:id + 1 
     },{
       headers:{
         Authorization:`Bearer ${localStorage.getItem('access_token')}`

@@ -179,6 +179,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -501,9 +502,9 @@ var render = function() {
                       _c("b", [
                         _c("p", { attrs: { color: "white--text " } }, [
                           _vm._v(
-                            "\n                            " +
+                            "\n                               " +
                               _vm._s(_vm.post.post) +
-                              "\n                    "
+                              "\n                       "
                           )
                         ])
                       ])
@@ -513,27 +514,43 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.post.image
-                ? _c(
-                    "div",
-                    { staticClass: "post-img text-xs-center" },
-                    [
-                      _c("v-img", {
-                        staticClass: "grey lighten-2",
-                        staticStyle: { margin: "0 auto" },
-                        attrs: {
-                          slot: "activator",
-                          src: "/storage/posts_images/" + _vm.post.image,
-                          width: "500",
-                          "aspect-ratio": "1",
-                          position: "center center"
-                        },
-                        slot: "activator"
-                      })
-                    ],
-                    1
-                  )
-                : _vm._e(),
+              _c("v-flex", { attrs: { xs12: "" } }, [
+                _vm.post.image
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "hidden-xs-only post-img text-xs-csenter"
+                      },
+                      [
+                        _c("img", {
+                          attrs: {
+                            width: "500",
+                            src: "/storage/posts_images/" + _vm.post.image,
+                            alt: "post photo"
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.post.image
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "hidden-sm-and-up post-img text-xs-csenter"
+                      },
+                      [
+                        _c("img", {
+                          attrs: {
+                            width: "300",
+                            src: "/storage/posts_images/" + _vm.post.image,
+                            alt: "post photo"
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e()
+              ]),
               _vm._v(" "),
               _vm.post.user.profile.user_id == _vm.currentUserProfile.user_id
                 ? _c("div", { staticClass: "post-react" }, [
@@ -623,9 +640,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n            " +
+                            "\n               " +
                               _vm._s(_vm.post.dislikes_counter.count) +
-                              "\n          "
+                              "\n             "
                           )
                         ]
                       )
@@ -641,7 +658,7 @@ var render = function() {
                             top: "3px"
                           }
                         },
-                        [_vm._v("\n            0\n          ")]
+                        [_vm._v("\n               0\n             ")]
                       ),
                   _vm._v(" "),
                   _vm.post.likes_counter
@@ -657,9 +674,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n\n            " +
+                            "\n\n               " +
                               _vm._s(_vm.post.likes_counter.count) +
-                              "\n\n          "
+                              "\n\n             "
                           )
                         ]
                       )
@@ -673,7 +690,7 @@ var render = function() {
                             cursor: "pointer"
                           }
                         },
-                        [_vm._v("\n\n            0\n          ")]
+                        [_vm._v("\n\n               0\n             ")]
                       )
                 ])
               ]),
@@ -688,11 +705,11 @@ var render = function() {
                   [
                     _c("b", [
                       _vm._v(
-                        "\n            " +
+                        "\n               " +
                           _vm._s(
                             _vm._f("getDateForHumans")(_vm.post.created_at)
                           ) +
-                          "\n\n          "
+                          "\n\n             "
                       )
                     ])
                   ]

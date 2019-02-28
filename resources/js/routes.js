@@ -121,7 +121,7 @@ export const routes = [
     name:"upade-auth-profile"
   },
   {
-    path:"/:name",
+    path:"/:dName",
     component:Showprofile,
     name:"show-profile"
   },

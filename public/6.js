@@ -435,20 +435,20 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   data: function data() {
     return {
-      displayName: this.$route.params.name,
+      displayName: this.$route.params.dName,
       currentUserDisplayName: this.$store.state.authentication.currentUserProfile.display_name,
       postId: null
     };
   },
   watch: {
     '$route': function $route(to, from) {
-      this.$router.push("/".concat(to.params.name));
-      this.$store.dispatch('showProfile', to.params.name);
+      this.$router.push("/".concat(to.params.dName));
+      this.$store.dispatch('showProfile', to.params.dName);
     }
   },
   mounted: function mounted() {
     this.loadMorePosts();
-    console.log("".concat(this.$route.params.name, " show profile"));
+    console.log("".concat(this.$route.params.dName, " show profile"));
   },
   created: function created() {
     var _this = this;
@@ -458,10 +458,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     this.$store.dispatch('showProfile', this.displayName).then(function (response) {
       console.log('ok ok');
     }).catch(function (errors) {
-      _this.$router.push('/');
+      console.log(_this.displayName);
     });
 
-    if (this.$route.params.name == this.$store.state.authentication.currentUserProfile.display_name) {
+    if (this.$route.params.dName == this.$store.state.authentication.currentUserProfile.display_name) {
       this.$store.dispatch('showFans');
     }
   },

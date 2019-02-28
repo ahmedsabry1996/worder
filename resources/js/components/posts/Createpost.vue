@@ -97,15 +97,18 @@
 
     <v-snackbar
       v-model="snackbar"
-      top="top"
+        bottom
       :timeout="1501"
       >
-      {{$t('postdone')}}
+      <b>      {{$t('postdone')}}
+</b>
       <v-btn
         color="success"
         flat
         @click="snackbar = false">
-      <bdi>  {{$t('done')}}</bdi>
+      <bdi>
+        {{$t('done')}}
+      </bdi>
       </v-btn>
 </v-snackbar>
 </v-content>

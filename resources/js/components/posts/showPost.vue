@@ -44,23 +44,24 @@
               </b>
             </router-link>
         </div>
+        <v-flex xs12>
 
-        <div  class="post-img text-xs-center" v-if="post.image">
-
-
-          <v-img
-          style="margin:0 auto"
-          :src="`/storage/posts_images/${post.image}`"
+        <div  class="hidden-xs-only post-img text-xs-csenter" v-if="post.image">
+          <img
           width="500"
-          aspect-ratio="1"
-          class="grey lighten-2"
-          position="center center"
-        slot="activator"
-                >
-      </v-img>
 
+          :src="`/storage/posts_images/${post.image}`"
+ alt="post photo">
         </div>
 
+        <div  class="hidden-sm-and-up post-img text-xs-csenter" v-if="post.image">
+          <img
+          width="300"
+          :src="`/storage/posts_images/${post.image}`"
+ alt="post photo">
+        </div>
+
+      </v-flex>
 
         <div class="post-react" v-if="post.user.profile.user_id == currentUserProfile.user_id">
 

@@ -7,6 +7,33 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-and-down white--text">
+    <v-menu offset-y>
+      <v-text-field flat
+      dark
+      class="mt-2"
+      :placeholder="$t('search')"
+      prepend-icon="search"
+      v-model="keyword"
+      slot="activator"
+
+            ></v-text-field>
+
+
+      <v-list class="ml-2" v-if="results.length > 0">
+        <template v-for="result in results">
+
+          <v-list-tile avatar router :to="`/${result.profile.display_name}`">
+            <v-list-tile-avatar>
+              <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{result.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>{{result.profile.display_name}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-menu>
 
       <notifications left></notifications>
 
@@ -14,10 +41,11 @@
       <v-btn  flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
       </span>
     </v-btn>
-
     </v-toolbar-items>
 
 </v-toolbar>
+
+    </div>
     <!-- <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
     <div class="container-fluid">
 

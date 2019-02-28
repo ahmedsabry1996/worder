@@ -1,21 +1,48 @@
 <template>
-<div class="container-fluid">
 
-  <div class=" text-center" v-if="!noTopicPosts">
-    <h2>{{this.$route.params.topic}}</h2>
-    <list-posts :posts="posts"></list-posts>
-  </div>
+  <v-content>
+    <v-container grid-list-lg>
+      <v-layout hidden-sm-and-down row wrap>
+        <v-flex  md3>
+          <suggested-people></suggested-people>
+        </v-flex>
 
-  <div v-else>
-      <h1>no posts</h1>
-      <h1>come on later</h1>
-  </div>
-</div>
+        <v-flex md6>
+
+          <template v-if="!noTopicPosts">
+
+            <h1 class="white--text display-3 text-xs-center">{{this.$route.params.topic}}</h1>
+            <list-posts :posts="posts"></list-posts>
+
+          </template>
+
+          <template v-else>
+            <div class="text-xs-center white--text">
+
+              <h1>no posts</h1>
+              <h1>come on later</h1>
+            </div>
+          </template>
+        </v-flex>
+
+        <v-flex md3>
+          <trend></trend>
+          <br />
+          <topics></topics>
+        </v-flex>
+
+</v-layout>
+</v-container>
+</v-content>
 </template>
 
 <script>
 
 import ListPosts from '../posts/ListPosts.vue';
+
+import SuggestedPeople from './../Suggestpeople.vue';
+import Topics from './../topics/Topics.vue';
+import Trend from './../trend/Trend.vue';
 
 
 
@@ -42,6 +69,9 @@ export default {
     },
     components:{
       ListPosts,
+      SuggestedPeople,
+      Topics,
+      Trend
     },
     watch:{
       '$route'(to,from){
