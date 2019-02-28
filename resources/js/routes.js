@@ -136,6 +136,8 @@ export const routes = [
     name:"topic",
   },
   {
+
+
     path:"/trend/:trend",
     component:Trend,
     name:"trend"

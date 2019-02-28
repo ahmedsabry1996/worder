@@ -3,15 +3,15 @@
        <template v-for="(person,index) in suggestPeople">
          <v-list-tile
            avatar
-           router
-           :to="`/${person.display_name}`"
           >
            <v-list-tile-avatar>
              <img
-             :src="`/storage/avatars/${person.avatar}`" :alt="`${person.display_name}`">
+             @click="ShowProfile(person.display_name)"
+              :src="`/storage/avatars/${person.avatar}`"
+              :alt="`${person.display_name}`">
            </v-list-tile-avatar>
 
-           <v-list-tile-content>
+           <v-list-tile-content  @click="ShowProfile(person.display_name)">
              <v-list-tile-title v-html="person.user.name"></v-list-tile-title>
              <v-list-tile-sub-title v-html="person.display_name"></v-list-tile-sub-title>
            </v-list-tile-content>
