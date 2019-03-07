@@ -138,7 +138,7 @@ export const routes = [
   {
 
 
-    path:"/trend/:trend",
+    path:"/trend/show/",
     component:Trend,
     name:"trend"
   }

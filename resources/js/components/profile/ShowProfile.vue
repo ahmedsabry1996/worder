@@ -1,113 +1,134 @@
 <template>
+
+  <v-container grid-list-md>
+  </v-content>
+  <v-layout row wrap>
+      <v-flex xs12 md4 offset-md4>
+
+        <v-card dark width="320">
+          <v-img
+          :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
+          height="200" >
+    </v-img>
+
+
+          <v-card-title primary-title>
+            <h1>{{showProfile.name}}</h1>
+          </v-card-title>
+
+          <div class="text-xs-center">
+            <h2>{{showProfile.profile.display_name}}</h2>
+          </div>
+
+          <div class="text-xs-center">
+              <h3>
+                <bdi>
+                {{$t('from')}} : <b>{{countries [showProfile.profile.country_id-1]}}</b>
+              </bdi>
+              </h3>
+          </div>
+
+          <div class="text-xs-center">
+              <h4>
+                <bdi>
+                {{$t('about')}}: {{showProfile.profile.description}}
+            </bdi>
+              </h4>
+          </div>
+
+          <div class="text-xs-center mt-2" v-if="currentUserProfile.user_id != showProfile.profile.user_id ">
+            <p>
+            <bdi>
+                <b>{{followersNum}}</b>
+                {{$t('followers')}}
+              </bdi>
+            </p>
+          <p>
+              <bdi>
+                <b>{{followingNum}}</b>
+                {{$t('following')}}
+              </bdi>
+          </p>
+          </div>
+        <div v-else class="text-xs-center">
+          <p>
+          <bdi>
+              <b>{{myFollowersNum}}</b>
+              {{$t('followers')}}
+            </bdi>
+          </p>
+          <p>
+            <bdi>
+              <b>{{myFollowingNum}}</b>
+              {{$t('following')}}
+            </bdi>
+          </p>
+        </div>
+
+        <div class="text-xs-center"
+         v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
+          <template v-if="isFollow">
+            <v-btn round small class="error white--text" @click="follow(showProfile.id,'unfollow')">
+                {{$t('unfollow')}}
+            </v-btn>
+          </template>
+          <template v-else>
+            <v-btn round small class="success white--text" @click="follow(showProfile.id,'follow')">
+              {{$t('follow')}}
+      </v-btn>
+          </template>
+        </div>
+
+
+
+          <div class="text-xs-center" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
+              <v-btn round small class="success white--text" data-toggle="modal" @click="fans" >
+                  <b>{{$t('fans')}}</b>
+              </v-btn>
+              <v-btn round small class="warning black--text" @click="updateProfile">
+                  <b >{{$t('editprofile')}}</b>
+              </v-btn>
+              </button>
+              <v-btn round small class="error white--text" @click="updateAuthData">
+                  <b> {{$t('editauth')}}</b>
+              </v-btn>
+          </div>
+
+          <div class="text-xs-center">
+            <template v-for="topic in showProfile.topics">
+
+            <v-btn round small class="primary white--text">
+                  {{topic.topic}}
+            </v-btn>
+          </template>
+         </div>
+        </v-card>
+      </v-flex>
+
   <div class="container" v-if="showProfile.profile">
-    <h4>{{isFollow}}</h4>
       <div class="row">
-      <div class="col-md-6 pc">
-        <div class="card">
-            <img  :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
-            style="width:100%">
-
-      <p  v-if="showProfile.profile.is_verified == 1"
-            class="text-success" style="font-size:20pt;">
-            <b>
-              <font-awesome-icon v-popover:tooltip.top="'verified user'" :icon= "['fas','award']"/>
-            </b>
-      </p>
-
-
-        <h2>{{showProfile.name}}</h2>
-
-  <p class="title">{{showProfile.profile.display_name}}</p>
-  <p>
-    <bdi>
-      {{$t('from')}} : <b>{{countries [showProfile.profile.country_id-1]}}</b>
-    </bdi>
-  </p>
-  <p style="color:#000;">
-    <bdi>
-    {{$t('about')}}: {{showProfile.profile.description}}
-</bdi>
-  </p>
-  <div class="num-of-followers" v-if="currentUserProfile.user_id != showProfile.profile.user_id ">
-    <p>
-    <bdi>
-        <b>{{followersNum}}</b>
-        {{$t('followers')}}
-      </bdi>
-    </p>
-  <p>
-      <bdi>
-        <b>{{followingNum}}</b>
-        {{$t('following')}}
-      </bdi>
-  </p>
-  </div>
-<div v-else>
-  <p>
-  <bdi>
-      <b>{{myFollowersNum}}</b>
-      {{$t('followers')}}
-    </bdi>
-  </p>
-  <p>
-    <bdi>
-      <b>{{myFollowingNum}}</b>
-      {{$t('following')}}
-    </bdi>
-  </p>
-</div>
-
-  <div class="text-center" v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-    <template v-if="isFollow">
-      <button type="button" class="btn btn-danger " @click="follow(showProfile.id,'unfollow')">
-          {{$t('unfollow')}}
-      </button>
-    </template>
-    <template v-else>
-      <button type="button" class="btn btn-success" @click="follow(showProfile.id,'follow')">
-        {{$t('follow')}}
-</button>
-    </template>
-  </div>
-  <div class="text-center" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
-      <button class="btn btn-success" data-toggle="modal" @click="fans" >
-          <b style="color:#fff;text-transform:uppercase" >{{$t('fans')}}</b>
-      </button>
-      <button class="btn btn-warning" @click="updateProfile">
-          <b style="color:#000;text-transform:uppercase">{{$t('editprofile')}}</b>
-      </button>
-      </button>
-      <button class="btn btn-danger" @click="updateAuthData">
-          <b style="color:#000;text-transform:uppercase"> {{$t('editauth')}}</b>
-      </button>
-  </div>
-  <div class="text-center">
-    <button type="button" style="cursor:default;margin:10px" class="topic" v-for="topic in showProfile.topics">
-          {{topic.topic}}
-    </button>
- </div>
-
-</div>
-<div>
-
-<ad></ad>
-
-</div>
-</div>
-
-<div class="col-md-6 text-center">
+<div class="text-xs-center">
 
 <template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-      <div class="post" v-for="(post,index) in posts">
+      <div class="post text-xs-center" v-for="(post,index) in posts">
           <div class="avatar">
-                  <img  :src="`/storage/avatars/${showProfile.profile.avatar}`" width='60' height="60" :alt="post.user_id" class="img-circle">
+
+            <v-avatar
+              size="55"
+              class="#005f5b">
+              <img
+              @click="ShowProfile(post.user.profile.display_name)"
+              :src="`/storage/avatars/${showProfile.profile.avatar}`"
+              :alt="showProfile.profile.display_name">
+            </v-avatar>
+
           </div>
-          <div class="post-publisher">
-              <h5>by <b>{{showProfile.profile.display_name}}</b></h5>
+          <div class="post-publisher mt-2">
+              <h5 class="white--text">by <b>{{showProfile.profile.display_name}}</b></h5>
           </div>
           <div class="post-content">
               <p style="font-size:33px;overflow-wrap:break-word;">
-                <b>
+                <b class="white--text">
                   <bdi>
                     "
                     {{post.post}}
@@ -117,9 +138,17 @@
               </p>
           </div>
 
-                                                <div class="post-img" v-if="post.image">
-                                                  <img :src="`/storage/posts_images/${post.image}`" alt="img" width="200" height="200" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
-                                                </div>
+          <div  v-if="post.image">
+            <v-img
+            style="margin:0 auto"
+            width="320"
+            :src="`/storage/posts_images/${post.image}`"
+            class="grey lighten-2">
+        </v-img>
+
+          </div>
+
+
           <div class="delete-post">
 
           </div>
@@ -128,12 +157,12 @@
 
           <p class="text-center" v-if="likedPosts.indexOf(post.id) == -1 && disLikedPosts.indexOf(post.id) == -1" >
 
-            <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+            <span style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;cursor:pointer;top:3px">
               <font-awesome-icon
               :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id,index)"/>
             </span>
 
-            <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+            <span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
               <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
@@ -144,7 +173,7 @@
               :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id,index)"/>
             </span>
 
-            <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+            <span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
               <font-awesome-icon  :icon="['fas','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
@@ -155,7 +184,7 @@
               :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)"@click="postReact('dislike',post.id,index)"/>
             </span>
 
-            <span style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+            <span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
               <font-awesome-icon :icon="['far','thumbs-up']" @click="postReact('like',post.id,index)"/></span>
 
           </p>
@@ -165,22 +194,22 @@
                     <div class="post-react-number">
                       <p class="text-center">
 
-                        <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;">
+                        <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
                           {{ post.dislikes_counter.count  }}
                         </span>
 
-                        <span v-else style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+                        <span v-else style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;top:3px">
                             0
                           </span>
 
 
-                        <span v-if="post.likes_counter" style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+                        <span v-if="post.likes_counter" style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
 
                           {{post.likes_counter.count }}
 
                     </span>
 
-                        <span v-else style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+                        <span v-else style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
 
                               0
                         </span>
@@ -190,7 +219,7 @@
                     </div>
 
           <div class="post-date">
-              <p style="opacity:.7;color:blue">
+              <p style="color:white">
 
                 <b>
                 {{ post.created_at | getDateForHumans }}
@@ -200,7 +229,7 @@
               </p>
           </div>
           <div class="post-topic">
-              <p class="text-primary" style="opacity:.8">
+              <p class="white--text" style="opacity:.8">
                   <b>  {{post.topic.topic}}</b>
               </p>
           </div>
@@ -212,44 +241,58 @@
 <!-- MY PROFILE -->
 <template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
 
-  <div class="text-center post" v-for="(post,index) in posts" >
-    <div class="row">
+  <div class="text-xs-center post" v-for="(post,index) in posts" >
 
     <div class="avatar">
-      <img :src="`/storage/avatars/${userProfile.avatar}`" class="img-circle" width="50" height="50">
+      <v-avatar
+        size="55"
+        class="#005f5b">
+        <img
+        @click="ShowProfile(post.user.profile.display_name)"
+        :src="`/storage/avatars/${userProfile.avatar}`"
+        :alt="showProfile.profile.display_name">
+      </v-avatar>
+
     </div>
-    <div class="post-content">
-  <p style="white-space:pre-line;font-weight: bold;" class="text-center">
+    <div class="post-content mt-3">
+  <p style="white-space:pre-line;font-weight: bold;" class="white--text">
   <bdi>  " {{post.post}} "
   </bdi>
   </p>
     </div>
 
-                  <div class="post-img" v-if="post.image">
-                    <img :src="`/storage/posts_images/${post.image}`" alt="img" width="200" height="200" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
-                  </div>
-    <div class="post-time" style="opacity:.6">
+              <div  v-if="post.image">
+                <v-img
+                style="margin:0 auto"
+                width="320"
+                :src="`/storage/posts_images/${post.image}`"
+                class="grey lighten-2">
+            </v-img>
+
+              </div>
+
+    <div class="post-time white--text">
       {{post.created_at | getDateForHumans}}
     </div>
-    <div class="post-topic">
-      <i style="opacity:.6">{{topics [post.topic_id - 1]}}</i>
+    <div class="post-topic white--text">
+        <i style="">{{topics [post.topic_id - 1]['topic']}}</i>
     </div>
 
     <div class="post-react" v-if="post.user.profile.user_id == currentUserProfile.user_id">
 
     <p class="text-center">
 
-      <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px" @click="showDisLikers(post.id)">
+      <span style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;cursor:pointer;top:3px" @click="showDisLikers(post.id)">
         <font-awesome-icon
-        :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" />
+        :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)" />
 
       </span>
-      <span style="cursor:pointer;font-size:15pt;color:#AB1600;width:10px;margin:0 auto" @click="deletePost(post.id,index)">
+      <span style="cursor:pointer;font-size:15pt;color:#fff;width:10px;margin:0 auto" @click="deletePost(post.id,index)">
          <font-awesome-icon :icon="['fas', 'trash-alt']" />
       </span>
 
-      <span  @click="showLikers(post.id)" style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-        <font-awesome-icon :icon="['far','thumbs-up']" /></span>
+      <span  @click="showLikers(post.id)" style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
+        <font-awesome-icon :icon="['fas','thumbs-up']" /></span>
 
     </p>
     <div class="post-react-number">
@@ -280,7 +323,6 @@
     </div>
   </div>
 
-  </div>
 
   <hr>
   </div>
@@ -394,6 +436,9 @@
 
 </div>
 
+</v-content>
+  </v-layout>
+</v-container>
 
 </template>
 

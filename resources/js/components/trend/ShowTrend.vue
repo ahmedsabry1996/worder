@@ -2,13 +2,20 @@
 
     <v-container grid-list-lg>
       <v-layout hidden-sm-and-down row wrap>
+        <v-flex xs12>
+          <h1 class="white--text text-xs-center">
+            <bdi>
+              {{this.$route.query.trend}}
+
+            </bdi>
+          </h1>
+        </v-flex>
         <v-flex md3>
           <suggested-people></suggested-people>
         </v-flex>
 
         <v-flex md6>
           <list-posts :posts="posts"></list-posts>
-
         </v-flex>
 
         <v-flex md3>
@@ -62,7 +69,7 @@ export default {
   },
   methods:{
     getTrendPosts(){
-      this.$store.dispatch('showTrendPosts',{word:this.$route.params.trend});
+      this.$store.dispatch('showTrendPosts',{word:this.$route.query.trend});
     },
     loadMore(){
 
@@ -87,7 +94,7 @@ export default {
 
         this.offset +=100;
         this.$store.dispatch('loadMoreTrendPosts',{offset:this.offset,
-                                                  word:this.$route.params.trend})
+                                                  word:this.$route.query.trend})
     }
 
   }

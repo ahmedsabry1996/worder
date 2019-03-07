@@ -561,7 +561,7 @@ var render = function() {
                           staticStyle: {
                             position: "relative",
                             "font-size": "20pt",
-                            color: "#EA003A",
+                            color: "#FF004F",
                             margin: "auto 14px",
                             cursor: "pointer",
                             top: "3px"
@@ -579,7 +579,7 @@ var render = function() {
                         [
                           _c("font-awesome-icon", {
                             staticStyle: { transform: "scalex(-1)" },
-                            attrs: { icon: ["far", "thumbs-down"] }
+                            attrs: { icon: ["fas", "thumbs-down"] }
                           })
                         ],
                         1
@@ -590,7 +590,7 @@ var render = function() {
                         {
                           staticStyle: {
                             "font-size": "20pt",
-                            color: "#192FDD",
+                            color: "#18DEFF",
                             margin: "auto 14px",
                             cursor: "pointer"
                           },
@@ -606,7 +606,7 @@ var render = function() {
                         },
                         [
                           _c("font-awesome-icon", {
-                            attrs: { icon: ["far", "thumbs-up"] }
+                            attrs: { icon: ["fas", "thumbs-up"] }
                           })
                         ],
                         1
@@ -633,7 +633,7 @@ var render = function() {
                           staticStyle: {
                             position: "relative",
                             "font-size": "10pt",
-                            color: "#EA003A",
+                            color: "#fff",
                             margin: "auto 14px",
                             cursor: "pointer"
                           }
@@ -652,7 +652,7 @@ var render = function() {
                           staticStyle: {
                             position: "relative",
                             "font-size": "10pt",
-                            color: "#EA003A",
+                            color: "#fff",
                             margin: "auto 14px",
                             cursor: "pointer",
                             top: "3px"
@@ -667,7 +667,7 @@ var render = function() {
                         {
                           staticStyle: {
                             "font-size": "10pt",
-                            color: "#192FDD",
+                            color: "#fff",
                             margin: "auto 14px",
                             cursor: "pointer"
                           }
@@ -685,7 +685,7 @@ var render = function() {
                         {
                           staticStyle: {
                             "font-size": "10pt",
-                            color: "#192FDD",
+                            color: "#fff",
                             margin: "auto 14px",
                             cursor: "pointer"
                           }
@@ -696,24 +696,17 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "post-date" }, [
-                _c(
-                  "p",
-                  {
-                    staticClass: "white--text",
-                    staticStyle: { opacity: ".7" }
-                  },
-                  [
-                    _c("b", [
-                      _vm._v(
-                        "\n               " +
-                          _vm._s(
-                            _vm._f("getDateForHumans")(_vm.post.created_at)
-                          ) +
-                          "\n\n             "
-                      )
-                    ])
-                  ]
-                )
+                _c("p", { staticClass: "white--text" }, [
+                  _c("b", [
+                    _vm._v(
+                      "\n               " +
+                        _vm._s(
+                          _vm._f("getDateForHumans")(_vm.post.created_at)
+                        ) +
+                        "\n\n             "
+                    )
+                  ])
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "post-topic" }, [

@@ -67,14 +67,14 @@
 
           <p class="text-center">
 
-            <span data-toggle="modal" data-target="#dislikers" style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px" @click="showDisLikers(post.id)">
+            <span data-toggle="modal" data-target="#dislikers" style="position:relative;font-size:20pt ;color:#FF004F;margin: auto 14px;cursor:pointer;top:3px" @click="showDisLikers(post.id)">
               <font-awesome-icon
-              :icon= "['far','thumbs-down']"  style="transform:scalex(-1)" />
+              :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)" />
 
             </span>
 
-            <span data-toggle="modal" data-target="#likers"  @click="showLikers(post.id)" style="font-size:20pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
-              <font-awesome-icon :icon="['far','thumbs-up']" /></span>
+            <span data-toggle="modal" data-target="#likers"  @click="showLikers(post.id)" style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
+              <font-awesome-icon :icon="['fas','thumbs-up']" /></span>
 
             </p>
           </div>
@@ -85,22 +85,22 @@
           <div class="post-react-number">
             <p class="text-center">
 
-              <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;">
+              <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
                 {{ post.dislikes_counter.count  }}
               </span>
 
-              <span v-else style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+              <span v-else style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;top:3px">
                 0
               </span>
 
 
-              <span v-if="post.likes_counter" style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+              <span v-if="post.likes_counter" style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
 
                 {{post.likes_counter.count }}
 
               </span>
 
-              <span v-else style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+              <span v-else style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
 
                 0
               </span>
@@ -109,7 +109,7 @@
 
           </div>
           <div class="post-date">
-            <p style="opacity:.7;" class="white--text">
+            <p  class="white--text">
 
               <b>
                 {{ post.created_at | getDateForHumans }}

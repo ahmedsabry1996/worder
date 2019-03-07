@@ -414,6 +414,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -744,1314 +789,1517 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.showProfile.profile
-    ? _c(
-        "div",
-        { staticClass: "container" },
+  return _c(
+    "v-container",
+    { attrs: { "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
         [
-          _c("h4", [_vm._v(_vm._s(_vm.isFollow))]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-6 pc" }, [
-              _c("div", { staticClass: "card" }, [
-                _c("img", {
-                  staticStyle: { width: "100%" },
-                  attrs: {
-                    src: "/storage/avatars/" + _vm.showProfile.profile.avatar,
-                    alt: _vm.showProfile.profile.display_name
-                  }
-                }),
-                _vm._v(" "),
-                _vm.showProfile.profile.is_verified == 1
-                  ? _c(
-                      "p",
-                      {
-                        staticClass: "text-success",
-                        staticStyle: { "font-size": "20pt" }
-                      },
-                      [
-                        _c(
-                          "b",
-                          [
-                            _c("font-awesome-icon", {
-                              directives: [
-                                {
-                                  name: "popover",
-                                  rawName: "v-popover:tooltip.top",
-                                  value: "verified user",
-                                  expression: "'verified user'",
-                                  arg: "tooltip",
-                                  modifiers: { top: true }
-                                }
-                              ],
-                              attrs: { icon: ["fas", "award"] }
-                            })
-                          ],
-                          1
-                        )
-                      ]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("h2", [_vm._v(_vm._s(_vm.showProfile.name))]),
-                _vm._v(" "),
-                _c("p", { staticClass: "title" }, [
-                  _vm._v(_vm._s(_vm.showProfile.profile.display_name))
-                ]),
-                _vm._v(" "),
-                _c("p", [
-                  _c("bdi", [
-                    _vm._v("\n      " + _vm._s(_vm.$t("from")) + " : "),
-                    _c("b", [
-                      _vm._v(
-                        _vm._s(
-                          _vm.countries[_vm.showProfile.profile.country_id - 1]
-                        )
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("p", { staticStyle: { color: "#000" } }, [
-                  _c("bdi", [
-                    _vm._v(
-                      "\n    " +
-                        _vm._s(_vm.$t("about")) +
-                        ": " +
-                        _vm._s(_vm.showProfile.profile.description) +
-                        "\n"
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm.currentUserProfile.user_id !=
-                _vm.showProfile.profile.user_id
-                  ? _c("div", { staticClass: "num-of-followers" }, [
-                      _c("p", [
-                        _c("bdi", [
-                          _c("b", [_vm._v(_vm._s(_vm.followersNum))]),
-                          _vm._v(
-                            "\n        " +
-                              _vm._s(_vm.$t("followers")) +
-                              "\n      "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _c("bdi", [
-                          _c("b", [_vm._v(_vm._s(_vm.followingNum))]),
-                          _vm._v(
-                            "\n        " +
-                              _vm._s(_vm.$t("following")) +
-                              "\n      "
-                          )
-                        ])
-                      ])
-                    ])
-                  : _c("div", [
-                      _c("p", [
-                        _c("bdi", [
-                          _c("b", [_vm._v(_vm._s(_vm.myFollowersNum))]),
-                          _vm._v(
-                            "\n      " + _vm._s(_vm.$t("followers")) + "\n    "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _c("bdi", [
-                          _c("b", [_vm._v(_vm._s(_vm.myFollowingNum))]),
-                          _vm._v(
-                            "\n      " + _vm._s(_vm.$t("following")) + "\n    "
-                          )
-                        ])
-                      ])
-                    ]),
-                _vm._v(" "),
-                _vm.currentUserProfile.user_id !==
-                _vm.showProfile.profile.user_id
-                  ? _c(
-                      "div",
-                      { staticClass: "text-center" },
-                      [
-                        _vm.isFollow
-                          ? [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger ",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.follow(
-                                        _vm.showProfile.id,
-                                        "unfollow"
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n          " +
-                                      _vm._s(_vm.$t("unfollow")) +
-                                      "\n      "
-                                  )
-                                ]
-                              )
-                            ]
-                          : [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-success",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.follow(
-                                        _vm.showProfile.id,
-                                        "follow"
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n        " +
-                                      _vm._s(_vm.$t("follow")) +
-                                      "\n"
-                                  )
-                                ]
-                              )
-                            ]
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.currentUserProfile.user_id ==
-                _vm.showProfile.profile.user_id
-                  ? _c("div", { staticClass: "text-center" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          attrs: { "data-toggle": "modal" },
-                          on: { click: _vm.fans }
-                        },
-                        [
-                          _c(
-                            "b",
-                            {
-                              staticStyle: {
-                                color: "#fff",
-                                "text-transform": "uppercase"
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.$t("fans")))]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning",
-                          on: { click: _vm.updateProfile }
-                        },
-                        [
-                          _c(
-                            "b",
-                            {
-                              staticStyle: {
-                                color: "#000",
-                                "text-transform": "uppercase"
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.$t("editprofile")))]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          on: { click: _vm.updateAuthData }
-                        },
-                        [
-                          _c(
-                            "b",
-                            {
-                              staticStyle: {
-                                color: "#000",
-                                "text-transform": "uppercase"
-                              }
-                            },
-                            [_vm._v(" " + _vm._s(_vm.$t("editauth")))]
-                          )
-                        ]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "text-center" },
-                  _vm._l(_vm.showProfile.topics, function(topic) {
-                    return _c(
-                      "button",
-                      {
-                        staticClass: "topic",
-                        staticStyle: { cursor: "default", margin: "10px" },
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("\n          " + _vm._s(topic.topic) + "\n    ")]
-                    )
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", md4: "", "offset-md4": "" } },
+            [
+              _c(
+                "v-card",
+                { attrs: { dark: "", width: "320" } },
+                [
+                  _c("v-img", {
+                    attrs: {
+                      src: "/storage/avatars/" + _vm.showProfile.profile.avatar,
+                      alt: _vm.showProfile.profile.display_name,
+                      height: "200"
+                    }
                   }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", [_c("ad")], 1)
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-6 text-center" },
-              [
-                _vm.currentUserProfile.user_id !==
-                _vm.showProfile.profile.user_id
-                  ? _vm._l(_vm.posts, function(post, index) {
-                      return _c("div", { staticClass: "post" }, [
-                        _c("div", { staticClass: "avatar" }, [
-                          _c("img", {
-                            staticClass: "img-circle",
-                            attrs: {
-                              src:
-                                "/storage/avatars/" +
-                                _vm.showProfile.profile.avatar,
-                              width: "60",
-                              height: "60",
-                              alt: post.user_id
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-publisher" }, [
-                          _c("h5", [
-                            _vm._v("by "),
-                            _c("b", [
-                              _vm._v(
-                                _vm._s(_vm.showProfile.profile.display_name)
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-content" }, [
-                          _c(
-                            "p",
-                            {
-                              staticStyle: {
-                                "font-size": "33px",
-                                "overflow-wrap": "break-word"
-                              }
-                            },
-                            [
-                              _c("b", [
-                                _c("bdi", [
-                                  _vm._v(
-                                    '\n                    "\n                    ' +
-                                      _vm._s(post.post) +
-                                      '\n                    "\n                  '
-                                  )
-                                ])
-                              ])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        post.image
-                          ? _c("div", { staticClass: "post-img" }, [
-                              _c("img", {
-                                staticClass: "img-rounded",
-                                staticStyle: {
-                                  "box-shadow": "0px 4px 7px  #000",
-                                  margin: "10px"
-                                },
-                                attrs: {
-                                  src: "/storage/posts_images/" + post.image,
-                                  alt: "img",
-                                  width: "200",
-                                  height: "200"
-                                }
-                              })
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "delete-post" }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-react" }, [
-                          _vm.likedPosts.indexOf(post.id) == -1 &&
-                          _vm.disLikedPosts.indexOf(post.id) == -1
-                            ? _c("p", { staticClass: "text-center" }, [
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      position: "relative",
-                                      "font-size": "20pt",
-                                      color: "#EA003A",
-                                      margin: "auto 14px",
-                                      cursor: "pointer",
-                                      top: "3px"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      staticStyle: { transform: "scalex(-1)" },
-                                      attrs: { icon: ["far", "thumbs-down"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "dislike",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      "font-size": "20pt",
-                                      color: "#192FDD",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      attrs: { icon: ["far", "thumbs-up"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "like",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.likedPosts.indexOf(post.id) !== -1 &&
-                          _vm.disLikedPosts.indexOf(post.id) == -1
-                            ? _c("p", { staticClass: "text-center" }, [
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      position: "relative",
-                                      "font-size": "20pt",
-                                      color: "#EA003A",
-                                      margin: "auto 14px",
-                                      cursor: "pointer",
-                                      top: "3px"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      staticStyle: { transform: "scalex(-1)" },
-                                      attrs: { icon: ["far", "thumbs-down"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "dislike",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      "font-size": "20pt",
-                                      color: "#192FDD",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      attrs: { icon: ["fas", "thumbs-up"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "like",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.likedPosts.indexOf(post.id) == -1 &&
-                          _vm.disLikedPosts.indexOf(post.id) !== -1
-                            ? _c("p", { staticClass: "text-center" }, [
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      position: "relative",
-                                      "font-size": "20pt",
-                                      color: "#EA003A",
-                                      margin: "auto 14px",
-                                      cursor: "pointer",
-                                      top: "3px"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      staticStyle: { transform: "scalex(-1)" },
-                                      attrs: { icon: ["fas", "thumbs-down"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "dislike",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      "font-size": "20pt",
-                                      color: "#192FDD",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _c("font-awesome-icon", {
-                                      attrs: { icon: ["far", "thumbs-up"] },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.postReact(
-                                            "like",
-                                            post.id,
-                                            index
-                                          )
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ])
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-react-number" }, [
-                          _c("p", { staticClass: "text-center" }, [
-                            post.dislikes_counter
-                              ? _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      position: "relative",
-                                      "font-size": "10pt",
-                                      color: "#EA003A",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                          " +
-                                        _vm._s(post.dislikes_counter.count) +
-                                        "\n                        "
-                                    )
-                                  ]
-                                )
-                              : _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      position: "relative",
-                                      "font-size": "10pt",
-                                      color: "#EA003A",
-                                      margin: "auto 14px",
-                                      cursor: "pointer",
-                                      top: "3px"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                            0\n                          "
-                                    )
-                                  ]
-                                ),
-                            _vm._v(" "),
-                            post.likes_counter
-                              ? _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      "font-size": "10pt",
-                                      color: "#192FDD",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n\n                          " +
-                                        _vm._s(post.likes_counter.count) +
-                                        "\n\n                    "
-                                    )
-                                  ]
-                                )
-                              : _c(
-                                  "span",
-                                  {
-                                    staticStyle: {
-                                      "font-size": "10pt",
-                                      color: "#192FDD",
-                                      margin: "auto 14px",
-                                      cursor: "pointer"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n\n                              0\n                        "
-                                    )
-                                  ]
-                                )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-date" }, [
-                          _c(
-                            "p",
-                            { staticStyle: { opacity: ".7", color: "blue" } },
-                            [
-                              _c("b", [
-                                _vm._v(
-                                  "\n                " +
-                                    _vm._s(
-                                      _vm._f("getDateForHumans")(
-                                        post.created_at
-                                      )
-                                    ) +
-                                    "\n\n                "
-                                )
-                              ])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post-topic" }, [
-                          _c(
-                            "p",
-                            {
-                              staticClass: "text-primary",
-                              staticStyle: { opacity: ".8" }
-                            },
-                            [_c("b", [_vm._v("  " + _vm._s(post.topic.topic))])]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("hr")
-                      ])
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.currentUserProfile.user_id ==
-                _vm.showProfile.profile.user_id
-                  ? _vm._l(_vm.posts, function(post, index) {
-                      return _c("div", { staticClass: "text-center post" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "avatar" }, [
-                            _c("img", {
-                              staticClass: "img-circle",
-                              attrs: {
-                                src:
-                                  "/storage/avatars/" + _vm.userProfile.avatar,
-                                width: "50",
-                                height: "50"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "post-content" }, [
-                            _c(
-                              "p",
-                              {
-                                staticClass: "text-center",
-                                staticStyle: {
-                                  "white-space": "pre-line",
-                                  "font-weight": "bold"
-                                }
-                              },
-                              [
-                                _c("bdi", [
-                                  _vm._v('  " ' + _vm._s(post.post) + ' "\n  ')
-                                ])
+                  _vm._v(" "),
+                  _c("v-card-title", { attrs: { "primary-title": "" } }, [
+                    _c("h1", [_vm._v(_vm._s(_vm.showProfile.name))])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-xs-center" }, [
+                    _c("h2", [
+                      _vm._v(_vm._s(_vm.showProfile.profile.display_name))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-xs-center" }, [
+                    _c("h3", [
+                      _c("bdi", [
+                        _vm._v(
+                          "\n                " + _vm._s(_vm.$t("from")) + " : "
+                        ),
+                        _c("b", [
+                          _vm._v(
+                            _vm._s(
+                              _vm.countries[
+                                _vm.showProfile.profile.country_id - 1
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          post.image
-                            ? _c("div", { staticClass: "post-img" }, [
-                                _c("img", {
-                                  staticClass: "img-rounded",
-                                  staticStyle: {
-                                    "box-shadow": "0px 4px 7px  #000",
-                                    margin: "10px"
+                          )
+                        ])
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-xs-center" }, [
+                    _c("h4", [
+                      _c("bdi", [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.$t("about")) +
+                            ": " +
+                            _vm._s(_vm.showProfile.profile.description) +
+                            "\n            "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.currentUserProfile.user_id !=
+                  _vm.showProfile.profile.user_id
+                    ? _c("div", { staticClass: "text-xs-center mt-2" }, [
+                        _c("p", [
+                          _c("bdi", [
+                            _c("b", [_vm._v(_vm._s(_vm.followersNum))]),
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.$t("followers")) +
+                                "\n              "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _c("bdi", [
+                            _c("b", [_vm._v(_vm._s(_vm.followingNum))]),
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.$t("following")) +
+                                "\n              "
+                            )
+                          ])
+                        ])
+                      ])
+                    : _c("div", { staticClass: "text-xs-center" }, [
+                        _c("p", [
+                          _c("bdi", [
+                            _c("b", [_vm._v(_vm._s(_vm.myFollowersNum))]),
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.$t("followers")) +
+                                "\n            "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [
+                          _c("bdi", [
+                            _c("b", [_vm._v(_vm._s(_vm.myFollowingNum))]),
+                            _vm._v(
+                              "\n              " +
+                                _vm._s(_vm.$t("following")) +
+                                "\n            "
+                            )
+                          ])
+                        ])
+                      ]),
+                  _vm._v(" "),
+                  _vm.currentUserProfile.user_id !==
+                  _vm.showProfile.profile.user_id
+                    ? _c(
+                        "div",
+                        { staticClass: "text-xs-center" },
+                        [
+                          _vm.isFollow
+                            ? [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "error white--text",
+                                    attrs: { round: "", small: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.follow(
+                                          _vm.showProfile.id,
+                                          "unfollow"
+                                        )
+                                      }
+                                    }
                                   },
-                                  attrs: {
-                                    src: "/storage/posts_images/" + post.image,
-                                    alt: "img",
-                                    width: "200",
-                                    height: "200"
-                                  }
-                                })
-                              ])
-                            : _vm._e(),
+                                  [
+                                    _vm._v(
+                                      "\n                " +
+                                        _vm._s(_vm.$t("unfollow")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            : [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "success white--text",
+                                    attrs: { round: "", small: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.follow(
+                                          _vm.showProfile.id,
+                                          "follow"
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.$t("follow")) +
+                                        "\n      "
+                                    )
+                                  ]
+                                )
+                              ]
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.currentUserProfile.user_id ==
+                  _vm.showProfile.profile.user_id
+                    ? _c(
+                        "div",
+                        { staticClass: "text-xs-center" },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "success white--text",
+                              attrs: {
+                                round: "",
+                                small: "",
+                                "data-toggle": "modal"
+                              },
+                              on: { click: _vm.fans }
+                            },
+                            [_c("b", [_vm._v(_vm._s(_vm.$t("fans")))])]
+                          ),
                           _vm._v(" "),
                           _c(
-                            "div",
+                            "v-btn",
                             {
-                              staticClass: "post-time",
-                              staticStyle: { opacity: ".6" }
+                              staticClass: "warning black--text",
+                              attrs: { round: "", small: "" },
+                              on: { click: _vm.updateProfile }
+                            },
+                            [_c("b", [_vm._v(_vm._s(_vm.$t("editprofile")))])]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "error white--text",
+                              attrs: { round: "", small: "" },
+                              on: { click: _vm.updateAuthData }
+                            },
+                            [
+                              _c("b", [
+                                _vm._v(" " + _vm._s(_vm.$t("editauth")))
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-xs-center" },
+                    [
+                      _vm._l(_vm.showProfile.topics, function(topic) {
+                        return [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "primary white--text",
+                              attrs: { round: "", small: "" }
                             },
                             [
                               _vm._v(
-                                "\n      " +
-                                  _vm._s(
-                                    _vm._f("getDateForHumans")(post.created_at)
-                                  ) +
-                                  "\n    "
+                                "\n                  " +
+                                  _vm._s(topic.topic) +
+                                  "\n            "
                               )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "post-topic" }, [
-                            _c("i", { staticStyle: { opacity: ".6" } }, [
-                              _vm._v(_vm._s(_vm.topics[post.topic_id - 1]))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          post.user.profile.user_id ==
-                          _vm.currentUserProfile.user_id
-                            ? _c("div", { staticClass: "post-react" }, [
-                                _c("p", { staticClass: "text-center" }, [
-                                  _c(
-                                    "span",
-                                    {
-                                      staticStyle: {
-                                        position: "relative",
-                                        "font-size": "20pt",
-                                        color: "#EA003A",
-                                        margin: "auto 14px",
-                                        cursor: "pointer",
-                                        top: "3px"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.showDisLikers(post.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("font-awesome-icon", {
-                                        staticStyle: {
-                                          transform: "scalex(-1)"
-                                        },
-                                        attrs: { icon: ["far", "thumbs-down"] }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticStyle: {
-                                        cursor: "pointer",
-                                        "font-size": "15pt",
-                                        color: "#AB1600",
-                                        width: "10px",
-                                        margin: "0 auto"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deletePost(post.id, index)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("font-awesome-icon", {
-                                        attrs: { icon: ["fas", "trash-alt"] }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticStyle: {
-                                        "font-size": "20pt",
-                                        color: "#192FDD",
-                                        margin: "auto 14px",
-                                        cursor: "pointer"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.showLikers(post.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("font-awesome-icon", {
-                                        attrs: { icon: ["far", "thumbs-up"] }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "post-react-number" },
-                                  [
-                                    _c("p", { staticClass: "text-center" }, [
-                                      post.dislikes_counter
-                                        ? _c(
-                                            "span",
-                                            {
-                                              staticStyle: {
-                                                position: "relative",
-                                                "font-size": "10pt",
-                                                color: "#EA003A",
-                                                margin: "auto 14px",
-                                                cursor: "pointer"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n          " +
-                                                  _vm._s(
-                                                    post.dislikes_counter.count
-                                                  ) +
-                                                  "\n        "
-                                              )
-                                            ]
-                                          )
-                                        : _c(
-                                            "span",
-                                            {
-                                              staticStyle: {
-                                                position: "relative",
-                                                "font-size": "10pt",
-                                                color: "#EA003A",
-                                                margin: "auto 14px",
-                                                cursor: "pointer",
-                                                top: "3px"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n            0\n          "
-                                              )
-                                            ]
-                                          ),
-                                      _vm._v(" "),
-                                      post.likes_counter
-                                        ? _c(
-                                            "span",
-                                            {
-                                              staticStyle: {
-                                                "font-size": "10pt",
-                                                color: "#192FDD",
-                                                margin: "auto 14px",
-                                                cursor: "pointer"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n\n          " +
-                                                  _vm._s(
-                                                    post.likes_counter.count
-                                                  ) +
-                                                  "\n\n    "
-                                              )
-                                            ]
-                                          )
-                                        : _c(
-                                            "span",
-                                            {
-                                              staticStyle: {
-                                                "font-size": "10pt",
-                                                color: "#192FDD",
-                                                margin: "auto 14px",
-                                                cursor: "pointer"
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n\n              0\n        "
-                                              )
-                                            ]
-                                          )
-                                    ])
-                                  ]
-                                )
-                              ])
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("hr")
-                      ])
-                    })
-                  : _vm._e()
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "sweet-modal",
-            {
-              ref: "likers",
-              attrs: {
-                "enable-mobile-fullscreen": false,
-                width: "320",
-                "overlay-theme": "dark"
-              }
-            },
-            [
-              _c(
-                "div",
-                {
-                  staticStyle: { "overflow-y": "scroll", height: "120px" },
-                  on: { scroll: _vm.loadMoreLikers }
-                },
-                _vm._l(_vm.postLikers, function(liker) {
-                  return _c("div", { staticClass: "likers" }, [
-                    _c(
-                      "p",
-                      {
-                        staticStyle: { cursor: "pointer" },
-                        attrs: { tag: "p" },
-                        on: {
-                          click: function($event) {
-                            return _vm.openProfile(liker.profile.display_name)
-                          }
-                        }
-                      },
-                      [
-                        _c("img", {
-                          staticClass: "img-rounded",
-                          attrs: {
-                            src: "/storage/avatars/" + liker.profile.avatar,
-                            alt: liker.name,
-                            width: "40",
-                            height: "40"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("b", [_vm._v(_vm._s(liker.name))]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "i",
-                          {
-                            staticStyle: { opacity: ".5", position: "relative" }
-                          },
-                          [_vm._v(_vm._s(liker.profile.display_name))]
-                        )
-                      ]
-                    )
-                  ])
-                }),
-                0
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "sweet-modal",
-            {
-              ref: "dislikers",
-              attrs: {
-                "enable-mobile-fullscreen": false,
-                width: "320",
-                "overlay-theme": "dark"
-              }
-            },
-            [
-              _c(
-                "div",
-                {
-                  staticStyle: { "overflow-y": "scroll", height: "120px" },
-                  on: { scroll: _vm.loadMoreDisLikers }
-                },
-                _vm._l(_vm.postDislikers, function(disliker) {
-                  return _c("div", { staticClass: "likers" }, [
-                    _c(
-                      "p",
-                      {
-                        staticStyle: { cursor: "pointer" },
-                        on: {
-                          click: function($event) {
-                            return _vm.openProfile(
-                              disliker.profile.display_name
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("img", {
-                          staticClass: "img-rounded",
-                          attrs: {
-                            src: "/storage/avatars/" + disliker.profile.avatar,
-                            alt: disliker.name,
-                            width: "40",
-                            height: "40"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("b", [_vm._v(_vm._s(disliker.name))]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "i",
-                          {
-                            staticStyle: { opacity: ".5", position: "relative" }
-                          },
-                          [_vm._v(_vm._s(disliker.profile.display_name))]
-                        )
-                      ]
-                    )
-                  ])
-                }),
-                0
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "sweet-modal",
-            {
-              ref: "fans",
-              attrs: {
-                width: "320",
-                "overlay-theme": "dark",
-                "enable-mobile-fullscreen": false
-              }
-            },
-            [
-              _c(
-                "sweet-modal-tab",
-                { attrs: { title: _vm.$t("followers"), id: "tab1" } },
-                [
-                  _vm.myFollowers
-                    ? [
-                        _c(
-                          "div",
-                          {
-                            ref: "followers_modal",
-                            staticClass: "followers",
-                            on: { scroll: _vm.loadMoreFollowers }
-                          },
-                          [
-                            _c(
-                              "ul",
-                              _vm._l(_vm.myFollowers, function(follower) {
-                                return _c("li", [
-                                  _c(
-                                    "p",
-                                    [
-                                      _c("img", {
-                                        staticClass: "img-rounded",
-                                        attrs: {
-                                          src:
-                                            "/storage/avatars/" +
-                                            follower.profile.avatar,
-                                          alt: follower.profile.display_name,
-                                          width: "50",
-                                          height: "50"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.openProfile(
-                                              follower.profile.display_name
-                                            )
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(
-                                        "\n              " +
-                                          _vm._s(follower.name) +
-                                          "\n              "
-                                      ),
-                                      _c("br"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "i",
-                                        {
-                                          staticStyle: { opacity: ".5" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.openProfile(
-                                                follower.profile.display_name
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
-                                              follower.profile.display_name
-                                            )
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _vm.myFollowingIds.indexOf(
-                                        follower.profile.user_id
-                                      ) == -1
-                                        ? [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-primary btn-xs",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.follow(
-                                                      follower.profile.user_id,
-                                                      "follow"
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                  follow\n                "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        : [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-danger btn-xs",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.follow(
-                                                      follower.profile.user_id,
-                                                      "unfollow"
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                  unfollow\n                "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                    ],
-                                    2
-                                  )
-                                ])
-                              }),
-                              0
-                            )
-                          ]
-                        )
-                      ]
-                    : [_c("h4", [_vm._v("please wait ... ")])]
+                          )
+                        ]
+                      })
+                    ],
+                    2
+                  )
                 ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "sweet-modal-tab",
-                { attrs: { title: _vm.$t("following"), id: "tab2" } },
-                [
-                  _vm.myFollowing
-                    ? [
-                        _c(
-                          "div",
-                          {
-                            ref: "following_modal",
-                            staticClass: "following",
-                            on: { scroll: _vm.loadMoreFollowing }
-                          },
-                          [
-                            _c(
-                              "ul",
-                              _vm._l(_vm.myFollowing, function(following) {
-                                return _c("li", [
-                                  _c(
-                                    "p",
-                                    [
-                                      _c("img", {
-                                        staticClass: "img-rounded",
-                                        attrs: {
-                                          src:
-                                            "/storage/avatars/" +
-                                            following.profile.avatar,
-                                          alt: following.profile.display_name,
-                                          width: "50",
-                                          height: "50"
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.openProfile(
-                                              following.profile.display_name
-                                            )
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(
-                                        "\n                " +
-                                          _vm._s(following.name) +
-                                          "\n                "
-                                      ),
-                                      _c("br"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "i",
-                                        {
-                                          staticStyle: { opacity: ".5" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.openProfile(
-                                                following.profile.display_name
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
-                                              following.profile.display_name
-                                            )
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _vm.myFollowingIds.indexOf(
-                                        following.profile.user_id
-                                      ) == -1
-                                        ? [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-primary btn-xs",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.follow(
-                                                      following.profile.user_id,
-                                                      "follow"
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                    follow\n                  "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        : [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-danger btn-xs",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.follow(
-                                                      following.profile.user_id,
-                                                      "unfollow"
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                    unfollow\n                  "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                    ],
-                                    2
-                                  )
-                                ])
-                              }),
-                              0
-                            )
-                          ]
-                        )
-                      ]
-                    : [_c("h4", [_vm._v("please wait ... ")])]
-                ],
-                2
+                1
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.showProfile.profile
+            ? _c(
+                "div",
+                { staticClass: "container" },
+                [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "text-xs-center" },
+                      [
+                        _vm.currentUserProfile.user_id !==
+                        _vm.showProfile.profile.user_id
+                          ? _vm._l(_vm.posts, function(post, index) {
+                              return _c(
+                                "div",
+                                { staticClass: "post text-xs-center" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "avatar" },
+                                    [
+                                      _c(
+                                        "v-avatar",
+                                        {
+                                          staticClass: "#005f5b",
+                                          attrs: { size: "55" }
+                                        },
+                                        [
+                                          _c("img", {
+                                            attrs: {
+                                              src:
+                                                "/storage/avatars/" +
+                                                _vm.showProfile.profile.avatar,
+                                              alt:
+                                                _vm.showProfile.profile
+                                                  .display_name
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.ShowProfile(
+                                                  post.user.profile.display_name
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "post-publisher mt-2" },
+                                    [
+                                      _c("h5", { staticClass: "white--text" }, [
+                                        _vm._v("by "),
+                                        _c("b", [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.showProfile.profile
+                                                .display_name
+                                            )
+                                          )
+                                        ])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "post-content" }, [
+                                    _c(
+                                      "p",
+                                      {
+                                        staticStyle: {
+                                          "font-size": "33px",
+                                          "overflow-wrap": "break-word"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "b",
+                                          { staticClass: "white--text" },
+                                          [
+                                            _c("bdi", [
+                                              _vm._v(
+                                                '\n                    "\n                    ' +
+                                                  _vm._s(post.post) +
+                                                  '\n                    "\n                  '
+                                              )
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  post.image
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-img", {
+                                            staticClass: "grey lighten-2",
+                                            staticStyle: { margin: "0 auto" },
+                                            attrs: {
+                                              width: "320",
+                                              src:
+                                                "/storage/posts_images/" +
+                                                post.image
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "delete-post" }),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "post-react" }, [
+                                    _vm.likedPosts.indexOf(post.id) == -1 &&
+                                    _vm.disLikedPosts.indexOf(post.id) == -1
+                                      ? _c(
+                                          "p",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "20pt",
+                                                  color: "#FF004F",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer",
+                                                  top: "3px"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  staticStyle: {
+                                                    transform: "scalex(-1)"
+                                                  },
+                                                  attrs: {
+                                                    icon: ["far", "thumbs-down"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "dislike",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "20pt",
+                                                  color: "#18DEFF",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  attrs: {
+                                                    icon: ["far", "thumbs-up"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "like",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.likedPosts.indexOf(post.id) !== -1 &&
+                                    _vm.disLikedPosts.indexOf(post.id) == -1
+                                      ? _c(
+                                          "p",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "20pt",
+                                                  color: "#EA003A",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer",
+                                                  top: "3px"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  staticStyle: {
+                                                    transform: "scalex(-1)"
+                                                  },
+                                                  attrs: {
+                                                    icon: ["far", "thumbs-down"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "dislike",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "20pt",
+                                                  color: "#18DEFF",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  attrs: {
+                                                    icon: ["fas", "thumbs-up"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "like",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _vm.likedPosts.indexOf(post.id) == -1 &&
+                                    _vm.disLikedPosts.indexOf(post.id) !== -1
+                                      ? _c(
+                                          "p",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "20pt",
+                                                  color: "#EA003A",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer",
+                                                  top: "3px"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  staticStyle: {
+                                                    transform: "scalex(-1)"
+                                                  },
+                                                  attrs: {
+                                                    icon: ["fas", "thumbs-down"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "dislike",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "20pt",
+                                                  color: "#18DEFF",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  attrs: {
+                                                    icon: ["far", "thumbs-up"]
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.postReact(
+                                                        "like",
+                                                        post.id,
+                                                        index
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "post-react-number" },
+                                    [
+                                      _c("p", { staticClass: "text-center" }, [
+                                        post.dislikes_counter
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "10pt",
+                                                  color: "#fff",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                          " +
+                                                    _vm._s(
+                                                      post.dislikes_counter
+                                                        .count
+                                                    ) +
+                                                    "\n                        "
+                                                )
+                                              ]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "10pt",
+                                                  color: "#fff",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer",
+                                                  top: "3px"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                            0\n                          "
+                                                )
+                                              ]
+                                            ),
+                                        _vm._v(" "),
+                                        post.likes_counter
+                                          ? _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "10pt",
+                                                  color: "#fff",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n\n                          " +
+                                                    _vm._s(
+                                                      post.likes_counter.count
+                                                    ) +
+                                                    "\n\n                    "
+                                                )
+                                              ]
+                                            )
+                                          : _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "10pt",
+                                                  color: "#fff",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n\n                              0\n                        "
+                                                )
+                                              ]
+                                            )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "post-date" }, [
+                                    _c(
+                                      "p",
+                                      { staticStyle: { color: "white" } },
+                                      [
+                                        _c("b", [
+                                          _vm._v(
+                                            "\n                " +
+                                              _vm._s(
+                                                _vm._f("getDateForHumans")(
+                                                  post.created_at
+                                                )
+                                              ) +
+                                              "\n\n                "
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "post-topic" }, [
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass: "white--text",
+                                        staticStyle: { opacity: ".8" }
+                                      },
+                                      [
+                                        _c("b", [
+                                          _vm._v(
+                                            "  " + _vm._s(post.topic.topic)
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("hr")
+                                ]
+                              )
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.currentUserProfile.user_id ==
+                        _vm.showProfile.profile.user_id
+                          ? _vm._l(_vm.posts, function(post, index) {
+                              return _c(
+                                "div",
+                                { staticClass: "text-xs-center post" },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "avatar" },
+                                    [
+                                      _c(
+                                        "v-avatar",
+                                        {
+                                          staticClass: "#005f5b",
+                                          attrs: { size: "55" }
+                                        },
+                                        [
+                                          _c("img", {
+                                            attrs: {
+                                              src:
+                                                "/storage/avatars/" +
+                                                _vm.userProfile.avatar,
+                                              alt:
+                                                _vm.showProfile.profile
+                                                  .display_name
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.ShowProfile(
+                                                  post.user.profile.display_name
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "post-content mt-3" },
+                                    [
+                                      _c(
+                                        "p",
+                                        {
+                                          staticClass: "white--text",
+                                          staticStyle: {
+                                            "white-space": "pre-line",
+                                            "font-weight": "bold"
+                                          }
+                                        },
+                                        [
+                                          _c("bdi", [
+                                            _vm._v(
+                                              '  " ' +
+                                                _vm._s(post.post) +
+                                                ' "\n  '
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  post.image
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-img", {
+                                            staticClass: "grey lighten-2",
+                                            staticStyle: { margin: "0 auto" },
+                                            attrs: {
+                                              width: "320",
+                                              src:
+                                                "/storage/posts_images/" +
+                                                post.image
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "post-time white--text" },
+                                    [
+                                      _vm._v(
+                                        "\n      " +
+                                          _vm._s(
+                                            _vm._f("getDateForHumans")(
+                                              post.created_at
+                                            )
+                                          ) +
+                                          "\n    "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "post-topic white--text" },
+                                    [
+                                      _c("i", {}, [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.topics[post.topic_id - 1][
+                                              "topic"
+                                            ]
+                                          )
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  post.user.profile.user_id ==
+                                  _vm.currentUserProfile.user_id
+                                    ? _c("div", { staticClass: "post-react" }, [
+                                        _c(
+                                          "p",
+                                          { staticClass: "text-center" },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  position: "relative",
+                                                  "font-size": "20pt",
+                                                  color: "#FF004F",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer",
+                                                  top: "3px"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.showDisLikers(
+                                                      post.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  staticStyle: {
+                                                    transform: "scalex(-1)"
+                                                  },
+                                                  attrs: {
+                                                    icon: ["fas", "thumbs-down"]
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  cursor: "pointer",
+                                                  "font-size": "15pt",
+                                                  color: "#fff",
+                                                  width: "10px",
+                                                  margin: "0 auto"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.deletePost(
+                                                      post.id,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  attrs: {
+                                                    icon: ["fas", "trash-alt"]
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "span",
+                                              {
+                                                staticStyle: {
+                                                  "font-size": "20pt",
+                                                  color: "#18DEFF",
+                                                  margin: "auto 14px",
+                                                  cursor: "pointer"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.showLikers(
+                                                      post.id
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("font-awesome-icon", {
+                                                  attrs: {
+                                                    icon: ["fas", "thumbs-up"]
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "post-react-number" },
+                                          [
+                                            _c(
+                                              "p",
+                                              { staticClass: "text-center" },
+                                              [
+                                                post.dislikes_counter
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          position: "relative",
+                                                          "font-size": "10pt",
+                                                          color: "#EA003A",
+                                                          margin: "auto 14px",
+                                                          cursor: "pointer"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n          " +
+                                                            _vm._s(
+                                                              post
+                                                                .dislikes_counter
+                                                                .count
+                                                            ) +
+                                                            "\n        "
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          position: "relative",
+                                                          "font-size": "10pt",
+                                                          color: "#EA003A",
+                                                          margin: "auto 14px",
+                                                          cursor: "pointer",
+                                                          top: "3px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n            0\n          "
+                                                        )
+                                                      ]
+                                                    ),
+                                                _vm._v(" "),
+                                                post.likes_counter
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10pt",
+                                                          color: "#192FDD",
+                                                          margin: "auto 14px",
+                                                          cursor: "pointer"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n\n          " +
+                                                            _vm._s(
+                                                              post.likes_counter
+                                                                .count
+                                                            ) +
+                                                            "\n\n    "
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _c(
+                                                      "span",
+                                                      {
+                                                        staticStyle: {
+                                                          "font-size": "10pt",
+                                                          color: "#192FDD",
+                                                          margin: "auto 14px",
+                                                          cursor: "pointer"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n\n              0\n        "
+                                                        )
+                                                      ]
+                                                    )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("hr")
+                                ]
+                              )
+                            })
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "sweet-modal",
+                    {
+                      ref: "likers",
+                      attrs: {
+                        "enable-mobile-fullscreen": false,
+                        width: "320",
+                        "overlay-theme": "dark"
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            "overflow-y": "scroll",
+                            height: "120px"
+                          },
+                          on: { scroll: _vm.loadMoreLikers }
+                        },
+                        _vm._l(_vm.postLikers, function(liker) {
+                          return _c("div", { staticClass: "likers" }, [
+                            _c(
+                              "p",
+                              {
+                                staticStyle: { cursor: "pointer" },
+                                attrs: { tag: "p" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.openProfile(
+                                      liker.profile.display_name
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticClass: "img-rounded",
+                                  attrs: {
+                                    src:
+                                      "/storage/avatars/" +
+                                      liker.profile.avatar,
+                                    alt: liker.name,
+                                    width: "40",
+                                    height: "40"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("b", [_vm._v(_vm._s(liker.name))]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "i",
+                                  {
+                                    staticStyle: {
+                                      opacity: ".5",
+                                      position: "relative"
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(liker.profile.display_name))]
+                                )
+                              ]
+                            )
+                          ])
+                        }),
+                        0
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "sweet-modal",
+                    {
+                      ref: "dislikers",
+                      attrs: {
+                        "enable-mobile-fullscreen": false,
+                        width: "320",
+                        "overlay-theme": "dark"
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            "overflow-y": "scroll",
+                            height: "120px"
+                          },
+                          on: { scroll: _vm.loadMoreDisLikers }
+                        },
+                        _vm._l(_vm.postDislikers, function(disliker) {
+                          return _c("div", { staticClass: "likers" }, [
+                            _c(
+                              "p",
+                              {
+                                staticStyle: { cursor: "pointer" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.openProfile(
+                                      disliker.profile.display_name
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticClass: "img-rounded",
+                                  attrs: {
+                                    src:
+                                      "/storage/avatars/" +
+                                      disliker.profile.avatar,
+                                    alt: disliker.name,
+                                    width: "40",
+                                    height: "40"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("b", [_vm._v(_vm._s(disliker.name))]),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "i",
+                                  {
+                                    staticStyle: {
+                                      opacity: ".5",
+                                      position: "relative"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(disliker.profile.display_name)
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        }),
+                        0
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "sweet-modal",
+                    {
+                      ref: "fans",
+                      attrs: {
+                        width: "320",
+                        "overlay-theme": "dark",
+                        "enable-mobile-fullscreen": false
+                      }
+                    },
+                    [
+                      _c(
+                        "sweet-modal-tab",
+                        { attrs: { title: _vm.$t("followers"), id: "tab1" } },
+                        [
+                          _vm.myFollowers
+                            ? [
+                                _c(
+                                  "div",
+                                  {
+                                    ref: "followers_modal",
+                                    staticClass: "followers",
+                                    on: { scroll: _vm.loadMoreFollowers }
+                                  },
+                                  [
+                                    _c(
+                                      "ul",
+                                      _vm._l(_vm.myFollowers, function(
+                                        follower
+                                      ) {
+                                        return _c("li", [
+                                          _c(
+                                            "p",
+                                            [
+                                              _c("img", {
+                                                staticClass: "img-rounded",
+                                                attrs: {
+                                                  src:
+                                                    "/storage/avatars/" +
+                                                    follower.profile.avatar,
+                                                  alt:
+                                                    follower.profile
+                                                      .display_name,
+                                                  width: "50",
+                                                  height: "50"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.openProfile(
+                                                      follower.profile
+                                                        .display_name
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(
+                                                "\n              " +
+                                                  _vm._s(follower.name) +
+                                                  "\n              "
+                                              ),
+                                              _c("br"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "i",
+                                                {
+                                                  staticStyle: {
+                                                    opacity: ".5"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.openProfile(
+                                                        follower.profile
+                                                          .display_name
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      follower.profile
+                                                        .display_name
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.myFollowingIds.indexOf(
+                                                follower.profile.user_id
+                                              ) == -1
+                                                ? [
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-primary btn-xs",
+                                                        attrs: {
+                                                          type: "button"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.follow(
+                                                              follower.profile
+                                                                .user_id,
+                                                              "follow"
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                  follow\n                "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                : [
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-danger btn-xs",
+                                                        attrs: {
+                                                          type: "button"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.follow(
+                                                              follower.profile
+                                                                .user_id,
+                                                              "unfollow"
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                  unfollow\n                "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                            ],
+                                            2
+                                          )
+                                        ])
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ]
+                            : [_c("h4", [_vm._v("please wait ... ")])]
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "sweet-modal-tab",
+                        { attrs: { title: _vm.$t("following"), id: "tab2" } },
+                        [
+                          _vm.myFollowing
+                            ? [
+                                _c(
+                                  "div",
+                                  {
+                                    ref: "following_modal",
+                                    staticClass: "following",
+                                    on: { scroll: _vm.loadMoreFollowing }
+                                  },
+                                  [
+                                    _c(
+                                      "ul",
+                                      _vm._l(_vm.myFollowing, function(
+                                        following
+                                      ) {
+                                        return _c("li", [
+                                          _c(
+                                            "p",
+                                            [
+                                              _c("img", {
+                                                staticClass: "img-rounded",
+                                                attrs: {
+                                                  src:
+                                                    "/storage/avatars/" +
+                                                    following.profile.avatar,
+                                                  alt:
+                                                    following.profile
+                                                      .display_name,
+                                                  width: "50",
+                                                  height: "50"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.openProfile(
+                                                      following.profile
+                                                        .display_name
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(
+                                                "\n                " +
+                                                  _vm._s(following.name) +
+                                                  "\n                "
+                                              ),
+                                              _c("br"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "i",
+                                                {
+                                                  staticStyle: {
+                                                    opacity: ".5"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.openProfile(
+                                                        following.profile
+                                                          .display_name
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      following.profile
+                                                        .display_name
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.myFollowingIds.indexOf(
+                                                following.profile.user_id
+                                              ) == -1
+                                                ? [
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-primary btn-xs",
+                                                        attrs: {
+                                                          type: "button"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.follow(
+                                                              following.profile
+                                                                .user_id,
+                                                              "follow"
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                    follow\n                  "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                : [
+                                                    _c(
+                                                      "button",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-danger btn-xs",
+                                                        attrs: {
+                                                          type: "button"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.follow(
+                                                              following.profile
+                                                                .user_id,
+                                                              "unfollow"
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                    unfollow\n                  "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                            ],
+                                            2
+                                          )
+                                        ])
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ]
+                            : [_c("h4", [_vm._v("please wait ... ")])]
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       )
-    : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

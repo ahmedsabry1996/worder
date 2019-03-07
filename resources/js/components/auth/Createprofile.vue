@@ -129,8 +129,7 @@ no-resize
           :src="`/storage/avatars/avatar_default.jpg`"
             height="200"
         ></v-img>
-        <template  v-if="avatar != null"
->
+        <template  v-if="avatar != null">
 
           <v-img
           :src="avatar"

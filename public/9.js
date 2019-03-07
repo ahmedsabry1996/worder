@@ -36,6 +36,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -73,7 +80,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getTrendPosts: function getTrendPosts() {
       this.$store.dispatch('showTrendPosts', {
-        word: this.$route.params.trend
+        word: this.$route.query.trend
       });
     },
     loadMore: function loadMore() {
@@ -93,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
       this.offset += 100;
       this.$store.dispatch('loadMoreTrendPosts', {
         offset: this.offset,
-        word: this.$route.params.trend
+        word: this.$route.query.trend
       });
     }
   }
@@ -124,6 +131,18 @@ var render = function() {
         "v-layout",
         { attrs: { "hidden-sm-and-down": "", row: "", wrap: "" } },
         [
+          _c("v-flex", { attrs: { xs12: "" } }, [
+            _c("h1", { staticClass: "white--text text-xs-center" }, [
+              _c("bdi", [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(this.$route.query.trend) +
+                    "\n\n        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _c("v-flex", { attrs: { md3: "" } }, [_c("suggested-people")], 1),
           _vm._v(" "),
           _c(

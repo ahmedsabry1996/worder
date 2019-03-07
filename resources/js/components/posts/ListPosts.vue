@@ -57,8 +57,6 @@
             @click="showPost(post.id)">
         </v-img>
 
-            <!-- <img  alt="img" width="400" height="400" class="img-rounded" style="box-shadow:0px 4px 7px  #000;margin:10px">
-          -->
           </div>
 
           <!-- React to post -->
@@ -66,7 +64,6 @@
 
         <div class="post-react">
           <React :post_id="post.id"/>
-
         </div>
 
         <!-- number of reactions -->
