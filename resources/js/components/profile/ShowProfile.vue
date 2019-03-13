@@ -3,10 +3,11 @@
   <v-container grid-list-md>
   </v-content>
   <v-layout row wrap>
-      <v-flex xs12 md4 offset-md4>
+      <v-flex xs12 offset-xs0 md4 offset-md4>
 
-        <v-card dark width="320">
+        <v-card dark width="320" class="mr-5">
           <v-img
+
           :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
           height="200" >
     </v-img>
@@ -331,70 +332,140 @@
   </div>
 
   <!-- likers  -->
-  <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="320" overlay-theme="dark">
+  <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
 
-      <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
+      <div style="overflow-y:scroll;height:300px" @scroll="loadMoreLikers">
 
-      <div class="likers" v-for="liker in postLikers">
-          <p @click="openProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
-          <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
-          <b>{{liker.name}}</b>
-          <br>
-          <i style="opacity:.5;position:relative">{{liker.profile.display_name}}</i>
-        </p>
+        <v-list two-line>
+          <template v-for="liker in postLikers">
 
-      </div>
+              <v-list-tile>
+
+            <v-list-tile-avatar>
+              <img
+              @click="ShowProfile(liker.profile.display_name)"
+              :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.profile.display_name">
+            </v-list-tile-avatar>
+
+              <v-list-tile-content
+                @click="ShowProfile(liker.profile.display_name)">
+                <v-list-tile-title>
+                      {{liker.name}}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      {{liker.profile.display_name}}
+                    </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <template v-if="myFollowingIds.indexOf(liker.profile.user_id) == -1">
+                  <v-btn  class="success white--text" round small @click="follow(liker.profile.user_id,'follow')">
+                    follow
+                  </v-btn>
+
+
+                  </template>
+                <template v-else>
+                  <v-btn  class="error white--text" round small @click="follow(liker.profile.user_id,'unfollow')">
+                    unfollow
+                  </v-btn>
+                </template>
+              </v-list-tile-action>
+            </v-list-tile>
+          </template>
+        </v-list>
+
 
       </div>
   </sweet-modal>
 
 <!-- dislikers -->
-  <sweet-modal :enable-mobile-fullscreen="false" ref="dislikers" width="320" overlay-theme="dark">
+  <sweet-modal :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
 
-      <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
+      <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
+        <v-list two-line>
+          <template v-for="disliker in postDislikers">
 
-      <div class="likers" v-for="disliker in postDislikers">
-          <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
-          <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
-          <b>{{disliker.name}}</b>
-          <br>
-          <i style="opacity:.5;position:relative">{{disliker.profile.display_name}}</i>
-        </p>
+              <v-list-tile>
 
-      </div>
+            <v-list-tile-avatar>
+              <img
+                @click="ShowProfile(disliker.profile.display_name)"
+              :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.profile.display_name">
+            </v-list-tile-avatar>
+
+              <v-list-tile-content>
+                <v-list-tile-title   @click="ShowProfile(disliker.profile.display_name)">
+                      {{disliker.name}}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      {{disliker.profile.display_name}}
+                    </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <template v-if="myFollowingIds.indexOf(disliker.profile.user_id) == -1">
+                  <v-btn  class="success white--text" round small @click="follow(disliker.profile.user_id,'follow')">
+                    follow
+                  </v-btn>
+
+
+                  </template>
+                <template v-else>
+                  <v-btn  class="error white--text" round small @click="follow(disliker.profile.user_id,'unfollow')">
+                    unfollow
+                  </v-btn>
+                </template>
+              </v-list-tile-action>
+            </v-list-tile>
+          </template>
+        </v-list>
 
       </div>
   </sweet-modal>
 
 
   <!-- followers -->
-  <sweet-modal ref="fans"  width="320" overlay-theme="dark" :enable-mobile-fullscreen="false">
+  <sweet-modal ref="fans" min-width="320" max-width="400"  width="400" overlay-theme="dark" :enable-mobile-fullscreen="false">
   	<sweet-modal-tab :title="$t('followers')" id="tab1">
     <template v-if="myFollowers">
       <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
-        <ul>
-          <li v-for="follower in myFollowers">
-            <p>
-              <img @click="openProfile(follower.profile.display_name)" :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name" class="img-rounded" width="50" height="50">
-              {{follower.name}}
-              <br>
-              <i @click="openProfile(follower.profile.display_name)" style="opacity:.5;">{{follower.profile.display_name}}</i>
 
-              <template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
-                <button type="button" class="btn btn-primary btn-xs" @click="follow(follower.profile.user_id,'follow')">
-                  follow
-                </button>
+        <v-list two-line>
+          <template v-for="follower in myFollowers">
+
+              <v-list-tile>
+
+            <v-list-tile-avatar>
+              <img
+                @click="ShowProfile(follower.profile.display_name)"
+              :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name">
+            </v-list-tile-avatar>
+
+              <v-list-tile-content   @click="ShowProfile(follower.profile.display_name)">
+                <v-list-tile-title>
+                      {{follower.name}}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      {{follower.profile.display_name}}
+                    </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <template v-if="myFollowingIds.indexOf(follower.profile.user_id) == -1">
+                  <v-btn  class="success white--text" round small @click="follow(follower.profile.user_id,'follow')">
+                    follow
+                  </v-btn>
 
 
+                  </template>
+                <template v-else>
+                  <v-btn  class="error white--text" round small @click="follow(follower.profile.user_id,'unfollow')">
+                    unfollow
+                  </v-btn>
                 </template>
-              <template v-else>
-                <button type="button" class="btn btn-danger btn-xs" @click="follow(follower.profile.user_id,'unfollow')">
-                  unfollow
-                </button>
-              </template>
-              </p>
-          </li>
-        </ul>
+              </v-list-tile-action>
+            </v-list-tile>
+          </template>
+        </v-list>
+
       </div>
     </template>
     <template v-else>
@@ -403,29 +474,46 @@
     </sweet-modal-tab>
   	<sweet-modal-tab :title="$t('following')" id="tab2">
       <template v-if="myFollowing">
+
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
-          <ul>
-            <li v-for="following in myFollowing">
-              <p>
-                <img @click="openProfile(following.profile.display_name)" :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name" class="img-rounded" width="50" height="50">
-                {{following.name}}
-                <br>
-                <i @click="openProfile(following.profile.display_name)" style="opacity:.5;">{{following.profile.display_name}}</i>
-                <template v-if="myFollowingIds.indexOf(following.profile.user_id) == -1">
-                  <button type="button" class="btn btn-primary btn-xs" @click="follow(following.profile.user_id,'follow')">
-                    follow
-                  </button>
+          <template v-for="following in myFollowing">
+                  <v-list two-line>
+                    <template v-for="follower in myFollowers">
+
+                        <v-list-tile>
+
+                      <v-list-tile-avatar>
+                        <img
+                          @click="ShowProfile(following.profile.display_name)"
+                        :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name">
+                      </v-list-tile-avatar>
+
+                        <v-list-tile-content   @click="ShowProfile(following.profile.display_name)">
+                          <v-list-tile-title>
+                                {{following.name}}
+                              </v-list-tile-title>
+                              <v-list-tile-sub-title>
+                                {{following.profile.display_name}}
+                              </v-list-tile-sub-title>
+                        </v-list-tile-content>
+                        <v-list-tile-action>
+                          <template v-if="myFollowingIds.indexOf(following.profile.user_id) == -1">
+                            <v-btn  class="success white--text" round small @click="follow(following.profile.user_id,'follow')">
+                              follow
+                            </v-btn>
 
 
-                  </template>
-                <template v-else>
-                  <button type="button" class="btn btn-danger btn-xs" @click="follow(following.profile.user_id,'unfollow')">
-                    unfollow
-                  </button>
+                            </template>
+                          <template v-else>
+                            <v-btn  class="error white--text" round small @click="follow(following.profile.user_id,'unfollow')">
+                              unfollow
+                            </v-btn>
+                          </template>
+                        </v-list-tile-action>
+                      </v-list-tile>
+                    </template>
+                  </v-list>
                 </template>
-              </p>
-            </li>
-          </ul>
         </div>
       </template>
       <template v-else>
@@ -477,6 +565,9 @@ export default {
   watch:{
     '$route'(to,from){
 
+          this.$refs.fans.close();
+          this.$refs.likers.close();
+          this.$refs.dislikers.close();
       this.$router.push(`/${to.params.dName}`);
       this.$store.dispatch('showProfile',to.params.dName);
 
@@ -804,7 +895,7 @@ button:hover, a:hover {
 }
 
 .followers,.following{
-  height: 100px !important;
+  height: 300px !important;
   overflow-y: scroll !important;
 }
 

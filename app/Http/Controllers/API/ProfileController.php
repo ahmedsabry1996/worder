@@ -198,7 +198,7 @@ class ProfileController extends Controller
         $avatar=$request->avatar;
         $avatar_state = $request->avatar_state;
         $profile_description = null;
-
+        $image_size = 0;
         if ($avatar_state == null ) {
               $new_avatar_name = "avatar_default.jpg";
         }
@@ -266,12 +266,14 @@ class ProfileController extends Controller
           $user->profile->save();
 
           $updated_topics = $user->topics()->get();
+
           $updated_profile = $user->profile;
 
           return response()->json(['updated_user'=>$user,
                       'updated_profile'=>$updated_profile,
                       'updated_topics'=>$user->topics,
-                    'size'=>$image_size]);
+                      'size'=>$image_size,
+                      'avater'=>$avatar_state],201);
 
       }
 

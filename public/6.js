@@ -459,6 +459,94 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -487,6 +575,9 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   watch: {
     '$route': function $route(to, from) {
+      this.$refs.fans.close();
+      this.$refs.likers.close();
+      this.$refs.dislikers.close();
       this.$router.push("/".concat(to.params.dName));
       this.$store.dispatch('showProfile', to.params.dName);
     }
@@ -737,7 +828,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.card[data-v-def4c92a] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 300px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-def4c92a] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-def4c92a] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-def4c92a]:hover, a[data-v-def4c92a]:hover {\n  opacity: 0.7;\n}\n.topic[data-v-def4c92a]{\n  border: 2px solid #ddd;\n  padding: 7px;\n  border-radius: 7px;\n}\n.pc[data-v-def4c92a]{\n  border-right: 2px solid #ddd\n}\n.modal-body[data-v-def4c92a]{\n  height: 250px;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.modal-backdrop[data-v-def4c92a] {\n  position: relative !important;\n  z-index: 0 !important;\n}\n.d[data-v-def4c92a]{\n  font-weight: bold;\n  font-size: 12pt;\n  background-color: #112F3B !important;\n  color:#FAE3D6;\n  width:100px !important;\n}\n.followers[data-v-def4c92a],.following[data-v-def4c92a]{\n  height: 100px !important;\n  overflow-y: scroll !important;\n}\n\n", ""]);
+exports.push([module.i, "\n.card[data-v-def4c92a] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 300px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-def4c92a] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-def4c92a] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-def4c92a]:hover, a[data-v-def4c92a]:hover {\n  opacity: 0.7;\n}\n.topic[data-v-def4c92a]{\n  border: 2px solid #ddd;\n  padding: 7px;\n  border-radius: 7px;\n}\n.pc[data-v-def4c92a]{\n  border-right: 2px solid #ddd\n}\n.modal-body[data-v-def4c92a]{\n  height: 250px;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.modal-backdrop[data-v-def4c92a] {\n  position: relative !important;\n  z-index: 0 !important;\n}\n.d[data-v-def4c92a]{\n  font-weight: bold;\n  font-size: 12pt;\n  background-color: #112F3B !important;\n  color:#FAE3D6;\n  width:100px !important;\n}\n.followers[data-v-def4c92a],.following[data-v-def4c92a]{\n  height: 300px !important;\n  overflow-y: scroll !important;\n}\n\n", ""]);
 
 // exports
 
@@ -799,11 +890,13 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs12: "", md4: "", "offset-md4": "" } },
+            {
+              attrs: { xs12: "", "offset-xs0": "", md4: "", "offset-md4": "" }
+            },
             [
               _c(
                 "v-card",
-                { attrs: { dark: "", width: "320" } },
+                { staticClass: "mr-5", attrs: { dark: "", width: "320" } },
                 [
                   _c("v-img", {
                     attrs: {
@@ -1838,7 +1931,7 @@ var render = function() {
                       ref: "likers",
                       attrs: {
                         "enable-mobile-fullscreen": false,
-                        width: "320",
+                        width: "400",
                         "overlay-theme": "dark"
                       }
                     },
@@ -1848,57 +1941,142 @@ var render = function() {
                         {
                           staticStyle: {
                             "overflow-y": "scroll",
-                            height: "120px"
+                            height: "300px"
                           },
                           on: { scroll: _vm.loadMoreLikers }
                         },
-                        _vm._l(_vm.postLikers, function(liker) {
-                          return _c("div", { staticClass: "likers" }, [
-                            _c(
-                              "p",
-                              {
-                                staticStyle: { cursor: "pointer" },
-                                attrs: { tag: "p" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.openProfile(
-                                      liker.profile.display_name
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _c("img", {
-                                  staticClass: "img-rounded",
-                                  attrs: {
-                                    src:
-                                      "/storage/avatars/" +
-                                      liker.profile.avatar,
-                                    alt: liker.name,
-                                    width: "40",
-                                    height: "40"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("b", [_vm._v(_vm._s(liker.name))]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c(
-                                  "i",
-                                  {
-                                    staticStyle: {
-                                      opacity: ".5",
-                                      position: "relative"
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(liker.profile.display_name))]
-                                )
-                              ]
-                            )
-                          ])
-                        }),
-                        0
+                        [
+                          _c(
+                            "v-list",
+                            { attrs: { "two-line": "" } },
+                            [
+                              _vm._l(_vm.postLikers, function(liker) {
+                                return [
+                                  _c(
+                                    "v-list-tile",
+                                    [
+                                      _c("v-list-tile-avatar", [
+                                        _c("img", {
+                                          attrs: {
+                                            src:
+                                              "/storage/avatars/" +
+                                              liker.profile.avatar,
+                                            alt: liker.profile.display_name
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ShowProfile(
+                                                liker.profile.display_name
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-tile-content",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ShowProfile(
+                                                liker.profile.display_name
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-list-tile-title", [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(liker.name) +
+                                                "\n                    "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("v-list-tile-sub-title", [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(
+                                                  liker.profile.display_name
+                                                ) +
+                                                "\n                    "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-tile-action",
+                                        [
+                                          _vm.myFollowingIds.indexOf(
+                                            liker.profile.user_id
+                                          ) == -1
+                                            ? [
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    staticClass:
+                                                      "success white--text",
+                                                    attrs: {
+                                                      round: "",
+                                                      small: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.follow(
+                                                          liker.profile.user_id,
+                                                          "follow"
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                    follow\n                  "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            : [
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    staticClass:
+                                                      "error white--text",
+                                                    attrs: {
+                                                      round: "",
+                                                      small: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.follow(
+                                                          liker.profile.user_id,
+                                                          "unfollow"
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                    unfollow\n                  "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              })
+                            ],
+                            2
+                          )
+                        ],
+                        1
                       )
                     ]
                   ),
@@ -1909,7 +2087,7 @@ var render = function() {
                       ref: "dislikers",
                       attrs: {
                         "enable-mobile-fullscreen": false,
-                        width: "320",
+                        width: "400",
                         "overlay-theme": "dark"
                       }
                     },
@@ -1919,60 +2097,148 @@ var render = function() {
                         {
                           staticStyle: {
                             "overflow-y": "scroll",
-                            height: "120px"
+                            height: "300px"
                           },
                           on: { scroll: _vm.loadMoreDisLikers }
                         },
-                        _vm._l(_vm.postDislikers, function(disliker) {
-                          return _c("div", { staticClass: "likers" }, [
-                            _c(
-                              "p",
-                              {
-                                staticStyle: { cursor: "pointer" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.openProfile(
-                                      disliker.profile.display_name
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _c("img", {
-                                  staticClass: "img-rounded",
-                                  attrs: {
-                                    src:
-                                      "/storage/avatars/" +
-                                      disliker.profile.avatar,
-                                    alt: disliker.name,
-                                    width: "40",
-                                    height: "40"
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("b", [_vm._v(_vm._s(disliker.name))]),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c(
-                                  "i",
-                                  {
-                                    staticStyle: {
-                                      opacity: ".5",
-                                      position: "relative"
-                                    }
-                                  },
-                                  [
-                                    _vm._v(
-                                      _vm._s(disliker.profile.display_name)
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        }),
-                        0
+                        [
+                          _c(
+                            "v-list",
+                            { attrs: { "two-line": "" } },
+                            [
+                              _vm._l(_vm.postDislikers, function(disliker) {
+                                return [
+                                  _c(
+                                    "v-list-tile",
+                                    [
+                                      _c("v-list-tile-avatar", [
+                                        _c("img", {
+                                          attrs: {
+                                            src:
+                                              "/storage/avatars/" +
+                                              disliker.profile.avatar,
+                                            alt: disliker.profile.display_name
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ShowProfile(
+                                                disliker.profile.display_name
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-tile-content",
+                                        [
+                                          _c(
+                                            "v-list-tile-title",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.ShowProfile(
+                                                    disliker.profile
+                                                      .display_name
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(disliker.name) +
+                                                  "\n                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-list-tile-sub-title", [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(
+                                                  disliker.profile.display_name
+                                                ) +
+                                                "\n                    "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-tile-action",
+                                        [
+                                          _vm.myFollowingIds.indexOf(
+                                            disliker.profile.user_id
+                                          ) == -1
+                                            ? [
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    staticClass:
+                                                      "success white--text",
+                                                    attrs: {
+                                                      round: "",
+                                                      small: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.follow(
+                                                          disliker.profile
+                                                            .user_id,
+                                                          "follow"
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                    follow\n                  "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            : [
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    staticClass:
+                                                      "error white--text",
+                                                    attrs: {
+                                                      round: "",
+                                                      small: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.follow(
+                                                          disliker.profile
+                                                            .user_id,
+                                                          "unfollow"
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                    unfollow\n                  "
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                        ],
+                                        2
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              })
+                            ],
+                            2
+                          )
+                        ],
+                        1
                       )
                     ]
                   ),
@@ -1982,7 +2248,9 @@ var render = function() {
                     {
                       ref: "fans",
                       attrs: {
-                        width: "320",
+                        "min-width": "320",
+                        "max-width": "400",
+                        width: "400",
                         "overlay-theme": "dark",
                         "enable-mobile-fullscreen": false
                       }
@@ -2003,134 +2271,156 @@ var render = function() {
                                   },
                                   [
                                     _c(
-                                      "ul",
-                                      _vm._l(_vm.myFollowers, function(
-                                        follower
-                                      ) {
-                                        return _c("li", [
-                                          _c(
-                                            "p",
-                                            [
-                                              _c("img", {
-                                                staticClass: "img-rounded",
-                                                attrs: {
-                                                  src:
-                                                    "/storage/avatars/" +
-                                                    follower.profile.avatar,
-                                                  alt:
-                                                    follower.profile
-                                                      .display_name,
-                                                  width: "50",
-                                                  height: "50"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.openProfile(
-                                                      follower.profile
-                                                        .display_name
-                                                    )
-                                                  }
-                                                }
-                                              }),
-                                              _vm._v(
-                                                "\n              " +
-                                                  _vm._s(follower.name) +
-                                                  "\n              "
-                                              ),
-                                              _c("br"),
-                                              _vm._v(" "),
-                                              _c(
-                                                "i",
-                                                {
-                                                  staticStyle: {
-                                                    opacity: ".5"
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.openProfile(
+                                      "v-list",
+                                      { attrs: { "two-line": "" } },
+                                      [
+                                        _vm._l(_vm.myFollowers, function(
+                                          follower
+                                        ) {
+                                          return [
+                                            _c(
+                                              "v-list-tile",
+                                              [
+                                                _c("v-list-tile-avatar", [
+                                                  _c("img", {
+                                                    attrs: {
+                                                      src:
+                                                        "/storage/avatars/" +
+                                                        follower.profile.avatar,
+                                                      alt:
                                                         follower.profile
                                                           .display_name
-                                                      )
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.ShowProfile(
+                                                          follower.profile
+                                                            .display_name
+                                                        )
+                                                      }
                                                     }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      follower.profile
-                                                        .display_name
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _vm.myFollowingIds.indexOf(
-                                                follower.profile.user_id
-                                              ) == -1
-                                                ? [
+                                                  })
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-list-tile-content",
+                                                  {
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.ShowProfile(
+                                                          follower.profile
+                                                            .display_name
+                                                        )
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-list-tile-title", [
+                                                      _vm._v(
+                                                        "\n                      " +
+                                                          _vm._s(
+                                                            follower.name
+                                                          ) +
+                                                          "\n                    "
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
                                                     _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-primary btn-xs",
-                                                        attrs: {
-                                                          type: "button"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.follow(
-                                                              follower.profile
-                                                                .user_id,
-                                                              "follow"
-                                                            )
-                                                          }
-                                                        }
-                                                      },
+                                                      "v-list-tile-sub-title",
                                                       [
                                                         _vm._v(
-                                                          "\n                  follow\n                "
+                                                          "\n                      " +
+                                                            _vm._s(
+                                                              follower.profile
+                                                                .display_name
+                                                            ) +
+                                                            "\n                    "
                                                         )
                                                       ]
                                                     )
-                                                  ]
-                                                : [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-danger btn-xs",
-                                                        attrs: {
-                                                          type: "button"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.follow(
-                                                              follower.profile
-                                                                .user_id,
-                                                              "unfollow"
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                  unfollow\n                "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                            ],
-                                            2
-                                          )
-                                        ])
-                                      }),
-                                      0
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-list-tile-action",
+                                                  [
+                                                    _vm.myFollowingIds.indexOf(
+                                                      follower.profile.user_id
+                                                    ) == -1
+                                                      ? [
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              staticClass:
+                                                                "success white--text",
+                                                              attrs: {
+                                                                round: "",
+                                                                small: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.follow(
+                                                                    follower
+                                                                      .profile
+                                                                      .user_id,
+                                                                    "follow"
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                    follow\n                  "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      : [
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              staticClass:
+                                                                "error white--text",
+                                                              attrs: {
+                                                                round: "",
+                                                                small: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.follow(
+                                                                    follower
+                                                                      .profile
+                                                                      .user_id,
+                                                                    "unfollow"
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                    unfollow\n                  "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                  ],
+                                                  2
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        })
+                                      ],
+                                      2
                                     )
-                                  ]
+                                  ],
+                                  1
                                 )
                               ]
                             : [_c("h4", [_vm._v("please wait ... ")])]
@@ -2152,135 +2442,173 @@ var render = function() {
                                     on: { scroll: _vm.loadMoreFollowing }
                                   },
                                   [
-                                    _c(
-                                      "ul",
-                                      _vm._l(_vm.myFollowing, function(
-                                        following
-                                      ) {
-                                        return _c("li", [
-                                          _c(
-                                            "p",
-                                            [
-                                              _c("img", {
-                                                staticClass: "img-rounded",
-                                                attrs: {
-                                                  src:
-                                                    "/storage/avatars/" +
-                                                    following.profile.avatar,
-                                                  alt:
-                                                    following.profile
-                                                      .display_name,
-                                                  width: "50",
-                                                  height: "50"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.openProfile(
-                                                      following.profile
-                                                        .display_name
-                                                    )
-                                                  }
-                                                }
-                                              }),
-                                              _vm._v(
-                                                "\n                " +
-                                                  _vm._s(following.name) +
-                                                  "\n                "
-                                              ),
-                                              _c("br"),
-                                              _vm._v(" "),
-                                              _c(
-                                                "i",
-                                                {
-                                                  staticStyle: {
-                                                    opacity: ".5"
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.openProfile(
-                                                        following.profile
-                                                          .display_name
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      following.profile
-                                                        .display_name
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _vm.myFollowingIds.indexOf(
-                                                following.profile.user_id
-                                              ) == -1
-                                                ? [
-                                                    _c(
-                                                      "button",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-primary btn-xs",
+                                    _vm._l(_vm.myFollowing, function(
+                                      following
+                                    ) {
+                                      return [
+                                        _c(
+                                          "v-list",
+                                          { attrs: { "two-line": "" } },
+                                          [
+                                            _vm._l(_vm.myFollowers, function(
+                                              follower
+                                            ) {
+                                              return [
+                                                _c(
+                                                  "v-list-tile",
+                                                  [
+                                                    _c("v-list-tile-avatar", [
+                                                      _c("img", {
                                                         attrs: {
-                                                          type: "button"
+                                                          src:
+                                                            "/storage/avatars/" +
+                                                            following.profile
+                                                              .avatar,
+                                                          alt:
+                                                            following.profile
+                                                              .display_name
                                                         },
                                                         on: {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            return _vm.follow(
+                                                            return _vm.ShowProfile(
                                                               following.profile
-                                                                .user_id,
-                                                              "follow"
+                                                                .display_name
                                                             )
                                                           }
                                                         }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                    follow\n                  "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                : [
+                                                      })
+                                                    ]),
+                                                    _vm._v(" "),
                                                     _c(
-                                                      "button",
+                                                      "v-list-tile-content",
                                                       {
-                                                        staticClass:
-                                                          "btn btn-danger btn-xs",
-                                                        attrs: {
-                                                          type: "button"
-                                                        },
                                                         on: {
                                                           click: function(
                                                             $event
                                                           ) {
-                                                            return _vm.follow(
+                                                            return _vm.ShowProfile(
                                                               following.profile
-                                                                .user_id,
-                                                              "unfollow"
+                                                                .display_name
                                                             )
                                                           }
                                                         }
                                                       },
                                                       [
-                                                        _vm._v(
-                                                          "\n                    unfollow\n                  "
+                                                        _c(
+                                                          "v-list-tile-title",
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  following.name
+                                                                ) +
+                                                                "\n                              "
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "v-list-tile-sub-title",
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                " +
+                                                                _vm._s(
+                                                                  following
+                                                                    .profile
+                                                                    .display_name
+                                                                ) +
+                                                                "\n                              "
+                                                            )
+                                                          ]
                                                         )
-                                                      ]
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-list-tile-action",
+                                                      [
+                                                        _vm.myFollowingIds.indexOf(
+                                                          following.profile
+                                                            .user_id
+                                                        ) == -1
+                                                          ? [
+                                                              _c(
+                                                                "v-btn",
+                                                                {
+                                                                  staticClass:
+                                                                    "success white--text",
+                                                                  attrs: {
+                                                                    round: "",
+                                                                    small: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.follow(
+                                                                        following
+                                                                          .profile
+                                                                          .user_id,
+                                                                        "follow"
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                              follow\n                            "
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]
+                                                          : [
+                                                              _c(
+                                                                "v-btn",
+                                                                {
+                                                                  staticClass:
+                                                                    "error white--text",
+                                                                  attrs: {
+                                                                    round: "",
+                                                                    small: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.follow(
+                                                                        following
+                                                                          .profile
+                                                                          .user_id,
+                                                                        "unfollow"
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                              unfollow\n                            "
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ]
+                                                      ],
+                                                      2
                                                     )
-                                                  ]
-                                            ],
-                                            2
-                                          )
-                                        ])
-                                      }),
-                                      0
-                                    )
-                                  ]
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            })
+                                          ],
+                                          2
+                                        )
+                                      ]
+                                    })
+                                  ],
+                                  2
                                 )
                               ]
                             : [_c("h4", [_vm._v("please wait ... ")])]

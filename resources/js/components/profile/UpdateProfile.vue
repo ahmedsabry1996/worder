@@ -1,142 +1,220 @@
 <template>
 
-  <div class="container" v-if="isLoggedIn">
-    <div class="col-md-6">
-      <form  role="form" @submit.prevent="updateProfile">
+  <v-container class="grid-list-md" v-if="isLoggedIn">
+    <v-layout row wrap>
 
-        <div class="form-group">
-          <label id="file-picker">
-          <input type="file" class="form-control" @change="handleFile">
-          </label>
+    <v-flex md6 xs12>
+      <v-form   @submit.prevent="updateProfile">
+
+
+          <div  id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
+            <v-icon class="mt-5" color="white" size="70px">
+              add_a_photo
+            </v-icon>
+          <input id="file" type="file" @change="handleFile" style="opacity:0">
         </div>
 
       <div class="form-group">
-        <label for="name">{{$t('name')}} </label>
-        <input type="text" class="form-control" v-model="name" :placeholder="$t('name')">
+        <v-text-field
+          v-model="name"
+          :placeholder="$t('name')"
+            solo-inverted
+
+        ></v-text-field>
         <div v-if="errors">
 
-        <p class="text-danger" v-if="errors.name"><b>{{errors.name[0]}}</b> </p>
+        <p class="error--text" v-if="errors.name"><b>{{errors.name[0]}}</b> </p>
 </div>
       </div>
 
       <div class="form-group">
-        <label for="display_name">{{$t('displayname')}}</label>
-        <input type="text" class="form-control" v-model="displayName" :placeholder="$t('displayname')">
+        <v-text-field
+            v-model="displayName"
+            solo-inverted
+            :placeholder="$t('displayname')"
+        ></v-text-field>
+
         <div v-if="errors">
 
-        <p class="text-danger" v-if="errors.display_name"><b>{{errors.display_name[0]}}</b> </p>
+        <p class="error" v-if="errors.display_name"><b>{{errors.display_name[0]}}</b> </p>
       </div>
       </div>
 
       <div class="form-group">
         <label for="country">{{$t('country')}}</label>
-        <select v-model="selectedCountry">
-          <h3>where are you from</h3>
-          <template v-for="(country,index) in countries">
-          <option :value="index+1">{{country}}</option>
+        <v-select
+                 :items="countries"
+                 :label="countries[selectedCountry-1]"
+                  v-model="selectedCountry"
+                  :hint="countries[selectedCountry]"
+                  solo-inverted
+                  dark
+                 >
+                 </v-select>
           <div v-if="errors">
-
-          <p class="text-danger" v-if="errors.country_id"><b>{{$t('countryerror')}}</b> </p>
-        </div>
-          </template>
-        </select>
+            <p><b class="error--text" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
+            <p class="error" v-if="errors.country_id"><b>{{$t('countryerror')}}</b> </p>
+          </div>
       </div>
 
 
       <div class="form-group">
         <label>{{$t('countryerror')}}</label>
-        <input type="date" class="form-control" v-model="bdate">
+        <v-dialog
+ref="dialog"
+v-model="modal"
+:return-value.sync="bdate"
+persistent
+lazy
+full-width
+width="290px"
+>
+
+
+<!-- BIRTHDAY  -->
+<v-text-field
+  slot="activator"
+  v-model="bdate"
+  :label="$t('birthday')"
+  prepend-icon="event"
+  :reactive="true"
+></v-text-field>
+<v-date-picker :reactive="true" locale="ar" v-model="bdate" scrollable>
+  <v-spacer></v-spacer>
+  <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+  <v-btn flat color="primary" @click="$refs.dialog.save(bdate)">OK</v-btn>
+</v-date-picker>
+</v-dialog>
+
         <div v-if="errors">
-
-        <p class="text-danger" v-if="errors.birth_date"><b>{{errors.birth_date[0]}}</b> </p>
+        <p class="error" v-if="errors.birth_date"><b>{{errors.birth_date[0]}}</b> </p>
       </div>
       </div>
 
-                <div class="form-group">
-                  <h3>{{$t('gender')}}</h3>
-                  <br>
-                <template v-for="(gender,index) in gender">
-                <label>{{gender}}<input type="radio"  :value="index+1"  id="male" v-model="selectedGender"></label>
-                </template>
+      <v-radio-group v-model="selectedGender" class="white--text">
+          <div slot="label" style="color:#f7dde3">
+            <h3>{{$t('gender')}}</h3>
+          </div>
+
+        <template v-for="(gender,index) in gender">
+             <v-radio
+               color="#f7dde3"
+              :value="index+1">
+              <div slot="label" style="color:#f7dde3">
+                {{gender}}
+              </div>
+             </v-radio>
+           </template>
+    </v-radio-group>
                 <div v-if="errors">
 
-                <p><b class="text-danger" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
+                <p><b class="error" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
               </div>
                 </div>
-      <div class="form-group">
-        <h3 class="text-center">{{$t('selectfavtopics')}}</h3>
-      <template v-for="(topic,index) in topics" style="height:60px;width:250px;margin:0 auto;overflow:scroll">
-        <label>{{topic}}
-        <input type="checkbox"  :value="index+1" v-model="selectedTopics" />
-        </label>
-        <br>
-      </template>
+        <label class="text-center">{{$t('selectfavtopics')}}</label>
+        <v-select
+          :items="topics"
+            item-text="topic"
+            item-value="id"
+          v-model="selectedTopics"
+          :label="$t('selectfavtopics')"
+           multiple
+           chips
+           solo-inverted
+        ></v-select>
       <div v-if="errors">
 
-      <p class="text-danger" v-if="errors.topics"><b>{{$t('selectfavtopics')}}</b> </p>
+      <p class="error" v-if="errors.topics"><b>{{$t('selectfavtopics')}}</b> </p>
 </div>
 
-      </div>
       <div class="form-group">
         <label>{{$t('description')}}</label>
-          <textarea v-model.trim="description" class="form-control"></textarea>
-          <b>{{writtenDescription}}/25 words</b>
-          <p class="text-danger" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
+        <v-textarea
+        no-resize
+             :label="$t('description')"
+               solo-inverted
+               v-model="description"
+
+             ></v-textarea>
+             <b>{{writtenDescription}}/25 words</b>
+          <p class="error" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
             <div v-if="errors">
-              <p class="text-danger" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
+              <p class="error" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
 
             </div>
 
       </div>
 
-      <div class="form-group">
-          <button type="submit" class="btn btn-success">
+      <div class="text-xs-center">
+          <v-btn round medium type="submit" class="success white--text">
               {{$t('save')}}
-          </button>
-          <button type="button" class="btn btn-danger" @click="cancel">
+          </v-btn>
+          <v-btn round medium type="button" class="error white--text" @click="cancel">
               {{$t('cancel')}}
-          </button>
+          </v-btn>
       </div>
 
-      </form>
+    </v-form>
+  </v-flex>
+
+  <v-flex md4 hidden-xs-only offset-md2 >
+    <v-card dark class="mt-5" max-width="320" height="600" max-height="620">
+      <v-img
+        v-if="avatar==null"
+      :src="`/storage/avatars/avatar_default.jpg`"
+        height="200"
+    ></v-img>
+    <template  v-if="avatar != null">
+
+      <v-img
+      :src="avatar"
+      height="225"
+    ></v-img>
+    <div class="text-xs-center">
+      <v-tooltip right>
+    <v-btn small slot="activator" color="error" icon @click="removeSelectedAvatar">
+        <v-icon>
+          close
+        </v-icon>
+    </v-btn>
+    <b>{{$t('remove')}}</b>
+  </v-tooltip>
+  </div>
+  </template>
+
+
+    <div class="text-sm-center">
+      <h1>{{username}}</h1>
+      <h2 class="indigo--text"><i>{{displayName}}</i></h2>
+      <h3>{{gender[selectedGender-1]}}</h3>
+        <bdi>
+          <h4>
+          <b>{{$t('from')}} : </b>
+        {{selectedCountry}}</h4>
+</bdi>
     </div>
 
-    <div class="col-md-6">
+    <div class="text-sm-center" v-if="selectedTopics.length > 0">
+      <h4>{{$t('favtopics')}}</h4>
+      <template v-for="topic in selectedTopics">
+      <v-btn  small round color="success">
+        {{topics[topic-1].topic}}
+      </v-btn>
+    </template>
 
-<div class="card">
-  <template v-if="avatar">
-<img :src="`${avatar}`" :alt="currentUser.name" alt="name" style="width:100%">
-</template>
-<template v-else>
-  <img src="storage/avatars/avatar_default.jpg" :alt="name"  style="width:100%">
-</template>
-<p><button class="btn btn-danger" @click="removeAvatar">{{$t('remove')}}</button></p>
+   </div>
+   <div class="text-sm-center" style="  overflow:hidden;text-overflow: ellipsis;">
+     <bdi>
+       <p style="white-space: pre-line;"><b>{{$t('about')}} : </b> {{description}}</p>
+ </bdi>
 
-<h1>{{name}}</h1>
-<h2>{{displayName}}</h2>
-<p class="title">
-  <bdi>
+   </div>
+    </v-card>
+  </v-flex>
 
-  <b>{{$t('about')}} :</b>{{currentUserProfile.description == null ? 'none'  : description}}
+</v-layout>
 
-</bdi>
-</p>
-
-<p><bdi><b>{{$t('from')}} : </b>{{countries[selectedCountry - 1]}}</bdi></p>
-
-<p><b>{{$t('birthday')}} : </b>{{bdate}}</p>
-
-<h4> <small>{{$t('favtopics')}} </small></h4>
-
-      <button type="button" style="margin:10px" class="btn btn-primary" v-for="topic in selectedTopics">
-            {{topics[topic-1]}}
-      </button>
-</div>
-<p>
-
-</p>
-</div>
-  </div>
+</v-container>
 </template>
 
 <script>
@@ -146,6 +224,7 @@ export default {
   },
   data(){
   return {
+    modal:false,
     name:'',
     displayName:'',
     avatar:`storage/avatars/${this.$store.state.authentication.currentUserProfile.avatar}`,
@@ -206,6 +285,11 @@ export default {
   },
 
   methods:{
+    removeSelectedAvatar(){
+      this.avatar =null;
+      this.avatarState = null;
+    },
+
     cancel(){
         this.$router.push('/');
     },
@@ -283,7 +367,7 @@ export default {
         },
       }).then((response)=>{
 
-        console.log(response.data);
+        console.log(response);
         localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
         localStorage.setItem('current_user_profile',JSON.stringify(response.data.updated_profile));
         localStorage.setItem('current_user_topics',JSON.stringify(response.data.updated_topics));
@@ -351,4 +435,23 @@ a {
 button:hover, a:hover {
   opacity: 0.7;
 }
+#file{
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+#file-container {
+  width:200px;
+  margin: 7px auto;
+	height: 200px !important;
+	position: relative;
+  background-color:#002d37;
+
+  }
 </style>

@@ -417,7 +417,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#file[data-v-72cd7b71]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-72cd7b71] {\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#002d37;\n  background-image: url('https://png2.kisspng.com/sh/b56ddb038cc23b8ffc9e03093482bd71/L0KzQYm3UsE1N6l2j5H0aYP2gLBuTfNidZZ3eZ9tcnH6ebBuTfNwdaF6jNd7LXbsfLa0gBFubaNmRadqOETlQ4i4UcFjOZc5RqU7MUS6SIKBUcUyQGc5TqM7OUC6Qoa1kP5o/kisspng-camera-drawing-computer-file-camera-5a84b37111b1f4.3214781815186461290725.png');\n  background-size: 50% 50%;\n  background-position: center;\n  background-attachment: scroll;\n  margin: 10px\n}\n", ""]);
+exports.push([module.i, "\n#file[data-v-72cd7b71]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-72cd7b71] {\n  width:200px;\n  margin: 7px auto;\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#002d37;\n}\n  ", ""]);
 
 // exports
 
@@ -498,30 +498,35 @@ var render = function() {
                       }
                     },
                     [
-                      _c("v-tooltip", { attrs: { right: "" } }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-xs-center",
-                            staticStyle: { height: "200px !important" },
-                            attrs: {
-                              slot: "activator",
-                              id: "file-container",
-                              color: "#e1f7e6"
+                      _c(
+                        "div",
+                        {
+                          staticClass: "text-xs-center",
+                          staticStyle: { height: "200px !important" },
+                          attrs: { id: "file-container", color: "#e1f7e6" }
+                        },
+                        [
+                          _c(
+                            "v-icon",
+                            {
+                              staticClass: "mt-5",
+                              attrs: { color: "white", size: "70px" }
                             },
-                            slot: "activator"
-                          },
-                          [
-                            _c("input", {
-                              staticStyle: { opacity: "0" },
-                              attrs: { id: "file", type: "file" },
-                              on: { change: _vm.handleFile }
-                            })
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Avatar")])
-                      ]),
+                            [
+                              _vm._v(
+                                "\n              add_a_photo\n            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticStyle: { opacity: "0" },
+                            attrs: { id: "file", type: "file" },
+                            on: { change: _vm.handleFile }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-tooltip",

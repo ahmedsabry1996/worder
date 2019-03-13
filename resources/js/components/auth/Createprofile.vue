@@ -7,14 +7,14 @@
       <v-flex xs12 md4 offset-md1 style="text-overflow: ellipsis;">
 
         <v-form @submit.prevent="createProfile">
-          <v-tooltip  right>
 
-          <div slot="activator" id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
-
+          <div  id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
+            <v-icon class="mt-5" color="white" size="70px">
+              add_a_photo
+            </v-icon>
             <input id="file" type="file" @change="handleFile" style="opacity:0">
           </div>
-          <span>Avatar</span>
-</v-tooltip>
+
 
     <v-tooltip right>
 
@@ -69,6 +69,7 @@
                   solo-inverted
                ></v-select>
  <p><b class="error--text" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
+ <!-- BIRTHDAY  -->
                <v-dialog
        ref="dialog"
        v-model="modal"
@@ -80,7 +81,6 @@
      >
 
 
-     <!-- BIRTHDAY  -->
        <v-text-field
          slot="activator"
          v-model="bdate"
@@ -431,13 +431,11 @@ createProfile(){
 	right: 0;
 }
 #file-container {
+  width:200px;
+  margin: 7px auto;
 	height: 200px !important;
 	position: relative;
   background-color:#002d37;
-  background-image: url('https://png2.kisspng.com/sh/b56ddb038cc23b8ffc9e03093482bd71/L0KzQYm3UsE1N6l2j5H0aYP2gLBuTfNidZZ3eZ9tcnH6ebBuTfNwdaF6jNd7LXbsfLa0gBFubaNmRadqOETlQ4i4UcFjOZc5RqU7MUS6SIKBUcUyQGc5TqM7OUC6Qoa1kP5o/kisspng-camera-drawing-computer-file-camera-5a84b37111b1f4.3214781815186461290725.png');
-  background-size: 50% 50%;
-  background-position: center;
-  background-attachment: scroll;
-  margin: 10px
-}
-</style>
+
+  }
+  </style>
