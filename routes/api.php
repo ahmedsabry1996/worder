@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 
-
-
 Route::group(['prefix'=>"auth"],function(){
 
           Route::post('login','API\AuthControllerApi@login');

@@ -1,118 +1,175 @@
-<template >
+<template>
+  <v-content class="container">
+    <v-container grid-list-md v-if="isLoggedIn">
+      <v-layout row wrap>
+        <v-flex xs12 md4 offset-md4>
+    <v-tabs
+      v-model="currentTab"
+      dark
+      slider-color="green">
+      <v-tab href="#email">
+        edit email
+      </v-tab>
+      <v-tab href="#password">
+        edit password
+      </v-tab>
+    </v-tabs>
 
-  <div class="container" >
-    <div class="row" v-if="isLoggedIn">
-      <h2 class="text-center">update data</h2>
-      <div class="col-md-4 col-md-push-4">
-        <p></p>
-        <ul class="nav nav-pills nav-justified">
+    <v-tabs-items v-model="currentTab">
+        <v-tab-item value="email">
 
-          <li @click="reset" class="active"><a data-toggle="pill" href="#email">{{$t('email')}}</a></li>
-          <li @click="reset"><a data-toggle="pill" href="#password">{{$t('password')}}</a></li>
-          <li @click="reset"><a data-toggle="pill" href="#verify-profile">{{$t('verifyprofile')}}</a></li>
+          <template  v-if="!verificationCode">
+            <v-text-field
+            type="email"
+            v-model="email"
+            autocomplete="off"
+            @keyup.enter="updateEmail"
+            :placeholder="$t('newemail')"
+            solo
+            :hint="`${$t('currentemail')} : ${currentUser.email}`"
+            ></v-text-field>
 
-        </ul>
+            <template v-if="errors">
+              <p class="error--text" v-if="errors.email"><b>{{errors.email}}</b></p>
+              <p class="error--text" v-if="errors.send_code"><b>{{errors.send_code}}</b></p>
+            </template>
+            <div class="text-xs-center">
 
-        <div class="tab-content">
-          <div id="email" class="tab-pane fade in active">
-            <h3></h3>
-
-
-              <div class="form-group" v-if="!verificationCode">
-                <label for="eamil">{{$t('currentemail')}} : {{currentUser.email}} </label>
-                <input type="email" v-model="email" autocomplete="off" @keyup.enter="updateEmail" class="form-control" id="Email" :placeholder="$t('newemail')">
-                <br>
-                <div v-if="errors">
-                  <p class="text-danger" v-if="errors.email"><b>{{errors.email}}</b></p>
-                  <p class="text-danger" v-if="errors.send_code"><b>{{errors.send_code}}</b></p>
-                </div>
-                <button type="button"  class="btn btn-success"  @click="updateEmail">
-                    {{$t('save')}}
-                </button>
-              </div>
-
-              <div class="form-group" v-if="verificationCode">
-                <p class="text-success">{{$t('codesent')}} : <b>{{email}}</b> </p>
-                <input type="text" class="form-control" @keyup.enter="changeEmail" v-model="code" :placeholder="$t('code')">
-                <br>
-                <div v-if="errors">
-                  <p class="text-danger" v-if="errors.code"><b>{{errors.code}}</b></p>
-                </div>
-                <button type="button"  class="btn btn-success"  @click="changeEmail">
-                    {{$t('donebtn')}}
-                </button>
-              </div>
+            <v-btn round :loading="loading" round class="white--text success"  @click="updateEmail">
+                {{$t('save')}}
+            </v-btn>
 
           </div>
-          <div id="password" class="tab-pane fade" >
-            <h3></h3>
-                <div class="form-group" v-if="!oldPasswordTrue">
-                  <label>{{$t('currentpass')}}</label>
-                  <input type="text" class="hide" >
-                  <input type="password" :placeholder="`enter ${$t('currentpass')}`" @keyup.enter="isCorrectPassword" autocomplete="new-password" v-model="password" class="form-control" >
-                  <div v-if="errors">
-                        <p class="text-danger" v-if="errors.errorOldPassword"><b>{{errors.errorOldPassword}}</b></p>
-                  </div>
-                  <p class="help-block" @click="forgetPasswrd" style="cursor:pointer;">
-                    {{$t('forgetpassword')}}
-                    </p>
-                  <button type="button" @click="isCorrectPassword" class="btn btn-success">
-                      {{$t('donebtn')}}
-                  </button>
-                </div>
 
-                <div class="form-group" v-if="correctOldPassowrd">
-                    <input type="text" class="hide">
-                  <input type="password" v-model="newPassowrd" class="form-control" :placeholder="$t('newpassword')">
-                  <br>
-                  <input type="password" @keyup.enter="changePassword" v-model="confirmPassword" :placeholder="$t('repeatpass')" class="form-control">
+          </template>
 
-                  <div v-if="errors">
-                        <p class="text-danger" v-if="errors.passwordLength"><b>{{errors.passwordLength}}</b></p>
-                        <p class="text-danger" v-if="errors.passwordmatch"><b>{{errors.passwordmatch}}</b></p>
-                  </div>
-                  <button type="button" @click="changePassword" class="btn btn-success">
-                      save
-                  </button>
-                  <button type="button" class="btn btn-warning" @click="reset">
-                    Cancel
-                  </button>
-
-                  </div>
-                  <div v-if="verificationCode">
-
-                  <div class="form-group">
-                    <p class="text-success">{{$t('codesent')}} : <b>{{currentUser.email}}</b>
-                      {{$t('entersentcode')}}</p>
-
-                    <input type="text" @keyup.enter="checkCode" v-model="code" class="form-control" :placeholder="$t('codesent')">
-                  </div>
-
-                  <div v-if="errors">
-                        <p class="text-danger" v-if="errors.code"><b>{{errors.code}}</b></p>
-                  </div>
-                  <div class="form-group">
-                    <button @click="checkCode" type="button" class="btn btn-success">
-                        {{$t('donebtn')}}
-                    </button>
-                  </div>
-
-                </div>
-          </div>
-
-<!-- verify profile -->
-<div id="verify-profile" class="tab-pane fade" >
-  <verify-profile></verify-profile>
-</div>
-
-          <br>
-          <button type="button" class="btn btn-danger" @click="goHome">
-              {{$t('cancel')}}
-          </button>
-        </div>
-      </div>
+    <template v-if="verificationCode">
+      <p class="green--text">{{$t('codesent')}} : <b>{{email}}</b> </p>
+      <v-text-field
+        solo
+        :hint="$t('code')"
+        @keyup.enter="changeEmail"
+        v-model="code"
+        :placeholder="$t('code')">
+      </v-text-field>
+      <template v-if="errors">
+        <p class="error--text" v-if="errors.code"><b>{{errors.code}}</b></p>
+      </template>
+      <div class="text-xs-center">
+      <v-btn round :loading="loading" class="success white--text"  @click="changeEmail">
+          {{$t('donebtn')}}
+      </v-btn>
     </div>
+    </template>
+        </v-tab-item>
+
+        <v-tab-item value="password">
+          <template v-if="!oldPasswordTrue">
+            <v-text-field solo
+              type="password"
+              :placeholder="`enter ${$t('currentpass')}`"
+              :label="$t('currentpass')"
+              v-model="password"
+                @keyup.enter="isCorrectPassword"
+            ></v-text-field>
+            <template v-if="errors">
+                  <p class="error--text" v-if="errors.errorOldPassword"><b>{{errors.errorOldPassword}}</b></p>
+            </template>
+            <div class="text-xs-center">
+
+            <v-btn :loading="loading"round class="white indigo--text" @click="forgetPasswrd" style="cursor:pointer;">
+              {{$t('forgetpassword')}}
+            </v-btn>
+            <v-btn :loading="loading"round  @click="isCorrectPassword" class="success white--text">
+                {{$t('donebtn')}}
+            </v-btn>
+          </div>
+          </template>
+
+                  <template class="form-group" v-if="correctOldPassowrd">
+                      <input type="text" class="hide">
+                    <v-text-field solo
+                    type="password"
+                    v-model="newPassowrd"
+                    :placeholder="$t('newpassword')">
+                    </v-text-field>
+                    <br>
+                    <v-text-field solo
+                          type="password"
+                          @keyup.enter="changePassword"
+                          v-model="confirmPassword"
+                          :placeholder="$t('repeatpass')"
+                    ></v-text-field>
+
+                    <template v-if="errors">
+                          <p class="error--text" v-if="errors.passwordLength"><b>{{errors.passwordLength}}</b></p>
+                          <p class="error--text" v-if="errors.passwordmatch"><b>{{errors.passwordmatch}}</b></p>
+                    </template>
+                    <div class="text-xs-center">
+
+                    <v-btn :loading="loading"round  @click="changePassword" class="success white--text">
+                      {{$t('save')}}
+
+                    </v-btn>
+                    <v-btn :loading="loading"round  class="warning black--text" @click="reset">
+                      {{$t('cancel')}}
+                    </v-btn>
+                  </div>
+                  </template>
+
+                  <template v-if="verificationCode">
+
+                    <p class="white--text text-xs-center">
+                        <bdi>
+
+                      {{$t('codesent')}}  <b>{{currentUser.email}}</b>
+                      {{$t('entersentcode')}}
+                    </bdi>
+                  </p>
+
+
+                    <v-text-field solo
+                    @keyup.enter="checkCode"
+                     v-model="code"
+                     :placeholder="$t('code')"
+                    ></v-text-field>
+                  <template v-if="errors">
+                        <p class="error--text" v-if="errors.code"><b>{{errors.code}}</b></p>
+                  </template>
+                  <div class="text-xs-center">
+
+                    <v-btn :loading="loading"round @click="checkCode" round class="success white--text">
+                        {{$t('donebtn')}}
+                    </v-btn>
+
+                  </div>
+                </template>
+        </v-tab-item>
+        <v-tab-item>
+          <!-- Insh'Allah
+          verify user profil after reaching 10M
+  <div id="verify-profile" class="tab-pane fade" >
+    <verify-profile></verify-profile>
   </div>
+
+            <br>
+            <button type="button" class="btn btn-danger" @click="goHome">
+                {{$t('cancel')}}
+            </button>
+           -->
+        </v-tab-item>
+    </v-tabs-items>
+
+
+
+
+
+
+            </v-flex>
+    </v-layout>
+  </v-container>
+
+</v-content>
 </template>
 
 <script>
@@ -124,6 +181,8 @@
     },
 data(){
   return {
+    currentTab:'email',
+    loading:false,
     email:'',
     password:'',
     correctOldPassowrd:false,
@@ -162,6 +221,7 @@ methods:{
   updateEmail(){
       const currentUserEmail= this.$store.state.authentication.currentUser.email;
     if (this.email != currentUserEmail && this.email.length > 0) {
+        this.loading = true;
         axios.post('/api/update-email',{
           email:this.email,
         },{
@@ -170,6 +230,7 @@ methods:{
           }
         })
         .then((response)=>{
+          this.loading = false;
           console.log(response.data);
           this.verificationCode = response.data.sent_code;
           this.errors = null;
@@ -177,6 +238,7 @@ methods:{
         .catch((errors)=>{
           console.log(errors.response);
           console.log(errors.response.data.errors);
+          this.loading = false;
 
           this.errors = errors.response.data.errors;
         })
@@ -186,6 +248,7 @@ methods:{
 
   changeEmail(){
       if (this.verificationCode == this.code) {
+        this.loading = true;
 
         axios.post('/api/change-email',{
           sent_code:this.verificationCode,
@@ -196,6 +259,9 @@ methods:{
             Authorization:`Bearer ${localStorage.getItem('access_token')}`
           }
         }).then((response)=>{
+          this.reset();
+          this.loading = false;
+
           localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
           localStorage.setItem('email',this.email);
           this.$store.commit('updateUser');
@@ -210,12 +276,15 @@ methods:{
           console.log(errors.response);
              console.log(errors.response.data.errors);
 
+             this.loading = false;
 
           this.errors = errors.response.data.errors;
 
         })
     }
     else{
+      this.loading = false;
+
       this.errors = {code:'error in inserted code'}
     }
   },
@@ -225,6 +294,8 @@ methods:{
 
     let sendVerificationCode = confirm(`${this.$t('sendto')} ${currentUserEmail} ?`);
     if (sendVerificationCode) {
+      this.loading = true;
+
       this.isForgetPassword = true;
       axios.post('/api/auth/sendcode',{
         email:currentUserEmail
@@ -234,12 +305,16 @@ methods:{
         }
       })
       .then((response)=>{
+        this.loading = false;
+
         console.log(response.data);
         this.verificationCode = response.data.verification_code;
         this.errors = null;
 
       })
       .catch((errors)=>{
+        this.loading = false;
+
         this.errors = errors.response.data.errors;
         console.log(errors.response.data.errors);
 
@@ -265,6 +340,7 @@ methods:{
       if (this.newPassowrd.length >= 6 && this.confirmPassword.length >=6) {
 
         if (this.newPassowrd == this.confirmPassword) {
+          this.loading = true;
 
 
                 axios.post('/api/auth/reset-password',{
@@ -277,6 +353,8 @@ methods:{
                   }
                 })
                 .then((response)=>{
+                  this.reset();
+                  this.loading = false;
                   console.log(response.data);
                   localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
                   this.$store.commit('updateUser');
@@ -289,6 +367,8 @@ methods:{
 
                 })
                 .catch((errors)=>{
+                  this.loading = false;
+
                   console.log(errors);
                   console.log(errors.response);
                   console.log(errors.response.data.errors);

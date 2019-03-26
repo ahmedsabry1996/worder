@@ -127,6 +127,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -134,6 +191,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      currentTab: 'email',
+      loading: false,
       email: '',
       password: '',
       correctOldPassowrd: false,
@@ -170,6 +229,7 @@ __webpack_require__.r(__webpack_exports__);
       var currentUserEmail = this.$store.state.authentication.currentUser.email;
 
       if (this.email != currentUserEmail && this.email.length > 0) {
+        this.loading = true;
         axios.post('/api/update-email', {
           email: this.email
         }, {
@@ -177,12 +237,14 @@ __webpack_require__.r(__webpack_exports__);
             Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
           }
         }).then(function (response) {
+          _this.loading = false;
           console.log(response.data);
           _this.verificationCode = response.data.sent_code;
           _this.errors = null;
         }).catch(function (errors) {
           console.log(errors.response);
           console.log(errors.response.data.errors);
+          _this.loading = false;
           _this.errors = errors.response.data.errors;
         });
       }
@@ -191,6 +253,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.verificationCode == this.code) {
+        this.loading = true;
         axios.post('/api/change-email', {
           sent_code: this.verificationCode,
           code: this.code,
@@ -200,6 +263,9 @@ __webpack_require__.r(__webpack_exports__);
             Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
           }
         }).then(function (response) {
+          _this2.reset();
+
+          _this2.loading = false;
           localStorage.setItem('current_user', JSON.stringify(response.data.updated_user));
           localStorage.setItem('email', _this2.email);
 
@@ -215,9 +281,11 @@ __webpack_require__.r(__webpack_exports__);
         }).catch(function (errors) {
           console.log(errors.response);
           console.log(errors.response.data.errors);
+          _this2.loading = false;
           _this2.errors = errors.response.data.errors;
         });
       } else {
+        this.loading = false;
         this.errors = {
           code: 'error in inserted code'
         };
@@ -230,6 +298,7 @@ __webpack_require__.r(__webpack_exports__);
       var sendVerificationCode = confirm("".concat(this.$t('sendto'), " ").concat(currentUserEmail, " ?"));
 
       if (sendVerificationCode) {
+        this.loading = true;
         this.isForgetPassword = true;
         axios.post('/api/auth/sendcode', {
           email: currentUserEmail
@@ -238,10 +307,12 @@ __webpack_require__.r(__webpack_exports__);
             Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
           }
         }).then(function (response) {
+          _this3.loading = false;
           console.log(response.data);
           _this3.verificationCode = response.data.verification_code;
           _this3.errors = null;
         }).catch(function (errors) {
+          _this3.loading = false;
           _this3.errors = errors.response.data.errors;
           console.log(errors.response.data.errors);
         });
@@ -266,6 +337,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.correctOldPassowrd) {
         if (this.newPassowrd.length >= 6 && this.confirmPassword.length >= 6) {
           if (this.newPassowrd == this.confirmPassword) {
+            this.loading = true;
             axios.post('/api/auth/reset-password', {
               password: this.newPassowrd,
               password_confirmation: this.confirmPassword,
@@ -275,6 +347,9 @@ __webpack_require__.r(__webpack_exports__);
                 Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
               }
             }).then(function (response) {
+              _this4.reset();
+
+              _this4.loading = false;
               console.log(response.data);
               localStorage.setItem('current_user', JSON.stringify(response.data.updated_user));
 
@@ -287,6 +362,7 @@ __webpack_require__.r(__webpack_exports__);
                 "icon": "success"
               });
             }).catch(function (errors) {
+              _this4.loading = false;
               console.log(errors);
               console.log(errors.response);
               console.log(errors.response.data.errors);
@@ -438,560 +514,633 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm.isLoggedIn
-      ? _c("div", { staticClass: "row" }, [
-          _c("h2", { staticClass: "text-center" }, [_vm._v("update data")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4 col-md-push-4" }, [
-            _c("p"),
-            _vm._v(" "),
-            _c("ul", { staticClass: "nav nav-pills nav-justified" }, [
-              _c("li", { staticClass: "active", on: { click: _vm.reset } }, [
-                _c("a", { attrs: { "data-toggle": "pill", href: "#email" } }, [
-                  _vm._v(_vm._s(_vm.$t("email")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("li", { on: { click: _vm.reset } }, [
-                _c(
-                  "a",
-                  { attrs: { "data-toggle": "pill", href: "#password" } },
-                  [_vm._v(_vm._s(_vm.$t("password")))]
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", { on: { click: _vm.reset } }, [
-                _c(
-                  "a",
-                  { attrs: { "data-toggle": "pill", href: "#verify-profile" } },
-                  [_vm._v(_vm._s(_vm.$t("verifyprofile")))]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "tab-content" }, [
+  return _c(
+    "v-content",
+    { staticClass: "container" },
+    [
+      _vm.isLoggedIn
+        ? _c(
+            "v-container",
+            { attrs: { "grid-list-md": "" } },
+            [
               _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade in active",
-                  attrs: { id: "email" }
-                },
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
                 [
-                  _c("h3"),
-                  _vm._v(" "),
-                  !_vm.verificationCode
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("label", { attrs: { for: "eamil" } }, [
-                          _vm._v(
-                            _vm._s(_vm.$t("currentemail")) +
-                              " : " +
-                              _vm._s(_vm.currentUser.email) +
-                              " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.email,
-                              expression: "email"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "email",
-                            autocomplete: "off",
-                            id: "Email",
-                            placeholder: _vm.$t("newemail")
-                          },
-                          domProps: { value: _vm.email },
-                          on: {
-                            keyup: function($event) {
-                              if (
-                                !$event.type.indexOf("key") &&
-                                _vm._k(
-                                  $event.keyCode,
-                                  "enter",
-                                  13,
-                                  $event.key,
-                                  "Enter"
-                                )
-                              ) {
-                                return null
-                              }
-                              return _vm.updateEmail($event)
+                  _c(
+                    "v-flex",
+                    { attrs: { xs12: "", md4: "", "offset-md4": "" } },
+                    [
+                      _c(
+                        "v-tabs",
+                        {
+                          attrs: { dark: "", "slider-color": "green" },
+                          model: {
+                            value: _vm.currentTab,
+                            callback: function($$v) {
+                              _vm.currentTab = $$v
                             },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.email = $event.target.value
-                            }
+                            expression: "currentTab"
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c("div", [
-                              _vm.errors.email
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [_vm._v(_vm._s(_vm.errors.email))])
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.errors.send_code
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [
-                                      _vm._v(_vm._s(_vm.errors.send_code))
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: { click: _vm.updateEmail }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(_vm.$t("save")) +
-                                "\n                "
-                            )
-                          ]
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.verificationCode
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("p", { staticClass: "text-success" }, [
-                          _vm._v(_vm._s(_vm.$t("codesent")) + " : "),
-                          _c("b", [_vm._v(_vm._s(_vm.email))])
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.code,
-                              expression: "code"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: _vm.$t("code") },
-                          domProps: { value: _vm.code },
-                          on: {
-                            keyup: function($event) {
-                              if (
-                                !$event.type.indexOf("key") &&
-                                _vm._k(
-                                  $event.keyCode,
-                                  "enter",
-                                  13,
-                                  $event.key,
-                                  "Enter"
-                                )
-                              ) {
-                                return null
-                              }
-                              return _vm.changeEmail($event)
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.code = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c("div", [
-                              _vm.errors.code
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [_vm._v(_vm._s(_vm.errors.code))])
-                                  ])
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: { click: _vm.changeEmail }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(_vm.$t("donebtn")) +
-                                "\n                "
-                            )
-                          ]
-                        )
-                      ])
-                    : _vm._e()
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "tab-pane fade", attrs: { id: "password" } },
-                [
-                  _c("h3"),
-                  _vm._v(" "),
-                  !_vm.oldPasswordTrue
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v(_vm._s(_vm.$t("currentpass")))]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "hide",
-                          attrs: { type: "text" }
-                        }),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.password,
-                              expression: "password"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "password",
-                            placeholder: "enter " + _vm.$t("currentpass"),
-                            autocomplete: "new-password"
-                          },
-                          domProps: { value: _vm.password },
-                          on: {
-                            keyup: function($event) {
-                              if (
-                                !$event.type.indexOf("key") &&
-                                _vm._k(
-                                  $event.keyCode,
-                                  "enter",
-                                  13,
-                                  $event.key,
-                                  "Enter"
-                                )
-                              ) {
-                                return null
-                              }
-                              return _vm.isCorrectPassword($event)
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.password = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c("div", [
-                              _vm.errors.errorOldPassword
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [
-                                      _vm._v(
-                                        _vm._s(_vm.errors.errorOldPassword)
-                                      )
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass: "help-block",
-                            staticStyle: { cursor: "pointer" },
-                            on: { click: _vm.forgetPasswrd }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(_vm.$t("forgetpassword")) +
-                                "\n                    "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: { click: _vm.isCorrectPassword }
-                          },
-                          [
-                            _vm._v(
-                              "\n                      " +
-                                _vm._s(_vm.$t("donebtn")) +
-                                "\n                  "
-                            )
-                          ]
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.correctOldPassowrd
-                    ? _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "hide",
-                          attrs: { type: "text" }
-                        }),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.newPassowrd,
-                              expression: "newPassowrd"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "password",
-                            placeholder: _vm.$t("newpassword")
-                          },
-                          domProps: { value: _vm.newPassowrd },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.newPassowrd = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.confirmPassword,
-                              expression: "confirmPassword"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "password",
-                            placeholder: _vm.$t("repeatpass")
-                          },
-                          domProps: { value: _vm.confirmPassword },
-                          on: {
-                            keyup: function($event) {
-                              if (
-                                !$event.type.indexOf("key") &&
-                                _vm._k(
-                                  $event.keyCode,
-                                  "enter",
-                                  13,
-                                  $event.key,
-                                  "Enter"
-                                )
-                              ) {
-                                return null
-                              }
-                              return _vm.changePassword($event)
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.confirmPassword = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c("div", [
-                              _vm.errors.passwordLength
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [
-                                      _vm._v(_vm._s(_vm.errors.passwordLength))
-                                    ])
-                                  ])
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.errors.passwordmatch
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [
-                                      _vm._v(_vm._s(_vm.errors.passwordmatch))
-                                    ])
-                                  ])
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: { click: _vm.changePassword }
-                          },
-                          [
-                            _vm._v(
-                              "\n                      save\n                  "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning",
-                            attrs: { type: "button" },
-                            on: { click: _vm.reset }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    Cancel\n                  "
-                            )
-                          ]
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.verificationCode
-                    ? _c("div", [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("p", { staticClass: "text-success" }, [
-                            _vm._v(_vm._s(_vm.$t("codesent")) + " : "),
-                            _c("b", [_vm._v(_vm._s(_vm.currentUser.email))]),
-                            _vm._v(
-                              "\n                      " +
-                                _vm._s(_vm.$t("entersentcode"))
-                            )
+                        },
+                        [
+                          _c("v-tab", { attrs: { href: "#email" } }, [
+                            _vm._v("\n        edit email\n      ")
                           ]),
                           _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.code,
-                                expression: "code"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              placeholder: _vm.$t("codesent")
+                          _c("v-tab", { attrs: { href: "#password" } }, [
+                            _vm._v("\n        edit password\n      ")
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tabs-items",
+                        {
+                          model: {
+                            value: _vm.currentTab,
+                            callback: function($$v) {
+                              _vm.currentTab = $$v
                             },
-                            domProps: { value: _vm.code },
-                            on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.checkCode($event)
-                              },
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.code = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _vm.errors
-                          ? _c("div", [
-                              _vm.errors.code
-                                ? _c("p", { staticClass: "text-danger" }, [
-                                    _c("b", [_vm._v(_vm._s(_vm.errors.code))])
-                                  ])
-                                : _vm._e()
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
+                            expression: "currentTab"
+                          }
+                        },
+                        [
                           _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success",
-                              attrs: { type: "button" },
-                              on: { click: _vm.checkCode }
-                            },
+                            "v-tab-item",
+                            { attrs: { value: "email" } },
                             [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(_vm.$t("donebtn")) +
-                                  "\n                    "
-                              )
-                            ]
-                          )
-                        ])
-                      ])
-                    : _vm._e()
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade",
-                  attrs: { id: "verify-profile" }
-                },
-                [_c("verify-profile")],
-                1
-              ),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  attrs: { type: "button" },
-                  on: { click: _vm.goHome }
-                },
-                [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(_vm.$t("cancel")) +
-                      "\n          "
+                              !_vm.verificationCode
+                                ? [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        type: "email",
+                                        autocomplete: "off",
+                                        placeholder: _vm.$t("newemail"),
+                                        solo: "",
+                                        hint:
+                                          _vm.$t("currentemail") +
+                                          " : " +
+                                          _vm.currentUser.email
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.updateEmail($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.email,
+                                        callback: function($$v) {
+                                          _vm.email = $$v
+                                        },
+                                        expression: "email"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors
+                                      ? [
+                                          _vm.errors.email
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.errors.email)
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.errors.send_code
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.errors.send_code
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-xs-center" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "white--text success",
+                                            attrs: {
+                                              round: "",
+                                              loading: _vm.loading,
+                                              round: ""
+                                            },
+                                            on: { click: _vm.updateEmail }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                " +
+                                                _vm._s(_vm.$t("save")) +
+                                                "\n            "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.verificationCode
+                                ? [
+                                    _c("p", { staticClass: "green--text" }, [
+                                      _vm._v(
+                                        _vm._s(_vm.$t("codesent")) + " : "
+                                      ),
+                                      _c("b", [_vm._v(_vm._s(_vm.email))])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        solo: "",
+                                        hint: _vm.$t("code"),
+                                        placeholder: _vm.$t("code")
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.changeEmail($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.code,
+                                        callback: function($$v) {
+                                          _vm.code = $$v
+                                        },
+                                        expression: "code"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors
+                                      ? [
+                                          _vm.errors.code
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.errors.code)
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-xs-center" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "success white--text",
+                                            attrs: {
+                                              round: "",
+                                              loading: _vm.loading
+                                            },
+                                            on: { click: _vm.changeEmail }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n          " +
+                                                _vm._s(_vm.$t("donebtn")) +
+                                                "\n      "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e()
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tab-item",
+                            { attrs: { value: "password" } },
+                            [
+                              !_vm.oldPasswordTrue
+                                ? [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        solo: "",
+                                        type: "password",
+                                        placeholder:
+                                          "enter " + _vm.$t("currentpass"),
+                                        label: _vm.$t("currentpass")
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.isCorrectPassword($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.password,
+                                        callback: function($$v) {
+                                          _vm.password = $$v
+                                        },
+                                        expression: "password"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors
+                                      ? [
+                                          _vm.errors.errorOldPassword
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.errors
+                                                          .errorOldPassword
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-xs-center" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "white indigo--text",
+                                            staticStyle: { cursor: "pointer" },
+                                            attrs: {
+                                              loading: _vm.loading,
+                                              round: ""
+                                            },
+                                            on: { click: _vm.forgetPasswrd }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n              " +
+                                                _vm._s(
+                                                  _vm.$t("forgetpassword")
+                                                ) +
+                                                "\n            "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "success white--text",
+                                            attrs: {
+                                              loading: _vm.loading,
+                                              round: ""
+                                            },
+                                            on: { click: _vm.isCorrectPassword }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                " +
+                                                _vm._s(_vm.$t("donebtn")) +
+                                                "\n            "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.correctOldPassowrd
+                                ? [
+                                    _c("input", {
+                                      staticClass: "hide",
+                                      attrs: { type: "text" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        solo: "",
+                                        type: "password",
+                                        placeholder: _vm.$t("newpassword")
+                                      },
+                                      model: {
+                                        value: _vm.newPassowrd,
+                                        callback: function($$v) {
+                                          _vm.newPassowrd = $$v
+                                        },
+                                        expression: "newPassowrd"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        solo: "",
+                                        type: "password",
+                                        placeholder: _vm.$t("repeatpass")
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.changePassword($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.confirmPassword,
+                                        callback: function($$v) {
+                                          _vm.confirmPassword = $$v
+                                        },
+                                        expression: "confirmPassword"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors
+                                      ? [
+                                          _vm.errors.passwordLength
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.errors
+                                                          .passwordLength
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.errors.passwordmatch
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.errors.passwordmatch
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-xs-center" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "success white--text",
+                                            attrs: {
+                                              loading: _vm.loading,
+                                              round: ""
+                                            },
+                                            on: { click: _vm.changePassword }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(_vm.$t("save")) +
+                                                "\n\n                    "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "warning black--text",
+                                            attrs: {
+                                              loading: _vm.loading,
+                                              round: ""
+                                            },
+                                            on: { click: _vm.reset }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                      " +
+                                                _vm._s(_vm.$t("cancel")) +
+                                                "\n                    "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.verificationCode
+                                ? [
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass:
+                                          "white--text text-xs-center"
+                                      },
+                                      [
+                                        _c("bdi", [
+                                          _vm._v(
+                                            "\n\n                      " +
+                                              _vm._s(_vm.$t("codesent")) +
+                                              "  "
+                                          ),
+                                          _c("b", [
+                                            _vm._v(
+                                              _vm._s(_vm.currentUser.email)
+                                            )
+                                          ]),
+                                          _vm._v(
+                                            "\n                      " +
+                                              _vm._s(_vm.$t("entersentcode")) +
+                                              "\n                    "
+                                          )
+                                        ])
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        solo: "",
+                                        placeholder: _vm.$t("code")
+                                      },
+                                      on: {
+                                        keyup: function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.checkCode($event)
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.code,
+                                        callback: function($$v) {
+                                          _vm.code = $$v
+                                        },
+                                        expression: "code"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.errors
+                                      ? [
+                                          _vm.errors.code
+                                            ? _c(
+                                                "p",
+                                                { staticClass: "error--text" },
+                                                [
+                                                  _c("b", [
+                                                    _vm._v(
+                                                      _vm._s(_vm.errors.code)
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ]
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-xs-center" },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "success white--text",
+                                            attrs: {
+                                              loading: _vm.loading,
+                                              round: "",
+                                              round: ""
+                                            },
+                                            on: { click: _vm.checkCode }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                        " +
+                                                _vm._s(_vm.$t("donebtn")) +
+                                                "\n                    "
+                                            )
+                                          ]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                : _vm._e()
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _c("v-tab-item")
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
-                ]
+                ],
+                1
               )
-            ])
-          ])
-        ])
-      : _vm._e()
-  ])
+            ],
+            1
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -32,9 +32,9 @@ Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
 //Vue.use(BootstrapVue);
 
 Vue.use(VueProgressBar, {
-  color: '#00C7BF',
+  color: '#fff',
   failedColor: 'red',
-  thickness: '3px',
+  thickness: '5px',
 
 })
 require('vue-toastr/src/vue-toastr.scss');
@@ -48,7 +48,7 @@ Vue.use(Toastr,{
 });
 const router = new VueRouter({
   routes,
-  mode:'histor'
+  mode:'history'
 });
 
 const store = new Vuex.Store(storeData);
