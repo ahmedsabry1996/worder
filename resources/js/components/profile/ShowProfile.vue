@@ -1,13 +1,13 @@
 <template>
 
   <v-container grid-list-md>
-  </v-content>
+  </v-content v-if="showProfile">
   <v-layout row wrap>
       <v-flex xs12 offset-xs0 md4 offset-md4>
 
         <v-card dark width="320" class="mr-5">
           <v-img
-
+          v-if="showProfile.profile.avatar"
           :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
           height="200" >
     </v-img>

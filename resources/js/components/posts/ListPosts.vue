@@ -49,15 +49,27 @@
                 </b>
               </router-link>
           </div>
+          <v-flex xs12>
 
-          <div  v-if="post.image">
-            <v-img
+          <div  v-if="post.image" class="text-xs-center hidden-xs-only">
+            <img
+            width="500"
             :src="`/storage/posts_images/${post.image}`"
             class="grey lighten-2"
-            @click="showPost(post.id)">
-        </v-img>
+            @click="showPost(post.id)"/>
 
           </div>
+
+          <div  v-if="post.image" class="ml-1 text-xs-center hidden-sm-and-up">
+            <img
+            width="300"
+            style="margin:0 auto !important;"
+            :src="`/storage/posts_images/${post.image}`"
+            class="grey lighten-2"
+            @click="showPost(post.id)"/>
+
+          </div>
+        </v-flex>
 
           <!-- React to post -->
 
@@ -98,19 +110,19 @@
         </div>
 
         <!-- date of post -->
-        <div class="post-date">
+        <div class="post-date white--text">
               <b>
               {{ post.created_at | getDateForHumans }}
               </b>
         </div>
 
         <!-- post topic -->
-        <div class="post-topic" v-if="post.topic">
-            <p class="text-primary" style="opacity:.8">
+        <div class="post-topic white--text" v-if="post.topic">
+            <p>
                 <b>  {{post.topic.topic}}</b>
             </p>
         </div>
-        <v-divider></v-divider>
+        <hr class="white white--text"/>
   </div>
 
 

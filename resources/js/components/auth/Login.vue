@@ -1,20 +1,21 @@
 <template>
   <v-content>
     <v-layout row wrap>
-    <v-flex xs12 md4 offset-md4 >
+      
+    <v-flex xs12 md4 offset-md4>
+      <h1 class="headline text-xs-center white--text">Login</h1>
       <!-- Login fields -->
       <template v-if="!forgetPassword">
         <v-form  @submit.prevent="login">
           <v-text-field
-          
+
           background-color="#112f41"
             color="white--text"
             v-model="email"
             :label="$t('email')"
             solo-inverted
-              autofocus
-
-          ></v-text-field>
+            autofocus>
+            </v-text-field>
           <v-text-field
           background-color="#112f41"
 

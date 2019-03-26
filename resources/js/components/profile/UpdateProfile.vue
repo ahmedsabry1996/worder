@@ -8,7 +8,7 @@
 
 
           <div  id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
-            <v-icon class="mt-5" color="white" size="70px">
+            <v-icon class="mt-5" color="black" size="70px">
               add_a_photo
             </v-icon>
           <input id="file" type="file" @change="handleFile" style="opacity:0">
@@ -448,10 +448,10 @@ button:hover, a:hover {
 }
 #file-container {
   width:200px;
-  margin: 7px auto;
+  margin: 17px auto;
 	height: 200px !important;
 	position: relative;
-  background-color:#002d37;
+  background-color:#ddd;
 
   }
 </style>

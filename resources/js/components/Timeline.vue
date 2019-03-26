@@ -6,10 +6,13 @@
         <create-post></create-post>
       </v-flex>
       <v-flex hidden-sm-and-down md3>
+        <keep-alive>
+
         <suggested-people></suggested-people>
+      </keep-alive>
       </v-flex>
       <v-flex xs11 md6>
-        <list-posts class="text-xs-center" :posts.sync="timelinePosts"></list-posts>
+        <list-posts class="text-xs-center" :posts="timelinePosts"></list-posts>
         <div class="text-xs-center" v-if="isLoadingMoreTimeline">
 
         <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>

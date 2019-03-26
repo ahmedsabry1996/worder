@@ -1,7 +1,6 @@
 <template>
 <v-content>
 <v-toolbar app color="#005556" class="hidden-xs-only" v-if="perfectUser">
-    <v-toolbar-side-icon class="white--text"></v-toolbar-side-icon>
     <v-toolbar-title  class="white--text" >
       <v-btn small flat router to="/" class="white--text headline"> Worder</v-btn>
     </v-toolbar-title>
@@ -46,77 +45,7 @@
 </v-toolbar>
 
     </div>
-    <!-- <nav class="navbar navbar-default" role="navigation" v-if="isLoggedIn">
-    <div class="container-fluid">
 
-
-      <div class="navbar-header">
-
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-      </div>
-
-      <form @submit.prevent="showMore()" v-if="perfectUser" class="visible-xs navbar-form navbar-right">
-   <div class="form-group">
-     <input type="text" class="form-control" v-model="keyword" :placeholder="$t('search')">
-   </div>
-   <ul class="list-group results visible-xs">
-
-     <li class="list-group-item" v-for="result in results" style="height:60px;" @click="showResults = false;results = null;keyword='';goTo(result.profile.display_name)">
-       <p>
-       <img class="img-rounded" style="" :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name" width="30" height="30">
-       <router-link style="padding:10px" :to="`/${result.profile.display_name}`">
-         {{result.name}}
-       </router-link>
-       <br>
-       <i style="opacity:.5;color:#000;text-align:right" class="text-center">{{result.profile.display_name}}</i>
-     </p>
-   </li>
-   <li class="list-group-item " v-if="results.length == 5">
-     <a  href="#">see more</a>
-   </li>
-   </ul>
- </form>
-
-
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><router-link to="/"> <b>Worder</b> </router-link></li>
-
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <template v-if="!isLoggedIn">
-          <li><router-link to = "/login"> <b>{{$t('login')}}</b> </router-link></li>
-          <li><router-link to= "/signup"> <b>{{$t('signup')}}</b> </router-link></li>
-          </template>
-          <template v-if="perfectUser">
-
-            <li><router-link :to="`/${currentUserProfile.display_name}`"> <b>{{currentUserProfile.display_name}}</b> </router-link></li>
-            <li><a @click.prevent="logout" style="cursor:pointer"> <b>{{$t('logout')}}</b> </a></li>
-          </template>
-          <template v-if="needProfile">
-            <li v-if="needProfile"><router-link  to="/create-profile"> <b>  {{$t('createprofile')}}</b> </router-link></li>
-            <li><a @click.prevent="logout"> <b>  {{$t('exit')}}</b> </a></li>
-
-          </template>
-
-          <template v-if="cotinueSignup">
-            <li><router-link to= "/signup"> <b>  {{$t('continuesignup')}}</b> </router-link></li>
-          </template>
-        </ul>
-        <form @submit.prevent="showMore()" v-if="perfectUser" class="hidden-xs navbar-form navbar-right col-md-pull-3 col-md-12" >
-     <div class="form-group">
-       <input type="text" class="form-control" v-model="keyword" :placeholder="$t('search')" @focus="showResults = true" @blur="hideResults">
-     </div>
-   </form>
-      </div>
-    </div>
-  </nav> -->
   <ul class="list-group col-md-3 col-md-offset-7 results-md" id="results-md" v-if="showResults && results.length > 0" >
       <li class="list-group-item" v-for="result in results" style="height:60px;" @click="showResults = false;results = [];keyword='';goTo(result.profile.display_name)">
         <p>
@@ -134,14 +63,31 @@
   </ul>
   <v-container grid-list-md v-if="!isLoggedIn">
     <v-layout row wrap>
+
       <v-flex xs12 text-xs-center>
         <h1 class="white--text">{{$t('welcome')}}</h1>
       </v-flex>
-      <v-flex xs6 class="text-xs-center">
-        <v-btn large flat color="white" router to="/login">{{$t('login')}}</v-btn>
+      <v-flex xs12>
+        <div class="text-xs-center">
+
+          <v-btn round 
+          class="primary white--text"
+          @click="selectedComponent = 'login'">
+          login
+         </v-btn>
+
+          <v-btn
+          round
+          class="primary white--text"
+          @click="selectedComponent = 'signup'">
+          signup
+        </v-btn>
+
+        </div>
       </v-flex>
-      <v-flex xs6 class="text-xs-center">
-        <v-btn large flat color="white" router to="/signup">{{$t('signup')}}</v-btn>
+      <v-flex xs12 class="text-xs-center">
+        <component :is="selectedComponent">
+        </component>
       </v-flex>
     </v-layout>
   </v-container>
@@ -151,13 +97,13 @@
 <script>
     import axios from 'axios';
     import Notifications from './Notifications.vue'
+    import Login from './auth/Login.vue'
+    import Signup from './auth/Signup.vue'
   export default {
       data(){
           return {
+              selectedComponent:'signup',
               loading:false,
-              toggleDropdown:false,
-              notivar:false,
-              logged:false,
               keyword:'',
               showResults:false,
               results:[]
@@ -171,12 +117,15 @@
         },
         components:{
           Notifications,
+          Login,
+          Signup,
         },
         computed:{
 
           isLoggedIn(){
 
             return  this.$store.getters.isLoggedIn;
+
           },
           needProfile(){
           return this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "0"

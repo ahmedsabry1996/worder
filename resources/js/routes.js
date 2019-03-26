@@ -5,17 +5,6 @@ import Timeline from './components/Timeline.vue'
 //import Test from './components/Test.vue';
 import Veifyemail from './components/auth/Veifyemail.vue';
 
-const Login = resolve =>{
-  require.ensure(['./components/auth/Login.vue'],()=>{
-    resolve(require('./components/auth/Login.vue'))
-  })
-}
-
-const Signup = resolve =>{
-  require.ensure(['./components/auth/Signup.vue'],()=>{
-    resolve(require('./components/auth/Signup.vue'))
-  })
-}
 const Topic = resolve =>{
   require.ensure(['./components/topics/topic.vue'],()=>{
     resolve(require('./components/topics/topic.vue'))
@@ -67,33 +56,6 @@ export const routes = [
       path:'/',
       component:Timeline,
       name:'root'
-  },
-  {
-    path:'/signup',
-    component:Signup,
-    name:"signup",
-    beforeEnter:((to,from,next)=>{
-      if(!store.getters.isLoggedIn || (store.getters.verificationCode && store.getters.isLoggedIn == true)){
-              next();
-            }
-            else{
-              next('/');
-            }
-
-    })
-  },
-  {
-    path:'/login',
-    component:Login,
-    name:"login",
-    beforeEnter:((to,from,next)=>{
-        if(!store.getters.isLoggedIn){
-          next()
-        }
-        else{
-          next('/')
-        }
-    })
   },
   {
     path:'/create-profile',

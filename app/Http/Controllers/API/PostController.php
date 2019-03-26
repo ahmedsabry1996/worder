@@ -42,7 +42,7 @@ class PostController extends Controller
 
       $post_validation = $request->validate([
           'post'=>'required',
-          'topic'=>'required|numeric|between:1,9',
+          'topic'=>'required|numeric|between:1,11',
 
       ]);
 

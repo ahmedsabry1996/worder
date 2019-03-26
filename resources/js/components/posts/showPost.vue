@@ -46,15 +46,14 @@
         </div>
         <v-flex xs12>
 
-        <div  class="hidden-xs-only post-img text-xs-csenter" v-if="post.image">
+        <div  class="hidden-xs-only post-img text-xs-center" v-if="post.image">
           <img
           width="500"
-
           :src="`/storage/posts_images/${post.image}`"
  alt="post photo">
         </div>
 
-        <div  class="hidden-sm-and-up post-img text-xs-csenter" v-if="post.image">
+        <div  class="hidden-sm-and-up post-img text-xs-center" v-if="post.image">
           <img
           width="300"
           :src="`/storage/posts_images/${post.image}`"

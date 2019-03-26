@@ -14,5 +14,6 @@ export default{
                 {topic:'industry',id:7},
                 {topic:'travel',id:8},
                 {topic:'migration',id:9},
-                {topic:'education',id:10}],
+                {topic:'education',id:10},
+                {topic:'general',id:11}],
 }

@@ -6,6 +6,7 @@
       no-resize
       dark
       outline
+      :dir="`rtl`"
     ></v-textarea>
     <v-layout row wrap>
       <v-flex xs12 sm3>
@@ -44,64 +45,38 @@
         ></v-select>
       </div>
       </v-flex>
-      <v-flex xs8 v-if="image" md4 offset-md5 offset-xs4>
+      <v-flex xs12 v-if="image" md12>
+        <div style="text-xs-center">
         <v-img
+        style="margin:0 auto;"
         :src="image"
         alt="..."
         width="200"
         >
         </v-img>
+          <div class="text-xs-center">
+
+        <v-btn
+        style="margin:0 auto;"
+        icon
+        flat
+        color="white"
+        @click="removeImage">
+          <v-icon>close</v-icon>
+        </v-btn>
+      </div>
+      </div>
       </v-flex>
     </v-layout>
-    <!-- <div class="container">
-      <div class="row" >
-        <h1>{{topic}}</h1>
-        <form @submit.prevent="createPost">
-             <div class="form-group">
-              <textarea v-model.trim="post" class="form-control" placeholder="wirte what in your mind :)">
-              </textarea>
-            </div>
-            <div class="form-group">
-              <div class="col-md-3">
-                    <select  v-model="topic">
-                          <option  value="" selected disabled >  {{$t('choosetopic')}} </option>
-                          <option  v-for="(topic,index) in currentUserTopics" :value="topic.id"> {{topics[topic.id - 1]}}</option>
-                    </select>
-              </div>
-              <div class="col-md-3">
-                <input type="file" @change="HandlePostImage" />
-              </div>
-              <div class="col-md-3">
-                <button type="submit" class="btn btn-primary" :disabled="post.length === 0 || wordsNumber > 100 || !topic ">
-                      {{$t('publish')}}
-                </button>
-                <p>{{wordsNumber}}</p>
-              </div>
-              <div class="col-md-3">
-                {{wordsCounter}} / 100
-              </div>
-            </div>
-
-        </form>
-      </div>
-      <hr>
-      <div class="timeline text-center">
-        <h1 style="opacity:0;font-size:1px">ddd</h1>
-        <div class="row">
-      </div>
-
-      </div>
-    </div>
-     -->
      <v-divider dark></v-divider>
-
     <v-snackbar
       v-model="snackbar"
         bottom
       :timeout="1501"
       >
-      <b>      {{$t('postdone')}}
-</b>
+      <b>
+         {{$t('postdone')}}
+       </b>
       <v-btn
         color="success"
         flat
@@ -123,7 +98,7 @@ export default {
       snackbar:false,
       post:'',
       image:null,
-      topic:'',
+      topic:11,
       wordsNumber:0,
       writtenPost :'',
       wordsCounterColor : 'white--text'
@@ -161,7 +136,9 @@ export default {
     }
   },
   methods:{
-
+    removeImage(){
+      this.image = null;
+    },
     HandlePostImage(e){
 
 
@@ -200,7 +177,7 @@ export default {
           })
           .then(()=>{
             this.post = '';
-            this.topic = '';
+            this.topic = 11;
             this.image = null;
             this.snackbar=true;
           })

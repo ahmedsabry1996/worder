@@ -1,9 +1,10 @@
 <template>
-
-
-    <v-container grid-list-md >
-    <v-layout>
-      <v-flex xs12 md4 offset-md4 class="pa-3">
+    <v-container grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12>
+          <h1 class="headline text-xs-center white--text">signup</h1>
+      </v-flex>
+      <v-flex xs12  md4 offset-md4  class="pa-3">
         <template v-if="!verificationCode">
 
           <!-- Default signup form -->

@@ -2,11 +2,7 @@
     <v-app class="app">
 
       <Header/>
-
-
         <router-view></router-view>
-
-<tooltip class="text-center totool"/>
 </v-app>
 </template>
 
@@ -108,6 +104,7 @@ body{
 
  background-image: radial-gradient(circle, #005f5b, #005556, #004c50, #004249, #003942, #06353f, #0c313b, #102d37, #182d36, #1e2d36, #242e34, #282e33) !important;
      font-family: 'Ubuntu', sans-serif;
+     background-attachment: fixed !important;
 }
 
 </style>

@@ -62,8 +62,8 @@
                  :items="topics"
                    item-text="topic"
                    item-value="id"
-                 v-model="selectedTopics"
-                 :label="$t('selectfavtopics')"
+                   v-model="selectedTopics"
+                  :label="$t('selectfavtopics')"
                   multiple
                   chips
                   solo-inverted
