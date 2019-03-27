@@ -1,8 +1,11 @@
 <template>
     <v-app class="app">
-
       <Header/>
+
         <router-view></router-view>
+        <template v-if="homePage">
+            <time-line></time-line>
+        </template>
 </v-app>
 </template>
 
@@ -20,8 +23,8 @@
       created () {
             this.$Progress.start()
             this.$router.beforeEach((to, from, next) => {
-            this.$Progress.start()
-            next()
+            this.$Progress.start();
+            next();
   })
 
   this.$router.afterEach((to, from) => {
@@ -82,6 +85,12 @@
           numOfFollowing(){
 
               return this.$store.getters.following;
+          },
+          homePage(){
+            if (this.isLoggedIn) {
+
+              return   this.$route.name == null;
+            }
           }
 
         },

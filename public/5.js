@@ -284,6 +284,11 @@ __webpack_require__.r(__webpack_exports__);
           return true;
         }
       }
+    },
+    userCountry: function userCountry() {
+      if (this.$store.getters.countries.indexOf(this.selectedCountry) != -1) {
+        return this.$store.getters.countries.indexOf(this.selectedCountry) + 1;
+      }
     }
   },
   methods: {
@@ -350,7 +355,7 @@ __webpack_require__.r(__webpack_exports__);
         "name": this.name,
         "display_name": this.displayName,
         "gender_id": this.selectedGender,
-        "country_id": this.selectedCountry,
+        "country_id": this.userCountry,
         "birth_date": this.bdate,
         "description": this.description,
         "topics": this.selectedTopics,

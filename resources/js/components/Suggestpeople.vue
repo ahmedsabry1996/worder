@@ -1,5 +1,9 @@
 <template>
     <v-list two-line dark>
+        <v-btn @click="refreshSuggested" flat icon color="white" >
+          <v-icon>refresh</v-icon>
+        </v-btn>
+        <span>refresh</span>
        <template v-for="(person,index) in suggestPeople">
          <v-list-tile
            avatar

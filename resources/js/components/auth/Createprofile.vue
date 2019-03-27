@@ -281,7 +281,7 @@ return {
   selectedTopics:[],
   bdate: new Date().toISOString().substr(0, 10),
 landscape: false,
-reactive: false,
+reactive: true,
   description:'',
   writtenDescription:0,
   errors:[],

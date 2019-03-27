@@ -53,24 +53,10 @@ const store = new Vuex.Store(storeData);
 export const routes = [
 
   {
-      path:'/',
-      component:Timeline,
-      name:'root'
-  },
-  {
     path:'/create-profile',
     component:Createprofile,
     name:"create-profile",
-    beforeEnter:((to,from,next)=>{
-      if (from.path == '/signup' || (store.state.authentication.hasProfile == 0 && store.state.authentication.isVerified == 1) ) {
-            next();
-      }
 
-      else{
-        console.log(from);
-        next('/');
-      }
-    })
   },
   {
     path:'/update-profile',

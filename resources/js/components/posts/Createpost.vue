@@ -73,12 +73,14 @@
       v-model="snackbar"
         bottom
       :timeout="1501"
+      color="white"
       >
-      <b>
+      <b       class=" indigo--text"
+>
          {{$t('postdone')}}
        </b>
       <v-btn
-        color="success"
+        color="indigo"
         flat
         @click="snackbar = false">
       <bdi>

@@ -186,9 +186,10 @@ export default {
             this.signupLoading = true;
             console.log(this.signupLoading);
             if (this.code == this.$store.getters.verificationCode) {
+              alert(123)
+                this.$router.push('/create-profile');
                 localStorage.setItem('user_id',this.currentUser.id);
                 this.$store.dispatch('confrimEmail');
-                this.$router.push('create-profile');
 
             }
             else{

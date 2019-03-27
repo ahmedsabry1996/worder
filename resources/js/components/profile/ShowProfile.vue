@@ -581,6 +581,7 @@ export default {
 
   },
   created(){
+    console.log(this.$route);
     this.$store.dispatch('reactedPosts');
     //this.$store.dispatch('');
     this.$store.dispatch('showProfile',this.displayName)

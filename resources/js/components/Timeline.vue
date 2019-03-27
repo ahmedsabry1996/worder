@@ -72,12 +72,14 @@ export default {
       this.isLoading = true;
       this.$store.dispatch('reactedPosts');
       this.$store.dispatch('myFollowingIds');
-      this.$store.dispatch('timeline');
     }
   },
   mounted(){
 
     this.loadMore();
+    if (this.perfectUser) {
+      this.$store.dispatch('timeline');
+    }
   },
   methods:{
     showPost(postId){
