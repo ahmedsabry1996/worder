@@ -126,19 +126,34 @@
         </div>
 
         <!-- likers -->
-        <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="320" overlay-theme="dark">
+        <sweet-modal :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers"  width="320"  overlay-theme="dark">
 
-          <div style="overflow-y:scroll;height:120px" @scroll="loadMoreLikers">
+          <div style="overflow-y:scroll;height:300px" @scroll="loadMoreLikers">
 
-            <div class="likers" v-for="liker in postLikers">
-              <p @click="openProfile(liker.profile.display_name)" tag="p" style="cursor:pointer">
-                <img :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.name" width="40" height="40" class="img-rounded">
-                <b>{{liker.name}}</b>
-                <br>
-                <i style="opacity:.5;position:relative">{{liker.profile.display_name}}</i>
-              </p>
+            <v-list two-line>
+              <template v-for="liker in postLikers">
 
-            </div>
+                  <v-list-tile>
+
+                <v-list-tile-avatar>
+                  <img
+                  @click="ShowProfile(liker.profile.display_name)"
+                  :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.profile.display_name">
+                </v-list-tile-avatar>
+
+                  <v-list-tile-content
+                    @click="ShowProfile(liker.profile.display_name)">
+                    <v-list-tile-title>
+                          {{liker.name}}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                          {{liker.profile.display_name}}
+                        </v-list-tile-sub-title>
+                  </v-list-tile-content>
+
+                </v-list-tile>
+              </template>
+            </v-list>
 
           </div>
         </sweet-modal>
@@ -146,17 +161,30 @@
         <!-- dislikers -->
         <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
 
-          <div style="overflow-y:scroll;height:120px" @scroll="loadMoreDisLikers">
+          <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
+            <v-list two-line>
+              <template v-for="disliker in postDislikers">
 
-            <div class="likers" v-for="disliker in postDislikers">
-              <p @click="openProfile(disliker.profile.display_name)"  style="cursor:pointer">
-                <img :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.name" width="40" height="40" class="img-rounded">
-                <b>{{disliker.name}}</b>
-                <br>
-                <i style="opacity:.5;position:relative">{{disliker.profile.display_name}}</i>
-              </p>
+                  <v-list-tile>
 
-            </div>
+                <v-list-tile-avatar>
+                  <img
+                    @click="ShowProfile(disliker.profile.display_name)"
+                  :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.profile.display_name">
+                </v-list-tile-avatar>
+
+                  <v-list-tile-content>
+                    <v-list-tile-title   @click="ShowProfile(disliker.profile.display_name)">
+                          {{disliker.name}}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                          {{disliker.profile.display_name}}
+                        </v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </template>
+            </v-list>
+
 
           </div>
         </sweet-modal>

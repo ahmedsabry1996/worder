@@ -10,15 +10,13 @@
       <v-text-field flat
       dark
       class="mt-2"
+      color="white"
       :placeholder="$t('search')"
-      prepend-icon="search"
+      prepend-inner-icon="search"
       v-model="keyword"
-      slot="activator"
-
-            ></v-text-field>
-
-
-      <v-list class="ml-2" v-if="results.length > 0">
+      slot="activator">
+      </v-text-field>
+      <v-list class="ml-2" v-if="results.length > 0" background-color="#08343e">
         <template v-for="result in results">
 
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
@@ -37,9 +35,16 @@
       <notifications left></notifications>
 
 
-      <v-btn  flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">profile <span>
+      <v-btn  flat router  class="white--text" :to="`/${currentUserProfile.display_name}`">
+        {{$t('profile')}}
+         <span>
       </span>
     </v-btn>
+    <v-btn flat router class="white--text" @click="logout">
+      <b>      {{$t('logout')}}
+</b>
+    </v-btn>
+
     </v-toolbar-items>
 
 </v-toolbar>
@@ -70,17 +75,20 @@
       <v-flex xs12>
         <div class="text-xs-center">
 
-          <v-btn round 
-          class="primary white--text"
+          <v-btn
+          large
+          round
+          class="indigo white--text"
           @click="selectedComponent = 'login'">
-          login
+          <b>{{$t('login')}}</b>
          </v-btn>
 
           <v-btn
+          large
           round
-          class="primary white--text"
+          class="indigo white--text"
           @click="selectedComponent = 'signup'">
-          signup
+          <b>{{$t('signup')}}</b>
         </v-btn>
 
         </div>
@@ -110,10 +118,7 @@
           }
       },
 
-
         mounted() {
-
-
         },
         components:{
           Notifications,

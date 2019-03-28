@@ -3,29 +3,28 @@ export default{
     fillTopicPosts(context,commit,rootState){
       let currentTopic = commit.topic;
       let id = context.state.topics.findIndex((val)=>{
-      return val.topic == currentTopic
-});
+      return val.topic == currentTopic});
 
+      return new Promise(function(resolve, reject) {
+        axios.post(`/api/topic/show`,{
+          topic_id:id + 1
+        },{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          }
+        }).
+        then((response)=>{
 
-    axios.post(`/api/topic/show`,{
-      topic_id:id + 1 
-    },{
-      headers:{
-        Authorization:`Bearer ${localStorage.getItem('access_token')}`
-      }
-    }).
-    then((response)=>{
+          context.commit('fillTopicPosts',{posts:response.data.posts,
+                                            postsNum:response.data.posts_num});
+          resolve(response);
+        }).
+        catch((error)=>{
 
-      context.commit('fillTopicPosts',{posts:response.data.posts,
-                                        postsNum:response.data.posts_num});
+          reject(error);
+        });
+      });
 
-    }).
-    catch((error)=>{
-
-      console.log(error);
-      console.log(error.response.data);
-
-    })
     },
 
     loadMoreTopicPosts(context,commit,rootState){

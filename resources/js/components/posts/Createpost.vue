@@ -1,18 +1,26 @@
 <template>
   <v-content>
     <v-textarea
-      label="what happens"
+      :label="$t('whatHappen')"
       v-model.trim="post"
       no-resize
-      dark
       outline
-      :dir="`rtl`"
+      class="t"
+      color="white"
+      dir="rtl"
     ></v-textarea>
+
     <v-layout row wrap>
       <v-flex xs12 sm3>
+
         <div class="text-xs-center text-sm-center mt-2">
+          <v-btn  @click="showEmoji = !showEmoji" large >
+          <h1>🙂</h1>  </v-btn>
         <h3 :class="wordsCounterColor">{{wordsCounter}} / 100
 </h3>
+        </div>
+        <div v-if="showEmoji">
+          <VEmojiPicker :pack="pack" @select="selectEmoji" />
         </div>
       </v-flex>
       <v-flex xs12 sm2>
@@ -93,10 +101,14 @@
 </template>
 
 <script>
+import VEmojiPicker from 'v-emoji-picker';
+import packData from 'v-emoji-picker/data/emojis.json';
 
 export default {
   data(){
     return {
+      showEmoji:false,
+      pack: packData,
       snackbar:false,
       post:'',
       image:null,
@@ -119,7 +131,14 @@ export default {
   mounted(){
     console.log('create a new post');
   },
+  components: {
+    VEmojiPicker
+  },
+
   computed:{
+    emojisNative() {
+     return packData;
+   },
     wordsCounter(){
       if (this.post.length === 0) {
       return  this.wordsNumber = 0
@@ -130,7 +149,7 @@ export default {
       return this.wordsNumber = words;
     },
     topics(){
-      return this.$store.getters.topics;
+      return this.$t('topics');
     } ,
 
     currentUserTopics(){
@@ -138,6 +157,9 @@ export default {
     }
   },
   methods:{
+    selectEmoji(emoji) {
+      this.post += emoji.emoji;
+  },
     removeImage(){
       this.image = null;
     },
@@ -234,5 +256,17 @@ export default {
   top: -30px;
 	right: 0;
 	bottom: 0;
+}
+
+.t >>> .v-text-field__slot textarea {
+  color: white !important;
+  direction:rtl !important;
+}
+.t >>> .theme--light.v-label {
+	color: wheat !important;
+  direction:rtl !important;
+}
+.t >>> .v-input__slot{
+  border-color: white !important
 }
 </style>

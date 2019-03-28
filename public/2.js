@@ -305,7 +305,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.countries;
     },
     topics: function topics() {
-      return this.$store.getters.topics;
+      return this.$t('topics');
     },
     username: function username() {
       return this.$store.getters.currentUser.name;

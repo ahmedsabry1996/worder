@@ -2,7 +2,6 @@
     <v-container grid-list-md>
     <v-layout row wrap>
       <v-flex xs12>
-          <h1 class="headline text-xs-center white--text">signup</h1>
       </v-flex>
       <v-flex xs12  md4 offset-md4  class="pa-3">
         <template v-if="!verificationCode">
@@ -11,11 +10,11 @@
             <v-form @submit.prevent="signup">
               <v-text-field
               autofocus
-
-                background-color="#112f41"
-                solo-inverted
+                solo
                 :label="$t('name')"
                 v-model="name"
+                  color="indigo"
+
               ></v-text-field>
 
               <template v-if="signupErrors">
@@ -25,12 +24,13 @@
               </template>
 
               <v-text-field
-              background-color="#112f41"
+
+              class="t"
 
 
                 :label="$t('email')"
                   v-model="email"
- solo-inverted
+ solo
               ></v-text-field>
 
                                 <template v-if="signupErrors">
@@ -39,11 +39,14 @@
                                 </p>
                                 </template>
                       <v-text-field
-                      background-color="#112f41"
+                      class="t"
+
+
+
                         :label="$t('password')"
                           type="password"
                          v-model="password"
-                         solo-inverted
+                         solo
                       ></v-text-field>
                       <template v-if="signupErrors">
                       <p class="white--text" v-if="signupErrors.password">
@@ -52,11 +55,11 @@
                       </p>
                       </template>
               <v-text-field
-              background-color="#112f41"
+              class="t"
 
                  :label="$t('repeatpass')"
                    type="password"
-                 v-model="passwordConfirm" solo-inverted
+                 v-model="passwordConfirm" solo
               ></v-text-field>
 
               <div class="text-xs-center">
@@ -87,10 +90,10 @@
                 <br />
                 <v-text-field
 
-                background-color="#112f41"
+
                     v-model="code"
                     :label="this.$t('code')"
-                      solo-inverted
+                      solo
 
                 ></v-text-field>
 

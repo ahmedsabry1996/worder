@@ -294,7 +294,7 @@ computed:{
     return  this.$store.getters.countries;
   },
   topics(){
-    return this.$store.getters.topics;
+    return this.$t('topics');
   },
   username(){
       return   this.$store.getters.currentUser.name;

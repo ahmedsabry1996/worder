@@ -1,29 +1,29 @@
 <template>
-  <v-content>
+  <v-container grid-list-md>
     <v-layout row wrap>
-      
-    <v-flex xs12 md4 offset-md4>
-      <h1 class="headline text-xs-center white--text">Login</h1>
+      <v-flex xs12>
+      </v-flex>
+    <v-flex xs12 md4 offset-md4 class="pa-4">
       <!-- Login fields -->
       <template v-if="!forgetPassword">
         <v-form  @submit.prevent="login">
           <v-text-field
 
-          background-color="#112f41"
+
             color="white--text"
             v-model="email"
             :label="$t('email')"
-            solo-inverted
+            solo
             autofocus>
             </v-text-field>
           <v-text-field
-          background-color="#112f41"
+
 
             type="password"
             color="white--text"
             v-model="password"
             :label="$t('password')"
-            solo-inverted
+            solo
           ></v-text-field>
           <div class="text-xs-center">
 
@@ -42,7 +42,7 @@
     <v-text-field
       :label="$t('email' )"
         v-model="email"
-      solo-inverted
+      solo
     ></v-text-field>
     <div class="text-xs-center">
       <v-btn round color="primary" @click="verifyEmail" :loading="loading">{{$t('verify')}}
@@ -58,7 +58,7 @@
     <label for="confirm_code">{{$t('codesent')}} : <b class="white--text">{{email}}</b> </label>
     <v-text-field
        v-model="confirmationCode"
-         solo-inverted
+         solo
 
     ></v-text-field>
     <div class="text-xs-center">
@@ -78,14 +78,14 @@
       :hint="$t('newpassword')"
         type="password"
       v-model="password"
-        solo-inverted
+        solo
 
     ></v-text-field>
 
     <v-text-field
       :hint="$t('repeatpass')"
         v-model="passwordConfirmation"
-        solo-inverted
+        solo
     ></v-text-field>
     <div class="text-xs-center">
 
@@ -106,7 +106,7 @@
 </div>
       </v-flex>
     </v-layout>
-</v-content>
+  </v-container>
 </template>
 
 <script>

@@ -1,26 +1,29 @@
 <template>
 
-  <v-container grid-list-md>
-  </v-content v-if="showProfile">
+  <v-container grid-list-xs>
+  <v-content v-if="showProfile">
   <v-layout row wrap>
       <v-flex xs12 offset-xs0 md4 offset-md4>
+        <v-card dark max-width="320" style="margin:0 auto;">
 
-        <v-card dark width="320" class="mr-5">
+          <!-- profile image -->
           <v-img
           v-if="showProfile.profile.avatar"
           :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
           height="200" >
-    </v-img>
+        </v-img>
 
-
+          <!-- user name -->
           <v-card-title primary-title>
             <h1>{{showProfile.name}}</h1>
           </v-card-title>
 
+          <!-- display name -->
           <div class="text-xs-center">
             <h2>{{showProfile.profile.display_name}}</h2>
           </div>
 
+          <!-- country -->
           <div class="text-xs-center">
               <h3>
                 <bdi>
@@ -29,6 +32,7 @@
               </h3>
           </div>
 
+          <!-- description -->
           <div class="text-xs-center">
               <h4>
                 <bdi>
@@ -37,6 +41,7 @@
               </h4>
           </div>
 
+          <!-- Num of fans -->
           <div class="text-xs-center mt-2" v-if="currentUserProfile.user_id != showProfile.profile.user_id ">
             <p>
             <bdi>
@@ -51,6 +56,8 @@
               </bdi>
           </p>
           </div>
+
+          <!-- My fans -->
         <div v-else class="text-xs-center">
           <p>
           <bdi>
@@ -66,6 +73,7 @@
           </p>
         </div>
 
+        <!-- is following -->
         <div class="text-xs-center"
          v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
           <template v-if="isFollow">
@@ -76,12 +84,12 @@
           <template v-else>
             <v-btn round small class="success white--text" @click="follow(showProfile.id,'follow')">
               {{$t('follow')}}
-      </v-btn>
+            </v-btn>
           </template>
         </div>
 
 
-
+        <!-- my profile buttons -->
           <div class="text-xs-center" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
               <v-btn round small class="success white--text" data-toggle="modal" @click="fans" >
                   <b>{{$t('fans')}}</b>
@@ -95,25 +103,27 @@
               </v-btn>
           </div>
 
+
+            <!-- user faviorite topics -->
           <div class="text-xs-center">
             <template v-for="topic in showProfile.topics">
-
             <v-btn round small class="primary white--text">
-                  {{topic.topic}}
+              <b>                  {{topics[topic.id]['topic']}}
+</b>
             </v-btn>
+
           </template>
          </div>
         </v-card>
       </v-flex>
 
   <div class="container" v-if="showProfile.profile">
-      <div class="row">
-<div class="text-xs-center">
-
-<template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
+      <div class="text-xs-center">
+        <div style="margin: 0 auto !important;left: -30px;position: relative;">
+          <!-- show user posts -->
+          <template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
       <div class="post text-xs-center" v-for="(post,index) in posts">
           <div class="avatar">
-
             <v-avatar
               size="55"
               class="#005f5b">
@@ -128,12 +138,11 @@
               <h5 class="white--text">by <b>{{showProfile.profile.display_name}}</b></h5>
           </div>
           <div class="post-content">
-              <p style="font-size:33px;overflow-wrap:break-word;">
+              <p style="overflow-wrap:break-word;">
                 <b class="white--text">
                   <bdi>
-                    "
                     {{post.post}}
-                    "
+
                   </bdi>
                 </b>
               </p>
@@ -230,8 +239,8 @@
               </p>
           </div>
           <div class="post-topic">
-              <p class="white--text" style="opacity:.8">
-                  <b>  {{post.topic.topic}}</b>
+              <p class="white--text">
+                  <b>  {{topics[post.topic_id -1 ]['id']}}</b>
               </p>
           </div>
           <hr>
@@ -239,9 +248,8 @@
 
 </template>
 
-<!-- MY PROFILE -->
-<template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
-
+<!-- MY PROFILE posts-->
+            <template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
   <div class="text-xs-center post" v-for="(post,index) in posts" >
 
     <div class="avatar">
@@ -257,20 +265,21 @@
     </div>
     <div class="post-content mt-3">
   <p style="white-space:pre-line;font-weight: bold;" class="white--text">
-  <bdi>  " {{post.post}} "
+  <bdi>
+    {{post.post}}
   </bdi>
   </p>
     </div>
 
-              <div  v-if="post.image">
+              <template  v-if="post.image">
                 <v-img
-                style="margin:0 auto"
+                style="margin:0 auto;"
                 width="320"
                 :src="`/storage/posts_images/${post.image}`"
                 class="grey lighten-2">
             </v-img>
 
-              </div>
+          </template>
 
     <div class="post-time white--text">
       {{post.created_at | getDateForHumans}}
@@ -299,22 +308,22 @@
     <div class="post-react-number">
       <p class="text-center">
 
-        <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;">
+        <span v-if="post.dislikes_counter" style="position:relative;font-size:10pt ;color:#ffffff;margin: auto 14px;cursor:pointer;">
           {{ post.dislikes_counter.count  }}
         </span>
 
-        <span v-else style="position:relative;font-size:10pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
+        <span v-else style="position:relative;font-size:10pt ;color:#ffffff;margin: auto 14px;cursor:pointer;top:3px">
             0
           </span>
 
 
-        <span v-if="post.likes_counter" style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+        <span v-if="post.likes_counter" style="font-size:10pt ;color:#ffffff;margin: auto 14px;cursor:pointer;">
 
           {{post.likes_counter.count }}
 
     </span>
 
-        <span v-else style="font-size:10pt ;color:#192FDD;margin: auto 14px;cursor:pointer;">
+        <span v-else style="font-size:10pt ;color:#ffffff;margin: auto 14px;cursor:pointer;">
 
               0
         </span>
@@ -327,12 +336,12 @@
 
   <hr>
   </div>
-</template>
+            </template>
     </div>
   </div>
 
   <!-- likers  -->
-  <sweet-modal :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
+  <sweet-modal :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:300px" @scroll="loadMoreLikers">
 
@@ -379,7 +388,7 @@
   </sweet-modal>
 
 <!-- dislikers -->
-  <sweet-modal :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
+  <sweet-modal :title="$t('dislikers')" :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
         <v-list two-line>
@@ -524,8 +533,8 @@
 
 </div>
 
-</v-content>
   </v-layout>
+</v-content>
 </v-container>
 
 </template>
@@ -646,7 +655,7 @@ export default {
       return this.$store.getters.currentUserProfile;
     },
     topics(){
-         return this.$store.getters.topics;
+         return this.$t('topics');
     },
 
     userProfile(){
@@ -857,8 +866,6 @@ export default {
   color: grey;
   font-size: 18px;
 }
-
-
 
 a {
   text-decoration: none;

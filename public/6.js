@@ -10,9 +10,10 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../posts/ListPosts.vue */ "./resources/js/components/posts/ListPosts.vue");
-/* harmony import */ var _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../Suggestpeople.vue */ "./resources/js/components/Suggestpeople.vue");
-/* harmony import */ var _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../topics/Topics.vue */ "./resources/js/components/topics/Topics.vue");
-/* harmony import */ var _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../trend/Trend.vue */ "./resources/js/components/trend/Trend.vue");
+/* harmony import */ var _posts_Createpost_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../posts/Createpost.vue */ "./resources/js/components/posts/Createpost.vue");
+/* harmony import */ var _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../Suggestpeople.vue */ "./resources/js/components/Suggestpeople.vue");
+/* harmony import */ var _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../topics/Topics.vue */ "./resources/js/components/topics/Topics.vue");
+/* harmony import */ var _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../trend/Trend.vue */ "./resources/js/components/trend/Trend.vue");
 //
 //
 //
@@ -51,6 +52,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 
 
@@ -65,6 +69,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     noTopicPosts: function noTopicPosts() {
       return this.$store.getters.noTopicPosts;
+    },
+    topics: function topics() {
+      return this.$t('topics');
     }
   },
   mounted: function mounted() {
@@ -75,10 +82,11 @@ __webpack_require__.r(__webpack_exports__);
     this.getTopicPosts();
   },
   components: {
+    CreatePost: _posts_Createpost_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     ListPosts: _posts_ListPosts_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    SuggestedPeople: _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Topics: _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Trend: _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    SuggestedPeople: _Suggestpeople_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Topics: _topics_Topics_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Trend: _trend_Trend_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   watch: {
     '$route': function $route(to, from) {
@@ -89,6 +97,10 @@ __webpack_require__.r(__webpack_exports__);
     getTopicPosts: function getTopicPosts() {
       this.$store.dispatch('fillTopicPosts', {
         topic: this.$route.params.topic
+      }).then(function (response) {
+        console.log(7);
+      }).catch(function (error) {
+        console.log(error.response.status);
       });
     },
     loadMore: function loadMore() {
@@ -140,6 +152,8 @@ var render = function() {
             "v-layout",
             { attrs: { "hidden-sm-and-down": "", row: "", wrap: "" } },
             [
+              _c("v-flex", { attrs: { xs12: "" } }, [_c("create-post")], 1),
+              _vm._v(" "),
               _c("v-flex", { attrs: { md3: "" } }, [_c("suggested-people")], 1),
               _vm._v(" "),
               _c(
@@ -147,17 +161,7 @@ var render = function() {
                 { attrs: { md6: "" } },
                 [
                   !_vm.noTopicPosts
-                    ? [
-                        _c(
-                          "h1",
-                          {
-                            staticClass: "white--text display-3 text-xs-center"
-                          },
-                          [_vm._v(_vm._s(this.$route.params.topic))]
-                        ),
-                        _vm._v(" "),
-                        _c("list-posts", { attrs: { posts: _vm.posts } })
-                      ]
+                    ? [_c("list-posts", { attrs: { posts: _vm.posts } })]
                     : [
                         _c(
                           "div",

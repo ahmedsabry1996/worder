@@ -2,14 +2,14 @@
 <div>
 
           <v-list dark subheader>
-          <v-subheader>Topics</v-subheader>
+          <v-subheader>{{$t('allTopics')}}</v-subheader>
           <template v-for="(topic,index) in topics">
               <v-list-tile
                 :key="topic.id"
                 avatar
                 ripple
                 router
-                :to="`/topic/${topic.topic}`"
+                :to="`/topic/${topic.en}`"
               >
                 <v-list-tile-content>
                   <v-list-tile-title>{{ topic.topic }}</v-list-tile-title>
@@ -28,7 +28,7 @@
 export default {
   computed:{
     topics(){
-        return this.$store.getters.topics;
+        return this.$t('topics');
     }
   }
 }

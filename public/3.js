@@ -179,6 +179,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -730,6 +758,7 @@ var render = function() {
         {
           ref: "likers",
           attrs: {
+            title: _vm.$t("likers"),
             "enable-mobile-fullscreen": false,
             width: "320",
             "overlay-theme": "dark"
@@ -739,47 +768,75 @@ var render = function() {
           _c(
             "div",
             {
-              staticStyle: { "overflow-y": "scroll", height: "120px" },
+              staticStyle: { "overflow-y": "scroll", height: "300px" },
               on: { scroll: _vm.loadMoreLikers }
             },
-            _vm._l(_vm.postLikers, function(liker) {
-              return _c("div", { staticClass: "likers" }, [
-                _c(
-                  "p",
-                  {
-                    staticStyle: { cursor: "pointer" },
-                    attrs: { tag: "p" },
-                    on: {
-                      click: function($event) {
-                        return _vm.openProfile(liker.profile.display_name)
-                      }
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "img-rounded",
-                      attrs: {
-                        src: "/storage/avatars/" + liker.profile.avatar,
-                        alt: liker.name,
-                        width: "40",
-                        height: "40"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("b", [_vm._v(_vm._s(liker.name))]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "i",
-                      { staticStyle: { opacity: ".5", position: "relative" } },
-                      [_vm._v(_vm._s(liker.profile.display_name))]
-                    )
-                  ]
-                )
-              ])
-            }),
-            0
+            [
+              _c(
+                "v-list",
+                { attrs: { "two-line": "" } },
+                [
+                  _vm._l(_vm.postLikers, function(liker) {
+                    return [
+                      _c(
+                        "v-list-tile",
+                        [
+                          _c("v-list-tile-avatar", [
+                            _c("img", {
+                              attrs: {
+                                src: "/storage/avatars/" + liker.profile.avatar,
+                                alt: liker.profile.display_name
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.ShowProfile(
+                                    liker.profile.display_name
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.ShowProfile(
+                                    liker.profile.display_name
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("v-list-tile-title", [
+                                _vm._v(
+                                  "\n                         " +
+                                    _vm._s(liker.name) +
+                                    "\n                       "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "\n                         " +
+                                    _vm._s(liker.profile.display_name) +
+                                    "\n                       "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  })
+                ],
+                2
+              )
+            ],
+            1
           )
         ]
       ),
@@ -799,46 +856,79 @@ var render = function() {
           _c(
             "div",
             {
-              staticStyle: { "overflow-y": "scroll", height: "120px" },
+              staticStyle: { "overflow-y": "scroll", height: "300px" },
               on: { scroll: _vm.loadMoreDisLikers }
             },
-            _vm._l(_vm.postDislikers, function(disliker) {
-              return _c("div", { staticClass: "likers" }, [
-                _c(
-                  "p",
-                  {
-                    staticStyle: { cursor: "pointer" },
-                    on: {
-                      click: function($event) {
-                        return _vm.openProfile(disliker.profile.display_name)
-                      }
-                    }
-                  },
-                  [
-                    _c("img", {
-                      staticClass: "img-rounded",
-                      attrs: {
-                        src: "/storage/avatars/" + disliker.profile.avatar,
-                        alt: disliker.name,
-                        width: "40",
-                        height: "40"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("b", [_vm._v(_vm._s(disliker.name))]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "i",
-                      { staticStyle: { opacity: ".5", position: "relative" } },
-                      [_vm._v(_vm._s(disliker.profile.display_name))]
-                    )
-                  ]
-                )
-              ])
-            }),
-            0
+            [
+              _c(
+                "v-list",
+                { attrs: { "two-line": "" } },
+                [
+                  _vm._l(_vm.postDislikers, function(disliker) {
+                    return [
+                      _c(
+                        "v-list-tile",
+                        [
+                          _c("v-list-tile-avatar", [
+                            _c("img", {
+                              attrs: {
+                                src:
+                                  "/storage/avatars/" + disliker.profile.avatar,
+                                alt: disliker.profile.display_name
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.ShowProfile(
+                                    disliker.profile.display_name
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            [
+                              _c(
+                                "v-list-tile-title",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.ShowProfile(
+                                        disliker.profile.display_name
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                         " +
+                                      _vm._s(disliker.name) +
+                                      "\n                       "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("v-list-tile-sub-title", [
+                                _vm._v(
+                                  "\n                         " +
+                                    _vm._s(disliker.profile.display_name) +
+                                    "\n                       "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  })
+                ],
+                2
+              )
+            ],
+            1
           )
         ]
       )

@@ -67,7 +67,7 @@ export  default{
 
 
                 context.commit('showPost',{post:response.data.updated_post});
-                if (commit.routeName=='root') {
+                if (commit.routeName==null) {
 
               context.commit('updatePost',{id:commit.postId,
                                            updatedPost:response.data.updated_post});

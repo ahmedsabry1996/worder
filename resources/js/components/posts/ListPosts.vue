@@ -44,7 +44,10 @@
                 <b>
 
                   <p color="white--text ">
-                      {{ post.post | subsetPost }}
+                      <bdi>
+                        {{ post.post | subsetPost }}
+
+                      </bdi>
                           </p>
                 </b>
               </router-link>
@@ -84,25 +87,25 @@
           <p class="text-center">
 
             <span v-if="post.dislikes_counter"
-            style="position:relative;font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
+            style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
               {{post.dislikes_counter.count | numeral('0 a')}}
             </span>
 
             <span v-else
-            style="position:relative;font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;top:3px">
+            style="position:relative;font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;top:3px">
                 0
               </span>
 
 
             <span v-if="post.likes_counter"
-            style="font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
+            style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
 
                     {{post.likes_counter.count | numeral('0 a')}}
 
             </span>
 
             <span v-else
-            style="font-size:10pt ;color:#F4EEEC;margin: auto 14px;cursor:pointer;">
+            style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
                   0
             </span>
 
@@ -119,7 +122,7 @@
         <!-- post topic -->
         <div class="post-topic white--text" v-if="post.topic">
             <p>
-                <b>  {{post.topic.topic}}</b>
+                <b>  {{topics[post.topic.id - 1] ['topic']}}</b>
             </p>
         </div>
         <hr class="white white--text"/>
@@ -156,6 +159,9 @@ export default {
       },
       perfectUser(){
         return this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile=="1";
+      },
+      topics(){
+        return this.$t('topics');
       }
     },
 

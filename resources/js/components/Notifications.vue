@@ -2,8 +2,8 @@
 
 <v-menu left offset-x width="200" :full-width="true">
   <v-btn slot="activator" @click="getNotifications" flat class="white--text"  icon>
-    <v-icon>
-      speaker_notes
+    <v-icon :color="color">
+      notifications
     </v-icon>
   </v-btn>
   <div class="mm" @scroll="loadMoreNotifications">
@@ -15,44 +15,15 @@
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{notification.data.created_at.date | getDateForHumans}}</v-list-tile-sub-title>
+            <v-list-tile-sub-title>
+              {{notification.data.created_at.date | getDateForHumans}}
+            </v-list-tile-sub-title>
           </v-list-tile-content>
     </v-list-tile>
   </v-list>
 </div>
 </v-menu>
-<!--
-    <li class="dropdown" >
-    <a class="dropdown-toggle" data-toggle="dropdown" @click="getNotifications">
-      <span  v-if="!unreadNotifications">
-            <font-awesome-icon
-            :icon= "['fas','bell']" style="transform:scale(1.5);color:green" />
-  </span>
-  <span v-if="unreadNotifications">
-                  <font-awesome-icon
-                  :icon= "['fas','bell']" style="transform:scale(1.5);color:red"/>
-  </span>
-  </a>
 
-        <ul class="dropdown-menu text-center" @scroll="loadMoreNotifications">
-          <li v-for="notification in notifications" class="text-center">
-          <template >
-            <router-link :to="'/'+notification.data.url">
-      <p>
-
-              <img :src="`/storage/avatars/${notification.data.icon}`" alt="someone"
-               width="40" height="40" class="img-circle"  style="z-index:2000">
-
-                <b>{{notification.data.message}}</b>
-                <br />
-                <i>{{notification.data.created_at.date | getDateForHumans}}</i>
-      </p>
-            </router-link>
-
-          </template>
-            </li>
-        </ul>
-  </li> -->
 </template>
 
 <script>
@@ -66,7 +37,8 @@ export default {
   return {
     showMenu:false,
     loading:false,
-    offset:0
+    offset:0,
+    color:'white',
     }
 
   },
@@ -76,7 +48,13 @@ export default {
       return this.$store.getters.notifications;
     },
     unreadNotifications(){
-      return this.$store.getters.unreadNotifications;
+        if (!this.$store.getters.unreadNotifications) {
+            return  this.color =  'white';
+        }
+        else{
+        return   this.color = 'error';
+      }
+
     },
     isLoggedIn(){
     return  this.$store.getters.isLoggedIn;
@@ -111,7 +89,6 @@ export default {
       audio.play();
 },
     getNotifications(){
-
 
           if (this.perfectUser) {
             if (this.notifications.length === 0) {
@@ -211,7 +188,7 @@ export default {
   filters:{
     getDateForHumans(value){
 
-      return moment(value).locale("tr").subtract(-2, 'hours').fromNow();
+      return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
     },
     highlightUsername(val){
       if (val.includes('start')) {

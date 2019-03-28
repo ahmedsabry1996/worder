@@ -3,6 +3,9 @@
   <v-content>
     <v-container grid-list-lg>
       <v-layout hidden-sm-and-down row wrap>
+        <v-flex xs12 >
+          <create-post></create-post>
+        </v-flex>
         <v-flex  md3>
           <suggested-people></suggested-people>
         </v-flex>
@@ -11,7 +14,6 @@
 
           <template v-if="!noTopicPosts">
 
-            <h1 class="white--text display-3 text-xs-center">{{this.$route.params.topic}}</h1>
             <list-posts :posts="posts"></list-posts>
 
           </template>
@@ -39,7 +41,7 @@
 <script>
 
 import ListPosts from '../posts/ListPosts.vue';
-
+import CreatePost from '../posts/Createpost.vue';
 import SuggestedPeople from './../Suggestpeople.vue';
 import Topics from './../topics/Topics.vue';
 import Trend from './../trend/Trend.vue';
@@ -58,6 +60,9 @@ export default {
         },
         noTopicPosts(){
           return this.$store.getters.noTopicPosts;
+        },
+        topics(){
+          return this.$t('topics');
         }
     },
     mounted(){
@@ -68,10 +73,12 @@ export default {
           this.getTopicPosts();
     },
     components:{
+      CreatePost,
       ListPosts,
       SuggestedPeople,
       Topics,
-      Trend
+      Trend,
+
     },
     watch:{
       '$route'(to,from){
@@ -82,7 +89,13 @@ export default {
     methods:{
 
       getTopicPosts(){
-        this.$store.dispatch('fillTopicPosts',{topic:this.$route.params.topic});
+        this.$store.dispatch('fillTopicPosts',{topic:this.$route.params.topic})
+        .then((response)=>{
+          console.log(7);
+        })
+        .catch((error)=>{
+          console.log(error.response.status);
+        });
       },
       loadMore(){
 
