@@ -82,7 +82,7 @@
                     <br />
                     <label>
                         <h3>
-                        <bdi class="white--text">{{$t('codesent')}} : <b class="green--text">{{email}}</b></bdi>
+                        <bdi class="white--text">{{$t('codesent')}} : <b class="green--text">{{currentUser.email}}</b></bdi>
 </h3>
                     </label>
 
@@ -164,9 +164,8 @@ export default {
         })
         .then(()=>{
 
-          localStorage.setItem('email',this.email);
-          localStorage.setItem('password',this.password);
-          this.$store.commit('userCredionals');
+          this.$store.commit('userCredionals',{email:this.email,password:this.password});
+          this.email = this.currentUser.email;
           this.signupLoading = false;
           swal({
             title:this.$t('done'),
@@ -188,10 +187,8 @@ export default {
           verify(){
             this.signupLoading = true;
             console.log(this.signupLoading);
-            if (this.code == this.$store.getters.verificationCode) {
-              alert(123)
+            if (this.code == this.verificationCode) {
                 this.$router.push('/create-profile');
-                localStorage.setItem('user_id',this.currentUser.id);
                 this.$store.dispatch('confrimEmail');
 
             }

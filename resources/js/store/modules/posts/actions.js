@@ -98,7 +98,7 @@ export  default{
                   user_id:localStorage.getItem('user_id')
               },{
                 headers:{
-                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                  "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
                 }
               })
               .then((response)=>{
@@ -122,7 +122,7 @@ export  default{
                 post_id:commit.postId
               },{
                 headers:{
-                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                  "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
                 }
               })
               .then((response)=>{
@@ -145,7 +145,7 @@ export  default{
                 post_id:commit.postId
               },{
                 headers:{
-                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                  "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
                 }
               })
               .then((response)=>{
@@ -165,7 +165,7 @@ export  default{
                 post_id:commit.postId
               },{
                 headers:{
-                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                  "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
                 }
               })
               .then((response)=>{
@@ -191,7 +191,7 @@ if (dislikesNum > loadedDislikers)  {
                 post_id:commit.postId
               },{
                 headers:{
-                  "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+                  "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
                 }
               })
               .then((response)=>{
@@ -210,7 +210,7 @@ if (dislikesNum > loadedDislikers)  {
             reactedPosts(context,commit,rootState){
                 axios.post('/api/timeline/reacted-posts',{},{
                   headers:{
-                    Authorization:`Bearer ${localStorage.getItem('access_token')}`
+                    Authorization:`Bearer ${context.rootState.authentication.userToken}`
                   }
                 })
                 .then((response)=>{

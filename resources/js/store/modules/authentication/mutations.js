@@ -4,19 +4,19 @@ export default{
         state.signupErrors = payload;
       },
 
-      signupSuccess(state){
-          state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-          state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-          state.userToken = localStorage.getItem("access_token");
-          state.verificationCode = localStorage.getItem("verification_code");
-          state.userId = localStorage.getItem('user_id');
+      signupSuccess(state,payload){
+          state.currentUser = payload.currentUser;
+          state.currentUserProfile = null;
+          state.userToken = payload.token;
+          state.verificationCode = payload.verificationCode;
+          state.userId = payload.userId;
           state.signupErrors = null;
       },
 
-      verified(state){
+      verified(state,payload){
 
-              state.isVerified = localStorage.getItem('is_verified');
-              state.userId = localStorage.getItem('user_id');
+              state.isVerified = 1;
+              state.userId = payload.userId;
               state.isLoggedIn = true;
               state.signupErrors = null;
 
@@ -31,14 +31,15 @@ export default{
 
             loginSuccess(state,payload){
 
-            state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-            state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-            state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_topics"));
-            state.userToken = localStorage.getItem("access_token");
-            state.hasProfile = localStorage.getItem('has_profile');
-            state.isVerified = localStorage.getItem('is_verified');
-            state.userId = localStorage.getItem('user_id');
-            state.isLoggedIn = !!state.currentUser;
+            state.currentUser = payload.currentUser;
+            state.userToken = payload.token;
+            state.isVerified = payload.isVerified;
+            state.hasProfile = payload.hasProfile;
+            state.userId = payload.userId;
+            state.currentUserProfile = payload.currentUserProfile;
+            state.currentUserTopics = payload.currentUserTopics;
+
+            state.isLoggedIn = true;
             state.loginErrors = null;
           },
 
@@ -57,9 +58,9 @@ export default{
 
           },
 
-            userCredionals(state){
-            state.email = localStorage.getItem('email');
-            state.password = localStorage.getItem('password');
+            userCredionals(state,payload){
+            state.email = payload.email;
+            state.password = payload.password;
           },
           updateUser(state){
             state.currentUser = JSON.parse(localStorage.getItem("current_user"));

@@ -432,9 +432,7 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        return _vm.ShowProfile(
-                          _vm.post.user.profile.display_name
-                        )
+                        _vm.ShowProfile(_vm.post.user.profile.display_name)
                       }
                     }
                   })
@@ -447,7 +445,7 @@ var render = function() {
                   staticClass: "post-publisher mt-3 italic",
                   on: {
                     click: function($event) {
-                      return _vm.ShowProfile(_vm.post.user.profile.display_name)
+                      _vm.ShowProfile(_vm.post.user.profile.display_name)
                     }
                   }
                 },
@@ -597,7 +595,7 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.showDisLikers(_vm.post.id)
+                              _vm.showDisLikers(_vm.post.id)
                             }
                           }
                         },
@@ -625,7 +623,7 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.showLikers(_vm.post.id)
+                              _vm.showLikers(_vm.post.id)
                             }
                           }
                         },
@@ -789,9 +787,7 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.ShowProfile(
-                                    liker.profile.display_name
-                                  )
+                                  _vm.ShowProfile(liker.profile.display_name)
                                 }
                               }
                             })
@@ -802,9 +798,7 @@ var render = function() {
                             {
                               on: {
                                 click: function($event) {
-                                  return _vm.ShowProfile(
-                                    liker.profile.display_name
-                                  )
+                                  _vm.ShowProfile(liker.profile.display_name)
                                 }
                               }
                             },
@@ -878,9 +872,7 @@ var render = function() {
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.ShowProfile(
-                                    disliker.profile.display_name
-                                  )
+                                  _vm.ShowProfile(disliker.profile.display_name)
                                 }
                               }
                             })
@@ -894,7 +886,7 @@ var render = function() {
                                 {
                                   on: {
                                     click: function($event) {
-                                      return _vm.ShowProfile(
+                                      _vm.ShowProfile(
                                         disliker.profile.display_name
                                       )
                                     }

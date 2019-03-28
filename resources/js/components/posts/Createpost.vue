@@ -19,9 +19,7 @@
         <h3 :class="wordsCounterColor">{{wordsCounter}} / 100
 </h3>
         </div>
-        <div v-if="showEmoji">
-          <VEmojiPicker :pack="pack" @select="selectEmoji" />
-        </div>
+
       </v-flex>
       <v-flex xs12 sm2>
         <v-tooltip bottom>
@@ -101,14 +99,11 @@
 </template>
 
 <script>
-import VEmojiPicker from 'v-emoji-picker';
-import packData from 'v-emoji-picker/data/emojis.json';
 
 export default {
   data(){
     return {
       showEmoji:false,
-      pack: packData,
       snackbar:false,
       post:'',
       image:null,
@@ -130,9 +125,6 @@ export default {
   },
   mounted(){
     console.log('create a new post');
-  },
-  components: {
-    VEmojiPicker
   },
 
   computed:{

@@ -90,7 +90,7 @@ export default {
 },
     getNotifications(){
 
-          if (this.perfectUser) {
+          if (this.isLoggedIn) {
             if (this.notifications.length === 0) {
                 this.offset = 0;
               this.$store.dispatch('getNotifications');
@@ -102,7 +102,7 @@ export default {
     },
     listen(){
       const self = this ;
-      if (this.perfectUser ) {
+      if (this.isLoggedIn ) {
         window.Echo = new Echo({
          broadcaster: 'pusher',
          key: 'mykey',
@@ -113,13 +113,13 @@ export default {
          disableStats: true,
          auth: {
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem("access_token")
+                Authorization: 'Bearer ' + this.$store.state.authentication.userToken
             },
         },
 
      });
 
-       let decoded = self.jwt_decode(localStorage.getItem("access_token"));
+       let decoded = self.jwt_decode(this.$store.state.authentication.userToken);
        window.Echo.private(`App.User.${decoded.sub}`)
        .notification((Notification) => {
           var newNotification = new Object();
@@ -141,14 +141,13 @@ export default {
                .listen('.newTrend', function() {
                  axios.post('/api/trend/update',{},{
                    headers:{
-                     Authorization:`Bearer ${localStorage.getItem('access_token')}`
+                     Authorization:`Bearer ${this.$store.state.authentication.userToken}`
                    }
                  }).then((response)=>{
       console.log(response.data);
 
       self.notificationSound();
-      localStorage.setItem('trend',(response.data.trend.top_words))
-      self.$store.commit('topTen');
+      self.$store.commit('topTen',{trend:response.data.trend.top_words});
                  })
                  .catch((errors)=>{
                    console.log(errors);

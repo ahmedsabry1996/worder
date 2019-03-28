@@ -1,7 +1,7 @@
 import Vue from 'vue';
 export default{
   topTen(state,payload){
-     state.topTen = JSON.parse(localStorage.getItem('trend'));
+     state.topTen = payload.trend;
   },
   topTenAuth(state,payload){
      state.topTen = JSON.parse(localStorage.getItem('trend'));

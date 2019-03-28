@@ -16,20 +16,25 @@ export default{
 
           console.log(response.data);
 
-          localStorageSettter('current_user',JSON.stringify(response.data.user))
-          localStorageSettter('access_token',response.data.access_token.accessToken);
-          localStorageSettter('verification_code',response.data.verification_code);
-          localStorageSettter('user_id',response.data.user.id);
-          context.commit('signupSuccess');
-          resolve();
+
+
+          context.commit('signupSuccess',{
+              currentUser:response.data.user,
+              token:response.data.access_token.accessToken,
+              verificationCode:response.data.verification_code,
+              userId:response.data.user.id,
+          });
+
+
+          resolve(response);
 
         })
         .catch((errors)=>{
-
+            console.log(errors);
             console.log(errors.response);
             console.log(errors.response.data.errors);
             context.commit('signupFails',errors.response.data.errors);
-            reject();
+            reject(errors);
         })
     })
   },
@@ -40,12 +45,14 @@ export default{
             axios.post("/api/auth/verify/"+userId)
             .then((response)=>{
               console.log(response);
-              localStorageSettter("user_id",userId);
-              localStorageSettter("is_verified",1);
-              context.commit('verified');
+
+              // localStorageSettter("user_id",userId);
+              // localStorageSettter("is_verified",1);
+              context.commit('verified',{userId,});
 
             })
             .catch((errors)=>{
+              console.log(errors);
               console.log(errors.response);
             });
 

@@ -380,17 +380,23 @@ __webpack_require__.r(__webpack_exports__);
           "icon": "success"
         });
         _this2.errors = [];
-        localStorage.setItem('has_profile', 1);
-        localStorage.setItem('current_user_profile', JSON.stringify(response.data.profile));
-        localStorage.setItem('current_user_topics', JSON.stringify(response.data.topics));
+
+        _this2.$store.commit('loginSuccess', {
+          isVerified: 1,
+          hasProfile: 1,
+          currentUserProfile: response.data.profile,
+          currentUserTopics: response.data.topics,
+          currentUser: _this2.$store.state.authentication.currentUser,
+          token: _this2.$store.state.authentication.userToken
+        });
 
         if (!!response.data.trend) {
           localStorage.setItem('trend', response.data.trend.top_words);
         }
 
-        _this2.$store.commit('loginSuccess');
-
-        _this2.$store.commit("topTen");
+        _this2.$store.commit("topTen", {
+          trend: response.data.trend.top_words
+        });
 
         _this2.$router.push('/');
       }).catch(function (error) {
@@ -535,7 +541,7 @@ var render = function() {
                           _c("v-text-field", {
                             attrs: {
                               slot: "activator",
-                              "solo-inverted": "",
+                              solo: "",
                               label: _vm.$t("displayname")
                             },
                             slot: "activator",
@@ -627,7 +633,7 @@ var render = function() {
                         attrs: {
                           items: _vm.countries,
                           label: _vm.$t("country"),
-                          "solo-inverted": "",
+                          solo: "",
                           "search-input": ""
                         },
                         model: {
@@ -655,7 +661,7 @@ var render = function() {
                           label: _vm.$t("selectfavtopics"),
                           multiple: "",
                           chips: "",
-                          "solo-inverted": ""
+                          solo: ""
                         },
                         model: {
                           value: _vm.selectedTopics,
@@ -687,9 +693,6 @@ var render = function() {
                           },
                           on: {
                             "update:returnValue": function($event) {
-                              _vm.bdate = $event
-                            },
-                            "update:return-value": function($event) {
                               _vm.bdate = $event
                             }
                           },
@@ -757,7 +760,7 @@ var render = function() {
                                   attrs: { flat: "", color: "primary" },
                                   on: {
                                     click: function($event) {
-                                      return _vm.$refs.dialog.save(_vm.bdate)
+                                      _vm.$refs.dialog.save(_vm.bdate)
                                     }
                                   }
                                 },
@@ -782,7 +785,7 @@ var render = function() {
                         attrs: {
                           "no-resize": "",
                           label: _vm.$t("description"),
-                          "solo-inverted": ""
+                          solo: ""
                         },
                         model: {
                           value: _vm.description,

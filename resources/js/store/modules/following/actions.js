@@ -3,7 +3,7 @@ export default{
     myFollowingIds(context,commit,rootState){
       axios.post('/api/timeline/following-ids',{},{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${context.rootState.authentication.userToken}`
         }
       }).
       then((response)=>{
@@ -32,7 +32,7 @@ export default{
     },{
 
       headers:{
-        "Authorization" : `Bearer ${localStorage.getItem('access_token')}`
+        "Authorization" : `Bearer ${context.rootState.authentication.userToken}`
       }
     })
     .then((response)=>{

@@ -20,7 +20,7 @@
 
           <v-text-field
             slot="activator"
-            solo-inverted
+            solo
             v-model="displayName"
             :label="$t('displayname')">
             </v-text-field>
@@ -52,7 +52,7 @@
               :items="countries"
                 :label="$t('country')"
                 v-model="selectedCountry"
-                solo-inverted
+                solo
                search-input>
                </v-select>
                <p><b class="error--text" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
@@ -66,7 +66,7 @@
                   :label="$t('selectfavtopics')"
                   multiple
                   chips
-                  solo-inverted
+                  solo
                ></v-select>
  <p><b class="error--text" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
  <!-- BIRTHDAY  -->
@@ -102,7 +102,7 @@
      <v-textarea
 no-resize
           :label="$t('description')"
-            solo-inverted
+            solo
             v-model="description"
 
           ></v-textarea>
@@ -270,23 +270,23 @@ export default {
 mounted(){
     console.log('create profile');
 },
-data(){
-return {
-  modal: false,
-  displayName:'',
-  avatar:null,
-  gender:['male','female'],
-  selectedGender:null,
-  selectedCountry:null,
-  selectedTopics:[],
-  bdate: new Date().toISOString().substr(0, 10),
-landscape: false,
-reactive: true,
-  description:'',
-  writtenDescription:0,
-  errors:[],
-  loading:false
-}
+      data(){
+                return {
+                  modal: false,
+                  displayName:'',
+                  avatar:null,
+                  gender:['male','female'],
+                  selectedGender:null,
+                  selectedCountry:null,
+                  selectedTopics:[],
+                  bdate: new Date().toISOString().substr(0, 10),
+                landscape: false,
+                reactive: true,
+                  description:'',
+                  writtenDescription:0,
+                  errors:[],
+                  loading:false
+                }
 },
 
 computed:{
@@ -383,17 +383,26 @@ createProfile(){
         })
 
         this.errors = [];
-        localStorage.setItem('has_profile',1);
-        localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
-        localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));
+
+
+
+                this.$store.commit('loginSuccess',{
+                  isVerified:1,
+                  hasProfile:1,
+                  currentUserProfile:response.data.profile,
+                  currentUserTopics:response.data.topics,
+                  currentUser:this.$store.state.authentication.currentUser,
+                  token:this.$store.state.authentication.userToken,
+                });
+
         if (!!response.data.trend) {
 
           localStorage.setItem('trend',(response.data.trend.top_words));
+
         }
 
 
-        this.$store.commit('loginSuccess');
-        this.$store.commit("topTen");
+        this.$store.commit("topTen",{trend:response.data.trend.top_words});
 
 
         this.$router.push('/');

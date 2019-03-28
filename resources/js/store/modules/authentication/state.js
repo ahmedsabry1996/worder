@@ -22,18 +22,18 @@ const PASSWORD = password();
 
 
 export default{
-  isLoggedIn:!!USER,
+  isLoggedIn:false,
   signupErrors:null,
-  currentUser:USER,
-  currentUserProfile: USER_PROFILE,
-  currentUserTopics : USER_TOPICS,
-  userToken:ACCESS_TOKEN,
-  isVerified:IS_VERIFIED,
-  verificationCode:VERIFICATION_CODE,
-  hasProfile:HAS_PROFILE,
-  userId :USER_ID,
-  email:EMAIL,
-  password:PASSWORD,
-  
+  currentUser:null,
+  userId :null,
+  currentUserProfile: null,
+  currentUserTopics : null,
+  userToken:null,
+  isVerified:false,
+  hasProfile:false,
+  verificationCode:null,
+  email:null,
+  password:null,
+
 
 }

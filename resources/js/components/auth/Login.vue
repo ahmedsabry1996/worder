@@ -145,23 +145,20 @@ export default {
           remember_me:this.rememberMe
         }).then((response)=>{
             console.log(response.data.user);
-            if (!!response.data.trend) {
 
-              localStorage.setItem('trend',(response.data.trend.top_words));
-            }
-
-            localStorage.setItem('current_user',JSON.stringify(response.data.user));
-            localStorage.setItem('current_user_profile',JSON.stringify(response.data.profile));
-            localStorage.setItem('current_user_topics',JSON.stringify(response.data.topics));
-            localStorage.setItem('access_token',response.data.access_token);
-            localStorage.setItem('user_id',response.data.user.id);
-            localStorage.setItem('has_profile',response.data.user.has_profile);
-            localStorage.setItem('is_verified',response.data.user.is_verified);
 
             if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
 
-              this.$store.commit("loginSuccess");
-              this.$store.commit("topTen");
+              this.$store.commit("loginSuccess",{
+                currentUser:response.data.user,
+                currentUserProfile:response.data.profile,
+                currentUserTopics:response.data.topics,
+                token:response.data.access_token,
+                userId:response.data.user.id,
+                hasProfile:1,
+                isVerified:1,
+              });
+              this.$store.commit("topTen",{trend:response.data.trend.top_words});
               this.$router.push('/');
 
               console.log("perfect user!");

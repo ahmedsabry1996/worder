@@ -1,10 +1,10 @@
 export default{
 
-          suggestPeople(context){
+          suggestPeople(context,data,rootState){
         axios.get('/api/timeline/suggest-people',{
             headers:{
 
-            "Authorization" :`Bearer ${localStorage.getItem('access_token')}`
+            "Authorization" :`Bearer ${context.rootState.authentication.userToken}`
 
             }
         })

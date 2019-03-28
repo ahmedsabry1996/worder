@@ -1059,7 +1059,7 @@ var render = function() {
                                             attrs: { round: "", small: "" },
                                             on: {
                                               click: function($event) {
-                                                return _vm.follow(
+                                                _vm.follow(
                                                   _vm.showProfile.id,
                                                   "unfollow"
                                                 )
@@ -1083,7 +1083,7 @@ var render = function() {
                                             attrs: { round: "", small: "" },
                                             on: {
                                               click: function($event) {
-                                                return _vm.follow(
+                                                _vm.follow(
                                                   _vm.showProfile.id,
                                                   "follow"
                                                 )
@@ -1238,7 +1238,7 @@ var render = function() {
                                                     },
                                                     on: {
                                                       click: function($event) {
-                                                        return _vm.ShowProfile(
+                                                        _vm.ShowProfile(
                                                           post.user.profile
                                                             .display_name
                                                         )
@@ -1380,7 +1380,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "dislike",
                                                                     post.id,
                                                                     index
@@ -1417,7 +1417,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "like",
                                                                     post.id,
                                                                     index
@@ -1476,7 +1476,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "dislike",
                                                                     post.id,
                                                                     index
@@ -1513,7 +1513,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "like",
                                                                     post.id,
                                                                     index
@@ -1571,7 +1571,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "dislike",
                                                                     post.id,
                                                                     index
@@ -1608,7 +1608,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.postReact(
+                                                                  _vm.postReact(
                                                                     "like",
                                                                     post.id,
                                                                     index
@@ -1811,7 +1811,7 @@ var render = function() {
                                                     },
                                                     on: {
                                                       click: function($event) {
-                                                        return _vm.ShowProfile(
+                                                        _vm.ShowProfile(
                                                           post.user.profile
                                                             .display_name
                                                         )
@@ -1935,7 +1935,7 @@ var render = function() {
                                                             click: function(
                                                               $event
                                                             ) {
-                                                              return _vm.showDisLikers(
+                                                              _vm.showDisLikers(
                                                                 post.id
                                                               )
                                                             }
@@ -1975,7 +1975,7 @@ var render = function() {
                                                             click: function(
                                                               $event
                                                             ) {
-                                                              return _vm.deletePost(
+                                                              _vm.deletePost(
                                                                 post.id,
                                                                 index
                                                               )
@@ -2011,7 +2011,7 @@ var render = function() {
                                                             click: function(
                                                               $event
                                                             ) {
-                                                              return _vm.showLikers(
+                                                              _vm.showLikers(
                                                                 post.id
                                                               )
                                                             }
@@ -2210,7 +2210,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.ShowProfile(
+                                                      _vm.ShowProfile(
                                                         liker.profile
                                                           .display_name
                                                       )
@@ -2224,7 +2224,7 @@ var render = function() {
                                                 {
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.ShowProfile(
+                                                      _vm.ShowProfile(
                                                         liker.profile
                                                           .display_name
                                                       )
@@ -2274,7 +2274,7 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                return _vm.follow(
+                                                                _vm.follow(
                                                                   liker.profile
                                                                     .user_id,
                                                                   "follow"
@@ -2303,7 +2303,7 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                return _vm.follow(
+                                                                _vm.follow(
                                                                   liker.profile
                                                                     .user_id,
                                                                   "unfollow"
@@ -2380,7 +2380,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.ShowProfile(
+                                                      _vm.ShowProfile(
                                                         disliker.profile
                                                           .display_name
                                                       )
@@ -2399,7 +2399,7 @@ var render = function() {
                                                         click: function(
                                                           $event
                                                         ) {
-                                                          return _vm.ShowProfile(
+                                                          _vm.ShowProfile(
                                                             disliker.profile
                                                               .display_name
                                                           )
@@ -2451,7 +2451,7 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                return _vm.follow(
+                                                                _vm.follow(
                                                                   disliker
                                                                     .profile
                                                                     .user_id,
@@ -2481,7 +2481,7 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                return _vm.follow(
+                                                                _vm.follow(
                                                                   disliker
                                                                     .profile
                                                                     .user_id,
@@ -2578,7 +2578,7 @@ var render = function() {
                                                                   click: function(
                                                                     $event
                                                                   ) {
-                                                                    return _vm.ShowProfile(
+                                                                    _vm.ShowProfile(
                                                                       follower
                                                                         .profile
                                                                         .display_name
@@ -2596,7 +2596,7 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.ShowProfile(
+                                                                  _vm.ShowProfile(
                                                                     follower
                                                                       .profile
                                                                       .display_name
@@ -2659,7 +2659,7 @@ var render = function() {
                                                                           click: function(
                                                                             $event
                                                                           ) {
-                                                                            return _vm.follow(
+                                                                            _vm.follow(
                                                                               follower
                                                                                 .profile
                                                                                 .user_id,
@@ -2691,7 +2691,7 @@ var render = function() {
                                                                           click: function(
                                                                             $event
                                                                           ) {
-                                                                            return _vm.follow(
+                                                                            _vm.follow(
                                                                               follower
                                                                                 .profile
                                                                                 .user_id,
@@ -2783,7 +2783,7 @@ var render = function() {
                                                                       click: function(
                                                                         $event
                                                                       ) {
-                                                                        return _vm.ShowProfile(
+                                                                        _vm.ShowProfile(
                                                                           following
                                                                             .profile
                                                                             .display_name
@@ -2801,7 +2801,7 @@ var render = function() {
                                                                     click: function(
                                                                       $event
                                                                     ) {
-                                                                      return _vm.ShowProfile(
+                                                                      _vm.ShowProfile(
                                                                         following
                                                                           .profile
                                                                           .display_name
@@ -2865,7 +2865,7 @@ var render = function() {
                                                                               click: function(
                                                                                 $event
                                                                               ) {
-                                                                                return _vm.follow(
+                                                                                _vm.follow(
                                                                                   following
                                                                                     .profile
                                                                                     .user_id,
@@ -2897,7 +2897,7 @@ var render = function() {
                                                                               click: function(
                                                                                 $event
                                                                               ) {
-                                                                                return _vm.follow(
+                                                                                _vm.follow(
                                                                                   following
                                                                                     .profile
                                                                                     .user_id,

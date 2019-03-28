@@ -119,6 +119,7 @@
       },
 
         mounted() {
+          console.log(this.$store.state.authentication.userToken)
         },
         components:{
           Notifications,
@@ -187,7 +188,7 @@
             },
           {
             headers:{
-              "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+              "Authorization":`Bearer ${this.$store.state.authentication.userToken}`
             }
           }).
           then((response)=>{
