@@ -82,6 +82,7 @@ export default {
 
   mounted(){
     this.listen();
+
   },
   methods:{
     notificationSound(){
@@ -102,7 +103,7 @@ export default {
     },
     listen(){
       const self = this ;
-      if (this.isLoggedIn ) {
+      if (self.isLoggedIn ) {
         window.Echo = new Echo({
          broadcaster: 'pusher',
          key: 'mykey',
@@ -141,7 +142,7 @@ export default {
                .listen('.newTrend', function() {
                  axios.post('/api/trend/update',{},{
                    headers:{
-                     Authorization:`Bearer ${this.$store.state.authentication.userToken}`
+                     Authorization:`Bearer ${self.$store.state.authentication.userToken}`
                    }
                  }).then((response)=>{
       console.log(response.data);
