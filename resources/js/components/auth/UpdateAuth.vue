@@ -220,7 +220,7 @@ methods:{
 
   updateEmail(){
       const currentUserEmail= this.currentUser.email;
-    if (this.email != currentUserEmail && this.email.length > 0) {
+    if (this.email != currentUserEmail && this.email.length > 0 && this.currentTab =='email') {
         this.loading = true;
         axios.post('/api/update-email',{
           email:this.email,
@@ -243,11 +243,14 @@ methods:{
           this.errors = errors.response.data.errors;
         })
     }
+    else{
+      alert('انه بريدكم الحالي');
+    }
 
   },
 
   changeEmail(){
-      if (this.verificationCode == this.code) {
+      if (this.verificationCode == this.code  && this.currentTab =='email') {
         this.loading = true;
 
         axios.post('/api/change-email',{
@@ -290,7 +293,7 @@ methods:{
     const currentUserEmail= this.$store.state.authentication.currentUser.email;
 
     let sendVerificationCode = confirm(`${this.$t('sendto')} ${currentUserEmail} ?`);
-    if (sendVerificationCode) {
+    if (sendVerificationCode  && this.currentTab =='password') {
       this.loading = true;
 
       this.isForgetPassword = true;
@@ -333,7 +336,7 @@ methods:{
   changePassword(){
     const currentUserPassword =this.$store.state.authentication.currentUser.original_password;
 
-    if (this.correctOldPassowrd) {
+    if (this.correctOldPassowrd  && this.currentTab =='email') {
       if (this.newPassowrd.length >= 6 && this.confirmPassword.length >=6) {
 
         if (this.newPassowrd == this.confirmPassword) {
