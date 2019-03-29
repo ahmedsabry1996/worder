@@ -183,7 +183,7 @@ export default {
     filters:{
           getDateForHumans(value){
 
-            return moment(value).locale("tr").subtract(-2, 'hours').fromNow();
+            return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
           },
 
           subsetPost(val){

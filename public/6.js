@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         console.log(7);
       }).catch(function (error) {
-        console.log(error.response.status);
+        console.log(error.response);
       });
     },
     loadMore: function loadMore() {
@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
-          if (!!localStorage.getItem('access_token') && _this.$route.name == 'topic') {
+          if (!!_this.$store.state.authentication.userToken && _this.$route.name == 'topic') {
             _this.morePosts();
           }
         }

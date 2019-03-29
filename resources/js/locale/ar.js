@@ -80,6 +80,8 @@ export default {
   verifyprofile:"تحقيق ملفي الشخصي",
   verifyprofilereq:"يُرجى رفع صورة الهوية أو جواز سفر لاثبات الشخصية",
   editauth:"تعديل المعلومات الأساسية",
+  editemail:"تغيير البريد الالكتروني",
+  editpassword:"تغيير كلمة المرور",
   save:"حفظ",
   currentpass:"كلمة المرور الحالية",
   upload:"رفع",

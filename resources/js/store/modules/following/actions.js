@@ -16,7 +16,7 @@ export default{
         console.log(errors.response);
       })
     },
-    toggleFollow(context,payload){
+    toggleFollow(context,payload,rootState){
 
       if (payload.action == 'follow') {
         //context.commit('addToFollowing',{followed_id:payload.followed_id});
@@ -58,7 +58,7 @@ export default{
     })
   },
 
-    loadMoreFollowers(context,commit,payload){
+    loadMoreFollowers(context,commit,rootState){
 
       let loadedFollowers = context.state.loadedFollowers;
       let myFollowersNum = context.state.myFollowersNum;
@@ -68,7 +68,7 @@ export default{
         offset:context.state.followersOffset
       },{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${context.rootState.authentication.userToken}`
         }
       })
       .then((response)=>{
@@ -84,7 +84,7 @@ export default{
     }
     },
 
-    loadMoreFollowing(context,commit,payload){
+    loadMoreFollowing(context,commit,rootState){
           let loadedFollowing = context.state.loadedFollowing;
           let myFollowingNum = context.state.myFollowingNum;
           if (myFollowingNum > loadedFollowing) {
@@ -93,7 +93,7 @@ export default{
                 offset:context.state.followingOffset
               },{
                 headers:{
-                  Authorization:`Bearer ${localStorage.getItem('access_token')}`
+                  Authorization:`Bearer ${context.rootState.authentication.userToken}`
                 }
               })
               .then((response)=>{

@@ -36,7 +36,7 @@ export default{
             offset:context.state.offset,
           },{
           headers:{
-            "Authorization":`Bearer ${localStorage.getItem('access_token')}`,
+            "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
           }
         })
         .then((response)=>{

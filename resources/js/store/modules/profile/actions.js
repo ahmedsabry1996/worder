@@ -40,7 +40,7 @@ export default{
       showFans(context,someData,rootState){
         axios.post('/api/timeline/my-fans',{},{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         })
         .then((response)=>{
@@ -65,7 +65,7 @@ export default{
             user_id:commit.userId,
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         })
         .then((response)=>{
@@ -86,7 +86,7 @@ export default{
           post_id:commit.id,
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         })
         .then((response)=>{

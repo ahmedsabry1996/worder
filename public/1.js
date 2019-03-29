@@ -226,7 +226,7 @@ __webpack_require__.r(__webpack_exports__);
     updateEmail: function updateEmail() {
       var _this = this;
 
-      var currentUserEmail = this.$store.state.authentication.currentUser.email;
+      var currentUserEmail = this.currentUser.email;
 
       if (this.email != currentUserEmail && this.email.length > 0) {
         this.loading = true;
@@ -234,7 +234,7 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email
         }, {
           headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+            Authorization: "Bearer ".concat(this.$store.state.authentication.userToken)
           }
         }).then(function (response) {
           _this.loading = false;
@@ -260,18 +260,16 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email
         }, {
           headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+            Authorization: "Bearer ".concat(this.$store.state.authentication.userToken)
           }
         }).then(function (response) {
           _this2.reset();
 
           _this2.loading = false;
-          localStorage.setItem('current_user', JSON.stringify(response.data.updated_user));
-          localStorage.setItem('email', _this2.email);
 
-          _this2.$store.commit('updateUser');
-
-          _this2.$store.commit('updateEmail');
+          _this2.$store.commit('updateUser', {
+            currentUser: response.data.updated_user
+          });
 
           swal({
             "title": _this2.$t('done'),
@@ -304,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
           email: currentUserEmail
         }, {
           headers: {
-            Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+            Authorization: "Bearer ".concat(this.$store.state.authentication.userToken)
           }
         }).then(function (response) {
           _this3.loading = false;
@@ -341,19 +339,20 @@ __webpack_require__.r(__webpack_exports__);
             axios.post('/api/auth/reset-password', {
               password: this.newPassowrd,
               password_confirmation: this.confirmPassword,
-              user_id: localStorage.getItem('user_id')
+              user_id: this.currentUser.id
             }, {
               headers: {
-                Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+                Authorization: "Bearer ".concat(this.$store.state.authentication.userToken)
               }
             }).then(function (response) {
               _this4.reset();
 
               _this4.loading = false;
               console.log(response.data);
-              localStorage.setItem('current_user', JSON.stringify(response.data.updated_user));
 
-              _this4.$store.commit('updateUser');
+              _this4.$store.commit('updateUser', {
+                currentUser: response.data.updated_user
+              });
 
               _this4.errors = null;
               swal({
@@ -454,7 +453,7 @@ __webpack_require__.r(__webpack_exports__);
         user_id: localStorage.getItem('user_id')
       }, {
         headers: {
-          Authorization: "Bearer ".concat(localStorage.getItem('access_token'))
+          Authorization: "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
         swal({
@@ -511,7 +510,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -643,11 +642,19 @@ var render = function() {
                         },
                         [
                           _c("v-tab", { attrs: { href: "#email" } }, [
-                            _vm._v("\n        edit email\n      ")
+                            _vm._v(
+                              "\n        " +
+                                _vm._s(_vm.$t("editemail")) +
+                                "\n      "
+                            )
                           ]),
                           _vm._v(" "),
                           _c("v-tab", { attrs: { href: "#password" } }, [
-                            _vm._v("\n        edit password\n      ")
+                            _vm._v(
+                              "\n        " +
+                                _vm._s(_vm.$t("editpassword")) +
+                                "\n      "
+                            )
                           ])
                         ],
                         1

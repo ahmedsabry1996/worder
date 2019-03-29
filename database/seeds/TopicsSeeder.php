@@ -12,7 +12,7 @@ class TopicsSeeder extends Seeder
     public function run()
     {
         //
-    
+
     	$t = new topic();
 
     	$t::create(['topic'=>'politics']);
@@ -25,5 +25,6 @@ class TopicsSeeder extends Seeder
     	$t::create(['topic'=>'travel']);
     	$t::create(['topic'=>'migration']);
     	$t::create(['topic'=>'education']);
+    	$t::create(['topic'=>'general']);
     }
 }

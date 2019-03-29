@@ -1,10 +1,10 @@
 export default{
 
-    getNotifications(context){
+    getNotifications(context,data,rootState){
 
           axios.post('/api/timeline/notifications',{},{
             headers:{
-              "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+              "Authorization":`Bearer ${context.rootState.authentication.userToken}`
             }
           }).then((response)=>{
 
@@ -21,7 +21,7 @@ export default{
         offset:commit.offset
       },{
         headers:{
-          "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+          "Authorization":`Bearer ${context.rootState.authentication.userToken}`
         }
       })
       .then((response)=>{
@@ -41,7 +41,7 @@ export default{
     unreadNotifications(context){
       axios.post('/api/timeline/unread-notifications',{},{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${context.rootState.authentication.userToken}`
 
         },
       })

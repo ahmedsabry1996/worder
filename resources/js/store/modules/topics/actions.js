@@ -10,7 +10,7 @@ export default{
           topic_id:id + 1
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         }).
         then((response)=>{
@@ -41,7 +41,7 @@ export default{
         topic_id : id
       },{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${context.rootState.authentication.userToken}`
         }
       })
       .then((response)=>{

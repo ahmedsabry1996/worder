@@ -8,10 +8,10 @@
       dark
       slider-color="green">
       <v-tab href="#email">
-        edit email
+        {{$t('editemail')}}
       </v-tab>
       <v-tab href="#password">
-        edit password
+        {{$t('editpassword')}}
       </v-tab>
     </v-tabs>
 
@@ -219,14 +219,14 @@ methods:{
   },
 
   updateEmail(){
-      const currentUserEmail= this.$store.state.authentication.currentUser.email;
+      const currentUserEmail= this.currentUser.email;
     if (this.email != currentUserEmail && this.email.length > 0) {
         this.loading = true;
         axios.post('/api/update-email',{
           email:this.email,
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${this.$store.state.authentication.userToken}`
           }
         })
         .then((response)=>{
@@ -256,16 +256,13 @@ methods:{
           email:this.email,
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${this.$store.state.authentication.userToken}`
           }
         }).then((response)=>{
           this.reset();
           this.loading = false;
 
-          localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
-          localStorage.setItem('email',this.email);
-          this.$store.commit('updateUser');
-          this.$store.commit('updateEmail');
+          this.$store.commit('updateUser',{currentUser:response.data.updated_user});
           swal({
             "title":this.$t('done'),
             "text":this.$t('emailupdated'),
@@ -301,7 +298,7 @@ methods:{
         email:currentUserEmail
       },{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${this.$store.state.authentication.userToken}`
         }
       })
       .then((response)=>{
@@ -346,18 +343,17 @@ methods:{
                 axios.post('/api/auth/reset-password',{
                   password:this.newPassowrd,
                   password_confirmation:this.confirmPassword,
-                  user_id:localStorage.getItem('user_id')
+                  user_id:this.currentUser.id
                 },{
                   headers:{
-                    Authorization:`Bearer ${localStorage.getItem('access_token')}`
+                    Authorization:`Bearer ${this.$store.state.authentication.userToken}`
                   }
                 })
                 .then((response)=>{
                   this.reset();
                   this.loading = false;
                   console.log(response.data);
-                  localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
-                  this.$store.commit('updateUser');
+                  this.$store.commit('updateUser',{currentUser:response.data.updated_user});
                   this.errors = null;
                   swal({
                     "title":this.$t('done'),

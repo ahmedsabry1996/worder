@@ -94,7 +94,7 @@ export default {
           console.log(7);
         })
         .catch((error)=>{
-          console.log(error.response.status);
+          console.log(error.response);
         });
       },
       loadMore(){
@@ -106,7 +106,7 @@ export default {
             let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
             if (endOfPage) {
-              if (!!localStorage.getItem('access_token') && this.$route.name == 'topic') {
+              if (!!this.$store.state.authentication.userToken && this.$route.name == 'topic') {
                   this.morePosts();
 
             }

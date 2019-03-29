@@ -592,10 +592,11 @@ export default {
   created(){
     console.log(this.$route);
     this.$store.dispatch('reactedPosts');
-    //this.$store.dispatch('');
+    this.$store.dispatch('myFollowingIds');
+
     this.$store.dispatch('showProfile',this.displayName)
     .then((response)=>{
-      console.log('ok ok');
+      console.log('show profile');
     })
     .catch((errors)=>{
       console.log(this.displayName);

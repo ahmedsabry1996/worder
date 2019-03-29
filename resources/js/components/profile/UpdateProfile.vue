@@ -18,8 +18,7 @@
         <v-text-field
           v-model="name"
           :placeholder="$t('name')"
-            solo-inverted
-
+          solo
         ></v-text-field>
         <div v-if="errors">
 
@@ -30,7 +29,7 @@
       <div class="form-group">
         <v-text-field
             v-model="displayName"
-            solo-inverted
+            solo
             :placeholder="$t('displayname')"
         ></v-text-field>
 
@@ -41,14 +40,14 @@
       </div>
 
       <div class="form-group">
-        <label for="country">{{$t('country')}}</label>
+        <label for="country" class="white--text">{{$t('country')}}</label>
         <v-select
+
                  :items="countries"
                  :label="countries[selectedCountry-1]"
                   v-model="selectedCountry"
                   :hint="countries[selectedCountry]"
-                  solo-inverted
-                  dark
+                  solo
                  >
                  </v-select>
           <div v-if="errors">
@@ -59,7 +58,6 @@
 
 
       <div class="form-group">
-        <label>{{$t('countryerror')}}</label>
         <v-dialog
 ref="dialog"
 v-model="modal"
@@ -76,8 +74,10 @@ width="290px"
   slot="activator"
   v-model="bdate"
   :label="$t('birthday')"
-  prepend-icon="event"
   :reactive="true"
+  prepend-inner-icon="event"
+  class="white--text"
+  solo
 ></v-text-field>
 <v-date-picker :reactive="true" locale="ar" v-model="bdate" scrollable>
   <v-spacer></v-spacer>
@@ -111,7 +111,7 @@ width="290px"
                 <p><b class="error" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
               </div>
                 </div>
-        <label class="text-center">{{$t('selectfavtopics')}}</label>
+        <label class="white--text text-center">{{$t('selectfavtopics')}}</label>
         <v-select
           :items="topics"
             item-text="topic"
@@ -120,7 +120,7 @@ width="290px"
           :label="$t('selectfavtopics')"
            multiple
            chips
-           solo-inverted
+           solo
         ></v-select>
       <div v-if="errors">
 
@@ -128,15 +128,15 @@ width="290px"
 </div>
 
       <div class="form-group">
-        <label>{{$t('description')}}</label>
+        <label class="white--text">{{$t('description')}}</label>
         <v-textarea
         no-resize
              :label="$t('description')"
-               solo-inverted
+               solo
                v-model="description"
 
              ></v-textarea>
-             <b>{{writtenDescription}}/25 words</b>
+             <b class="white--text">{{writtenDescription}}/25 words</b>
           <p class="error" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
             <div v-if="errors">
               <p class="error" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
@@ -184,8 +184,8 @@ width="290px"
 
 
     <div class="text-sm-center">
-      <h1>{{username}}</h1>
-      <h2 class="indigo--text"><i>{{displayName}}</i></h2>
+      <h1>{{name}}</h1>
+      <h2 class="yellow--text"><i>{{displayName}}</i></h2>
       <h3>{{gender[selectedGender-1]}}</h3>
         <bdi>
           <h4>
@@ -230,7 +230,7 @@ export default {
     avatar:`storage/avatars/${this.$store.state.authentication.currentUserProfile.avatar}`,
     avatarState : 'same',
     gender:[this.$t('male'),this.$t('female')],
-    topics:this.$store.state.topics.topics,
+    topics:this.$t('topics'),
     countries:this.$store.state.countries,
     selectedGender:null,
     selectedCountry:null,
@@ -285,7 +285,7 @@ export default {
 
       userCountry(){
          if ( this.$store.getters.countries.indexOf(this.selectedCountry) != -1) {
-          return this.$store.getters.countries.indexOf(this.selectedCountry) + 1
+          return this.$store.getters.countries.indexOf(this.selectedCountry) + 1;
          }
       },
   },
@@ -305,16 +305,17 @@ export default {
           return val.pivot.topic_id;
         });
 
-        const currentUserProfile = this.$store.state.authentication.currentUserProfile;
         const currentUser = this.$store.state.authentication.currentUser;
+        const currentUserProfile = this.$store.state.authentication.currentUserProfile;
         this.selectedTopics = topics_id;
         this.selectedGender = currentUserProfile.gender_id;
-        this.selectedCountry = currentUserProfile.country_id;
+        this.selectedCountry = this.countries[currentUserProfile.country_id-1];
         this.description = currentUserProfile.description;
         this.name = currentUser.name;
         this.displayName =  currentUserProfile.display_name;
         this.bdate = currentUserProfile.birth_date;
 
+        console.log(this.selectedCountry);
     },
 
     removeAvatar(){
@@ -356,7 +357,7 @@ export default {
 
     },
     updateProfile(){
-      console.log(`Bearer ${localStorage.getItem('access_token')}`);
+      console.log(`Bearer ${this.$store.state.authentication.userToken}`);
       axios.post('/api/update-profile',{
         "avatar":this.avatar,
         "name":this.name,
@@ -369,15 +370,17 @@ export default {
         "avatar_state":this.avatarState
       },{
         headers:{
-          "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+          "Authorization":`Bearer ${this.$store.state.authentication.userToken}`
         },
       }).then((response)=>{
 
         console.log(response);
-        localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
-        localStorage.setItem('current_user_profile',JSON.stringify(response.data.updated_profile));
-        localStorage.setItem('current_user_topics',JSON.stringify(response.data.updated_topics));
-        this.$store.commit('updateProfile');
+        // localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
+        // localStorage.setItem('current_user_profile',JSON.stringify(response.data.updated_profile));
+        // localStorage.setItem('current_user_topics',JSON.stringify(response.data.updated_topics));
+         this.$store.commit('updateProfile',{currentUserProfile:response.data.updated_profile,
+                                            currentUser:response.data.updated_user,
+                                            currentUserTopics:response.data.updated_topics});
         swal({
           title:this.$t('done'),
           text:this.$t('profileupdated'),

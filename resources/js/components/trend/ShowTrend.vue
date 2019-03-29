@@ -81,7 +81,7 @@ export default {
 
           if (endOfPage) {
 
-            if (!!localStorage.getItem('access_token') && this.$route.name == 'trend') {
+            if (!!this.$store.state.authentication.userToken && this.$route.name == 'trend') {
                 this.morePosts();
 
           }

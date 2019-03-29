@@ -62,35 +62,35 @@ export default{
             state.email = payload.email;
             state.password = payload.password;
           },
-          updateUser(state){
-            state.currentUser = JSON.parse(localStorage.getItem("current_user"));
+          updateUser(state,payload){
+            state.currentUser = payload.currentUser;
           },
-          updateEmail(state){
-            state.email = localStorage.getItem('email');
-          },
-          updatePassword(state){
-            state.password = localStorage.getItem('password');
+
+          updatePassword(state,payload){
+            state.password = payload.password;
 
           },
-          updateProfile(state){
-            state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
+          updateProfile(state,payload){
+            state.currentUser = payload.currentUser;
+            state.currentUserProfile = payload.currentUserProfile;
+            state.currentUserTopics = payload.currentUserTopics;
           },
 
 
 
               logout(state){
-              state.currentUser = JSON.parse(localStorage.getItem("current_user"));
-              state.currentUserProfile = JSON.parse(localStorage.getItem("current_user_profile"));
-              state.currentUserTopics = JSON.parse(localStorage.getItem("current_user_profile"));
-              state.trend = JSON.parse(localStorage.getItem('trend'));
-              state.userToken = localStorage.getItem("access_token");
-              state.hasProfile = localStorage.getItem('has_profile');
-              state.isVerified = localStorage.getItem('is_verified');
-              state.userId = localStorage.getItem("userId");
-              state.verificationCode = localStorage.getItem('verification_code');
-              state.email = localStorage.getItem('email');
-              state.password = localStorage.getItem('password');
-              state.isLoggedIn = !!state.currentUser;
+              state.currentUser = null
+              state.currentUserProfile = null;
+              state.currentUserTopics = null;
+              state.trend = null;
+              state.userToken = null;
+              state.hasProfile = null;
+              state.isVerified = null;
+              state.userId = null;
+              state.verificationCode = null;
+              state.email = null;
+              state.password = null;
+              state.isLoggedIn = false;
               state.loginErrors = null;
               state.posts = [];
               state.myPosts = [];

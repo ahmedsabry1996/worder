@@ -90,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
         var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (endOfPage) {
-          if (!!localStorage.getItem('access_token') && _this.$route.name == 'trend') {
+          if (!!_this.$store.state.authentication.userToken && _this.$route.name == 'trend') {
             _this.morePosts();
           }
         }

@@ -240,7 +240,7 @@ __webpack_require__.r(__webpack_exports__);
       avatar: "storage/avatars/".concat(this.$store.state.authentication.currentUserProfile.avatar),
       avatarState: 'same',
       gender: [this.$t('male'), this.$t('female')],
-      topics: this.$store.state.topics.topics,
+      topics: this.$t('topics'),
       countries: this.$store.state.countries,
       selectedGender: null,
       selectedCountry: null,
@@ -304,15 +304,16 @@ __webpack_require__.r(__webpack_exports__);
       var topics_id = topics.map(function (val) {
         return val.pivot.topic_id;
       });
-      var currentUserProfile = this.$store.state.authentication.currentUserProfile;
       var currentUser = this.$store.state.authentication.currentUser;
+      var currentUserProfile = this.$store.state.authentication.currentUserProfile;
       this.selectedTopics = topics_id;
       this.selectedGender = currentUserProfile.gender_id;
-      this.selectedCountry = currentUserProfile.country_id;
+      this.selectedCountry = this.countries[currentUserProfile.country_id - 1];
       this.description = currentUserProfile.description;
       this.name = currentUser.name;
       this.displayName = currentUserProfile.display_name;
       this.bdate = currentUserProfile.birth_date;
+      console.log(this.selectedCountry);
     },
     removeAvatar: function removeAvatar() {
       this.avatar = null;
@@ -349,7 +350,7 @@ __webpack_require__.r(__webpack_exports__);
     updateProfile: function updateProfile() {
       var _this2 = this;
 
-      console.log("Bearer ".concat(localStorage.getItem('access_token')));
+      console.log("Bearer ".concat(this.$store.state.authentication.userToken));
       axios.post('/api/update-profile', {
         "avatar": this.avatar,
         "name": this.name,
@@ -362,15 +363,18 @@ __webpack_require__.r(__webpack_exports__);
         "avatar_state": this.avatarState
       }, {
         headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('access_token'))
+          "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
-        console.log(response);
-        localStorage.setItem('current_user', JSON.stringify(response.data.updated_user));
-        localStorage.setItem('current_user_profile', JSON.stringify(response.data.updated_profile));
-        localStorage.setItem('current_user_topics', JSON.stringify(response.data.updated_topics));
+        console.log(response); // localStorage.setItem('current_user',JSON.stringify(response.data.updated_user));
+        // localStorage.setItem('current_user_profile',JSON.stringify(response.data.updated_profile));
+        // localStorage.setItem('current_user_topics',JSON.stringify(response.data.updated_topics));
 
-        _this2.$store.commit('updateProfile');
+        _this2.$store.commit('updateProfile', {
+          currentUserProfile: response.data.updated_profile,
+          currentUser: response.data.updated_user,
+          currentUserTopics: response.data.updated_topics
+        });
 
         swal({
           title: _this2.$t('done'),
@@ -515,10 +519,7 @@ var render = function() {
                         { staticClass: "form-group" },
                         [
                           _c("v-text-field", {
-                            attrs: {
-                              placeholder: _vm.$t("name"),
-                              "solo-inverted": ""
-                            },
+                            attrs: { placeholder: _vm.$t("name"), solo: "" },
                             model: {
                               value: _vm.name,
                               callback: function($$v) {
@@ -549,7 +550,7 @@ var render = function() {
                         [
                           _c("v-text-field", {
                             attrs: {
-                              "solo-inverted": "",
+                              solo: "",
                               placeholder: _vm.$t("displayname")
                             },
                             model: {
@@ -582,17 +583,21 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
-                          _c("label", { attrs: { for: "country" } }, [
-                            _vm._v(_vm._s(_vm.$t("country")))
-                          ]),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "white--text",
+                              attrs: { for: "country" }
+                            },
+                            [_vm._v(_vm._s(_vm.$t("country")))]
+                          ),
                           _vm._v(" "),
                           _c("v-select", {
                             attrs: {
                               items: _vm.countries,
                               label: _vm.countries[_vm.selectedCountry - 1],
                               hint: _vm.countries[_vm.selectedCountry],
-                              "solo-inverted": "",
-                              dark: ""
+                              solo: ""
                             },
                             model: {
                               value: _vm.selectedCountry,
@@ -630,8 +635,6 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
-                          _c("label", [_vm._v(_vm._s(_vm.$t("countryerror")))]),
-                          _vm._v(" "),
                           _c(
                             "v-dialog",
                             {
@@ -658,11 +661,13 @@ var render = function() {
                             },
                             [
                               _c("v-text-field", {
+                                staticClass: "white--text",
                                 attrs: {
                                   slot: "activator",
                                   label: _vm.$t("birthday"),
-                                  "prepend-icon": "event",
-                                  reactive: true
+                                  reactive: true,
+                                  "prepend-inner-icon": "event",
+                                  solo: ""
                                 },
                                 slot: "activator",
                                 model: {
@@ -806,7 +811,7 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
-                      _c("label", { staticClass: "text-center" }, [
+                      _c("label", { staticClass: "white--text text-center" }, [
                         _vm._v(_vm._s(_vm.$t("selectfavtopics")))
                       ]),
                       _vm._v(" "),
@@ -818,7 +823,7 @@ var render = function() {
                           label: _vm.$t("selectfavtopics"),
                           multiple: "",
                           chips: "",
-                          "solo-inverted": ""
+                          solo: ""
                         },
                         model: {
                           value: _vm.selectedTopics,
@@ -845,13 +850,15 @@ var render = function() {
                         "div",
                         { staticClass: "form-group" },
                         [
-                          _c("label", [_vm._v(_vm._s(_vm.$t("description")))]),
+                          _c("label", { staticClass: "white--text" }, [
+                            _vm._v(_vm._s(_vm.$t("description")))
+                          ]),
                           _vm._v(" "),
                           _c("v-textarea", {
                             attrs: {
                               "no-resize": "",
                               label: _vm.$t("description"),
-                              "solo-inverted": ""
+                              solo: ""
                             },
                             model: {
                               value: _vm.description,
@@ -862,7 +869,7 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _c("b", [
+                          _c("b", { staticClass: "white--text" }, [
                             _vm._v(_vm._s(_vm.writtenDescription) + "/25 words")
                           ]),
                           _vm._v(" "),
@@ -1005,9 +1012,9 @@ var render = function() {
                         : _vm._e(),
                       _vm._v(" "),
                       _c("div", { staticClass: "text-sm-center" }, [
-                        _c("h1", [_vm._v(_vm._s(_vm.username))]),
+                        _c("h1", [_vm._v(_vm._s(_vm.name))]),
                         _vm._v(" "),
-                        _c("h2", { staticClass: "indigo--text" }, [
+                        _c("h2", { staticClass: "yellow--text" }, [
                           _c("i", [_vm._v(_vm._s(_vm.displayName))])
                         ]),
                         _vm._v(" "),

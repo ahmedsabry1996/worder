@@ -6,7 +6,7 @@ export default {
         }
         ,{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         })
         .then((response)=>{
@@ -31,7 +31,7 @@ export default {
           word : commit.word
         },{
           headers:{
-            Authorization:`Bearer ${localStorage.getItem('access_token')}`
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
           }
         })
         .then((response)=>{

@@ -32,7 +32,7 @@ methods:{
         user_id:localStorage.getItem('user_id')
       },{
         headers:{
-          Authorization:`Bearer ${localStorage.getItem('access_token')}`
+          Authorization:`Bearer ${this.$store.state.authentication.userToken}`
         }
       })
       .then((response)=>{
