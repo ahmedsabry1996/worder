@@ -7,8 +7,6 @@ export default{
       signupSuccess(state,payload){
           state.currentUser = payload.currentUser;
           state.currentUserProfile = null;
-          state.userToken = payload.token;
-          state.verificationCode = payload.verificationCode;
           state.userId = payload.userId;
           state.signupErrors = null;
       },
@@ -22,12 +20,6 @@ export default{
 
           },
 
-          accountCreated(state){
-
-            state.verificationCode = localStorage.getItem("verification_code");
-            state.hasProfile = localStorage.getItem('has_profile');
-
-        },
 
             loginSuccess(state,payload){
 
@@ -43,24 +35,16 @@ export default{
             state.loginErrors = null;
           },
 
-            userHasProfile(state){
-            state.hasProfile = localStorage.getItem('has_profile');
-          },
 
-            needProfile(state){
-            state.currentUser = JSON.parse(localStorage.getItem("current_user"))
-            state.isVerified = localStorage.getItem('is_verified');
-            state.hasProfile = localStorage.getItem('has_profile');
-            state.userToken = localStorage.getItem("access_token");
-            state.userId = localStorage.getItem("user_id");
-            state.isLoggedIn = !!(localStorage.getItem("current_user"));
-            state.loginErrors = null;
 
-          },
+              userCredionals(state,payload){
+              state.name = payload.name;
+              state.email = payload.email;
+              state.password = payload.password;
+            },
 
-            userCredionals(state,payload){
-            state.email = payload.email;
-            state.password = payload.password;
+          verificationCode(state,payload){
+            state.verificationCode = payload.verificationCode;
           },
           updateUser(state,payload){
             state.currentUser = payload.currentUser;
@@ -76,7 +60,14 @@ export default{
             state.currentUserTopics = payload.currentUserTopics;
           },
 
-
+          createProfile(state,payload){
+            state.userToken = payload.token;
+            state.currentUserProfile = payload.profile;
+            state.currentUserTopics = payload.currentUserTopics;
+            state.isLoggedIn = true;
+            state.isVerified = 1;
+            state.hasProfile = 1;
+          },
 
               logout(state){
               state.currentUser = null

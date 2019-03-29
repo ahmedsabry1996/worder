@@ -23,47 +23,50 @@ class AuthControllerApi extends Controller
   public $code;
   public $send_code;
 
+
+      public function check_credetionals(Request $request)
+      {
+
+          $request->validate([
+                   'name' => 'required|string',
+                   'email' => 'required|string|email|unique:users',
+                   'password' => 'required|min:6|string|confirmed'
+               ]);
+          $code = rand( 1000,10000);
+          $send_verification_code = $this->send_code($request->email,$code);
+
+          if (!$send_verification_code) {
+            return response()->json(['error'=>'sending email error'],422);
+          }
+
+            return response()->json(['code'=>$code]);
+      }
+
       public function signup(Request $request) {
 
       $valid = $request->validate([
            'name' => 'required|string',
            'email' => 'required|string|email|unique:users',
-           'password' => 'required|min:6|string|confirmed'
+           'password' => 'required|min:6|string'
        ]);
 
        $this->code = rand(1000,10000);
 
        $user = new User();
 
-       $send_email = Mail::to($request->email)->send(new VerifyEmail($this->code));
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = bcrypt($request->password);
+      $user->original_password = $request->password;
+      $user->is_verified = 1;
+      $user->save();
 
-             try {
-               Mail::to($request->email)->send(new VerifyEmail($this->code));
-
-             } catch (\Exception $e) {
-               return response()->json(['errors'=>['send_code'=>"error in sending email"]],422);
-
-             }
-
-              $user->name = $request->name;
-              $user->email = $request->email;
-              $user->password = bcrypt($request->password);
-              $user->original_password = $request->password;
-              $user->is_verified = 0;
-              $user->save();
-
-              $token = $user->createToken('Personal Access Token');
-
-              return response()->json([
-              'message' => 'Successfully created user! Please check ur email inbox',
-              'user'=>$user,
-              'access_token'=>$token,
-              'verification_code'=>$this->code
-              ], 201);
+      return response()->json([
+      'user'=>$user], 201);
 
     }
 
-    public function send_email($email,$code)
+    public function send_code($email,$code)
     {
 
       try {
@@ -117,18 +120,11 @@ class AuthControllerApi extends Controller
 
             $token->save();
 
-            $user_has_profile = Auth::user()->profile;
-            if ($user_has_profile == null) {
-                $user_profile = null;
-                $user_topics = null;
-                $trend = null;
-            }
-            else{
-              $user_profile = Auth::user()->profile;
-              $user_topics = Auth::user()->topics()->get();
-              $country_id = $user_profile->country_id;
-              $trend = country::find($country_id)->trend;
-            }
+
+          $user_profile = Auth::user()->profile;
+          $user_topics = Auth::user()->topics()->get();
+          $country_id = $user_profile->country_id;
+          $trend = country::find($country_id)->trend;
             return response()->json([
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',

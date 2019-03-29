@@ -3,7 +3,13 @@ import Vuex from 'vuex';
 import storeData from './store';
 import Timeline from './components/Timeline.vue'
 //import Test from './components/Test.vue';
-import Veifyemail from './components/auth/Veifyemail.vue';
+//import Veifyemail from './components/auth/Veifyemail.vue';
+
+const Veifyemail = resolve =>{
+  require.ensure(['./components/auth/Veifyemail.vue'],()=>{
+    resolve(require('./components/auth/Veifyemail.vue'))
+  })
+}
 
 const Topic = resolve =>{
   require.ensure(['./components/topics/topic.vue'],()=>{
@@ -51,7 +57,11 @@ const store = new Vuex.Store(storeData);
 
 
 export const routes = [
-
+  {
+    path:'/verify-email',
+    component:Veifyemail,
+    name:'verify-email'
+  },
   {
     path:'/create-profile',
     component:Createprofile,

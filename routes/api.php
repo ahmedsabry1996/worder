@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix'=>"auth"],function(){
 
           Route::post('login','API\AuthControllerApi@login');
+          Route::post('check-credentials','API\AuthControllerApi@check_credetionals');
           Route::post('signup','API\AuthControllerApi@signup');
           Route::post('verify/{id}','API\AuthControllerApi@verify_email');
           Route::post('verify-profile','API\AuthControllerApi@verify_profile');

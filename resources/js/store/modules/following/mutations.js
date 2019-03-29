@@ -38,7 +38,8 @@ export default{
       fillMyFollowingProfiles(state,payload){
         state.myFollowingProfiles = payload;
         state.loadedFollowing = state.myFollowingProfiles.length;
-
+        console.log('addddddddddd');
+        console.log(payload);
       },
 
       addToMyFollowingProfiles(state,payload){

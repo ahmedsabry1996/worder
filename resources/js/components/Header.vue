@@ -72,9 +72,8 @@
       <v-flex xs12 text-xs-center>
         <h1 class="white--text">{{$t('welcome')}}</h1>
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 v-if="currentRoute">
         <div class="text-xs-center">
-
           <v-btn
           large
           round
@@ -93,7 +92,7 @@
 
         </div>
       </v-flex>
-      <v-flex xs12 class="text-xs-center">
+      <v-flex xs12 class="text-xs-center" v-if="currentRoute">
         <component :is="selectedComponent">
         </component>
       </v-flex>
@@ -154,6 +153,9 @@
         trend(){
             return this.$store.getters.topTen ;
 
+        },
+        currentRoute(){
+          return this.$route.name == null ;
         }
         },
         watch:{

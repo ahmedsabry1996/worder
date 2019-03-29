@@ -384,16 +384,11 @@ createProfile(){
 
         this.errors = [];
 
-
-
-                this.$store.commit('loginSuccess',{
-                  isVerified:1,
-                  hasProfile:1,
-                  currentUserProfile:response.data.profile,
-                  currentUserTopics:response.data.topics,
-                  currentUser:this.$store.state.authentication.currentUser,
-                  token:this.$store.state.authentication.userToken,
-                });
+        this.$store.commit('createProfile',{
+          profile:response.data.profile,
+          currentUserTopics:response.data.topics,
+          token:response.data.access_token,
+        });
 
         if (!!response.data.trend) {
 

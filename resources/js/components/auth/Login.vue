@@ -147,8 +147,6 @@ export default {
             console.log(response.data.user);
 
 
-            if (response.data.user.is_verified == 1 && response.data.user.has_profile == 1) {
-
               this.$store.commit("loginSuccess",{
                 currentUser:response.data.user,
                 currentUserProfile:response.data.profile,
@@ -162,27 +160,6 @@ export default {
               this.$router.push('/');
 
               console.log("perfect user!");
-            }
-
-            if(response.data.user.is_verified == 1 && response.data.user.has_profile === 0){
-
-                this.$store.commit('needProfile');
-                this.$router.push('/create-profile');
-                console.log('verified but has no profile');
-            }
-
-            if(response.data.user.is_verified === 0 && response.data.user.has_profile === 0){
-                this.$store.dispatch('sendVerificationCode',response.data.user.email)
-                .then(()=>{
-                  localStorage.setItem('email',response.data.user.email);
-                  this.$router.push('/signup');
-
-                });
-
-                console.log('need to verify account');
-
-            }
-
 
 
         }).catch((errors)=>{

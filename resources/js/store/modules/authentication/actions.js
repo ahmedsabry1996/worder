@@ -1,27 +1,46 @@
-import {localStorageSettter} from './../../../localstorage';
 export default{
 
-    signup(context,credionals){
 
+  checkCredetionals(context,data,rootState){
+    return new Promise(function(resolve, reject) {
+      axios.post('/api/auth/check-credentials',{
+        name:data.name,
+        email:data.email,
+        password:data.password,
+        password_confirmation:data.passwordConfirm,
+        original_password:data.password,
+      })
+      .then((response)=>{
+        console.log(response.data);
+        context.commit('userCredionals',{
+          name:data.name,
+          email:data.email,
+          password:data.password,
+        });
+        context.commit('verificationCode',{verificationCode:response.data.code})
+        resolve(response);
+      })
+      .catch((error)=>{
+        console.log(error.response);
+        context.commit('signupFails',error.response.data.errors);
+
+        reject(error);
+      })
+    });
+  },
+
+    signup(context,credionals,rootState){
     return new Promise ((resolve,reject)=>{
 
         axios.post("/api/auth/signup",{
-          name:credionals.name,
-          email:credionals.email,
-          password:credionals.password,
-          original_password:credionals.original_password,
-          password_confirmation:credionals.password_confirmation,
+          name:context.state.name,
+          email:context.state.email,
+          password:context.state.password,
         })
         .then((response)=>{
-
           console.log(response.data);
-
-
-
           context.commit('signupSuccess',{
               currentUser:response.data.user,
-              token:response.data.access_token.accessToken,
-              verificationCode:response.data.verification_code,
               userId:response.data.user.id,
           });
 
@@ -30,9 +49,7 @@ export default{
 
         })
         .catch((errors)=>{
-            console.log(errors);
-            console.log(errors.response);
-            console.log(errors.response.data.errors);
+      
             context.commit('signupFails',errors.response.data.errors);
             reject(errors);
         })

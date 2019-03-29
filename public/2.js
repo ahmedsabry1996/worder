@@ -381,13 +381,10 @@ __webpack_require__.r(__webpack_exports__);
         });
         _this2.errors = [];
 
-        _this2.$store.commit('loginSuccess', {
-          isVerified: 1,
-          hasProfile: 1,
-          currentUserProfile: response.data.profile,
+        _this2.$store.commit('createProfile', {
+          profile: response.data.profile,
           currentUserTopics: response.data.topics,
-          currentUser: _this2.$store.state.authentication.currentUser,
-          token: _this2.$store.state.authentication.userToken
+          token: response.data.access_token
         });
 
         if (!!response.data.trend) {

@@ -487,8 +487,6 @@
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
           <template v-for="following in myFollowing">
                   <v-list two-line>
-                    <template v-for="follower in myFollowers">
-
                         <v-list-tile>
 
                       <v-list-tile-avatar>
@@ -520,7 +518,6 @@
                           </template>
                         </v-list-tile-action>
                       </v-list-tile>
-                    </template>
                   </v-list>
                 </template>
         </div>

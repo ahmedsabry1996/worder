@@ -7,7 +7,7 @@
         <template v-if="!verificationCode">
 
           <!-- Default signup form -->
-            <v-form @submit.prevent="signup">
+            <v-form @submit.prevent="checkCredetionals">
               <v-text-field
               autofocus
                 solo
@@ -64,7 +64,7 @@
 
               <div class="text-xs-center">
 
-                              <v-btn round color="primary" @click="signup" :loading="signupLoading">
+                              <v-btn round color="primary" @click="checkCredetionals" :loading="signupLoading">
                                     {{$t('signup')}}
                               </v-btn>
               </div>
@@ -74,7 +74,7 @@
         </template>
 
 
-            <template v-if="verificationCode">
+            <!-- <template v-if="verificationCode">
 
               <v-form @submit.prevent="verify" light>
                 <div class="text-xs-center">
@@ -111,7 +111,7 @@
 
                 </div>
               </v-form>
-            </template>
+            </template> -->
             </v-flex>
             </v-layout>
             </v-container>
@@ -120,7 +120,6 @@
 </template>
 
 <script>
-var email = localStorage.getItem('email') == null ? '' : localStorage.getItem('email');
 export default {
 
   mounted(){
@@ -131,7 +130,7 @@ export default {
   data(){
     return {
       name:'',
-      email:email,
+      email:'',
       password:'',
       passwordConfirm:'',
       code:'',
@@ -152,6 +151,28 @@ export default {
 
   },
   methods:{
+      checkCredetionals(){
+        this.signupLoading = true;
+        this.$store.dispatch('checkCredetionals',{
+          name:this.name,
+          email:this.email,
+          password:this.password,
+          passwordConfirm:this.passwordConfirm,
+        })
+        .then((response)=>{
+
+          this.signupLoading = false;
+          this.$router.push('/verify-email');
+        })
+        .catch((error)=>{
+          this.signupLoading = false;
+          swal({
+            title:this.$t('error'),
+            text:this.$t('signupfail'),
+            icon:"error"
+          });
+        })
+      },
 
     signup(){
         this.signupLoading = true;
@@ -164,9 +185,14 @@ export default {
         })
         .then(()=>{
 
-          this.$store.commit('userCredionals',{email:this.email,password:this.password});
+
           this.email = this.currentUser.email;
           this.signupLoading = false;
+          this.$store.commit('userCredionals',
+          { name:this.name,
+            email:this.email,
+            password:this.password});
+
           swal({
             title:this.$t('done'),
             text:this.$t('emailcheck'),
