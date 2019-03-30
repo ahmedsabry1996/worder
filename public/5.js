@@ -558,6 +558,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -919,7 +920,11 @@ var render = function() {
                         "v-card",
                         {
                           staticStyle: { margin: "0 auto" },
-                          attrs: { dark: "", "max-width": "320" }
+                          attrs: {
+                            color: "#1F2430",
+                            "max-width": "320",
+                            "min-height": "320"
+                          }
                         },
                         [
                           _vm.showProfile.profile.avatar
@@ -934,43 +939,56 @@ var render = function() {
                               })
                             : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "v-card-title",
-                            { attrs: { "primary-title": "" } },
-                            [_c("h1", [_vm._v(_vm._s(_vm.showProfile.name))])]
-                          ),
-                          _vm._v(" "),
                           _c("div", { staticClass: "text-xs-center" }, [
-                            _c("h2", [
-                              _vm._v(
-                                _vm._s(_vm.showProfile.profile.display_name)
-                              )
-                            ])
+                            _c(
+                              "h1",
+                              {
+                                staticClass:
+                                  "display-1 text-xs-center text-uppercase white--text blue-grey darken-2"
+                              },
+                              [_vm._v(_vm._s(_vm.showProfile.name))]
+                            )
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "text-xs-center" }, [
-                            _c("h3", [
-                              _c("bdi", [
+                            _c(
+                              "h2",
+                              { staticClass: "headline light-blue--text" },
+                              [
                                 _vm._v(
-                                  "\n                " +
-                                    _vm._s(_vm.$t("from")) +
-                                    " : "
-                                ),
-                                _c("b", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.countries[
-                                        _vm.showProfile.profile.country_id - 1
-                                      ]
-                                    )
-                                  )
-                                ])
-                              ])
-                            ])
+                                  _vm._s(_vm.showProfile.profile.display_name)
+                                )
+                              ]
+                            )
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "text-xs-center" }, [
-                            _c("h4", [
+                            _c(
+                              "h3",
+                              { staticClass: "yellow--text subheader" },
+                              [
+                                _c("bdi", [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(_vm.$t("from")) +
+                                      " : "
+                                  ),
+                                  _c("b", { staticClass: " " }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.countries[
+                                          _vm.showProfile.profile.country_id - 1
+                                        ]
+                                      )
+                                    )
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "text-xs-center" }, [
+                            _c("h4", { staticClass: "success--text" }, [
                               _c("bdi", [
                                 _vm._v(
                                   "\n                " +
@@ -989,62 +1007,68 @@ var render = function() {
                           _vm.showProfile.profile.user_id
                             ? _c(
                                 "div",
-                                { staticClass: "text-xs-center mt-2" },
+                                {
+                                  staticClass: "text-xs-center white--text mt-2"
+                                },
                                 [
-                                  _c("p", [
+                                  _c("h3", {}, [
                                     _c("bdi", [
+                                      _vm._v(
+                                        "\n               " +
+                                          _vm._s(_vm.$t("followers")) +
+                                          "\n               "
+                                      ),
                                       _c("b", [
                                         _vm._v(_vm._s(_vm.followersNum))
-                                      ]),
-                                      _vm._v(
-                                        "\n                " +
-                                          _vm._s(_vm.$t("followers")) +
-                                          "\n              "
-                                      )
+                                      ])
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("p", [
+                                  _c("h3", [
                                     _c("bdi", [
-                                      _c("b", [
-                                        _vm._v(_vm._s(_vm.followingNum))
-                                      ]),
                                       _vm._v(
                                         "\n                " +
                                           _vm._s(_vm.$t("following")) +
-                                          "\n              "
-                                      )
+                                          "\n                "
+                                      ),
+                                      _c("b", [
+                                        _vm._v(_vm._s(_vm.followingNum))
+                                      ])
                                     ])
                                   ])
                                 ]
                               )
-                            : _c("div", { staticClass: "text-xs-center" }, [
-                                _c("p", [
-                                  _c("bdi", [
-                                    _c("b", [
-                                      _vm._v(_vm._s(_vm.myFollowersNum))
-                                    ]),
-                                    _vm._v(
-                                      "\n              " +
-                                        _vm._s(_vm.$t("followers")) +
-                                        "\n            "
-                                    )
+                            : _c(
+                                "div",
+                                { staticClass: "text-xs-center white--text" },
+                                [
+                                  _c("h3", {}, [
+                                    _c("bdi", [
+                                      _vm._v(
+                                        "\n            " +
+                                          _vm._s(_vm.$t("followers")) +
+                                          " :\n              "
+                                      ),
+                                      _c("b", [
+                                        _vm._v(_vm._s(_vm.myFollowersNum))
+                                      ])
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("h3", {}, [
+                                    _c("bdi", [
+                                      _vm._v(
+                                        "\n              " +
+                                          _vm._s(_vm.$t("following")) +
+                                          " :\n              "
+                                      ),
+                                      _c("b", [
+                                        _vm._v(_vm._s(_vm.myFollowingNum))
+                                      ])
+                                    ])
                                   ])
-                                ]),
-                                _vm._v(" "),
-                                _c("p", [
-                                  _c("bdi", [
-                                    _c("b", [
-                                      _vm._v(_vm._s(_vm.myFollowingNum))
-                                    ]),
-                                    _vm._v(
-                                      "\n              " +
-                                        _vm._s(_vm.$t("following")) +
-                                        "\n            "
-                                    )
-                                  ])
-                                ])
-                              ]),
+                                ]
+                              ),
                           _vm._v(" "),
                           _vm.currentUserProfile.user_id !==
                           _vm.showProfile.profile.user_id
@@ -1173,11 +1197,11 @@ var render = function() {
                                     [
                                       _c("b", [
                                         _vm._v(
-                                          "                  " +
+                                          "\n                " +
                                             _vm._s(
-                                              _vm.topics[topic.id]["topic"]
+                                              _vm.topics[topic.id - 1]["topic"]
                                             ) +
-                                            "\n"
+                                            "\n              "
                                         )
                                       ])
                                     ]

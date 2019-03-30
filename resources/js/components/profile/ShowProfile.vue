@@ -4,7 +4,7 @@
   <v-content v-if="showProfile">
   <v-layout row wrap>
       <v-flex xs12 offset-xs0 md4 offset-md4>
-        <v-card dark max-width="320" style="margin:0 auto;">
+        <v-card color="#1F2430" max-width="320" min-height="320" style="margin:0 auto;">
 
           <!-- profile image -->
           <v-img
@@ -14,27 +14,27 @@
         </v-img>
 
           <!-- user name -->
-          <v-card-title primary-title>
-            <h1>{{showProfile.name}}</h1>
-          </v-card-title>
+          <div  class="text-xs-center">
+            <h1  class="display-1 text-xs-center text-uppercase white--text blue-grey darken-2">{{showProfile.name}}</h1>
+          </div>
 
           <!-- display name -->
           <div class="text-xs-center">
-            <h2>{{showProfile.profile.display_name}}</h2>
+            <h2 class="headline light-blue--text">{{showProfile.profile.display_name}}</h2>
           </div>
 
           <!-- country -->
           <div class="text-xs-center">
-              <h3>
+              <h3 class="yellow--text subheader">
                 <bdi>
-                {{$t('from')}} : <b>{{countries [showProfile.profile.country_id-1]}}</b>
+                {{$t('from')}} : <b class=" ">{{countries [showProfile.profile.country_id-1]}}</b>
               </bdi>
               </h3>
           </div>
 
           <!-- description -->
           <div class="text-xs-center">
-              <h4>
+              <h4 class="success--text">
                 <bdi>
                 {{$t('about')}}: {{showProfile.profile.description}}
             </bdi>
@@ -42,35 +42,35 @@
           </div>
 
           <!-- Num of fans -->
-          <div class="text-xs-center mt-2" v-if="currentUserProfile.user_id != showProfile.profile.user_id ">
-            <p>
+          <div class="text-xs-center white--text mt-2" v-if="currentUserProfile.user_id != showProfile.profile.user_id">
+            <h3 class="">
             <bdi>
-                <b>{{followersNum}}</b>
-                {{$t('followers')}}
+               {{$t('followers')}}
+               <b>{{followersNum}}</b>
               </bdi>
-            </p>
-          <p>
+            </h3>
+          <h3 >
               <bdi>
-                <b>{{followingNum}}</b>
                 {{$t('following')}}
+                <b>{{followingNum}}</b>
               </bdi>
-          </p>
+          </h3>
           </div>
 
           <!-- My fans -->
-        <div v-else class="text-xs-center">
-          <p>
+        <div v-else class="text-xs-center white--text">
+          <h3 class="">
           <bdi>
+            {{$t('followers')}} :
               <b>{{myFollowersNum}}</b>
-              {{$t('followers')}}
             </bdi>
-          </p>
-          <p>
+          </h3>
+          <h3 class="">
             <bdi>
+              {{$t('following')}} :
               <b>{{myFollowingNum}}</b>
-              {{$t('following')}}
             </bdi>
-          </p>
+          </h3>
         </div>
 
         <!-- is following -->
@@ -108,8 +108,9 @@
           <div class="text-xs-center">
             <template v-for="topic in showProfile.topics">
             <v-btn round small class="primary white--text">
-              <b>                  {{topics[topic.id]['topic']}}
-</b>
+              <b>
+                {{topics[topic.id -1]['topic']}}
+              </b>
             </v-btn>
 
           </template>

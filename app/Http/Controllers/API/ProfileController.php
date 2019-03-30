@@ -32,7 +32,7 @@ class ProfileController extends Controller
               'country_id'=>'required',
               'birth_date'=>'required|before:today',
               'description'=>'nullable|string',
-              'topics'=>'required|array|between:3,10',
+              'topics'=>'required|array|between:3,11',
           ]);
 
           $avatar=$request->avatar;
@@ -179,7 +179,7 @@ class ProfileController extends Controller
               'country_id'=>'required',
               'birth_date'=>'required|before:today',
               'description'=>'nullable|string',
-              'topics'=>'required|array|between:3,10',
+              'topics'=>'required|array|between:3,11',
           ]);
         }
 
@@ -192,7 +192,7 @@ class ProfileController extends Controller
               'country_id'=>'required',
               'birth_date'=>'required|before:today',
               'description'=>'nullable|string',
-              'topics'=>'required|array|between:3,10',
+              'topics'=>'required|array|between:3,11',
           ]);
         }
 

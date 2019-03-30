@@ -5,24 +5,27 @@
       </v-flex>
     <v-flex xs12 md4 offset-md4 class="pa-4">
       <!-- Login fields -->
+      <v-card color="#002d37" class="mt-5">
       <template v-if="!forgetPassword">
-        <v-form  @submit.prevent="login">
+
+        <v-form @submit.prevent="login">
+          <div class="pa-4">
+
           <v-text-field
-
-
+          dir="rtl"
             color="white--text"
             v-model="email"
-            :label="$t('email')"
+            :placeholder="$t('email')"
             solo
             autofocus>
             </v-text-field>
           <v-text-field
 
-
+            dir="rtl"
             type="password"
             color="white--text"
             v-model="password"
-            :label="$t('password')"
+            :placeholder="$t('password')"
             solo
           ></v-text-field>
           <div class="text-xs-center">
@@ -32,12 +35,15 @@
 
 
         </div>
+      </div>
         </v-form>
+      </div>
         </template>
 
 <!-- Foreget password -->
 <template v-if="forgetPassword && !hasEmail">
 <v-form @submit.prevent="verifyEmail">
+      <div class="pa-3">
 
     <v-text-field
       :label="$t('email' )"
@@ -47,7 +53,12 @@
     <div class="text-xs-center">
       <v-btn round color="primary" @click="verifyEmail" :loading="loading">{{$t('verify')}}
 </v-btn>
+<v-btn round type="button" @click="cancelPassowrd" color="error" v-if="forgetPassword">
+  {{$t('cancel')}}
+</v-btn>
     </div>
+  </div>
+
 </v-form>
 </template>
 
@@ -55,7 +66,8 @@
 <template v-if="hasEmail && !correctValidationCode">
 
   <v-form @submit.prevent="verifyCode">
-    <label for="confirm_code">{{$t('codesent')}} : <b class="white--text">{{email}}</b> </label>
+    <div class="pa-3">
+    <label for="confirm_code" class="white--text">{{$t('codesent')}}  <b class="e1f7e6">{{email}}</b> </label>
     <v-text-field
        v-model="confirmationCode"
          solo
@@ -63,17 +75,25 @@
     ></v-text-field>
     <div class="text-xs-center">
 
-    <v-btn :loading="loading" @click="verifyCode" color="primary" round>
+    <v-btn :loading="loading" type="button" @click="verifyCode" color="primary" round>
         {{$t('verify')}}
     </v-btn>
+
+            <v-btn round type="button" @click="cancelPassowrd" color="error" v-if="forgetPassword">
+              {{$t('cancel')}}
+            </v-btn>
   </div>
+</div>
 
 </v-form>
 </template>
 
 <!-- Reenter new password -->
 <template v-if="correctValidationCode && hasEmail">
+    <h3>create new password</h3>
   <v-form @submit.prevent="createNewPassword">
+    <div class="pa-3">
+
     <v-text-field
       :hint="$t('newpassword')"
         type="password"
@@ -89,21 +109,19 @@
     ></v-text-field>
     <div class="text-xs-center">
 
-      <v-btn color="primary" :loading="loading" @click="createNewPassword" round>
+      <v-btn color="primary"type="button"  :loading="loading" @click="createNewPassword" round>
         {{$t('create')}}
       </v-btn>
+
     </div>
+  </div>
 
 
   </v-form>
 </template>
 <!-- CANCEL button -->
-<div class="text-xs-center">
 
-  <v-btn round @click="cancelPassowrd" color="error" v-if="forgetPassword">
-    {{$t('cancel')}}
-  </v-btn>
-</div>
+</v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -206,7 +224,9 @@ export default {
     verifyCode(){
       if (this.confirmationCode == this.emailedCode) {
 
-          this.correctValidationCode = true
+          this.correctValidationCode = true;
+          this.password = '';
+        
       }
       else{
 
