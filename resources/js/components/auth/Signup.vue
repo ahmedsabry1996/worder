@@ -1,9 +1,7 @@
 <template>
     <v-container grid-list-md>
     <v-layout row wrap>
-      <v-flex xs12>
-      </v-flex>
-      <v-flex xs12  md4 offset-md4  class="pa-3">
+      <v-flex xs12  md4 offset-md4 >
         <template v-if="!verificationCode">
 
           <!-- Default signup form -->
@@ -22,12 +20,8 @@
                 <b>{{signupErrors.name[0]}}</b>
               </p>
               </template>
-
               <v-text-field
-
               class="t"
-
-
                 :label="$t('email')"
                   v-model="email"
  solo

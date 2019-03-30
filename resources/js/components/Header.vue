@@ -1,5 +1,35 @@
 <template>
 <v-content>
+
+  <v-toolbar class="hidden-md-and-up" app color="#005556">
+    <v-menu offset-y>
+      <v-text-field flat
+      dark
+      class="mt-2"
+      color="white"
+      :placeholder="$t('search')"
+      prepend-inner-icon="search"
+      v-model="keyword"
+      slot="activator">
+      </v-text-field>
+      <v-list class="ml-2" v-if="results.length > 0" background-color="#08343e">
+        <template v-for="result in results">
+
+          <v-list-tile avatar router :to="`/${result.profile.display_name}`">
+            <v-list-tile-avatar>
+              <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{result.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>{{result.profile.display_name}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-menu>
+
+
+  </v-toolbar>
 <v-toolbar app color="#005556" class="hidden-xs-only" v-if="isLoggedIn">
     <v-toolbar-title  class="white--text" >
       <v-btn small flat router to="/" class="white--text headline"> Worder</v-btn>
@@ -92,13 +122,53 @@
 
         </div>
       </v-flex>
-      <v-flex xs12 class="text-xs-center" v-if="currentRoute">
         <component :is="selectedComponent">
         </component>
-      </v-flex>
     </v-layout>
+
+
   </v-container>
-</v-content>
+  <div class="hidden-md-and-up">
+
+  <v-bottom-nav
+  app
+  :value="true"
+ color="white"
+    >
+
+    <v-btn
+      color="teal"
+      flat
+      router
+  :to="`/${currentUserProfile.display_name}`"
+    >
+      <span>{{$t('profile')}}</span>
+
+      <v-icon>inbox</v-icon>
+    </v-btn>
+
+    <v-btn
+      color="teal"
+      flat
+      router
+      to="/"
+      >
+      <span>home</span>
+      <v-icon>home</v-icon>
+    </v-btn>
+
+    <v-btn
+      color="teal"
+      flat
+      >
+      <span>notifications</span>
+      <v-icon>notifications</v-icon>
+    </v-btn>
+
+  </v-bottom-nav>
+
+  </div>
+  </v-content>
 </template>
 
 <script>

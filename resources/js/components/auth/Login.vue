@@ -226,7 +226,7 @@ export default {
 
           this.correctValidationCode = true;
           this.password = '';
-        
+
       }
       else{
 

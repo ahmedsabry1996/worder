@@ -5,7 +5,7 @@
       v-model.trim="post"
       no-resize
       outline
-      class="t"
+      class="t text-xs-center"
       color="white"
       dir="rtl"
     ></v-textarea>
@@ -14,15 +14,14 @@
       <v-flex xs12 sm3>
 
         <div class="text-xs-center text-sm-center mt-2">
-          <v-btn  @click="showEmoji = !showEmoji" large >
-          <h1>🙂</h1>  </v-btn>
+      
         <h3 :class="wordsCounterColor">{{wordsCounter}} / 100
 </h3>
         </div>
 
       </v-flex>
       <v-flex xs12 sm2>
-        <v-tooltip bottom>
+        <v-tooltip left>
         <div slot="activator" class="mt-1 text-xs-center primary" id="upload">
           <v-icon class="mt-1" color="white">
             add_a_photo
@@ -103,6 +102,7 @@
 export default {
   data(){
     return {
+      bottomNav: 'recent',
       showEmoji:false,
       snackbar:false,
       post:'',
