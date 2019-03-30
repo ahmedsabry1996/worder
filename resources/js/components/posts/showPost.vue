@@ -152,6 +152,8 @@
                   </v-list-tile-content>
 
                 </v-list-tile>
+                <v-divider></v-divider>
+
               </template>
             </v-list>
 
@@ -182,6 +184,8 @@
                         </v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
+                <v-divider></v-divider>
+
               </template>
             </v-list>
 

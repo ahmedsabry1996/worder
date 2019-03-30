@@ -1,7 +1,7 @@
 <template>
 
 
-    <div v-if="perfectUser">
+    <div v-if="isLoggedIn">
 
     <div class="text-xs-center" v-if="posts.length == 0">
       <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
@@ -157,8 +157,8 @@ export default {
       currentUserProfile(){
           return this.$store.getters.currentUserProfile;
       },
-      perfectUser(){
-        return this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile=="1";
+      isLoggedIn(){
+        return this.$store.getters.isLoggedIn;
       },
       topics(){
         return this.$t('topics');

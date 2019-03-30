@@ -912,7 +912,7 @@ var render = function() {
                       _c("div", { staticClass: "text-sm-center" }, [
                         _c("h1", [_vm._v(_vm._s(_vm.username))]),
                         _vm._v(" "),
-                        _c("h2", { staticClass: "indigo--text" }, [
+                        _c("h2", { staticClass: "yellow--text" }, [
                           _c("i", [_vm._v(_vm._s(_vm.displayName))])
                         ]),
                         _vm._v(" "),

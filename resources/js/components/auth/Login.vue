@@ -159,7 +159,6 @@ export default {
               this.$store.commit("topTen",{trend:response.data.trend.top_words});
               this.$router.push('/');
 
-              console.log("perfect user!");
 
 
         }).catch((errors)=>{

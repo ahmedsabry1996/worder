@@ -1,7 +1,7 @@
 <template>
 
   <v-container grid-list-lg>
-    <v-layout row wrap v-if="perfectUser">
+    <v-layout row wrap v-if="isLoggedIn">
       <v-flex xs12 md12>
         <create-post></create-post>
       </v-flex>
@@ -12,13 +12,20 @@
       </keep-alive>
       </v-flex>
       <v-flex xs11 md6>
+        <template v-if="timelinePosts.length > 0">
+
         <list-posts class="text-xs-center" :posts="timelinePosts"></list-posts>
         <div class="text-xs-center" v-if="isLoadingMoreTimeline">
 
         <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
 
         </div>
+      </template>
+      <template v-else>
+          <h1 class=" text-xs-center white--text">follow people to start seeing posts</h1>
+      </template>
       </v-flex>
+
       <v-flex md3 hidden-sm-and-down>
         <trend></trend>
         <br />
@@ -54,11 +61,7 @@ export default {
       isLoggedIn(){
         return this.$store.getters.isLoggedIn;
       },
-      perfectUser(){
-        if (this.$store.getters.isVerified=="1" && this.$store.getters.hasProfile=="1") {
-          return true;
-        }
-      },
+
       timelinePosts(){
         return this.$store.getters.posts;
       },
@@ -68,7 +71,7 @@ export default {
 
   },
   created(){
-    if (this.perfectUser) {
+    if (this.isLoggedIn) {
       this.isLoading = true;
       this.$store.dispatch('reactedPosts');
       this.$store.dispatch('myFollowingIds');
@@ -77,7 +80,7 @@ export default {
   mounted(){
 
     this.loadMore();
-    if (this.perfectUser) {
+    if (this.isLoggedIn) {
       this.$store.dispatch('timeline');
     }
   },

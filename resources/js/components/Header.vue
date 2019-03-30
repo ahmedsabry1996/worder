@@ -1,6 +1,6 @@
 <template>
 <v-content>
-<v-toolbar app color="#005556" class="hidden-xs-only" v-if="perfectUser">
+<v-toolbar app color="#005556" class="hidden-xs-only" v-if="isLoggedIn">
     <v-toolbar-title  class="white--text" >
       <v-btn small flat router to="/" class="white--text headline"> Worder</v-btn>
     </v-toolbar-title>
@@ -109,7 +109,7 @@
   export default {
       data(){
           return {
-              selectedComponent:'signup',
+              selectedComponent:'login',
               loading:false,
               keyword:'',
               showResults:false,
@@ -132,16 +132,11 @@
             return  this.$store.getters.isLoggedIn;
 
           },
-          needProfile(){
-          return this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "0"
 
+        isLoggedIn(){
+            return this.$store.getters.isLoggedIn ;
         },
-        perfectUser(){
-            return this.$store.getters.isLoggedIn == true && this.$store.getters.isVerified == "1" && this.$store.getters.hasProfile == "1";
-        },
-        cotinueSignup(){
-            return this.$store.getters.isLoggedIn == true && this.$store.getters.isVerified == "0" && this.$store.getters.hasProfile == "0";
-        },
+
 
         currentUser(){
             return this.$store.getters.currentUser;

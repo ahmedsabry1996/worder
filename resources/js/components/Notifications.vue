@@ -63,17 +63,7 @@ export default {
       return  this.$store.getters.userToken;
 
     },
-    isVerified(){
-      return this.$store.getters.isVerified;
-    },
-    hasProfile(){
-      return this.$store.getters.hasProfile;
-    },
-    perfectUser(){
-      if (this.$store.getters.isLoggedIn && this.$store.getters.isVerified =="1" && this.$store.getters.hasProfile == "1") {
-        return true;
-      }
-    },
+    
     broadcastNotifications(){
       return this.$store.getters.broadcastNotifications;
     }

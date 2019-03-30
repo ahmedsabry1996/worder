@@ -13,7 +13,7 @@ use App\latestPost ;
 use App\Profile as profile;
 use App\User as user;
 use App\Topic as topics;
-use Storage as sotrage ;
+use Storage as storage ;
 use App\latestPost as latestposts;
 use App\Notifications\PostReact;
 
@@ -135,9 +135,13 @@ class PostController extends Controller
 
     if ($post->user->id !== Auth::id()) {
 
-      return response()->json(['msg'=>'you don\'t have the permession to do it'],403);
+      return response()->json(['msg'=>'you don\'t have the permession to do it'],201);
     }
 
+
+    if ($post->image) {
+        storage::delete("/public/posts_images/"."$post->image");
+    }
     $post->removeLikes();
     $post->removeDislikes();
     $delete_post = $post->delete();

@@ -55,16 +55,12 @@ export default {
         isLoggedIn(){
           return this.$store.getters.isLoggedIn;
         },
-        perfectUser(){
-            if (this.$store.getters.isLoggedIn && this.$store.getters.hasProfile=="1" && this.$store.getters.isVerified =="1") {
-              return true;
-            }
-        }
+      
     },
     created(){
 
-            if (this.perfectUser) {
-                if (this.suggestPeople.length === 0) {
+            if (this.isLoggedIn) {
+                if (this.suggestPeople.length < 100) {
                   this.$store.dispatch('suggestPeople');
                 }
             }
@@ -72,7 +68,7 @@ export default {
     mounted(){
 
 
-      if (this.perfectUser) {
+      if (this.isLoggedIn) {
           this.refreshSuggestedAutomatically();
       }
     },

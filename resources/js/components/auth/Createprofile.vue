@@ -150,7 +150,7 @@ no-resize
 
         <div class="text-sm-center">
           <h1>{{username}}</h1>
-          <h2 class="indigo--text"><i>{{displayName}}</i></h2>
+          <h2 class="yellow--text"><i>{{displayName}}</i></h2>
           <h3>{{gender[selectedGender-1]}}</h3>
             <bdi>
               <h4>

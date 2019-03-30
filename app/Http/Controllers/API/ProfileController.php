@@ -196,12 +196,16 @@ class ProfileController extends Controller
           ]);
         }
 
-
+        $current_user_avatar = $user->profile->avatar;
         $avatar=$request->avatar;
         $avatar_state = $request->avatar_state;
         $profile_description = null;
         $image_size = 0;
         if ($avatar_state == null ) {
+          if ($current_user_avatar != "avatar_default.jpg") {
+            storage::delete("/public/avatars/$current_user_avatar");
+
+          }
               $new_avatar_name = "avatar_default.jpg";
         }
         elseif($avatar_state == 'same'){

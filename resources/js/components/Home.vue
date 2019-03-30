@@ -51,22 +51,7 @@
               return this.$store.getters.isLoggedIn;
 
             },
-            perfectUser(){
-                return (this.$store.getters.isLoggedIn == true &&
-                      this.$store.getters.isVerified == "1" &&
-                      this.$store.getters.hasProfile == "1");
-            },
-          needProfile(){
-            return (this.$store.getters.isVerified == "1"
-             && this.$store.getters.hasProfile == "0");
-          },
-          needVerify(){
-            if (this.$store.getters.isVerified == "0"
-    && this.$store.getters.hasProfile == "0"
-   && !!this.$store.getters.verificationCode && this.$store.getters.isLoggedIn){
-    return true;
-    }
-          },
+          
           currentRoute(){
           return this.$route ;
           },

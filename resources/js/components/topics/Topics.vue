@@ -28,7 +28,7 @@
 export default {
   computed:{
     topics(){
-        return this.$t('topics');
+        return this.$t('topics').reverse();
     }
   }
 }

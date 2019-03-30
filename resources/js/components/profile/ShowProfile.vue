@@ -380,6 +380,7 @@
                 </template>
               </v-list-tile-action>
             </v-list-tile>
+            <v-divider></v-divider>
           </template>
         </v-list>
 
@@ -425,6 +426,7 @@
                 </template>
               </v-list-tile-action>
             </v-list-tile>
+            <v-divider></v-divider>
           </template>
         </v-list>
 
@@ -472,6 +474,7 @@
                 </template>
               </v-list-tile-action>
             </v-list-tile>
+            <v-divider></v-divider>
           </template>
         </v-list>
 
@@ -518,6 +521,8 @@
                           </template>
                         </v-list-tile-action>
                       </v-list-tile>
+                      <v-divider></v-divider>
+
                   </v-list>
                 </template>
         </div>
