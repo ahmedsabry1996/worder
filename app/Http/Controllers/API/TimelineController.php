@@ -157,7 +157,7 @@ class TimelineController extends Controller
 
       return response()->json(['posts'=>$posts,
                                 'posts_num'=>$posts_num,
-                                ],201);
+                                ],200);
   }
 
   public function load_more(Request $request)
@@ -182,7 +182,7 @@ class TimelineController extends Controller
 
 
 return response()->json(['offset'=>$offset,
-                      'loaded_posts'=>$posts],201);
+                      'loaded_posts'=>$posts],200);
 }
 
 
@@ -197,7 +197,7 @@ return response()->json(['offset'=>$offset,
 
 
             return response()->json(['liked_posts'=>$liked_posts
-                                    ,'disliked_posts'=>$disliked_posts],201);
+                                    ,'disliked_posts'=>$disliked_posts],200);
         }
 
       public function fetch_notifications(Request $request)
@@ -211,7 +211,7 @@ return response()->json(['offset'=>$offset,
                                           ->limit(10)
                                           ->get();
 
-      return response()->json(['all_notifications'=>$all_notifications],201);
+      return response()->json(['all_notifications'=>$all_notifications],200);
       }
 
       public function unread_notifications(Request $request)
@@ -220,7 +220,7 @@ return response()->json(['offset'=>$offset,
 
           $unread_notificatons =  $current_user->unreadNotifications()->first() ? true : false ;
 
-          return response()->json(['unread'=>$unread_notificatons],201);
+          return response()->json(['unread'=>$unread_notificatons],200);
 
       }
     public function load_more_notifications(Request $request)
@@ -234,8 +234,13 @@ return response()->json(['offset'=>$offset,
                                         ->offset($offset)
                                         ->limit(10)
                                         ->get();
-        return response()->json(['notifications'=>$more_notifications],201);
+        return response()->json(['notifications'=>$more_notifications],200);
     }
+    public function test_posts()
+    {
+      //return response()->json(['created'=>true],200);
 
+    return  response()->json(200);
+    }
 
 }
