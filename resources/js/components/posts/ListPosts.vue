@@ -1,7 +1,6 @@
 <template>
 
-
-    <div v-if="isLoggedIn">
+<div v-if="isLoggedIn">
 
     <div class="text-xs-center" v-if="posts.length == 0">
       <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
@@ -131,6 +130,7 @@
 
   </div>
 </div>
+
 </template>
 
 <script>
@@ -168,7 +168,9 @@ export default {
 
     methods:{
 
-
+      onRefresh(){
+          console.log(789);
+      },
         showPost(postId){
           this.$router.push({ name: 'post', params: { postId: postId } })
         },

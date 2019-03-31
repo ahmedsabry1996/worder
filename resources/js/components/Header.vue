@@ -128,7 +128,7 @@
 
 
   </v-container>
-  <div class="hidden-md-and-up">
+  <div class="hidden-md-and-up" v-if="isLoggedIn">
 
   <v-bottom-nav
   app

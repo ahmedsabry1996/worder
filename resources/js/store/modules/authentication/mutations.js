@@ -19,8 +19,10 @@ export default{
               state.signupErrors = null;
 
           },
-
-
+          cancelEmailVerification(state){
+            state.verificationCode = null;
+          }
+,
             loginSuccess(state,payload){
 
             state.currentUser = payload.currentUser;

@@ -3,9 +3,11 @@
     <v-layout row wrap>
       <v-flex xs12  md4 offset-md4 >
         <template v-if="!verificationCode">
+          <v-card color="#002d37" class="mt-5">
 
           <!-- Default signup form -->
             <v-form @submit.prevent="checkCredetionals">
+              <div class="pa-4">
               <v-text-field
               autofocus
                 solo
@@ -62,7 +64,11 @@
                                     {{$t('signup')}}
                               </v-btn>
               </div>
+
+              </div>
+
             </v-form>
+          </v-card>
 
 
         </template>
