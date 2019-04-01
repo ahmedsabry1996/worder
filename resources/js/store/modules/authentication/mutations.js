@@ -100,6 +100,9 @@ export default{
               state.profilePosts=[];
               state.profileFollowers=[0,0];
               state.isFollow=null;
+              state.allSuggesstion = [];
+              state.suggestPeople = [];
+
             },
 
 }

@@ -1308,9 +1308,10 @@ var render = function() {
                                               _c(
                                                 "p",
                                                 {
+                                                  staticClass: "white--text",
                                                   staticStyle: {
-                                                    "overflow-wrap":
-                                                      "break-word"
+                                                    "white-space": "pre-line",
+                                                    "font-weight": "bold"
                                                   }
                                                 },
                                                 [
@@ -1779,28 +1780,33 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "post-topic" },
-                                            [
-                                              _c(
-                                                "p",
-                                                { staticClass: "white--text" },
+                                          post.topic_id < 11
+                                            ? _c(
+                                                "div",
+                                                { staticClass: "post-topic" },
                                                 [
-                                                  _c("b", [
-                                                    _vm._v(
-                                                      "  " +
-                                                        _vm._s(
-                                                          _vm.topics[
-                                                            post.topic_id - 1
-                                                          ]["id"]
+                                                  _c(
+                                                    "p",
+                                                    {
+                                                      staticClass: "white--text"
+                                                    },
+                                                    [
+                                                      _c("b", [
+                                                        _vm._v(
+                                                          "  " +
+                                                            _vm._s(
+                                                              _vm.topics[
+                                                                post.topic_id -
+                                                                  1
+                                                              ]["topic"]
+                                                            )
                                                         )
-                                                    )
-                                                  ])
+                                                      ])
+                                                    ]
+                                                  )
                                                 ]
                                               )
-                                            ]
-                                          ),
+                                            : _vm._e(),
                                           _vm._v(" "),
                                           _c("hr")
                                         ]
@@ -1914,24 +1920,26 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "post-topic white--text"
-                                            },
-                                            [
-                                              _c("i", {}, [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm.topics[
-                                                      post.topic_id - 1
-                                                    ]["topic"]
-                                                  )
-                                                )
-                                              ])
-                                            ]
-                                          ),
+                                          post.topic_id < 11
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "post-topic white--text"
+                                                },
+                                                [
+                                                  _c("i", {}, [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.topics[
+                                                          post.topic_id - 1
+                                                        ]["topic"]
+                                                      )
+                                                    )
+                                                  ])
+                                                ]
+                                              )
+                                            : _vm._e(),
                                           _vm._v(" "),
                                           post.user.profile.user_id ==
                                           _vm.currentUserProfile.user_id

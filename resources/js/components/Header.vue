@@ -2,6 +2,9 @@
 <v-content>
 
   <v-toolbar class="hidden-md-and-up" app color="#005556">
+    <v-toolbar-title  class="white--text" >
+        <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
+    </v-toolbar-title>
     <v-menu offset-y>
       <v-text-field flat
       dark
@@ -32,7 +35,7 @@
   </v-toolbar>
 <v-toolbar app color="#005556" class="hidden-xs-only" v-if="isLoggedIn">
     <v-toolbar-title  class="white--text" >
-      <v-btn small flat router to="/" class="white--text headline"> Worder</v-btn>
+        <img @click="goHome" src="/logo.png" alt="worder" width="60" class="ml-4 mt-2">
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-and-down white--text">
@@ -129,43 +132,55 @@
 
   </v-container>
   <div class="hidden-md-and-up" v-if="isLoggedIn">
+<v-content>
 
   <v-bottom-nav
   app
   :value="true"
  color="white"
-    >
+    >  <v-btn
+        color="#112f41"
+        flat
+        router
+    :to="`/${currentUserProfile.display_name}`"
+      >
+        <span>{{$t('profile')}}</span>
+
+        <v-icon>inbox</v-icon>
+      </v-btn>
+    <v-btn
+      router
+      to="/me/notifications"
+      color="#112f41"
+      flat>
+      <span>{{$t('notifications')}}</span>
+      <v-icon>notifications</v-icon>
+    </v-btn>
+
 
     <v-btn
-      color="teal"
-      flat
-      router
-  :to="`/${currentUserProfile.display_name}`"
-    >
-      <span>{{$t('profile')}}</span>
-
-      <v-icon>inbox</v-icon>
+    router
+      to="/me/suggest"
+      color="#112f41"
+      flat>
+      <span>{{$t('people')}}</span>
+      <v-icon>refresh</v-icon>
     </v-btn>
 
     <v-btn
-      color="teal"
+      color="#112f41"
       flat
       router
       to="/"
       >
-      <span>home</span>
+      <span>{{$t('home')}}</span>
       <v-icon>home</v-icon>
     </v-btn>
 
-    <v-btn
-      color="teal"
-      flat
-      >
-      <span>notifications</span>
-      <v-icon>notifications</v-icon>
-    </v-btn>
+
 
   </v-bottom-nav>
+</v-content>
 
   </div>
   </v-content>
@@ -236,7 +251,10 @@
         },
         methods:{
 
+          goHome(){
+            this.$router.push('/');
 
+          },
             goTo(display_name){
                 this.$router.push(`/${display_name}`);
             },

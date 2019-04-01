@@ -958,8 +958,7 @@ var render = function() {
                       attrs: {
                         dark: "",
                         "max-width": "320",
-                        height: "600",
-                        "max-height": "620"
+                        "min-height": "600"
                       }
                     },
                     [

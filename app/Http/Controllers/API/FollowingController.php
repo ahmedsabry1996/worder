@@ -151,6 +151,8 @@ class FollowingController extends Controller
                                   ->whereNotIn('user_id',$followed)
                                   ->whereCountryId($current_user_country)
                                   ->inRandomOrder()
+                                  ->distinct()
+                                  ->limit(100)
                                   ->with('user')
                                   ->get();
 

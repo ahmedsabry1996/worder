@@ -1,7 +1,7 @@
 <template>
 
   <v-container grid-list-xs>
-  <v-content v-if="showProfile">
+  <div v-if="showProfile">
   <v-layout row wrap>
       <v-flex xs12 offset-xs0 md4 offset-md4>
         <v-card color="#1F2430" max-width="320" min-height="320" style="margin:0 auto;">
@@ -139,7 +139,7 @@
               <h5 class="white--text">by <b>{{showProfile.profile.display_name}}</b></h5>
           </div>
           <div class="post-content">
-              <p style="overflow-wrap:break-word;">
+            <p style="white-space:pre-line;font-weight: bold;" class="white--text">
                 <b class="white--text">
                   <bdi>
                     {{post.post}}
@@ -239,9 +239,9 @@
 
               </p>
           </div>
-          <div class="post-topic">
+          <div class="post-topic" v-if="post.topic_id < 11">
               <p class="white--text">
-                  <b>  {{topics[post.topic_id -1 ]['id']}}</b>
+                  <b>  {{topics[post.topic_id -1 ]['topic']}}</b>
               </p>
           </div>
           <hr>
@@ -285,7 +285,7 @@
     <div class="post-time white--text">
       {{post.created_at | getDateForHumans}}
     </div>
-    <div class="post-topic white--text">
+    <div class="post-topic white--text" v-if="post.topic_id < 11">
         <i style="">{{topics [post.topic_id - 1]['topic']}}</i>
     </div>
 
@@ -342,9 +342,9 @@
   </div>
 
   <!-- likers  -->
-  <sweet-modal :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
+  <sweet-modal z-index="2000" :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
 
-      <div style="overflow-y:scroll;height:300px" @scroll="loadMoreLikers">
+      <div style="overflow-y:scroll;height:300px;" @scroll="loadMoreLikers">
 
         <v-list two-line>
           <template v-for="liker in postLikers">
@@ -390,7 +390,7 @@
   </sweet-modal>
 
 <!-- dislikers -->
-  <sweet-modal :title="$t('dislikers')" :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
+  <sweet-modal z-index="2000" :title="$t('dislikers')" :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
         <v-list two-line>
@@ -436,7 +436,7 @@
 
 
   <!-- followers -->
-  <sweet-modal ref="fans" min-width="320" max-width="400"  width="400" overlay-theme="dark" :enable-mobile-fullscreen="false">
+  <sweet-modal z-index="2000" ref="fans" min-width="320" max-width="400"  width="400" overlay-theme="dark" :enable-mobile-fullscreen="false">
   	<sweet-modal-tab :title="$t('followers')" id="tab1">
     <template v-if="myFollowers">
       <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
@@ -485,7 +485,7 @@
       <h4>please wait ... </h4>
     </template>
     </sweet-modal-tab>
-  	<sweet-modal-tab :title="$t('following')" id="tab2">
+  	<sweet-modal-tab z-index="2000" :title="$t('following')" id="tab2">
       <template v-if="myFollowing">
 
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
@@ -537,7 +537,7 @@
 </div>
 
   </v-layout>
-</v-content>
+</div>
 </v-container>
 
 </template>

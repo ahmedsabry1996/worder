@@ -1,7 +1,25 @@
 <template >
-
-<v-menu left offset-x width="200" :full-width="true">
-  <v-btn slot="activator" @click="getNotifications" flat class="white--text"  icon>
+<div>
+  <div class="mmd hidden-sm-and-up" @scroll="loadMoreNotifications">
+  <v-list two-line dark>
+    <template v-for="(notification,index) in notifications">
+          <v-list-tile router :to="`/${notification.data.url}`"  :key="index">
+      <v-list-tile-avatar>
+            <img :src="`/storage/avatars/${notification.data.icon}`">
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
+            <v-list-tile-sub-title>
+              {{notification.data.created_at.date | getDateForHumans}}
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+    </v-list-tile>
+    <v-divider></v-divider>
+  </template>
+  </v-list>
+  </div>
+<v-menu class="hidden-xs-only" left offset-x width="200" :full-width="true">
+  <v-btn slot="activator" @click="getNotifications" flat class="white--text mt-3"  icon>
     <v-icon :color="color">
       notifications
     </v-icon>
@@ -23,6 +41,8 @@
   </v-list>
 </div>
 </v-menu>
+
+</div>
 
 </template>
 
@@ -63,7 +83,7 @@ export default {
       return  this.$store.getters.userToken;
 
     },
-    
+
     broadcastNotifications(){
       return this.$store.getters.broadcastNotifications;
     }
@@ -158,8 +178,9 @@ export default {
     let elscrollHeight = e.target.scrollHeight;
 
     let elScrollTop = e.target.scrollTop;
-    console.log(454545);
+
     if ((elHeight+elScrollTop) - elscrollHeight == 0) {
+      console.log(454545);
         this.offset +=10;
       this.$store.dispatch('loadMoreNotifications',{offset:this.offset})
       }
@@ -198,5 +219,18 @@ export default {
   max-height:300px !important;
   background-color:#fff !important;
   overflow:scroll;
+  }
+.mmd{
+  margin:0 auto;
+  width:100% !important;
+  height: 100% !important;
+  max-height:100% !important;
+  background-color:#002d37 !important;
+  overflow:scroll;
+  position: absolute;
+  top:58px;
+  bottom:0;
+  left:0;
+  right:0
   }
 </style>

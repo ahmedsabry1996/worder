@@ -158,7 +158,7 @@ width="290px"
   </v-flex>
 
   <v-flex md4 hidden-xs-only offset-md2 >
-    <v-card dark class="mt-5" max-width="320" height="600" max-height="620">
+    <v-card dark class="mt-5" max-width="320" min-height="600" >
       <v-img
         v-if="avatar==null"
       :src="`/storage/avatars/avatar_default.jpg`"

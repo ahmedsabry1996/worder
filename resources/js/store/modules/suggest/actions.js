@@ -12,6 +12,7 @@ export default{
 
           let suggested = response.data.suggest_people;
           context.commit('suggestedPeople',suggested);
+          context.commit('suggestFive');
 
         })
         .catch((errors)=>{

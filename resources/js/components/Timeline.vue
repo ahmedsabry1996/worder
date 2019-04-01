@@ -7,7 +7,6 @@
       </v-flex>
       <v-flex hidden-sm-and-down md3>
         <keep-alive>
-
         <suggested-people></suggested-people>
       </keep-alive>
       </v-flex>

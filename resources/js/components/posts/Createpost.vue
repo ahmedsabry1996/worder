@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <div>
     <v-textarea
       :label="$t('whatHappen')"
       v-model.trim="post"
@@ -14,7 +14,7 @@
       <v-flex xs12 sm3>
 
         <div class="text-xs-center text-sm-center mt-2">
-      
+
         <h3 :class="wordsCounterColor">{{wordsCounter}} / 100
 </h3>
         </div>
@@ -32,7 +32,7 @@
       </v-tooltip>
       </v-flex>
       <v-flex xs12 sm3>
-        <div class="text-xs-center mt-1">
+        <div class="text-xs-center ">
           <v-btn color="success" @click="createPost" :disabled="post.length === 0 || wordsNumber > 100 || !topic ">
             {{$t('publish')}} <v-icon  right color="white">done</v-icon>
           </v-btn>
@@ -93,7 +93,7 @@
       </bdi>
       </v-btn>
 </v-snackbar>
-</v-content>
+</div>
 
 </template>
 

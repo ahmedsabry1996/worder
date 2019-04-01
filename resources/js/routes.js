@@ -1,13 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import storeData from './store';
-import Timeline from './components/Timeline.vue'
+import Timeline from './components/Timeline.vue';
+//import Notifications from './components/Notifications.vue';
 //import Test from './components/Test.vue';
 //import Veifyemail from './components/auth/Veifyemail.vue';
 
 const Veifyemail = resolve =>{
   require.ensure(['./components/auth/Veifyemail.vue'],()=>{
     resolve(require('./components/auth/Veifyemail.vue'))
+  })
+}
+const Notifications = resolve =>{
+  require.ensure(['./components/Notifications.vue'],()=>{
+    resolve(require('./components/Notifications.vue'))
   })
 }
 
@@ -41,6 +47,11 @@ const UpdateProfile = resolve =>{
 const UpdateAuth = resolve =>{
   require.ensure(['./components/auth/UpdateAuth.vue'],()=>{
     resolve(require('./components/auth/UpdateAuth.vue'));
+  })
+}
+const Suggest = resolve =>{
+  require.ensure(['./components/Suggestpeople.vue'],()=>{
+    resolve(require('./components/Suggestpeople.vue'));
   })
 }
 
@@ -94,11 +105,19 @@ export const routes = [
     name:"topic",
   },
   {
-
-
     path:"/trend/show/",
     component:Trend,
     name:"trend"
+  },
+  {
+    path:"/me/notifications",
+    component:Notifications,
+    name:"notification"
+  },
+  {
+    path:"/me/suggest",
+    component:Suggest,
+    name:"suggest"
   }
 
 

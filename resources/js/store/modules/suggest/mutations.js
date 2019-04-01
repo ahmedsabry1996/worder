@@ -5,6 +5,8 @@ export default{
     let firstFive = state.allSuggesstion.slice(0,5);
     state.suggestedPeople = firstFive;
 },
+
+
   shuffleSuggested(state){
 
   let max = state.allSuggesstion.length-1;
