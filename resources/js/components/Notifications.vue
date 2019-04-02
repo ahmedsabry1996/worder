@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import axios from 'axios';
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
@@ -63,7 +64,12 @@ export default {
     }
 
   },
+  beforeRouteLeave (to, from, next) {
 
+      this.$store.commit('showBottomNav');
+      next()
+
+  },
   computed:{
     notifications(){
       return this.$store.getters.notifications;
@@ -93,18 +99,17 @@ export default {
   created(){
     this.loadMore();
     this.getNotifications();
+
   },
   mounted(){
     this.listen();
+    this.$store.commit('showBottomNav');
   },
   methods:{
     loadMore(){
       const self = this;
             window.onscroll = function() {
-              console.log(444444);
-              let pos2 = document.documentElement.scrollTop;
-
-
+              let pos2 = window.innerHeight ;
               if (self.pos1 > pos2) {
                 self.$store.commit('showBottomNav');
               }
@@ -199,9 +204,15 @@ export default {
     let elScrollTop = e.target.scrollTop;
 
     if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-      console.log(454545);
+
         this.offset +=10;
-      this.$store.dispatch('loadMoreNotifications',{offset:this.offset})
+      this.$store.dispatch('loadMoreNotifications',{offset:this.offset});
+      this.$store.commit('hideBottomNav');
+
+      }
+      else{
+        this.$store.commit('showBottomNav');
+
       }
   },
 
