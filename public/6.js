@@ -40,6 +40,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -114,6 +116,8 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm4: "", "offset-sm4": "" } },
             [
+              _c("h2", [_vm._v(_vm._s(_vm.verificationCode))]),
+              _vm._v(" "),
               _c(
                 "v-card",
                 { staticClass: "mt-5", attrs: { color: "#002d37" } },
@@ -134,7 +138,11 @@ var render = function() {
                         { staticClass: "pa-4" },
                         [
                           _c("v-text-field", {
-                            attrs: { label: "label", solo: "", autofocus: "" },
+                            attrs: {
+                              label: _vm.$t("code"),
+                              solo: "",
+                              autofocus: ""
+                            },
                             model: {
                               value: _vm.code,
                               callback: function($$v) {
@@ -164,7 +172,7 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "error" },
+                                  attrs: { round: "", color: "error" },
                                   on: { click: _vm.cancel }
                                 },
                                 [_vm._v("cancel")]
