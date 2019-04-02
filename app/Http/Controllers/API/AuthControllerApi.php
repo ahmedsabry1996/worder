@@ -5,11 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
 use Session as session;
 use Carbon\Carbon;
 use \Exception;
-
 use App\User;
 use App\Mail\VerifyEmail ;
 use App\Mail\VerificationCode ;
@@ -17,6 +15,7 @@ use App\VerifyProfile;
 use App\Country as country;
 use App\Trend  as trend;
 use Auth;;
+use Illuminate\Support\Facades\App;
 
 class AuthControllerApi extends Controller
 {
@@ -27,11 +26,15 @@ class AuthControllerApi extends Controller
       public function check_credetionals(Request $request)
       {
 
-          $request->validate([
+
+         App::setLocale('tr');
+              $request->validate([
                    'name' => 'required|string',
                    'email' => 'required|string|email|unique:users',
                    'password' => 'required|min:6|string|confirmed'
                ]);
+
+
           $code = rand( 1000,10000);
           $send_verification_code = $this->send_code($request->email,$code);
 
@@ -43,6 +46,7 @@ class AuthControllerApi extends Controller
       }
 
       public function signup(Request $request) {
+        App::setLocale('ar');
 
       $valid = $request->validate([
            'name' => 'required|string',
@@ -97,6 +101,8 @@ class AuthControllerApi extends Controller
     }
     public function login(Request $request)
         {
+          \App::setLocale('ar');
+
             $request->validate([
                 'email' => 'required|string|email',
                 'password' => 'required|string',
