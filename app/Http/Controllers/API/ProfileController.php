@@ -367,4 +367,13 @@ class ProfileController extends Controller
           return response()->json(['posts'=>$posts],201);
       }
 
+      public function cancel_profile(Request $request)
+      {
+        $email = $request->email;
+
+        $user = user::whereEmail($email)->delete();
+
+        return response()->json(['deleted'=>true],201);
+      }
+
 }

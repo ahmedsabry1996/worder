@@ -9,6 +9,7 @@ export default{
   userToken:null,
   isVerified:false,
   hasProfile:false,
+  readyToCreateProfile:false,
   verificationCode:null,
   name:null,
   email:null,

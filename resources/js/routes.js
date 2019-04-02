@@ -71,53 +71,89 @@ export const routes = [
   {
     path:'/verify-email',
     component:Veifyemail,
-    name:'verify-email'
+    name:'verify-email',
+    meta:{
+  requireVerificationCode:true,
+
+    },
   },
   {
     path:'/create-profile',
     component:Createprofile,
     name:"create-profile",
-
+    meta:{
+      readyToCreateProfile:true
+    }
   },
   {
     path:'/update-profile',
     component:UpdateProfile,
-    name:"update-profile"
+    name:"update-profile",
+    meta:{
+  requireAuth:true,
+
+    },
   },
   {
     path:'/update-auth',
     component:UpdateAuth,
-    name:"upade-auth-profile"
+    name:"upade-auth-profile",
+    meta:{
+  requireAuth:true,
+
+    },
   },
   {
     path:"/:dName",
     component:Showprofile,
-    name:"show-profile"
+    name:"show-profile",
+    meta:{
+      requireAuth:true,
+    },
   },
   {
     path:"/post/:postId",
     component:Post,
-    name:"post"
+    name:"post",
+    meta:{
+  requireAuth:true,
+
+    },
   },
   {
     path:"/topic/:topic",
     component:Topic,
     name:"topic",
+    meta:{
+  requireAuth:true,
+
+    },
   },
   {
     path:"/trend/show/",
     component:Trend,
-    name:"trend"
+    name:"trend",
+    meta:{
+  requireAuth:true,
+
+    },
   },
   {
     path:"/me/notifications",
     component:Notifications,
-    name:"notification"
+    name:"notification",
+    meta:{
+  requireAuth:true,
+    },
   },
   {
     path:"/me/suggest",
     component:Suggest,
-    name:"suggest"
+    name:"suggest",
+    meta:{
+  requireAuth:true,
+
+    },
   }
 
 

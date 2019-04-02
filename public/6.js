@@ -40,12 +40,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       code: ''
     };
+  },
+  mounted: function mounted() {
+    console.log('Verify email loaded');
   },
   computed: {
     verificationCode: function verificationCode() {
@@ -58,6 +60,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.verificationCode == this.code) {
         this.$store.dispatch('signup').then(function (response) {
+          _this.$store.commit('cancelEmailVerification');
+
+          _this.$store.commit('readyToCreateProfile');
+
           _this.$router.push('/create-profile');
         }).catch(function (error) {
           console.log(error);
@@ -67,8 +73,8 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         swal({
           title: this.$t('error'),
-          text: this.$t('signupfail'),
-          icon: "error"
+          text: this.$t('codeerror'),
+          icon: 'error'
         });
       }
     },
@@ -108,8 +114,6 @@ var render = function() {
             "v-flex",
             { attrs: { xs12: "", sm4: "", "offset-sm4": "" } },
             [
-              _c("h2", [_vm._v(_vm._s(_vm.verificationCode))]),
-              _vm._v(" "),
               _c(
                 "v-card",
                 { staticClass: "mt-5", attrs: { color: "#002d37" } },

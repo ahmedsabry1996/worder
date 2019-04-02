@@ -57,23 +57,38 @@ const store = new Vuex.Store(storeData);
 Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', en);
 Vue.i18n.add('ar', ar);
-Vue.i18n.add('tr', tr)
-Vue.i18n.set('ar');
+Vue.i18n.add('tr', tr);
+Vue.i18n.set('tr');
 
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{
   window.scrollTo(0,0);
-
-  if (to.path !== "/verify-email" && to.path !== "/login" && to.path !== "/signup" && to.path !== '/' && to.path !== '/create-profile') {
-
-      if (store.state.authentication.isLoggedIn == true && store.state.authentication.hasProfile == "1" && store.state.authentication.isVerified == "1") {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+      if (!!store.state.authentication.userToken == true) {
           next();
       }
       else{
-        console.log("need to v or p or lo");
-        next('/')
+        next('/');
       }
   }
+  else if (to.matched.some(record => record.meta.requireVerificationCode)) {
+      if (!!store.state.authentication.verificationCode == true) {
+          next();
+      }
+      else{
+        next('/');
+      }
+  }
+
+  else if (to.matched.some(record => record.meta.readyToCreateProfile)) {
+      if (!!store.state.authentication.readyToCreateProfile == true) {
+          next();
+      }
+      else{
+        next('/');
+      }
+  }
+
   else{
     next();
   }

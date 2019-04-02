@@ -125,8 +125,11 @@
 
         </div>
       </v-flex>
+        <template v-if="isHome">
+
         <component :is="selectedComponent">
         </component>
+      </template>
     </v-layout>
 
 
@@ -138,16 +141,8 @@
   app
   :value="showBottomNav"
  color="white"
-    >  <v-btn
-        color="#112f41"
-        flat
-        router
-    :to="`/${currentUserProfile.display_name}`"
-      >
-        <span>{{$t('profile')}}</span>
+    >
 
-        <v-icon>inbox</v-icon>
-      </v-btn>
     <v-btn
       router
       to="/me/notifications"
@@ -157,6 +152,7 @@
       <v-icon>notifications</v-icon>
     </v-btn>
 
+
     <v-btn
     router
       to="/me/suggest"
@@ -164,6 +160,16 @@
       flat>
       <span>{{$t('people')}}</span>
       <v-icon>fiber_new</v-icon>
+    </v-btn>
+    <v-btn
+      color="#112f41"
+      flat
+      router
+  :to="`/${currentUserProfile.display_name}`"
+    >
+      <span>{{$t('profile')}}</span>
+
+      <v-icon>inbox</v-icon>
     </v-btn>
 
     <v-btn
@@ -187,6 +193,7 @@
 
 <script>
     import axios from 'axios';
+    import Vue from 'vue';
     import Notifications from './Notifications.vue'
     import Login from './auth/Login.vue'
     import Signup from './auth/Signup.vue'
@@ -220,7 +227,9 @@
           },
 
 
-
+          isHome(){
+            return this.$route.name == null
+          },
         currentUser(){
             return this.$store.getters.currentUser;
         },
@@ -283,10 +292,14 @@
           },
 
           logout(){
-              localStorage.clear();
               this.$store.commit('logout');
+              localStorage.clear();
               window.location.href =  "http://127.0.0.1:8000";
 
+          },
+          setIt(){
+
+            Vue.i18n.set('ar');
           }
         },
 

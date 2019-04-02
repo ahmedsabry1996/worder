@@ -10,7 +10,9 @@ export default{
           state.userId = payload.userId;
           state.signupErrors = null;
       },
-
+      readyToCreateProfile(state){
+          state.readyToCreateProfile = true;
+      },
       verified(state,payload){
 
               state.isVerified = 1;
@@ -99,6 +101,7 @@ export default{
               state.isFollow=null;
               state.allSuggesstion = [];
               state.suggestPeople = [];
+              state.readyToCreateProfile = false;
 
             },
 

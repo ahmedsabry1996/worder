@@ -2,7 +2,6 @@
 <v-content>
     </div>
   <v-container grid-list-xl>
-
     <v-layout row wrap>
       <v-flex xs12 md4 offset-md1 style="text-overflow: ellipsis;">
 
@@ -122,6 +121,15 @@ no-resize
         >
         {{$t('create')}}
       </v-btn>
+      <v-btn
+      @click="cancel"
+      color="error"
+      round
+      :loading="loading"
+      >
+        {{$t('cancel')}}
+      </v-btn>
+
     </div>
         </v-form>
       </v-flex>
@@ -152,7 +160,7 @@ no-resize
       </template>
 
 
-        <div class="text-sm-center">
+        <div class="text-sm-center" v-if="!!currentUser">
           <h1>{{username}}</h1>
           <h2 class="yellow--text"><i>{{displayName}}</i></h2>
           <h3>{{gender[selectedGender-1]}}</h3>
@@ -219,6 +227,9 @@ computed:{
   topics(){
     return this.$t('topics');
   },
+  currentUser(){
+    return  this.$store.getters.currentUser;
+  },
   username(){
       return   this.$store.getters.currentUser.name;
       },
@@ -248,97 +259,115 @@ removeSelectedAvatar(){
   this.avatar =null;
 },
 
-handleFile(e){
+        handleFile(e){
 
 
-    var fr  = new FileReader();
+        var fr  = new FileReader();
 
-    fr.readAsDataURL(e.target.files[0]);
+        fr.readAsDataURL(e.target.files[0]);
 
-    const imgs = ['image/jpeg','image/png','image/jpg'];
+        const imgs = ['image/jpeg','image/png','image/jpg'];
 
-    let imgType = e.target.files[0].type;
+        let imgType = e.target.files[0].type;
 
-    if (imgs.indexOf(imgType) == -1) {
-      this.avatar =null;
-        swal({
-          "title":"Error",
-          "text":this.$t('avatarerror'),
-          "icon":"error"
-        });
-    }
-    else{
-      fr.onload = (e) => {
-
-            this.avatar = e.target.result
-      }
-
-    }
-
-
-},
-
-createProfile(){
-    this.loading = true;
-    axios.post("/api/create-profile/"+this.$store.state.authentication.userId,
-      {
-        "avatar":this.avatar,
-        "user_id":this.$store.state.authentication.userId,
-        "display_name":this.displayName,
-        "gender_id":this.selectedGender,
-        "topics":this.selectedTopics,
-        "birth_date":this.bdate,
-        "country_id":this.userCountry,
-        "description":this.description,
-        "email":this.$store.getters.email,
-        "password":this.$store.getters.passowrd
-      },{
-        headers:{
-          "Authorization":`Bearer ${this.$store.state.authentication.userToken}`
+        if (imgs.indexOf(imgType) == -1) {
+        this.avatar =null;
+          swal({
+            "title":"Error",
+            "text":this.$t('avatarerror'),
+            "icon":"error"
+          });
         }
-      })
-      .then((response)=>{
-        this.loading = false;
+        else{
+        fr.onload = (e) => {
 
-        swal({
-          "title":"WOW!",
-          "text":this.$t('welcome'),
-          "icon":"success"
+              this.avatar = e.target.result
+        }
+
+        }
+
+
+        },
+
+        createProfile(){
+        this.loading = true;
+        axios.post("/api/create-profile/"+this.$store.state.authentication.userId,
+        {
+          "avatar":this.avatar,
+          "user_id":this.$store.state.authentication.userId,
+          "display_name":this.displayName,
+          "gender_id":this.selectedGender,
+          "topics":this.selectedTopics,
+          "birth_date":this.bdate,
+          "country_id":this.userCountry,
+          "description":this.description,
+          "email":this.$store.getters.email,
+          "password":this.$store.getters.passowrd
+        },{
+          headers:{
+            "Authorization":`Bearer ${this.$store.state.authentication.userToken}`
+          }
+        })
+        .then((response)=>{
+          this.loading = false;
+
+          swal({
+            "title":"WOW!",
+            "text":this.$t('welcome'),
+            "icon":"success"
+          })
+
+          this.errors = [];
+
+          this.$store.commit('createProfile',{
+            profile:response.data.profile,
+            currentUserTopics:response.data.topics,
+            token:response.data.access_token,
+          });
+
+          if (!!response.data.trend) {
+
+            localStorage.setItem('trend',(response.data.trend.top_words));
+
+          }
+
+
+          this.$store.commit("topTen",{trend:response.data.trend.top_words});
+
+
+          this.$router.push('/');
+
+        })
+        .catch((error)=>{
+          this.loading = false;
+
+          console.log(error);
+          console.log(error.response);
+          let errorsObj = error.response.data.errors;
+          this.errors = errorsObj;
+
         })
 
-        this.errors = [];
+      },
+        cancel(){
+            axios.post('/api/cancel-profile',{
+              email:this.$store.state.authentication.email
+            })
+            .then((response)=>{
+                console.log(response.data);
+                this.$store.commit('logout');
+                localStorage.clear();
+                console.clear();
+                window.location.href =  "http://127.0.0.1:8000";
 
-        this.$store.commit('createProfile',{
-          profile:response.data.profile,
-          currentUserTopics:response.data.topics,
-          token:response.data.access_token,
-        });
 
-        if (!!response.data.trend) {
-
-          localStorage.setItem('trend',(response.data.trend.top_words));
-
+            })
+            .catch((error)=>{
+                console.log(error);
+                console.log(error.response);
+            });
         }
-
-
-        this.$store.commit("topTen",{trend:response.data.trend.top_words});
-
-
-        this.$router.push('/');
-
-      })
-      .catch((error)=>{
-        this.loading = false;
-
-        console.log(error);
-        console.log(error.response);
-        let errorsObj = error.response.data.errors;
-        this.errors = errorsObj;
-
-      })
-
-}
-}
+      },
 
 }
 

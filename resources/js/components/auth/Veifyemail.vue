@@ -2,7 +2,6 @@
 <v-container grid-list-md>
   <v-layout row wrap>
     <v-flex xs12 sm4 offset-sm4>
-      <h2>{{verificationCode}}</h2>
       <v-card color="#002d37" class="mt-5">
   <v-form @submit.prevent="verifyCode">
     <div class="pa-4">
@@ -53,6 +52,7 @@ export default {
             this.$store.dispatch('signup')
             .then((response)=>{
               this.$store.commit('cancelEmailVerification');
+              this.$store.commit('readyToCreateProfile');
               this.$router.push('/create-profile');
               })
             .catch((error)=>{

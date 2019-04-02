@@ -105,7 +105,7 @@ export default {
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
-            if (self.perfectUser && self.$route.name == null) {
+            if (self.isLoggedIn && self.$route.name == null) {
 
             window.scrollTo(0,document.documentElement.offsetHeight - 400);
             self.$store.dispatch('loadMorePosts')

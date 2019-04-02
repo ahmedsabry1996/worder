@@ -11,11 +11,13 @@ Route::group(['prefix'=>"auth"],function(){
           Route::post('verify-profile','API\AuthControllerApi@verify_profile');
           Route::post('sendcode','API\AuthControllerApi@send_verification_code');
           Route::post('reset-password','API\AuthControllerApi@update_password');
+
 });
 
 
 Route::post('verify-email',"API\AuthControllerApi@check_email_exist");
 Route::post('create-profile/{user_id}',"API\ProfileController@store");
+Route::post('cancel-profile','API\ProfileController@cancel_profile');
 
 Route::post('/confirm-verify','API\AdminController@approve');
 

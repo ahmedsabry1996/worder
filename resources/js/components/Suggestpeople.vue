@@ -3,10 +3,6 @@
     <div class="">
       <div class="mmd hidden-sm-and-up">
         <v-list two-line dark>
-          <v-btn @click="refreshSuggested" flat icon color="white" >
-            <v-icon>refresh</v-icon>
-          </v-btn>
-          <span>refresh</span>
           <template v-for="(person,index) in allSuggesstion">
             <v-list-tile
             avatar

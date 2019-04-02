@@ -12,7 +12,6 @@
           <div class="pa-4">
 
           <v-text-field
-          dir="rtl"
             color="white--text"
             v-model="email"
             :placeholder="$t('email')"
@@ -20,8 +19,6 @@
             autofocus>
             </v-text-field>
           <v-text-field
-
-            dir="rtl"
             type="password"
             color="white--text"
             v-model="password"

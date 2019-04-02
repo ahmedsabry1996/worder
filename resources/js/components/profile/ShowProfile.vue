@@ -567,7 +567,7 @@ export default {
 
   data(){
       return {
-
+        pos1:0,
         displayName:this.$route.params.dName,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         postId:null,
@@ -727,7 +727,19 @@ export default {
     },
 
     loadMorePosts(){
-                window.onscroll = () =>{
+      const self = this;
+            window.onscroll = function() {
+              let pos2 = document.documentElement.scrollTop;
+
+
+              if (self.pos1 > pos2) {
+                self.$store.commit('showBottomNav');
+              }
+              if (self.pos1 < pos2) {
+                self.$store.commit('hideBottomNav');
+              }
+              self.pos1 = pos2;
+
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {

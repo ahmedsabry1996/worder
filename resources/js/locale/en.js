@@ -11,7 +11,9 @@ export default {
   currentemail:"current email",
   emailupdated:"email updated successfully",
   donebtn:"Done",
-
+  people:"suggested",
+  home:"home",
+  whatHappen:"what happens",
   password:"Password",
   currentpasserror:"error in current password",
   passwordupdated:"password updated successfully",
@@ -92,6 +94,17 @@ export default {
   please:"plase select a valid file",
   exit:"exit",
   remove:"remove",
-  likeyou:"people like you"
+  likeyou:"people like you",
+  topics:[{topic:'politics',en:'politics',id:1},
+          {topic:'sport',en:'sport',id:2},
+          {topic:'films',en:'films',id:3},
+          {topic:'love',en:'love',id:4},
+          {topic:'economy',en:'economy',id:5},
+          {topic:'trade',en:'trade',id:6},
+          {topic:'industry',en:'industry',id:7},
+          {topic:'travel',en:'travel',id:8},
+          {topic:'migration',en:'migration',id:9},
+          {topic:'education',en:'education',id:10},
+          {topic:'general',en:'general',id:11}],
 
 }

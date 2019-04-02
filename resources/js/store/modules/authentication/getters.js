@@ -35,5 +35,8 @@ export default{
             return state.hasProfile;
         },
 
+        readyToCreateProfile(state){
+          return state.readyToCreateProfile;
+        }
 
 }

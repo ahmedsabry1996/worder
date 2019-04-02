@@ -11,7 +11,9 @@ export default {
   currentemail:"mevcut e-posta",
   emailupdated:"e-posta başarıyla güncellendi",
   donebtn:"Tamam",
-
+  home:"ana sayfa",
+  people:"önerdi",
+  whatHappen:"ne oluyor",
   password:"şifre",
   currentpasserror:"mevcut şifrede hata",
   passwordupdated:"şifre başarıyla güncellendi",
@@ -92,6 +94,18 @@ export default {
   please:"lütfen geçerli bir dosya seçin",
   exit:"çıkış",
   remove:"Kaldır",
-  likeyou:"insanlar senden hoşlanır"
+  likeyou:"insanlar senden hoşlanır",
+  topics:[{topic:'politics',en:'politics',id:1},
+          {topic:'spor',en:'sport',id:2},
+          {topic:'filmler',en:'films',id:3},
+          {topic:'Aşk',en:'love',id:4},
+          {topic:'ekonomi',en:'economy',id:5},
+          {topic:'Ticaret',en:'trade',id:6},
+          {topic:'sanayi',en:'industry',id:7},
+          {topic:'seyahat',en:'travel',id:8},
+          {topic:'göç',en:'migration',id:9},
+          {topic:'Eğitim',en:'education',id:10},
+          {topic:'genel',en:'general',id:11}],
+
 
 }
