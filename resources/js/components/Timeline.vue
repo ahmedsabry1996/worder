@@ -77,10 +77,7 @@ export default {
       this.$store.dispatch('myFollowingIds');
     }
   },
-  beforeRouteLeave (to, from, next) {
 
-      alert();
-  },
   mounted(){
     console.log('timeline loaded');
     this.loadMore();
