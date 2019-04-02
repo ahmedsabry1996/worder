@@ -82,11 +82,14 @@
 
 
        <v-text-field
+         solo
          slot="activator"
          v-model="bdate"
          :label="$t('birthday')"
-         prepend-icon="event"
+         prepend-inner-icon="date_range"
          readonly
+           color="white"
+
        ></v-text-field>
        <v-date-picker :reactive="true" locale="ar" v-model="bdate" scrollable>
          <v-spacer></v-spacer>
@@ -115,6 +118,7 @@ no-resize
           @click="createProfile"
           color="primary"
           round
+          :loading="loading"
         >
         {{$t('create')}}
       </v-btn>
@@ -177,88 +181,6 @@ no-resize
         </v-card>
       </v-flex>
     </v-layout>
-  <!-- pick profile data -->
-    <!-- <div class="col-md-6 create">
-      <form>
-
-          <div class="form-group">
-            <h3>{{$t('gender')}}</h3>
-            <br>
-          <template v-for="(gender,index) in gender">
-          <label>{{gender}}<input type="radio"  :value="index+1"  id="male" v-model="selectedGender"></label>
-          </template>
-          <p><b class="error--text" v-if="errors.gender_id">{{$t('gendererror')}}</b></p>
-
-          </div>
-
-          <div class="form-group">
-            <h3 class="text-center">{{$t('selectfavtopics')}}</h3>
-          <template v-for="(topic,index) in topics" style="height:60px;width:250px;margin:0 auto;overflow:scroll">
-            <label>{{topic}}
-            <input type="checkbox"  :value="index+1" v-model="selectedTopics">
-            </label>
-            <br>
-          </template>
-          <p><b class="error--text" v-if="errors.topics">{{$t('selectfavtopics')}}</b></p>
-
-          </div>
-          <div class="form-group">
-            <label>  {{$t('country')}} : </label>
-            <select v-model="selectedCountry">
-              <template v-for="(country,index) in countries">
-              <option :value="index+1">{{country}}</option>
-              </template>
-            </select>
-            <p><b class="error--text" v-if="errors.country_id">{{$t('countryerror')}}</b></p>
-
-          </div>
-          <div class="form-group">
-            <label>{{$t('birthday')}}</label>
-            <input type="date" class="form-control" v-model="bdate">
-            <p><b class="error--text" v-if="errors.birth_date">{{errors.birth_date[0]}}</b></p>
-
-          </div>
-          <div class="form-group">
-            <label>{{$t('description')}}</label>
-              <textarea v-model.trim="description" class="form-control"></textarea>
-              <b>{{writtenDescription}}/25 words</b>
-              <p class="error--text" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
-              <p class="error--text" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
-          </div>
-          <div class="form-group">
-
-            <input type="submit" class="btn btn-primary"  :value="$t('create')">
-          </div>
-      </form>
-    </div> -->
-    <!-- simulate -->
-    <!-- <div class="container">
-    <div class="col-md-6">
-
-      <div class="card">
-      <img :src="`/storage/avatars/avatar_default.jpg`" alt="Ahmed" style="width:100%" v-if="avatar==null">
-      <img :src="avatar" alt="Ahmed" style="width:100%" v-else>
-      <button type="button" class="btn btn-danger btn-xs" v-if="avatar!==null" @click="removeSelectedAvatar">
-          &times;
-      </button>
-      <h3>{{username}}</h3>
-      <p class="title"><i>{{displayName}}</i></p>
-      <p>{{gender[selectedGender-1]}}</p>
-      <p>From : {{countries[selectedCountry-1]}}</p>
-      <div style="margin: 24px 0;" v-if="topics.length > 0">
-        <h4 class="text-center">Favorite topics</h4>
-        <a href="#" class="btn btn-info" v-for="topic in selectedTopics" style="margin:10px;">{{topics[topic-1]}}</a>
-     </div>
-     <div class="bdate">
-  </p>
-     </div>
-    </div>
-
-    </div>
-
-
-    </div> -->
-
   </v-container>
     </v-content>
 </template>
@@ -268,10 +190,11 @@ no-resize
 import axios from 'axios';
 export default {
 mounted(){
-    console.log('create profile');
+    console.log('create profile loaded');
 },
       data(){
                 return {
+                  loading:false,
                   modal: false,
                   displayName:'',
                   avatar:null,
@@ -356,7 +279,7 @@ handleFile(e){
 },
 
 createProfile(){
-
+    this.loading = true;
     axios.post("/api/create-profile/"+this.$store.state.authentication.userId,
       {
         "avatar":this.avatar,
@@ -375,6 +298,7 @@ createProfile(){
         }
       })
       .then((response)=>{
+        this.loading = false;
 
         swal({
           "title":"WOW!",
@@ -404,6 +328,7 @@ createProfile(){
 
       })
       .catch((error)=>{
+        this.loading = false;
 
         console.log(error);
         console.log(error.response);

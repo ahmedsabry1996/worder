@@ -593,7 +593,7 @@ export default {
 
   },
   created(){
-    console.log(this.$route);
+    console.log('show profile loaded');
     this.$store.dispatch('reactedPosts');
     this.$store.dispatch('myFollowingIds');
 

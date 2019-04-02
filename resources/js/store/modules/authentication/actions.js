@@ -49,7 +49,7 @@ export default{
 
         })
         .catch((errors)=>{
-      
+
             context.commit('signupFails',errors.response.data.errors);
             reject(errors);
         })

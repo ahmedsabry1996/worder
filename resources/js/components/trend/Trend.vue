@@ -31,7 +31,9 @@
 
 <script>
 export default {
-
+  created(){
+      console.log('trend list loaded');
+  },
           computed:{
               topTen(){
                 return this.$store.getters.topTen;

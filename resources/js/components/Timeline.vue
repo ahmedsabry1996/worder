@@ -46,6 +46,7 @@ export default {
   data(){
       return {
         offset:0,
+        pos1:0,
       }
   },
   components:{
@@ -77,7 +78,7 @@ export default {
     }
   },
   mounted(){
-
+    console.log('timeline loaded');
     this.loadMore();
     if (this.isLoggedIn) {
       this.$store.dispatch('timeline');
@@ -90,7 +91,16 @@ export default {
     loadMore(){
       const self = this;
             window.onscroll = function() {
+              let pos2 = document.documentElement.scrollTop;
 
+
+              if (self.pos1 > pos2) {
+                self.$store.commit('showBottomNav');
+              }
+              if (self.pos1 < pos2) {
+                self.$store.commit('hideBottomNav');
+              }
+              self.pos1 = pos2;
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {

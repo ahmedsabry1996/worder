@@ -255,11 +255,12 @@ export default {
     }
   },
   created(){
+    console.log('show posts loaded');
     const self = this;
     this.$store.dispatch('reactedPosts');
     this.$store.dispatch('showSinglePost',this.$route.params.postId)
     .then((response)=>{
-      console.log('ok man');
+
     })
     .catch((errors)=>{
       this.$router.push('/');

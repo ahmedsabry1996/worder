@@ -26,6 +26,9 @@
 
 <script>
 export default {
+  created(){
+      console.log('topics list loaded');
+  },
   computed:{
     topics(){
         return this.$t('topics').reverse();

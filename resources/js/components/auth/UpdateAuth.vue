@@ -212,6 +212,9 @@ computed:{
     return false;
   }
 },
+mounted(){
+    console.log('update Auth loaded');
+},
 methods:{
 
   goHome(){
@@ -231,7 +234,6 @@ methods:{
         })
         .then((response)=>{
           this.loading = false;
-          console.log(response.data);
           this.verificationCode = response.data.sent_code;
           this.errors = null;
         })
@@ -307,7 +309,6 @@ methods:{
       .then((response)=>{
         this.loading = false;
 
-        console.log(response.data);
         this.verificationCode = response.data.verification_code;
         this.errors = null;
 
@@ -355,7 +356,6 @@ methods:{
                 .then((response)=>{
                   this.reset();
                   this.loading = false;
-                  console.log(response.data);
                   this.$store.commit('updateUser',{currentUser:response.data.updated_user});
                   this.errors = null;
                   swal({

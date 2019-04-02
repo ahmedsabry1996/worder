@@ -66,6 +66,7 @@ export default {
         }
     },
     mounted(){
+        console.log('topic loaded');
         this.loadMore();
     },
     created(){

@@ -148,7 +148,7 @@ export default {
     }
   },
   mounted(){
-
+    console.log('login loaded');
   },
   computed:{
 

@@ -5,7 +5,7 @@
     <v-toolbar-title  class="white--text" >
         <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
     </v-toolbar-title>
-    <v-menu offset-y>
+    <v-menu offset-y v-if="isLoggedIn">
       <v-text-field flat
       dark
       class="mt-2"
@@ -136,7 +136,7 @@
 
   <v-bottom-nav
   app
-  :value="true"
+  :value="showBottomNav"
  color="white"
     >  <v-btn
         color="#112f41"
@@ -157,14 +157,13 @@
       <v-icon>notifications</v-icon>
     </v-btn>
 
-
     <v-btn
     router
       to="/me/suggest"
       color="#112f41"
       flat>
       <span>{{$t('people')}}</span>
-      <v-icon>refresh</v-icon>
+      <v-icon>fiber_new</v-icon>
     </v-btn>
 
     <v-btn
@@ -203,7 +202,7 @@
       },
 
         mounted() {
-          console.log(this.$store.state.authentication.userToken)
+          console.log('Header loaded');
         },
         components:{
           Notifications,
@@ -211,16 +210,15 @@
           Signup,
         },
         computed:{
-
+            showBottomNav(){
+                return  this.$store.getters.showBottomNav;
+            },
           isLoggedIn(){
 
             return  this.$store.getters.isLoggedIn;
 
           },
 
-        isLoggedIn(){
-            return this.$store.getters.isLoggedIn ;
-        },
 
 
         currentUser(){
@@ -240,7 +238,6 @@
         },
         watch:{
             keyword(val){
-              console.log("new  val = "  + val);
               if (val.length > 0) {
                 this.search(val);
               }
@@ -277,7 +274,6 @@
             }
           }).
           then((response)=>{
-              console.log(response.data.results);
               this.results = response.data.results;
           })
           .catch((errors)=>{

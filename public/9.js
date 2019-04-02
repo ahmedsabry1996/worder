@@ -11,84 +11,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -280,10 +204,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('create profile');
+    console.log('create profile loaded');
   },
   data: function data() {
-    return {
+    return _defineProperty({
+      loading: false,
       modal: false,
       displayName: '',
       avatar: null,
@@ -296,9 +221,8 @@ __webpack_require__.r(__webpack_exports__);
       reactive: true,
       description: '',
       writtenDescription: 0,
-      errors: [],
-      loading: false
-    };
+      errors: []
+    }, "loading", false);
   },
   computed: {
     countries: function countries() {
@@ -358,6 +282,7 @@ __webpack_require__.r(__webpack_exports__);
     createProfile: function createProfile() {
       var _this2 = this;
 
+      this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/create-profile/" + this.$store.state.authentication.userId, {
         "avatar": this.avatar,
         "user_id": this.$store.state.authentication.userId,
@@ -374,6 +299,7 @@ __webpack_require__.r(__webpack_exports__);
           "Authorization": "Bearer ".concat(this.$store.state.authentication.userToken)
         }
       }).then(function (response) {
+        _this2.loading = false;
         swal({
           "title": "WOW!",
           "text": _this2.$t('welcome'),
@@ -397,6 +323,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$router.push('/');
       }).catch(function (error) {
+        _this2.loading = false;
         console.log(error);
         console.log(error.response);
         var errorsObj = error.response.data.errors;
@@ -708,9 +635,11 @@ var render = function() {
                           _c("v-text-field", {
                             attrs: {
                               slot: "activator",
+                              solo: "",
                               label: _vm.$t("birthday"),
-                              "prepend-icon": "event",
-                              readonly: ""
+                              "prepend-inner-icon": "date_range",
+                              readonly: "",
+                              color: "white"
                             },
                             slot: "activator",
                             model: {
@@ -821,7 +750,11 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { color: "primary", round: "" },
+                              attrs: {
+                                color: "primary",
+                                round: "",
+                                loading: _vm.loading
+                              },
                               on: { click: _vm.createProfile }
                             },
                             [

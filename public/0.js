@@ -271,11 +271,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   created: function created() {
     var _this = this;
 
+    console.log('show posts loaded');
     var self = this;
     this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {
-      console.log('ok man');
-    }).catch(function (errors) {
+    this.$store.dispatch('showSinglePost', this.$route.params.postId).then(function (response) {}).catch(function (errors) {
       _this.$router.push('/');
     });
   },

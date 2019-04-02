@@ -224,12 +224,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
+    console.log('update profile loaded');
     this.fillUserData();
   },
   data: function data() {
@@ -463,7 +460,7 @@ var render = function() {
   return _vm.isLoggedIn
     ? _c(
         "v-container",
-        { staticClass: "grid-list-md" },
+        { staticClass: "grid-list-xs" },
         [
           _c(
             "v-layout",
@@ -669,7 +666,7 @@ var render = function() {
                                   slot: "activator",
                                   label: _vm.$t("birthday"),
                                   reactive: true,
-                                  "prepend-inner-icon": "event",
+                                  "prepend-inner-icon": "date_range",
                                   solo: ""
                                 },
                                 slot: "activator",

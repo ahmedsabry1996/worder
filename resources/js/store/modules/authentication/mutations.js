@@ -32,18 +32,15 @@ export default{
             state.userId = payload.userId;
             state.currentUserProfile = payload.currentUserProfile;
             state.currentUserTopics = payload.currentUserTopics;
-
             state.isLoggedIn = true;
             state.loginErrors = null;
           },
 
-
-
-              userCredionals(state,payload){
-              state.name = payload.name;
-              state.email = payload.email;
-              state.password = payload.password;
-            },
+          userCredionals(state,payload){
+          state.name = payload.name;
+          state.email = payload.email;
+          state.password = payload.password;
+        },
 
           verificationCode(state,payload){
             state.verificationCode = payload.verificationCode;

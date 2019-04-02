@@ -219,6 +219,9 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     }
   },
+  mounted: function mounted() {
+    console.log('update Auth loaded');
+  },
   methods: {
     goHome: function goHome() {
       this.$router.push('/');
@@ -238,7 +241,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         }).then(function (response) {
           _this.loading = false;
-          console.log(response.data);
           _this.verificationCode = response.data.sent_code;
           _this.errors = null;
         }).catch(function (errors) {
@@ -308,7 +310,6 @@ __webpack_require__.r(__webpack_exports__);
           }
         }).then(function (response) {
           _this3.loading = false;
-          console.log(response.data);
           _this3.verificationCode = response.data.verification_code;
           _this3.errors = null;
         }).catch(function (errors) {
@@ -350,7 +351,6 @@ __webpack_require__.r(__webpack_exports__);
               _this4.reset();
 
               _this4.loading = false;
-              console.log(response.data);
 
               _this4.$store.commit('updateUser', {
                 currentUser: response.data.updated_user

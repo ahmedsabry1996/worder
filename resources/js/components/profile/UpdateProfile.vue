@@ -1,12 +1,8 @@
 <template>
-
-  <v-container class="grid-list-md" v-if="isLoggedIn">
+  <v-container class="grid-list-xs" v-if="isLoggedIn">
     <v-layout row wrap>
-
     <v-flex md6 xs12>
       <v-form   @submit.prevent="updateProfile">
-
-
           <div  id="file-container" color="#e1f7e6" class="text-xs-center" style="height:200px !important;" >
             <v-icon class="mt-5" color="black" size="70px">
               add_a_photo
@@ -75,7 +71,7 @@ width="290px"
   v-model="bdate"
   :label="$t('birthday')"
   :reactive="true"
-  prepend-inner-icon="event"
+  prepend-inner-icon="date_range"
   class="white--text"
   solo
 ></v-text-field>
@@ -220,7 +216,8 @@ width="290px"
 <script>
 export default {
   mounted(){
-      this.fillUserData()
+    console.log('update profile loaded');
+      this.fillUserData();
   },
   data(){
   return {

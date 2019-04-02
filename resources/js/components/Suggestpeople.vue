@@ -117,7 +117,7 @@ export default {
     },
     mounted(){
 
-
+      console.log('suggest loaded');
       if (this.isLoggedIn) {
           this.refreshSuggestedAutomatically();
       }

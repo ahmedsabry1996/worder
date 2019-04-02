@@ -38,6 +38,9 @@ export default {
         code:'',
     }
   },
+  mounted(){
+    console.log('Verify email loaded');
+  },
   computed:{
     verificationCode(){
       return this.$store.getters.verificationCode;
@@ -49,6 +52,7 @@ export default {
         if (this.verificationCode == this.code) {
             this.$store.dispatch('signup')
             .then((response)=>{
+              this.$store.commit('cancelEmailVerification');
               this.$router.push('/create-profile');
               })
             .catch((error)=>{
@@ -60,9 +64,10 @@ export default {
         else{
           swal({
             title:this.$t('error'),
-            text:this.$t('signupfail'),
-            icon:"error"
+            text:this.$t('codeerror'),
+            icon:'error'
           });
+
         }
     },
 

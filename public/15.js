@@ -47,6 +47,9 @@ __webpack_require__.r(__webpack_exports__);
       code: ''
     };
   },
+  mounted: function mounted() {
+    console.log('Verify email loaded');
+  },
   computed: {
     verificationCode: function verificationCode() {
       return this.$store.getters.verificationCode;
@@ -58,6 +61,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.verificationCode == this.code) {
         this.$store.dispatch('signup').then(function (response) {
+          _this.$store.commit('cancelEmailVerification');
+
           _this.$router.push('/create-profile');
         }).catch(function (error) {
           console.log(error);
@@ -67,8 +72,8 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         swal({
           title: this.$t('error'),
-          text: this.$t('signupfail'),
-          icon: "error"
+          text: this.$t('codeerror'),
+          icon: 'error'
         });
       }
     },

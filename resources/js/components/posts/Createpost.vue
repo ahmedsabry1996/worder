@@ -124,7 +124,7 @@ export default {
       }
   },
   mounted(){
-    console.log('create a new post');
+    console.log('create a new post loaded');
   },
 
   computed:{

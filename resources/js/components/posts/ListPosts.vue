@@ -149,6 +149,9 @@ export default {
     components:{
       React,
     },
+    mounted(){
+      console.log('list posts loaded');
+    },
     computed:{
       currentUser(){
           return this.$store.getters.currentUser;

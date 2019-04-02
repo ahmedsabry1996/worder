@@ -53,6 +53,7 @@ export default {
     }
   },
   created(){
+    console.log('show trend loaded');
     this.getTrendPosts();
     this.$store.dispatch('reactedPosts');
 

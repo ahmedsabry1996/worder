@@ -59,6 +59,7 @@ export default {
     loading:false,
     offset:0,
     color:'white',
+    pos1:0
     }
 
   },
@@ -89,12 +90,30 @@ export default {
     }
 
   },
-
+  created(){
+    this.loadMore();
+    this.getNotifications();
+  },
   mounted(){
     this.listen();
-
   },
   methods:{
+    loadMore(){
+      const self = this;
+            window.onscroll = function() {
+              console.log(444444);
+              let pos2 = document.documentElement.scrollTop;
+
+
+              if (self.pos1 > pos2) {
+                self.$store.commit('showBottomNav');
+              }
+              if (self.pos1 < pos2) {
+                self.$store.commit('hideBottomNav');
+              }
+              self.pos1 = pos2;
+  }
+},
     notificationSound(){
       var audio = new Audio(`http://127.0.0.1:8000/sounds/noti.ogg`);
       audio.play();
