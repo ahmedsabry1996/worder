@@ -58,11 +58,12 @@ Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', en);
 Vue.i18n.add('ar', ar);
 Vue.i18n.add('tr', tr);
-Vue.i18n.set('tr');
+Vue.i18n.set('en');
 
 Vue.i18n.fallback('en');
 router.beforeEach((to,from,next)=>{
   window.scrollTo(0,0);
+  store.commit('showBottomNav');
   if (to.matched.some(record => record.meta.requireAuth)) {
       if (!!store.state.authentication.userToken == true) {
           next();

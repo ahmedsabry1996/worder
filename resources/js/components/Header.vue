@@ -139,35 +139,39 @@
 
   <v-bottom-nav
   app
+  inset
   :value="showBottomNav"
  color="white"
+ min-width="320"
     >
 
     <v-btn
       router
       to="/me/notifications"
+      small
+
       color="#112f41"
       flat>
-      <span>{{$t('notifications')}}</span>
       <v-icon>notifications</v-icon>
     </v-btn>
 
 
     <v-btn
     router
+      small
       to="/me/suggest"
       color="#112f41"
       flat>
-      <span>{{$t('people')}}</span>
       <v-icon>fiber_new</v-icon>
     </v-btn>
     <v-btn
       color="#112f41"
       flat
+      small
+
       router
   :to="`/${currentUserProfile.display_name}`"
     >
-      <span>{{$t('profile')}}</span>
 
       <v-icon>inbox</v-icon>
     </v-btn>
@@ -175,10 +179,21 @@
     <v-btn
       color="#112f41"
       flat
+      small
+      router
+      to="/me/trend"
+      >
+      <v-icon>trending_up</v-icon>
+    </v-btn>
+
+    <v-btn
+      color="#112f41"
+      flat
+      small
+
       router
       to="/"
       >
-      <span>{{$t('home')}}</span>
       <v-icon>home</v-icon>
     </v-btn>
 

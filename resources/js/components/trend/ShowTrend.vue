@@ -1,24 +1,23 @@
 <template>
 
     <v-container grid-list-lg>
-      <v-layout hidden-sm-and-down row wrap>
+      <v-layout  row wrap>
         <v-flex xs12>
           <h1 class="white--text text-xs-center">
             <bdi>
               {{this.$route.query.trend}}
-
             </bdi>
           </h1>
         </v-flex>
-        <v-flex md3>
+        <v-flex md3 class="hidden-xs-only">
           <suggested-people></suggested-people>
         </v-flex>
 
-        <v-flex md6>
+        <v-flex md6 xs12>
           <list-posts :posts="posts"></list-posts>
         </v-flex>
 
-        <v-flex md3>
+        <v-flex md3 class="hidden-xs-only">
           <trend></trend>
           <br>
           <topics></topics>

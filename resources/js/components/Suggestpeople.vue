@@ -1,7 +1,7 @@
 <template>
 
     <div class="">
-      <div class="mmd hidden-sm-and-up">
+      <div @scroll="loadMore" class="mmd hidden-sm-and-up">
         <v-list two-line dark>
           <template v-for="(person,index) in allSuggesstion">
             <v-list-tile
@@ -135,7 +135,27 @@ export default {
         },
     ShowProfile(displayName){
       this.$router.push(`/${displayName}`);
+    },
+    loadMore(e){
+      let elHeight = e.target.clientHeight;
+
+      let elscrollHeight = e.target.scrollHeight;
+
+      let elScrollTop = e.target.scrollTop;
+
+      if ((elHeight+elScrollTop) - elscrollHeight == 0) {
+
+          this.offset +=10;
+        this.$store.dispatch('loadMoreNotifications',{offset:this.offset});
+        this.$store.commit('hideBottomNav');
+
+        }
+        else{
+          this.$store.commit('showBottomNav');
+
+        }
     }
+
 
     }
 

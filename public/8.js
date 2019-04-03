@@ -42,7 +42,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -131,7 +130,7 @@ var render = function() {
     [
       _c(
         "v-layout",
-        { attrs: { "hidden-sm-and-down": "", row: "", wrap: "" } },
+        { attrs: { row: "", wrap: "" } },
         [
           _c("v-flex", { attrs: { xs12: "" } }, [
             _c("h1", { staticClass: "white--text text-xs-center" }, [
@@ -139,24 +138,29 @@ var render = function() {
                 _vm._v(
                   "\n          " +
                     _vm._s(this.$route.query.trend) +
-                    "\n\n        "
+                    "\n        "
                 )
               ])
             ])
           ]),
           _vm._v(" "),
-          _c("v-flex", { attrs: { md3: "" } }, [_c("suggested-people")], 1),
+          _c(
+            "v-flex",
+            { staticClass: "hidden-xs-only", attrs: { md3: "" } },
+            [_c("suggested-people")],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { md6: "" } },
+            { attrs: { md6: "", xs12: "" } },
             [_c("list-posts", { attrs: { posts: _vm.posts } })],
             1
           ),
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { md3: "" } },
+            { staticClass: "hidden-xs-only", attrs: { md3: "" } },
             [_c("trend"), _vm._v(" "), _c("br"), _vm._v(" "), _c("topics")],
             1
           )

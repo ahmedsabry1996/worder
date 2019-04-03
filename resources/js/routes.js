@@ -59,7 +59,13 @@ const Suggest = resolve =>{
 const Trend = resolve =>{
   require.ensure(['./components/trend/ShowTrend.vue'],()=>{
     resolve(require('./components/trend/ShowTrend.vue'));
-  })
+  });
+}
+
+const ListTrend = resolve =>{
+  require.ensure(['./components/trend/Trend.vue'],()=>{
+    resolve(require('./components/trend/Trend.vue'));
+  });
 }
 
 
@@ -142,6 +148,14 @@ export const routes = [
     path:"/me/notifications",
     component:Notifications,
     name:"notification",
+    meta:{
+  requireAuth:true,
+    },
+  },
+  {
+    path:'/me/trend',
+    component:ListTrend,
+    name:'list-trend',
     meta:{
   requireAuth:true,
     },
