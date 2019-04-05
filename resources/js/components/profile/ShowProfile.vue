@@ -742,9 +742,11 @@ export default {
 
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
-              if (bottomOfWindow) {
+              if (bottomOfWindow) { 
                 this.$store.dispatch('loadMoreProfilePosts',{
                 'userId':this.$store.state.profile.currentProfile.id});
+                self.$store.commit('hideBottomNav');
+
                 }
                 }
 

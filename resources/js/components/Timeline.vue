@@ -108,6 +108,8 @@ export default {
             if (self.isLoggedIn && self.$route.name == null) {
 
             window.scrollTo(0,document.documentElement.offsetHeight - 400);
+            self.$store.commit('hideBottomNav');
+
             self.$store.dispatch('loadMorePosts')
 
           }
