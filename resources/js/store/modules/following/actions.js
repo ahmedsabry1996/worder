@@ -28,7 +28,7 @@ export default{
 
       }
     axios.post('/api/timeline/follow',{
-      followed_id:payload.followed_id
+      followed_id:payload.followed_id,
     },{
 
       headers:{

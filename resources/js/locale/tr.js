@@ -2,6 +2,7 @@ export default {
   login:"giriş yap",
   loginfail:"Geçersiz e-posta veya şifre",
   signup:"katılmak",
+  tongue:'dil',
   continuesignup:"kaydolmaya devam et",
   signupfail:"kaydolma hatası",
   email:"e-posta",

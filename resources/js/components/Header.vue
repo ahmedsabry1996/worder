@@ -1,6 +1,5 @@
 <template>
 <v-content>
-
   <v-toolbar class="hidden-md-and-up" app color="#005556">
     <v-toolbar-title  class="white--text" >
         <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
@@ -114,7 +113,18 @@
           @click="selectedComponent = 'login'">
           <b>{{$t('login')}}</b>
          </v-btn>
+         <v-btn large round flat class="mt-4">
 
+           <v-select
+             round
+            :items="languages"
+            v-model="selectedLanguage"
+            item-text="language"
+            item-value="code"
+            :label="$t('tongue')"
+              solo
+           ></v-select>
+         </v-btn>
           <v-btn
           large
           round
@@ -126,7 +136,6 @@
         </div>
       </v-flex>
         <template v-if="isHome">
-
         <component :is="selectedComponent">
         </component>
       </template>
@@ -215,11 +224,17 @@
   export default {
       data(){
           return {
+              languages:[
+                {'language':'العربية','code':'ar'},
+                {'language':'Turkce','code':'tr'},
+                {'language':'English','code':'en'},
+              ],
+              selectedLanguage:'',
               selectedComponent:'login',
               loading:false,
               keyword:'',
               showResults:false,
-              results:[]
+              results:[],
           }
       },
 
@@ -232,6 +247,9 @@
           Signup,
         },
         computed:{
+          currenLocale(){
+            return  this.$store.getters.appLang;
+          },
             showBottomNav(){
                 return  this.$store.getters.showBottomNav;
             },
@@ -268,7 +286,11 @@
               else {
                 this.results = [];
               }
-              }
+            },
+            selectedLanguage(newlang){
+                Vue.i18n.set(newlang);
+                this.$store.commit('changeLanguage',newlang);
+            }
         },
         methods:{
 

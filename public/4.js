@@ -730,7 +730,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          this.$store.dispatch('loadMoreProfilePosts', {
+          self.$store.dispatch('loadMoreProfilePosts', {
             'userId': this.$store.state.profile.currentProfile.id
           });
           self.$store.commit('hideBottomNav');

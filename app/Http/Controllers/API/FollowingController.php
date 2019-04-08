@@ -10,6 +10,7 @@ use App\User as user;
 use App\Profile as profile;
 use App\FollowersCounter as followercounter;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 
 class FollowingController extends Controller
 {
@@ -54,6 +55,8 @@ class FollowingController extends Controller
       }
 
     public function follow(Request $request){
+
+
     $current_user = Auth::user();
 
     $current_user_id = Auth::id();
@@ -63,6 +66,11 @@ class FollowingController extends Controller
     $followed_user = user::findOrFail($followed_id);
 
     $followed_user_id = user::findOrFail($followed_id)->id;
+
+    $followed_user_locale = user::findOrFail($followed_id)->profile->locale;
+
+
+    App::setlocale($followed_user_locale);
 
     $is_already_follower = user::findOrFail($current_user_id)
                                 ->following()
@@ -76,7 +84,7 @@ class FollowingController extends Controller
 
     if(!$is_already_follower){
       $icon = $current_user->profile->avatar;
-      $message = $current_user->profile->display_name." started following you!";
+      $message = $current_user->profile->display_name.__('notifications.new_follower');
       $url = $current_user->profile->display_name;
 
       $follow = $current_user->following()->attach($followed_user_id);

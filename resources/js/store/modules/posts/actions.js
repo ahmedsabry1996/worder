@@ -53,7 +53,7 @@ export  default{
 
               axios.post('/api/timeline/react',{
                 post_id:commit.postId,
-                action:commit.react
+                action:commit.react,
               },
 
               {

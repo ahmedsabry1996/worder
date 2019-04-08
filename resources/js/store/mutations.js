@@ -6,7 +6,10 @@ export default{
 
   hideBottomNav(state){
     state.showBottomNav = false;
-  }
+  },
 
+  changeLanguage(state,payload){
+    state.appLang = payload;
+  },
 
 }

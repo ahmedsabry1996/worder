@@ -16,8 +16,9 @@ use App\Topic as topics;
 use Storage as storage ;
 use App\latestPost as latestposts;
 use App\Notifications\PostReact;
-
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+
 
 class PostController extends Controller
 {
@@ -49,7 +50,6 @@ class PostController extends Controller
         $image = $request->image;
         $new_image_name = null;
     if ($image) {
-      // code...
       $encoded_image = explode(',', $image)[1];
 
       $image_extension = explode(',', $image)[0];
@@ -209,6 +209,9 @@ class PostController extends Controller
   public function like_posts(Request $request)
   {
 
+
+
+
       $current_user = Auth::user();
       $current_user_id = Auth::id();
       $is_reacted_before = null;
@@ -224,10 +227,14 @@ class PostController extends Controller
 
       $post_publisher = $is_real_post->user;
 
+      $post_publisher_locale = $is_real_post->user->profile->locale;
+
+      App::setLocale($post_publisher_locale);
+
       $is_liked_by_user = false;
       $is_disliked_by_user = false;
 
-      $message = $current_user->profile->display_name." reacted with your post";
+      $message = $current_user->profile->display_name.__('notifications.post_react');
       $icon = $current_user->profile->avatar;
       $url = "post/$post_id";
 

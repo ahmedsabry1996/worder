@@ -2,6 +2,7 @@ export default {
   login:" الدخول",
   loginfail:"خطأ في البريد الالكتروني او كلمة المرور",
   signup:"انضمام",
+  tongue:"اللغة",
   continuesignup:"اكمال ال",
   signupfail:"خطأ في عملية ال",
   email:"البريد الالكتروني",

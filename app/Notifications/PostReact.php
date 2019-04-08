@@ -37,7 +37,7 @@ public function toArray($notifiable)
   {
   return [
 
-    
+
       'icon'=>$this->icon,
       'message'=>$this->message,
       'url'=>$this->url,

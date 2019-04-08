@@ -2,6 +2,7 @@ export default {
   login:"login",
   loginfail:"password or email is invalid",
   signup:"signup",
+  tongue:"tongue",
   continuesignup:"continue signup",
   signupfail:"sign up error",
   email:"Email",
