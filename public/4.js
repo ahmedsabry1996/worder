@@ -12,9 +12,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ads_Ad_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../ads/Ad.vue */ "./resources/js/components/ads/Ad.vue");
-/* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-js-popover */ "./node_modules/vue-js-popover/dist/index.js");
-/* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_js_popover__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var sweet_modal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweet-modal-vue */ "./node_modules/sweet-modal-vue/src/main.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-js-popover */ "./node_modules/vue-js-popover/dist/index.js");
+/* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_js_popover__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var sweet_modal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweet-modal-vue */ "./node_modules/sweet-modal-vue/src/main.js");
 //
 //
 //
@@ -571,6 +573,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -587,8 +590,8 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   components: {
     Ad: _ads_Ad_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    SweetModal: sweet_modal_vue__WEBPACK_IMPORTED_MODULE_3__["SweetModal"],
-    SweetModalTab: sweet_modal_vue__WEBPACK_IMPORTED_MODULE_3__["SweetModalTab"]
+    SweetModal: sweet_modal_vue__WEBPACK_IMPORTED_MODULE_4__["SweetModal"],
+    SweetModalTab: sweet_modal_vue__WEBPACK_IMPORTED_MODULE_4__["SweetModalTab"]
   },
   data: function data() {
     return {
@@ -850,13 +853,15 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     logout: function logout() {
-      this.$store.commit('logout');
-      window.location.href = "http://127.0.0.1:8000";
+      localStorage.clear();
+      setTimeout(function () {
+        window.location.href = "http://127.0.0.1:8000";
+      }, 1500);
     }
   },
   filters: {
     getDateForHumans: function getDateForHumans(value) {
-      return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+      return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_2___default.a.i18n.locale()).subtract(-2, 'hours').fromNow();
     }
   }
 });

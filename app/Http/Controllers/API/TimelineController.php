@@ -15,6 +15,7 @@ use App\Post as post ;
 use App\Topic as topic;
 use App\Country as country;
 use App\FollowersCounter as followerscounter;
+use Illuminate\Support\Facades\App;
 class TimelineController extends Controller
 {
 
@@ -94,7 +95,6 @@ class TimelineController extends Controller
           $following_posts = post::whereIn('user_id',$followings)
           ->offset($offset)
           ->limit(27)
-          ->whereCountryId($user_country)
           ->latest()
           ->with('dislikesCounter')
           ->with('likesCounter')
@@ -124,7 +124,6 @@ class TimelineController extends Controller
       $other_posts = post::whereNotIn('user_id',$followings)
       ->whereIn('topic_id',$user_favorite_topics)
       ->where('user_id','<>',$user_id)
-      ->whereCountryId($user_country)
       ->latest()
       ->offset($offset)
       ->limit(27)
@@ -202,6 +201,8 @@ return response()->json(['offset'=>$offset,
 
       public function fetch_notifications(Request $request)
       {
+        $locale = Auth::user()->profile->locale;
+        App::setLocale($locale);
         $current_user = Auth::user();
         $offset = $request->has('offset') ? $request->offset : 0 ;
         $current_user->unreadNotifications()->update(['read_at' => now()]);
@@ -216,6 +217,10 @@ return response()->json(['offset'=>$offset,
 
       public function unread_notifications(Request $request)
       {
+
+          $locale = Auth::user()->profile->locale;
+          App::setLocale($locale);
+
           $current_user = Auth::user();
 
           $unread_notificatons =  $current_user->unreadNotifications()->first() ? true : false ;
@@ -225,6 +230,9 @@ return response()->json(['offset'=>$offset,
       }
     public function load_more_notifications(Request $request)
     {
+      $locale = Auth::user()->profile->locale;
+      App::setLocale($locale);
+
       $current_user = Auth::user();
 
       $offset = $request->has('offset') ? $request->offset : 0 ;

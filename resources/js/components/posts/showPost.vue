@@ -48,7 +48,7 @@
 
         <div  class="hidden-xs-only post-img text-xs-center" v-if="post.image">
           <img
-          width="500"
+          width="320"
           :src="`/storage/posts_images/${post.image}`"
  alt="post photo">
         </div>

@@ -1,13 +1,25 @@
 <template>
 <v-container grid-list-md>
   <v-layout row wrap>
+    <v-flex xs12>
+        <div class="text-xs-center">
 
+      <img  src="/logo.png" alt="worder" width="120" class="mt-2">
+    </div>
+
+      <h3 class="white--text text-xs-center">
+        <bdi>
+        {{$t('codesent')}}
+        <span class="yellow--text">{{email}}</span>
+        {{verificationCode}}
+
+      </bdi>
+    </h3>
+    </v-flex>
     <v-flex xs12 sm4 offset-sm4>
-      <h2>{{verificationCode}}</h2>
       <v-card color="#002d37" class="mt-5">
   <v-form @submit.prevent="verifyCode">
     <div class="pa-4">
-
       <v-text-field
         :label="$t('code')"
         solo
@@ -38,7 +50,7 @@
 export default {
   data(){
     return {
-
+      email: this.$store.state.authentication.email,
         code:'',
     }
   },
@@ -48,7 +60,8 @@ export default {
   computed:{
     verificationCode(){
       return this.$store.getters.verificationCode;
-    }
+    },
+
   },
   methods:{
 

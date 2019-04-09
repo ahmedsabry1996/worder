@@ -48,7 +48,11 @@
       v-model="keyword"
       slot="activator">
       </v-text-field>
-      <v-list class="ml-2" v-if="results.length > 0" background-color="#08343e">
+      <v-list class="ml-2" background-color="#08343e">
+        <template v-if="results.length == 0">
+          <p>            no results
+</p>
+        </template>
         <template v-for="result in results">
 
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
@@ -310,6 +314,7 @@
               else {
                 this.results = [];
               }
+              console.log(this.results);
             },
             selectedLanguage(newlang){
                 Vue.i18n.set(newlang);
@@ -360,7 +365,7 @@
           changeLanguage(language){
             if (this.isLoggedIn) {
               if (this.currentUserProfile.locale != this.currenLocale) {
-
+                alert(language)
               this.$store.dispatch('updateLocale',{
                 id:this.currentUser.id,
                 locale:language});

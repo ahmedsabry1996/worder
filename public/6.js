@@ -45,9 +45,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      email: this.$store.state.authentication.email,
       code: ''
     };
   },
@@ -115,12 +128,33 @@ var render = function() {
         "v-layout",
         { attrs: { row: "", wrap: "" } },
         [
+          _c("v-flex", { attrs: { xs12: "" } }, [
+            _c("div", { staticClass: "text-xs-center" }, [
+              _c("img", {
+                staticClass: "mt-2",
+                attrs: { src: "/logo.png", alt: "worder", width: "120" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "white--text text-xs-center" }, [
+              _c("bdi", [
+                _vm._v(
+                  "\n        " + _vm._s(_vm.$t("codesent")) + "\n        "
+                ),
+                _c("span", { staticClass: "yellow--text" }, [
+                  _vm._v(_vm._s(_vm.email))
+                ]),
+                _vm._v(
+                  "\n        " + _vm._s(_vm.verificationCode) + "\n\n      "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _c(
             "v-flex",
             { attrs: { xs12: "", sm4: "", "offset-sm4": "" } },
             [
-              _c("h2", [_vm._v(_vm._s(_vm.verificationCode))]),
-              _vm._v(" "),
               _c(
                 "v-card",
                 { staticClass: "mt-5", attrs: { color: "#002d37" } },

@@ -552,7 +552,7 @@ var render = function() {
                       [
                         _c("img", {
                           attrs: {
-                            width: "500",
+                            width: "320",
                             src: "/storage/posts_images/" + _vm.post.image,
                             alt: "post photo"
                           }

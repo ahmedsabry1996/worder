@@ -55,7 +55,7 @@
 
           <div  v-if="post.image" class="text-xs-center hidden-xs-only">
             <img
-            width="500"
+            width="320"
             :src="`/storage/posts_images/${post.image}`"
             class="grey lighten-2"
             @click="showPost(post.id)"/>

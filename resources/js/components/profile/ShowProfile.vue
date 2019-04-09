@@ -557,6 +557,7 @@
 <script>
 import axios from 'axios';
 import Ad from './../ads/Ad.vue';
+import Vue from 'vue';
 import Popover  from 'vue-js-popover';
 import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 
@@ -880,14 +881,16 @@ export default {
         }
   },
   logout(){
-      this.$store.commit('logout');
-      window.location.href =  "http://127.0.0.1:8000";
+      localStorage.clear();
+      setTimeout(function () {
+        window.location.href =  "http://127.0.0.1:8000";
+      },1500);
 
   },
   },
   filters:{
         getDateForHumans(value){
-          return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+          return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
         }
   },
 

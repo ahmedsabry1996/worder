@@ -137,10 +137,17 @@ export default {
           if (this.isLoggedIn) {
             this.$store.commit('showBottomNav');
             if (this.currentUserProfile.locale != this.appLang) {
+                if (this.appLang == null) {
+                  this.$store.dispatch('updateLocale',{
+                    id:this.currentUserProfile.user_id,
+                    locale:'en'});
+                }
+                else{
+                  this.$store.dispatch('updateLocale',{
+                    id:this.currentUserProfile.user_id,
+                    locale:this.appLang});
+                }
 
-              this.$store.dispatch('updateLocale',{
-                id:this.currentUserProfile.user_id,
-                locale:this.appLang});
             }
 
             if (this.notifications.length === 0) {

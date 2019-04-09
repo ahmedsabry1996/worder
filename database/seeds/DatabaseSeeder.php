@@ -9,9 +9,9 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 		 			  $this->call(TopicsSeeder::class);
-            // $this->call(Genderseeder::class);
-            // $this->call(CountriesSeeder::class);
-            // $this->call(LatestPostsSeeder::class);
-            // $this->call(TrendSeeder::class);
+             $this->call(Genderseeder::class);
+             $this->call(CountriesSeeder::class);
+             $this->call(LatestPostsSeeder::class);
+             $this->call(TrendSeeder::class);
         }
 }
