@@ -1,6 +1,6 @@
 <template>
   <div class="">
-
+    <h1 class="text-xs-center hidden-md-and-up white--text">{{$t('trend')}}</h1>
           <div @scroll="loadMore" class="trend-phone hidden-sm-and-up">
 
     <v-list two-line subheader dark>
@@ -77,6 +77,7 @@ export default {
           },
           methods:{
             loadMore(e){
+              this.$store.commit('hideBottomNav');
 
               let elHeight = e.target.clientHeight;
 
@@ -89,7 +90,6 @@ export default {
                 }
                 else{
                   this.$store.commit('showBottomNav');
-
                 }
 
                   },

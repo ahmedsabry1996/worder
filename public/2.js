@@ -209,6 +209,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -217,10 +245,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return _defineProperty({
       loading: false,
+      terms: true,
       modal: false,
       displayName: '',
       avatar: null,
-      gender: ['male', 'female'],
+      gender: [this.$t('male'), this.$t('female')],
       selectedGender: null,
       selectedCountry: null,
       selectedTopics: [],
@@ -233,6 +262,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, "loading", false);
   },
   computed: {
+    appLang: function appLang() {
+      return this.$store.getters.appLang;
+    },
     countries: function countries() {
       return this.$store.getters.countries;
     },
@@ -685,7 +717,7 @@ var render = function() {
                             {
                               attrs: {
                                 reactive: true,
-                                locale: "ar",
+                                locale: _vm.appLang,
                                 scrollable: ""
                               },
                               model: {
@@ -754,8 +786,12 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("b", [
-                        _vm._v(_vm._s(_vm.writtenDescription) + "/25 words")
+                      _c("b", { staticClass: "white--text" }, [
+                        _vm._v(
+                          _vm._s(_vm.writtenDescription) +
+                            "/25 " +
+                            _vm._s(_vm.$t("words"))
+                        )
                       ]),
                       _vm._v(" "),
                       !_vm.checkDescription
@@ -816,6 +852,88 @@ var render = function() {
                         ],
                         1
                       )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: {
+                        "max-width": "500px",
+                        transition: "dialog-transition"
+                      },
+                      model: {
+                        value: _vm.terms,
+                        callback: function($$v) {
+                          _vm.terms = $$v
+                        },
+                        expression: "terms"
+                      }
+                    },
+                    [
+                      _c("v-card", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "text-xs-center",
+                            attrs: { "primary-title": "" }
+                          },
+                          [
+                            _c("h3", [
+                              _vm._v(
+                                "              " +
+                                  _vm._s(_vm.$t("terms.conditions")) +
+                                  "\n                "
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c("h2", { staticClass: "error--text" }, [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.$t("terms.delete")) +
+                                  "\n              "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("h2", [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.$t("terms.withoutWarning")) +
+                                  "\n\n              "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("h2", { staticClass: "success--text" }, [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(_vm.$t("terms.advice")) +
+                                  "\n              "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "success" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.terms = false
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.$t("done")))]
+                            )
+                          ],
+                          1
+                        )
+                      ])
                     ],
                     1
                   )

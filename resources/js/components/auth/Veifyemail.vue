@@ -17,9 +17,12 @@
       <div class="text-xs-center">
 
       <v-btn round type="button" color="primary" @click="verifyCode">
-          verify
+          {{$t('verify')}}
       </v-btn>
-      <v-btn round color="error" @click="cancel">cancel</v-btn>
+      <v-btn round color="error" @click="cancel">
+        {{$t('cancel')}}
+
+      </v-btn>
     </div>
   </div>
 

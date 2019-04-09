@@ -26,8 +26,10 @@ class AuthControllerApi extends Controller
       public function check_credetionals(Request $request)
       {
 
+        $locale = $request->filled('locale') ? $request->locale : 'en' ;
 
-         App::setLocale('tr');
+         App::setLocale($locale);
+
               $request->validate([
                    'name' => 'required|string',
                    'email' => 'required|string|email|unique:users',

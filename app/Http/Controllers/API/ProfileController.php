@@ -376,4 +376,19 @@ class ProfileController extends Controller
         return response()->json(['deleted'=>true],201);
       }
 
+      public function update_locale(Request $request)
+      {
+            $id = $request->id;
+
+            $new_locale = $request->locale;
+
+            $user = user::findOrFail($id);
+
+            $user->profile->locale = $new_locale;
+
+            $user->profile->save();
+
+            return response()->json(['data'=>'ok'],200);
+      }
+
 }

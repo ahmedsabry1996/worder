@@ -137,6 +137,7 @@
 
 var moment = require('moment');
 
+import Vue from 'vue';
 import axios from 'axios';
 import React from './React.vue';
 export default {
@@ -165,6 +166,10 @@ export default {
       },
       topics(){
         return this.$t('topics');
+      },
+      appLang(){
+        return  this.$store.getters.appLang;
+
       }
     },
 
@@ -187,8 +192,7 @@ export default {
     },
     filters:{
           getDateForHumans(value){
-
-            return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+            return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
           },
 
           subsetPost(val){

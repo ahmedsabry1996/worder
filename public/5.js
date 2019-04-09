@@ -872,7 +872,11 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("b", { staticClass: "white--text" }, [
-                            _vm._v(_vm._s(_vm.writtenDescription) + "/25 words")
+                            _vm._v(
+                              _vm._s(_vm.writtenDescription) +
+                                "/25 " +
+                                _vm._s(_vm.$t("words"))
+                            )
                           ]),
                           _vm._v(" "),
                           !_vm.checkDescription

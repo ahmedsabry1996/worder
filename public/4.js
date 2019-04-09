@@ -559,6 +559,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -716,24 +728,29 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       var self = this;
 
       window.onscroll = function () {
-        var pos2 = document.documentElement.scrollTop;
+        if (self.$router.name != null) {
+          var pos2 = document.documentElement.scrollTop;
 
-        if (self.pos1 > pos2) {
-          self.$store.commit('showBottomNav');
+          if (self.pos1 > pos2) {
+            self.$store.commit('showBottomNav');
+          }
+
+          if (self.pos1 < pos2) {
+            self.$store.commit('hideBottomNav');
+          }
+
+          self.pos1 = pos2;
         }
 
-        if (self.pos1 < pos2) {
-          self.$store.commit('hideBottomNav');
-        }
-
-        self.pos1 = pos2;
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
           self.$store.dispatch('loadMoreProfilePosts', {
-            'userId': this.$store.state.profile.currentProfile.id
+            'userId': self.$store.state.profile.currentProfile.id
           });
           self.$store.commit('hideBottomNav');
+        } else {
+          self.$store.commit('showBottomNav');
         }
       };
     },
@@ -831,6 +848,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           postId: this.postId
         });
       }
+    },
+    logout: function logout() {
+      this.$store.commit('logout');
+      window.location.href = "http://127.0.0.1:8000";
     }
   },
   filters: {
@@ -1174,6 +1195,29 @@ var render = function() {
                                   [
                                     _c("b", [
                                       _vm._v(" " + _vm._s(_vm.$t("editauth")))
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      color: "#005f5b",
+                                      round: "",
+                                      small: "",
+                                      router: ""
+                                    },
+                                    on: { click: _vm.logout }
+                                  },
+                                  [
+                                    _c("b", [
+                                      _vm._v(
+                                        "\n                     " +
+                                          _vm._s(_vm.$t("logout")) +
+                                          "\n          "
+                                      )
                                     ])
                                   ]
                                 )

@@ -82,7 +82,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('showTrendPosts', {
         word: this.$route.query.trend
       });
-      console.log(7);
     },
     loadMore: function loadMore() {
       var _this = this;

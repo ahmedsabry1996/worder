@@ -70,7 +70,6 @@ export default {
   methods:{
     getTrendPosts(){
       this.$store.dispatch('showTrendPosts',{word:this.$route.query.trend});
-      console.log(7);
     },
     loadMore(){
 

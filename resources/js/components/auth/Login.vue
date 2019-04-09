@@ -1,11 +1,10 @@
 <template>
   <v-container grid-list-md>
     <v-layout row wrap>
-      <v-flex xs12>
-      </v-flex>
+
     <v-flex xs12 md4 offset-md4 class="pa-4">
       <!-- Login fields -->
-      <v-card color="#002d37" class="mt-5">
+      <v-card color="#282e33" class="">
       <template v-if="!forgetPassword">
 
         <v-form @submit.prevent="login">
@@ -27,8 +26,8 @@
           ></v-text-field>
           <div class="text-xs-center">
 
-          <v-btn round color="primary" @click="login">{{$t('login')}}</v-btn>
-          <v-btn round v-if="!forgetPassword" color="warning" @click="resetPassword">{{$t('forgetpassword')}}</v-btn>
+          <v-btn round color="#005F5B" dark @click="login" :loading="loading">{{$t('login')}}</v-btn>
+          <v-btn round v-if="!forgetPassword" :disabled="loading" color="error" @click="resetPassword">{{$t('forgetpassword')}}</v-btn>
 
 
         </div>
@@ -160,8 +159,6 @@ export default {
           remember_me:this.rememberMe
         }).then((response)=>{
             console.log(response.data.user);
-
-
               this.$store.commit("loginSuccess",{
                 currentUser:response.data.user,
                 currentUserProfile:response.data.profile,

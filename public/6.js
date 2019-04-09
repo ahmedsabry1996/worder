@@ -42,6 +42,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -166,7 +169,13 @@ var render = function() {
                                   },
                                   on: { click: _vm.verifyCode }
                                 },
-                                [_vm._v("\n          verify\n      ")]
+                                [
+                                  _vm._v(
+                                    "\n          " +
+                                      _vm._s(_vm.$t("verify")) +
+                                      "\n      "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -175,7 +184,13 @@ var render = function() {
                                   attrs: { round: "", color: "error" },
                                   on: { click: _vm.cancel }
                                 },
-                                [_vm._v("cancel")]
+                                [
+                                  _vm._v(
+                                    "\n        " +
+                                      _vm._s(_vm.$t("cancel")) +
+                                      "\n\n      "
+                                  )
+                                ]
                               )
                             ],
                             1

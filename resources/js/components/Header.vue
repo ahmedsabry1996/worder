@@ -72,11 +72,27 @@
          <span>
       </span>
     </v-btn>
-    <v-btn flat router class="white--text" @click="logout">
-      <b>      {{$t('logout')}}
-</b>
-    </v-btn>
-
+    <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              flat
+              dark
+              small
+              v-on="on" >
+              <b>{{$t('tongue')}}</b>
+           <v-icon>arrow_drop_down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-tile
+              v-for="(item, index) in languages"
+              :key="index"
+              @click="changeLanguage(item.code)"
+           >
+              <v-list-tile-title>{{ item.language }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+  </v-menu>
     </v-toolbar-items>
 
 </v-toolbar>
@@ -101,37 +117,52 @@
   <v-container grid-list-md v-if="!isLoggedIn">
     <v-layout row wrap>
 
-      <v-flex xs12 text-xs-center>
-        <h1 class="white--text">{{$t('welcome')}}</h1>
-      </v-flex>
+
       <v-flex xs12 v-if="currentRoute">
+        <div class="text-xs-center pa-0">
+
+        <img src="/logo.png" alt="Worder" width="100">
+        <h1 class="white--text text-uppercase">{{$t('reach')}}</h1>
+      </div>
+
         <div class="text-xs-center">
           <v-btn
-          large
-          round
-          class="indigo white--text"
+          medium
+          color="#282e33"
+          class="white--text"
           @click="selectedComponent = 'login'">
           <b>{{$t('login')}}</b>
          </v-btn>
-         <v-btn large round flat class="mt-4">
 
-           <v-select
-             round
-            :items="languages"
-            v-model="selectedLanguage"
-            item-text="language"
-            item-value="code"
-            :label="$t('tongue')"
-              solo
-           ></v-select>
-         </v-btn>
           <v-btn
-          large
-          round
-          class="indigo white--text"
+          medium
+          color="#005F5B"
+          class="white--text"
           @click="selectedComponent = 'signup'">
           <b>{{$t('signup')}}</b>
         </v-btn>
+        <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="#112f41"
+                  dark
+                  v-on="on" >
+                  <b>
+                         {{$t('tongue')}}
+</b>
+                   <v-icon>arrow_drop_down</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-tile
+                  v-for="(item, index) in languages"
+                  :key="index"
+                  @click="changeLanguage(item.code)"
+               >
+                  <v-list-tile-title>{{ item.language }}</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+   </v-menu>
 
         </div>
       </v-flex>
@@ -144,21 +175,18 @@
 
   </v-container>
   <div class="hidden-md-and-up" v-if="isLoggedIn">
-<v-content>
-
   <v-bottom-nav
   app
   inset
   :value="showBottomNav"
- color="white"
- min-width="320"
-    >
+  color="white"
+  min-width="320">
 
     <v-btn
+      class="hidden-sm-only"
+      small
       router
       to="/me/notifications"
-      small
-
       color="#112f41"
       flat>
       <v-icon>notifications</v-icon>
@@ -177,11 +205,8 @@
       color="#112f41"
       flat
       small
-
       router
-  :to="`/${currentUserProfile.display_name}`"
-    >
-
+  :to="`/${currentUserProfile.display_name}`">
       <v-icon>inbox</v-icon>
     </v-btn>
 
@@ -205,14 +230,11 @@
       >
       <v-icon>home</v-icon>
     </v-btn>
-
-
-
   </v-bottom-nav>
-</v-content>
-
   </div>
   </v-content>
+
+  </div>
 </template>
 
 <script>
@@ -226,7 +248,7 @@
           return {
               languages:[
                 {'language':'العربية','code':'ar'},
-                {'language':'Turkce','code':'tr'},
+                {'language':'Türkçe','code':'tr'},
                 {'language':'English','code':'en'},
               ],
               selectedLanguage:'',
@@ -247,16 +269,18 @@
           Signup,
         },
         computed:{
-          currenLocale(){
-            return  this.$store.getters.appLang;
-          },
+
+
+            currenLocale(){
+                return  this.$store.getters.appLang;
+              },
+
             showBottomNav(){
                 return  this.$store.getters.showBottomNav;
             },
+
           isLoggedIn(){
-
             return  this.$store.getters.isLoggedIn;
-
           },
 
 
@@ -330,13 +354,20 @@
 
           logout(){
               this.$store.commit('logout');
-              localStorage.clear();
               window.location.href =  "http://127.0.0.1:8000";
 
           },
-          setIt(){
+          changeLanguage(language){
+            if (this.isLoggedIn) {
+              if (this.currentUserProfile.locale != this.currenLocale) {
 
-            Vue.i18n.set('ar');
+              this.$store.dispatch('updateLocale',{
+                id:this.currentUser.id,
+                locale:language});
+                }
+            }
+            this.$store.commit('changeLanguage',language);
+            Vue.i18n.set(language);
           }
         },
 

@@ -101,6 +101,18 @@
               <v-btn round small class="error white--text" @click="updateAuthData">
                   <b> {{$t('editauth')}}</b>
               </v-btn>
+              <v-btn
+              color="#005f5b"
+              round
+              small
+              router
+              class="white--text"
+               @click="logout">
+                <b>
+                     {{$t('logout')}}
+          </b>
+              </v-btn>
+
           </div>
 
 
@@ -729,8 +741,10 @@ export default {
     loadMorePosts(){
       const self = this;
             window.onscroll = function() {
-              let pos2 = document.documentElement.scrollTop;
 
+              if (self.$router.name != null) {
+
+              let pos2 = document.documentElement.scrollTop;
 
               if (self.pos1 > pos2) {
                 self.$store.commit('showBottomNav');
@@ -739,13 +753,18 @@ export default {
                 self.$store.commit('hideBottomNav');
               }
               self.pos1 = pos2;
+            }
 
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
                 self.$store.dispatch('loadMoreProfilePosts',{
-                'userId':this.$store.state.profile.currentProfile.id});
+                'userId':self.$store.state.profile.currentProfile.id});
                 self.$store.commit('hideBottomNav');
+
+                }
+                else{
+                  self.$store.commit('showBottomNav');
 
                 }
                 }
@@ -859,6 +878,11 @@ export default {
         if ((elHeight+elScrollTop) - elscrollHeight == 0) {
             this.$store.dispatch('loadMoreDisLikers',{postId:this.postId})
         }
+  },
+  logout(){
+      this.$store.commit('logout');
+      window.location.href =  "http://127.0.0.1:8000";
+
   },
   },
   filters:{

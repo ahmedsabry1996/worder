@@ -39,11 +39,15 @@
         </v-list>
 
       </div>
+
       <v-list two-line dark class="hidden-xs-only">
+
         <v-btn @click="refreshSuggested" flat icon color="white" >
           <v-icon>refresh</v-icon>
         </v-btn>
         <span>refresh</span>
+        <div class="mm">
+
         <template v-for="(person,index) in suggestPeople">
           <v-list-tile
           avatar
@@ -77,6 +81,8 @@
         </v-list-tile>
         <v-divider  v-if="index+1 < suggestPeople.length"></v-divider>
       </template>
+
+    </div>
     </v-list>
 
    </div>
@@ -179,4 +185,5 @@ export default {
   left:0;
   right:0
   }
+  
 </style>

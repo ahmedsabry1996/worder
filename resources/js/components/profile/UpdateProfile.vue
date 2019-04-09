@@ -132,7 +132,7 @@ width="290px"
                v-model="description"
 
              ></v-textarea>
-             <b class="white--text">{{writtenDescription}}/25 words</b>
+             <b class="white--text">{{writtenDescription}}/25 {{$t('words')}}</b>
           <p class="error" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
             <div v-if="errors">
               <p class="error" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>

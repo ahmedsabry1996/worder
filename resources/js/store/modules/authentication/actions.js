@@ -9,6 +9,7 @@ export default{
         password:data.password,
         password_confirmation:data.passwordConfirm,
         original_password:data.password,
+        locale:data.locale,
       })
       .then((response)=>{
         console.log(response.data);

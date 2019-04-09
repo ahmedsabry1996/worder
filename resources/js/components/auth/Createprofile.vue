@@ -90,7 +90,7 @@
            color="white"
 
        ></v-text-field>
-       <v-date-picker :reactive="true" locale="ar" v-model="bdate" scrollable>
+       <v-date-picker :reactive="true" :locale="appLang" v-model="bdate" scrollable>
          <v-spacer></v-spacer>
          <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
          <v-btn flat color="primary" @click="$refs.dialog.save(bdate)">OK</v-btn>
@@ -106,9 +106,8 @@ no-resize
           :label="$t('description')"
             solo
             v-model="description"
-
           ></v-textarea>
-<b>{{writtenDescription}}/25 words</b>
+<b class="white--text">{{writtenDescription}}/25 {{$t('words')}}</b>
     <p class="error--text" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
             <p class="error--text" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
           <div class="text-xs-center">
@@ -132,6 +131,35 @@ no-resize
 
     </div>
         </v-form>
+        <v-dialog
+          v-model="terms"
+          max-width="500px"
+          transition="dialog-transition"
+        >
+          <v-card>
+            <div primary-title class="text-xs-center">
+              <h3>              {{$t('terms.conditions')}}
+                </h3>
+            </v-card-title>
+            </div>
+
+            <div class="text-xs-center">
+              <h2 class="error--text">
+                {{$t('terms.delete')}}
+              </h2>
+              <h2>
+                {{$t('terms.withoutWarning')}}
+
+              </h2>
+              <h2 class="success--text">
+                {{$t('terms.advice')}}
+              </h2>
+              <v-btn @click="terms = false" color="success">{{$t('done')}}</v-btn>
+            </div>
+
+          </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-flex>
       <!-- SIMULATE -->
       <v-flex sm4 hidden-xs-only offset-sm2>
@@ -203,10 +231,11 @@ mounted(){
       data(){
                 return {
                   loading:false,
+                  terms:true,
                   modal: false,
                   displayName:'',
                   avatar:null,
-                  gender:['male','female'],
+                  gender:[this.$t('male'),this.$t('female')],
                   selectedGender:null,
                   selectedCountry:null,
                   selectedTopics:[],
@@ -221,6 +250,11 @@ mounted(){
 },
 
 computed:{
+  appLang(){
+    return  this.$store.getters.appLang;
+
+  },
+
   countries(){
     return  this.$store.getters.countries;
   },

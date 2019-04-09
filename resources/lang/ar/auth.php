@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'الايميل مش عندنا',
+    'failed' => 'خطأ في البريد الالكتروني او كلمة المرور',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

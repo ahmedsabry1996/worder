@@ -100,5 +100,18 @@ export default{
         })
 
       },
+      updateLocale(context,data){
+        axios.post('/api/profile/update-locale',{
+          locale:data.locale,
+          id:data.id,
+        })
+        .then((response)=>{
+          console.log(response);
+        })
+        .catch((errors)=>{
+          console.log(errors);
+          console.log(errors.response);
+        })
+      }
 
 }

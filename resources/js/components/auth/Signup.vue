@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12  md4 offset-md4 >
         <template v-if="!verificationCode">
-          <v-card color="#002d37" class="mt-5">
+          <v-card color="#005F5B" class="">
 
           <!-- Default signup form -->
             <v-form @submit.prevent="checkCredetionals">
@@ -14,7 +14,6 @@
                 :label="$t('name')"
                 v-model="name"
                   color="indigo"
-
               ></v-text-field>
 
               <template v-if="signupErrors">
@@ -60,7 +59,7 @@
 
               <div class="text-xs-center">
 
-                              <v-btn round color="primary" @click="checkCredetionals" :loading="signupLoading">
+                              <v-btn round dark color="#282e33" @click="checkCredetionals" :loading="signupLoading">
                                     {{$t('signup')}}
                               </v-btn>
               </div>
@@ -69,49 +68,8 @@
 
             </v-form>
           </v-card>
-
-
         </template>
 
-
-            <!-- <template v-if="verificationCode">
-
-              <v-form @submit.prevent="verify" light>
-                <div class="text-xs-center">
-                    <h1 class="white--text"><bdi>{{$t('emailcheck')}}</bdi></h1>
-                    <br />
-                    <label>
-                        <h3>
-                        <bdi class="white--text">{{$t('codesent')}} : <b class="green--text">{{currentUser.email}}</b></bdi>
-</h3>
-                    </label>
-
-                </div>
-                <br />
-                <v-text-field
-
-
-                    v-model="code"
-                    :label="this.$t('code')"
-                      solo
-
-                ></v-text-field>
-
-                <div class="text-xs-center">
-
-                  <v-btn color="primary" round
-                  :loading="signupLoading"
-                   @click="verify">
-                  {{$t('create')}}
-                    </v-btn>
-
-                      <v-btn @click="logout" round color="error">
-                          {{$t('exit')}}
-                      </v-btn>
-
-                </div>
-              </v-form>
-            </template> -->
             </v-flex>
             </v-layout>
             </v-container>
@@ -147,6 +105,10 @@ export default {
     },
     currentUser(){
       return this.$store.getters.currentUser;
+    },
+    appLang(){
+      return  this.$store.getters.appLang;
+
     }
 
   },
@@ -158,6 +120,7 @@ export default {
           email:this.email,
           password:this.password,
           passwordConfirm:this.passwordConfirm,
+          locale:this.appLang
         })
         .then((response)=>{
 
@@ -181,7 +144,8 @@ export default {
           email:this.email,
           password:this.password,
           password_confirmation:this.passwordConfirm,
-          original_password:this.password
+          original_password:this.password,
+          locale:this.appLang
         })
         .then(()=>{
 

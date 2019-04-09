@@ -21,7 +21,7 @@
         </div>
       </template>
       <template v-else>
-          <h1 class=" text-xs-center white--text">follow people to start seeing posts</h1>
+          <h1 class=" text-xs-center white--text">{{$t('followSome')}}</h1>
       </template>
       </v-flex>
 
@@ -83,6 +83,7 @@ export default {
     this.loadMore();
     if (this.isLoggedIn) {
       this.$store.dispatch('timeline');
+
     }
   },
   methods:{
@@ -92,28 +93,24 @@ export default {
     loadMore(){
       const self = this;
             window.onscroll = function() {
-              let pos2 = document.documentElement.scrollTop;
 
-
-              if (self.pos1 > pos2) {
-                self.$store.commit('showBottomNav');
-              }
-              if (self.pos1 < pos2) {
-                self.$store.commit('hideBottomNav');
-              }
-              self.pos1 = pos2;
           let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
             if (self.isLoggedIn && self.$route.name == null) {
-
             window.scrollTo(0,document.documentElement.offsetHeight - 400);
+            self.$store.dispatch('loadMorePosts');
+            console.log(document.documentElement.scrollTop + window.innerHeight - (document.documentElement.offsetHeight - 400));
             self.$store.commit('hideBottomNav');
 
-            self.$store.dispatch('loadMorePosts')
+          }
+          }
+          else{
+            self.$store.commit('showBottomNav');
 
           }
-          }}
+
+        }
 
           },
   },

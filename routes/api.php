@@ -18,6 +18,7 @@ Route::group(['prefix'=>"auth"],function(){
 Route::post('verify-email',"API\AuthControllerApi@check_email_exist");
 Route::post('create-profile/{user_id}',"API\ProfileController@store");
 Route::post('cancel-profile','API\ProfileController@cancel_profile');
+Route::post('/profile/update-locale','API\ProfileController@update_locale');
 
 Route::post('/confirm-verify','API\AdminController@approve');
 

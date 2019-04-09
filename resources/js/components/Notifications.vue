@@ -71,8 +71,14 @@ export default {
 
   },
   computed:{
+    currentUserProfile(){
+        return this.$store.getters.currentUserProfile;
+    },
     notifications(){
       return this.$store.getters.notifications;
+    },
+    appLang(){
+      return this.$store.getters.appLang;
     },
     unreadNotifications(){
         if (!this.$store.getters.unreadNotifications) {
@@ -93,7 +99,7 @@ export default {
 
     broadcastNotifications(){
       return this.$store.getters.broadcastNotifications;
-    }
+    },
 
   },
   created(){
@@ -109,6 +115,8 @@ export default {
     loadMore(){
       const self = this;
             window.onscroll = function() {
+              if (self.$router.param !=null) {
+
               let pos2 = window.innerHeight ;
               if (self.pos1 > pos2) {
                 self.$store.commit('showBottomNav');
@@ -117,6 +125,7 @@ export default {
                 self.$store.commit('hideBottomNav');
               }
               self.pos1 = pos2;
+            }
   }
 },
     notificationSound(){
@@ -126,6 +135,14 @@ export default {
     getNotifications(){
 
           if (this.isLoggedIn) {
+            this.$store.commit('showBottomNav');
+            if (this.currentUserProfile.locale != this.appLang) {
+
+              this.$store.dispatch('updateLocale',{
+                id:this.currentUserProfile.user_id,
+                locale:this.appLang});
+            }
+
             if (this.notifications.length === 0) {
                 this.offset = 0;
               this.$store.dispatch('getNotifications');
@@ -243,7 +260,7 @@ export default {
 
 <style scoped>
 .mm{
-  width:300px !important;
+  width:400px !important;
   margin: 0 auto !important;
   height: 300px !important;
   max-height:300px !important;
