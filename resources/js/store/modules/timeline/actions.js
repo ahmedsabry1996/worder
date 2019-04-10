@@ -1,3 +1,4 @@
+import Vue from 'vue';
 export default{
 
     timeline(context,commit,rootState){
@@ -31,7 +32,6 @@ export default{
       let loadedTimelinePosts = context.state.loadedTimelinePosts;
       if (postsNum > loadedTimelinePosts) {
 
-
         axios.post(`/api/timeline/load-more`,{
             offset:context.state.offset,
           },{
@@ -40,7 +40,9 @@ export default{
           }
         })
         .then((response)=>{
-            console.log(response.data);
+
+              console.log(response.data);
+
               context.commit("isLoadingMoreTimeline")
               context.commit('loadMore',{posts:response.data.loaded_posts});
         })

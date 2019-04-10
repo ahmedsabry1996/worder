@@ -4,7 +4,9 @@
 
         <router-view></router-view>
         <template v-if="homePage">
+          <keep-alive>
             <time-line></time-line>
+          </keep-alive>
         </template>
 </v-app>
 </template>
@@ -51,7 +53,7 @@
               return this.$store.getters.isLoggedIn;
 
             },
-          
+
           currentRoute(){
           return this.$route ;
           },

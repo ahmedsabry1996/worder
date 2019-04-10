@@ -5,5 +5,6 @@ export default{
       },
       isLoadingMoreTimeline(state){
         return state.isLoadingMoreTimeline;
-      }
+      },
+      
 }

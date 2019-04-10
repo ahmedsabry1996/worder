@@ -121,5 +121,4 @@ export default {
           {topic:'هجرة',en:'migration',id:9},
           {topic:'تعليم',en:'education',id:10},
           {topic:'عام',en:'general',id:11}],
-
 }

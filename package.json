@@ -46,6 +46,7 @@
         "vue-easyrefresh": "^1.0.4",
         "vue-ins-progress-bar": "^1.0.0",
         "vue-js-popover": "^1.1.8",
+        "vue-lodash": "^2.0.2",
         "vue-moment": "^4.0.0",
         "vue-numeral-filter": "^1.1.1",
         "vue-progressbar": "^0.7.5",

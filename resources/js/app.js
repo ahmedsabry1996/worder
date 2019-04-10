@@ -20,10 +20,11 @@ import VueProgressBar from 'vue-progressbar'
 import en from './locale/en';
 import ar from './locale/ar';
 import tr from './locale/tr';
+import VueLodash from 'vue-lodash'
 library.add(n,b,m,d,q,faTrashAlt,faBell,faAward);
 import EasyRefresh from 'vue-easyrefresh'
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-
+Vue.use(VueLodash);
 Vue.use(EasyRefresh);
 Vue.use(Vuex);
 Vue.use(VueRouter);

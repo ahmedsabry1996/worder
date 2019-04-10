@@ -3,7 +3,7 @@
     <h1 class="text-xs-center hidden-md-and-up white--text">{{$t('trend')}}</h1>
           <div @scroll="loadMore" class="trend-phone hidden-sm-and-up">
 
-    <v-list two-line subheader dark>
+    <v-list two-line subheader color="#282e33">
       <v-subheader>{{$t('trend')}}</v-subheader>
       <template v-for="(value,key) in topTen">
 

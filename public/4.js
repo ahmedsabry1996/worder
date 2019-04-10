@@ -745,13 +745,14 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
           self.pos1 = pos2;
         }
 
-        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight == document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
           self.$store.dispatch('loadMoreProfilePosts', {
             'userId': self.$store.state.profile.currentProfile.id
           });
           self.$store.commit('hideBottomNav');
+          window.scrollTo(0, document.documentElement.offsetHeight - 751);
         } else {
           self.$store.commit('showBottomNav');
         }
@@ -1365,7 +1366,7 @@ var render = function() {
                                               {
                                                 staticClass: "white--text",
                                                 staticStyle: {
-                                                  "white-space": "pre-line",
+                                                  "font-size": "22pt",
                                                   "font-weight": "bold"
                                                 }
                                               },
@@ -1907,7 +1908,7 @@ var render = function() {
                                               {
                                                 staticClass: "white--text",
                                                 staticStyle: {
-                                                  "white-space": "pre-line",
+                                                  "font-size": "22pt",
                                                   "font-weight": "bold"
                                                 }
                                               },

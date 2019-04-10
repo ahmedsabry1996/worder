@@ -61,7 +61,6 @@ export default {
       isLoggedIn(){
         return this.$store.getters.isLoggedIn;
       },
-
       timelinePosts(){
         return this.$store.getters.posts;
       },
@@ -70,7 +69,12 @@ export default {
       }
 
   },
+  activated(){
+    this.loadMore();
+  },
   created(){
+
+
     if (this.isLoggedIn) {
       this.isLoading = true;
       this.$store.dispatch('reactedPosts');
@@ -79,8 +83,6 @@ export default {
   },
 
   mounted(){
-    console.log('timeline loaded');
-    this.loadMore();
     if (this.isLoggedIn) {
       this.$store.dispatch('timeline');
 
@@ -94,14 +96,13 @@ export default {
       const self = this;
             window.onscroll = function() {
 
-          let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
+          let endOfPage = (document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight) );
 
           if (endOfPage) {
             if (self.isLoggedIn && self.$route.name == null) {
-            window.scrollTo(0,document.documentElement.offsetHeight - 400);
-            self.$store.dispatch('loadMorePosts');
-            console.log(document.documentElement.scrollTop + window.innerHeight - (document.documentElement.offsetHeight - 400));
-            self.$store.commit('hideBottomNav');
+              self.$store.dispatch('loadMorePosts');
+              self.$store.commit('hideBottomNav');
+            window.scrollTo(0,document.documentElement.offsetHeight - 751);
 
           }
           }

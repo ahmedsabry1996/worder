@@ -2,8 +2,9 @@
 
   <v-content>
     <v-container grid-list-lg>
+
       <v-layout hidden-sm-and-down row wrap>
-        <v-flex xs12 >
+        <v-flex xs12>
           <create-post></create-post>
         </v-flex>
         <v-flex  md3>
@@ -63,6 +64,11 @@ export default {
         },
         topics(){
           return this.$t('topics');
+        },
+        currentTopic(){
+          return this.$t('topics').filter((val,index)=>{
+                return val.en == this.$route.params.topic ;
+          });
         }
     },
     mounted(){
@@ -90,7 +96,8 @@ export default {
     methods:{
 
       getTopicPosts(){
-        this.$store.dispatch('fillTopicPosts',{topic:this.$route.params.topic})
+        this.$store.dispatch('fillTopicPosts',
+        {topic:this.$route.params.topic})
         .then((response)=>{
           console.log(7);
         })
@@ -109,7 +116,6 @@ export default {
             if (endOfPage) {
               if (!!this.$store.state.authentication.userToken && this.$route.name == 'topic') {
                   this.morePosts();
-
             }
             }
 
@@ -119,7 +125,7 @@ export default {
 
       morePosts(){
         this.$store.dispatch('loadMoreTopicPosts',
-                            {topic:this.$route.params.topic})
+                            {topic:this.$route.params.topic,id:this.currentTopic[0]['id']})
 
 
 

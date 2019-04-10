@@ -151,7 +151,7 @@
               <h5 class="white--text">by <b>{{showProfile.profile.display_name}}</b></h5>
           </div>
           <div class="post-content">
-            <p style="white-space:pre-line;font-weight: bold;" class="white--text">
+            <p style="font-size:22pt;font-weight: bold;" class="white--text">
                 <b class="white--text">
                   <bdi>
                     {{post.post}}
@@ -277,7 +277,7 @@
 
     </div>
     <div class="post-content mt-3">
-  <p style="white-space:pre-line;font-weight: bold;" class="white--text">
+      <p style="font-size:22pt;font-weight: bold;" class="white--text">
   <bdi>
     {{post.post}}
   </bdi>
@@ -756,12 +756,13 @@ export default {
               self.pos1 = pos2;
             }
 
-              let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight );
+              let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
                 self.$store.dispatch('loadMoreProfilePosts',{
                 'userId':self.$store.state.profile.currentProfile.id});
                 self.$store.commit('hideBottomNav');
+                window.scrollTo(0,document.documentElement.offsetHeight - 751);
 
                 }
                 else{

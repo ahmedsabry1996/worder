@@ -3,6 +3,25 @@
     <v-container grid-list-lg>
       <v-layout  row wrap>
         <v-flex xs12>
+          <create-post></create-post>
+        </v-flex>
+        <v-flex xs12>
+            <v-card color="#282e33">
+              <v-card-title primary-title>
+                <h3 class="white--text">
+                  Trend Sponser
+                </h3>
+              </v-card-title>
+              <div  class="aa  text-xs-center">
+                  <h1 class="text-xs-center white--text">Hello World</h1>
+
+                  <v-card-actions >
+                  <v-btn flat dark small @click="ads">be a sponser</v-btn>
+                </v-card-actions>
+              </div>
+            </v-card>
+        </v-flex>
+        <v-flex xs12>
           <h1 class="white--text text-xs-center">
             <bdi>
               {{this.$route.query.trend}}
@@ -33,13 +52,14 @@ import ListPosts from './../posts/ListPosts.vue';
 import SuggestedPeople from './../Suggestpeople.vue';
 import Topics from './../topics/Topics.vue';
 import Trend from './../trend/Trend.vue';
-
+import createPost from './../posts/Createpost.vue';
 export default {
   components:{
+    createPost,
     ListPosts,
     SuggestedPeople,
     Topics,
-    Trend
+    Trend,
   },
   data(){
     return {
@@ -95,6 +115,9 @@ export default {
         this.offset +=100;
         this.$store.dispatch('loadMoreTrendPosts',{offset:this.offset,
                                                   word:this.$route.query.trend})
+    },
+    ads(){
+      alert('InshaAllah after one months every thing will be Ok')
     }
 
   }
@@ -102,4 +125,8 @@ export default {
 </script>
 
 <style scoped>
+.aa{
+  height:100px;
+  padding: 0px;
+}
 </style>

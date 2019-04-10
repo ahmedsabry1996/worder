@@ -28,17 +28,15 @@ export default{
     },
 
     loadMoreTopicPosts(context,commit,rootState){
-      let currentTopic = commit.topic;
-
-      let id = context.state.topics.indexOf(currentTopic)+1;
 
       let loadedTopicPosts = context.state.loadedTopicPosts;
+
       let allTopicPosts = context.state.allTopicPosts;
 
     if (allTopicPosts > loadedTopicPosts){
     axios.post('/api/topic/load-more',{
         offset:context.state.Topicsoffset,
-        topic_id : id
+        topic_id : commit.id
       },{
         headers:{
           Authorization:`Bearer ${context.rootState.authentication.userToken}`

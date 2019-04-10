@@ -1,5 +1,5 @@
-
 export default{
+
   isLoggedIn:false,
   signupErrors:null,
   currentUser:null,

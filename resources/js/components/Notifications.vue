@@ -253,7 +253,7 @@ export default {
   filters:{
     getDateForHumans(value){
 
-      return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+      return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
     },
     highlightUsername(val){
       if (val.includes('start')) {

@@ -1,4 +1,5 @@
 export default{
+
   notifications(state){
     return state.notifications;
   },
@@ -8,7 +9,6 @@ export default{
   },
 
   broadcastNotifications(state){
-
     return state.broadcastNotifications;
   },
 

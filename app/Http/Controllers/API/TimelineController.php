@@ -141,21 +141,27 @@ class TimelineController extends Controller
       $user_country = Auth::user()->profile->country_id;
 
         $num_of_following = $this->count_following();
-
+        $last_three_days = now()->addDays(-3);
         if ($this->fetch_following_posts()->get()->count() != 0) {
 
             $posts =$this->fetch_following_posts()->get();
-            $posts_num = country::find($user_country)->posts()->where('user_id','<>',Auth::id())->count();
+            $posts_num = post::whereIn('user_id',$this->get_user_following())
+            ->where('created_at','>',$last_three_days)
+            ->count();
+
         }
 
         else{
           $posts = $this->fetch_other_posts()->get();
-          $posts_num = country::find($user_country)->posts()->where('user_id','<>',Auth::id())->count();
+          $posts_num = post::whereIn('user_id',$this->get_user_following())
+          ->where('created_at','>',$last_three_days)
+          ->count();
 
         }
 
       return response()->json(['posts'=>$posts,
                                 'posts_num'=>$posts_num,
+                                'date'=>$last_three_days,
                                 ],200);
   }
 
