@@ -752,7 +752,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
             'userId': self.$store.state.profile.currentProfile.id
           });
           self.$store.commit('hideBottomNav');
-          window.scrollTo(0, document.documentElement.offsetHeight - 751);
+          window.scrollTo(0, document.documentElement.offsetHeight - 700);
         } else {
           self.$store.commit('showBottomNav');
         }
@@ -864,6 +864,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$store.commit('logoutAuth');
       this.$store.commit('logoutTimeline');
       this.$router.push('/');
+      window.location.href = window.location.origin;
     }
   },
   filters: {
@@ -1340,18 +1341,25 @@ var render = function() {
                                           },
                                           [
                                             _c(
-                                              "h5",
+                                              "h4",
                                               { staticClass: "white--text" },
                                               [
                                                 _vm._v("by "),
-                                                _c("b", [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      _vm.showProfile.profile
-                                                        .display_name
+                                                _c(
+                                                  "b",
+                                                  {
+                                                    staticClass:
+                                                      "yellow--text text-uppercase"
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.showProfile.profile
+                                                          .display_name
+                                                      )
                                                     )
-                                                  )
-                                                ])
+                                                  ]
+                                                )
                                               ]
                                             )
                                           ]
@@ -1367,7 +1375,8 @@ var render = function() {
                                                 staticClass: "white--text",
                                                 staticStyle: {
                                                   "font-size": "22pt",
-                                                  "font-weight": "bold"
+                                                  "font-weight": "bold",
+                                                  "white-space": "pre-line"
                                                 }
                                               },
                                               [
@@ -1901,7 +1910,7 @@ var render = function() {
                                         _vm._v(" "),
                                         _c(
                                           "div",
-                                          { staticClass: "post-content mt-3" },
+                                          { staticClass: "post-content mt-" },
                                           [
                                             _c(
                                               "p",
@@ -1909,7 +1918,8 @@ var render = function() {
                                                 staticClass: "white--text",
                                                 staticStyle: {
                                                   "font-size": "22pt",
-                                                  "font-weight": "bold"
+                                                  "font-weight": "bold",
+                                                  "white-space": "pre-line"
                                                 }
                                               },
                                               [

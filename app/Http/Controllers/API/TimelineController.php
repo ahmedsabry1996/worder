@@ -145,7 +145,9 @@ class TimelineController extends Controller
         if ($this->fetch_following_posts()->get()->count() != 0) {
 
             $posts =$this->fetch_following_posts()->get();
-            $posts_num = post::whereIn('user_id',$this->get_user_following())
+
+            $posts_num = post::where('user_id','<>',Auth::id())
+            ->whereIn('user_id',$this->get_user_following())
             ->where('created_at','>',$last_three_days)
             ->count();
 
@@ -153,7 +155,9 @@ class TimelineController extends Controller
 
         else{
           $posts = $this->fetch_other_posts()->get();
-          $posts_num = post::whereIn('user_id',$this->get_user_following())
+
+          $posts_num = post::where('user_id','<>',Auth::id())
+          ->whereIn('user_id',$this->get_user_following())
           ->where('created_at','>',$last_three_days)
           ->count();
 

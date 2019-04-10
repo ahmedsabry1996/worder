@@ -148,10 +148,10 @@
 
           </div>
           <div class="post-publisher mt-2">
-              <h5 class="white--text">by <b>{{showProfile.profile.display_name}}</b></h5>
+              <h4 class="white--text">by <b class="yellow--text text-uppercase">{{showProfile.profile.display_name}}</b></h4>
           </div>
           <div class="post-content">
-            <p style="font-size:22pt;font-weight: bold;" class="white--text">
+            <p style="font-size:22pt;font-weight: bold;white-space:pre-line" class="white--text">
                 <b class="white--text">
                   <bdi>
                     {{post.post}}
@@ -276,8 +276,8 @@
       </v-avatar>
 
     </div>
-    <div class="post-content mt-3">
-      <p style="font-size:22pt;font-weight: bold;" class="white--text">
+    <div class="post-content mt-">
+      <p style="font-size:22pt;font-weight:bold;white-space:pre-line" class="white--text">
   <bdi>
     {{post.post}}
   </bdi>
@@ -762,7 +762,7 @@ export default {
                 self.$store.dispatch('loadMoreProfilePosts',{
                 'userId':self.$store.state.profile.currentProfile.id});
                 self.$store.commit('hideBottomNav');
-                window.scrollTo(0,document.documentElement.offsetHeight - 751);
+                window.scrollTo(0,document.documentElement.offsetHeight - 700);
 
                 }
                 else{
@@ -893,6 +893,7 @@ export default {
     this.$store.commit('logoutAuth');
     this.$store.commit('logoutTimeline');
     this.$router.push('/');
+    window.location.href = window.location.origin;
   },
   },
   filters:{

@@ -51,6 +51,9 @@ export default{
           console.log(errors.response);
         })
       }
+      if(context.state.offset > context.state.postsNum){
+        context.commit('resetOffset');
+      }
     }
 
 }

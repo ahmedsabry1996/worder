@@ -237,6 +237,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -872,56 +875,72 @@ var render = function() {
                       }
                     },
                     [
-                      _c("v-card", [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-xs-center",
-                            attrs: { "primary-title": "" }
-                          },
-                          [
-                            _c("h3", [
-                              _vm._v(
-                                "              " +
-                                  _vm._s(_vm.$t("terms.conditions")) +
-                                  "\n                "
-                              )
-                            ])
-                          ]
-                        ),
+                      _c("v-card", { attrs: { dark: "" } }, [
+                        _c("div", { staticClass: "text-xs-center pa-4" }, [
+                          _c("h3", [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(_vm.$t("welcome")) +
+                                "\n              "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("h3", [
+                            _vm._v(
+                              "\n                 " +
+                                _vm._s(_vm.$t("terms.conditions")) +
+                                "\n                "
+                            )
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "text-xs-center" },
+                          { staticClass: "text-xs-center pa-3" },
                           [
-                            _c("h2", { staticClass: "error--text" }, [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(_vm.$t("terms.delete")) +
-                                  "\n              "
-                              )
-                            ]),
+                            _c(
+                              "h2",
+                              { staticClass: "error--text text--lighten-2" },
+                              [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.$t("terms.delete")) +
+                                    "\n              "
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("h2", [
+                            _c("h2", { staticClass: "yellow--text" }, [
                               _vm._v(
                                 "\n                " +
                                   _vm._s(_vm.$t("terms.withoutWarning")) +
-                                  "\n\n              "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("h2", { staticClass: "success--text" }, [
-                              _vm._v(
-                                "\n                " +
-                                  _vm._s(_vm.$t("terms.advice")) +
                                   "\n              "
                               )
                             ]),
+                            _vm._v(" "),
+                            _c("v-divider"),
+                            _vm._v(" "),
+                            _c(
+                              "h2",
+                              { staticClass: "green--text text--lighten-3" },
+                              [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.$t("terms.advice")) +
+                                    "\n              "
+                                )
+                              ]
+                            ),
                             _vm._v(" "),
                             _c(
                               "v-btn",
                               {
-                                attrs: { color: "success" },
+                                attrs: {
+                                  round: "",
+                                  medium: "",
+                                  dark: "",
+                                  color: "success"
+                                },
                                 on: {
                                   click: function($event) {
                                     _vm.terms = false

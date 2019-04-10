@@ -145,10 +145,9 @@
           @click="selectedComponent = 'signup'">
           <b>{{$t('signup')}}</b>
         </v-btn>
-        <v-menu offset-y>
+        <v-menu offset-y lazy dark>
               <template v-slot:activator="{ on }">
                 <v-btn
-                  color="#112f41"
                   dark
                   v-on="on" >
                   <b>
@@ -163,7 +162,7 @@
                   :key="index"
                   @click="changeLanguage(item.code)"
                >
-                  <v-list-tile-title>{{ item.language }}</v-list-tile-title>
+                  <v-list-tile-title >{{ item.language }}</v-list-tile-title>
                 </v-list-tile>
               </v-list>
    </v-menu>

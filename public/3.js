@@ -530,13 +530,20 @@ var render = function() {
                     },
                     [
                       _c("b", [
-                        _c("p", { attrs: { color: "white--text " } }, [
-                          _vm._v(
-                            "\n                               " +
-                              _vm._s(_vm.post.post) +
-                              "\n                       "
-                          )
-                        ])
+                        _c(
+                          "p",
+                          {
+                            staticStyle: { "white-space": "pre-line" },
+                            attrs: { color: "white--text" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                     " +
+                                _vm._s(_vm.post.post) +
+                                "\n                       "
+                            )
+                          ]
+                        )
                       ])
                     ]
                   )

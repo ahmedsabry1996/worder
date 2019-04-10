@@ -38,8 +38,8 @@
           <router-link :to="{ name: 'post', params: {postId:post.id} }" tag="p" class="white--text display-1">
               <b>
 
-                <p color="white--text ">
-                                {{ post.post  }}
+                <p color="white--text" style="white-space:pre-line">
+                      {{ post.post  }}
                         </p>
               </b>
             </router-link>

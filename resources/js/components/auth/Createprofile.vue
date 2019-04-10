@@ -136,25 +136,28 @@ no-resize
           max-width="500px"
           transition="dialog-transition"
         >
-          <v-card>
-            <div primary-title class="text-xs-center">
-              <h3>              {{$t('terms.conditions')}}
+          <v-card dark>
+            <div class="text-xs-center pa-4">
+              <h3>
+                {{$t('welcome')}}
+              </h3>
+                <h3>
+                 {{$t('terms.conditions')}}
                 </h3>
             </v-card-title>
             </div>
-
-            <div class="text-xs-center">
-              <h2 class="error--text">
+            <div class="text-xs-center pa-3">
+              <h2 class="error--text text--lighten-2">
                 {{$t('terms.delete')}}
               </h2>
-              <h2>
+              <h2 class="yellow--text">
                 {{$t('terms.withoutWarning')}}
-
               </h2>
-              <h2 class="success--text">
+              <v-divider></v-divider>
+              <h2 class="green--text text--lighten-3">
                 {{$t('terms.advice')}}
               </h2>
-              <v-btn @click="terms = false" color="success">{{$t('done')}}</v-btn>
+              <v-btn @click="terms = false" round medium dark color="success">{{$t('done')}}</v-btn>
             </div>
 
           </v-card-text>

@@ -8,7 +8,6 @@
 
           <div class="mt-2 text-xs-center" v-for="(post,index) in posts" :key="post.id">
           <!-- publisher avatar -->
-          <h4 class="white--text">no{{post.id}}</h4>
           <v-avatar
             size="55"
             class="#005f5b">
@@ -41,7 +40,7 @@
           <div class="post-content"  style="cursor:pointer">
 
             <router-link tag="p" :to="{ name: 'post', params: {postId:post.id} }"  class="white--text">
-                  <p style="font-size:22pt;font-weight: bold;" class="white--text">
+                  <p style="font-size:22pt;font-weight:bold;white-space:pre-line" class="white--text">
                       <bdi>
                         {{ post.post | subsetPost }}
 
