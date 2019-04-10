@@ -17,6 +17,16 @@ export default{
   instantNotfication(state,payload){
 
     state.notifications.unshift(payload);
+  },
+
+  logoutNotifications(state){
+    state.notifications=[];
+
+    state.unreadNotifications=false;
+
+    state.broadcastNotifications=false;
+
   }
+
 
 }

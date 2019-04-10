@@ -853,10 +853,16 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       }
     },
     logout: function logout() {
-      localStorage.clear();
-      setTimeout(function () {
-        window.location.href = "http://127.0.0.1:8000";
-      }, 1500);
+      this.$store.commit('logoutNotifications');
+      this.$store.commit('logoutSuggest');
+      this.$store.commit('logoutTrend');
+      this.$store.commit('logoutPosts');
+      this.$store.commit('logoutProfile');
+      this.$store.commit('logoutFollowing');
+      this.$store.commit('logoutTopics');
+      this.$store.commit('logoutAuth');
+      this.$store.commit('logoutTimeline');
+      this.$router.push('/');
     }
   },
   filters: {

@@ -45,10 +45,23 @@ export default{
       addToMyFollowingProfiles(state,payload){
           payload.map((val)=>{
             state.myFollowingProfiles.push(val);
-
           })
           state.loadedFollowing = state.loadedFollowing.length;
-
       },
+      logoutFollowing(state){
+        state.myFollowingIds=[];
 
+        state.myFollowersProfiles=[];
+        state.myFollowingProfiles=[];
+
+        state.myFollowersNum=0;
+        state.myFollowingNum=0;
+
+        state.followingOffset=50;
+        state.followersOffset=50;
+
+        state.loadedFollowers=0;
+        state.loadedFollowing=0;
+
+      }
 }

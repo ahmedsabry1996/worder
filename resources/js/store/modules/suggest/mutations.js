@@ -20,7 +20,11 @@ export default{
 console.log(newSuggestion);
 
 state.suggestedPeople = newSuggestion;
+},
 
-
+  logoutSuggest(state){
+    state.allSuggesstion=[];
+    state.suggestedPeople=[];
 }
+
 }

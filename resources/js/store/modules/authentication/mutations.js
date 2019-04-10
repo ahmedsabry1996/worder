@@ -70,39 +70,21 @@ export default{
             state.hasProfile = 1;
           },
 
-              logout(state){
-              state.currentUser = null
-              state.currentUserProfile = null;
-              state.currentUserTopics = null;
-              state.trend = null;
-              state.userToken = null;
-              state.hasProfile = null;
-              state.isVerified = null;
-              state.userId = null;
-              state.verificationCode = null;
-              state.email = null;
-              state.password = null;
-              state.isLoggedIn = false;
-              state.loginErrors = null;
-              state.posts = [];
-              state.myPosts = [];
-              state.publishingPostErrors = [];
-              state.timeline = [];
-              state.likedPosts = [];
-              state.disLikedPosts = [];
-              state.followers=[];
-              state.following=[];
-              state.myFollowers=[];
-              state.myFollowing=[];
-              state.suggestedPeople=[];
-              state.showProfile=[];
-              state.profilePosts=[];
-              state.profileFollowers=[0,0];
-              state.isFollow=null;
-              state.allSuggesstion = [];
-              state.suggestPeople = [];
-              state.readyToCreateProfile = false;
-
+              logoutAuth(state){
+                state.isLoggedIn=false
+                state.signupErrors=null
+                state.currentUser=null
+                state.userId =null
+                state.currentUserProfile= null
+                state.currentUserTopics = null
+                state.userToken=null
+                state.isVerified=false
+                state.hasProfile=false
+                state.readyToCreateProfile=false
+                state.verificationCode=null
+                state.name=null
+                state.email=null
+                state.password=null
             },
 
 }

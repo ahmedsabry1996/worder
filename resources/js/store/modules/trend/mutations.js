@@ -33,6 +33,14 @@ export default{
         })
 
         Vue.set(state.trendPosts,trendIndex,payload);
+  },
+  logoutTrend(state){
+    state.topTen=null;
+    state.trendOffset=27;
+    state.trendPostsNum=0;
+    state.trendLoadedPosts=0;
+    state.trendPosts=[];
+
   }
 
 }

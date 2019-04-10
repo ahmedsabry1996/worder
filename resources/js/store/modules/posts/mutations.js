@@ -100,4 +100,22 @@ export  default{
                 }
 
       },
+
+      logoutPosts(state){
+        state.post={user:{"profile":"a"}};
+        state.likesNum=0;
+        state.dislikesNum=0;
+
+        state.postLikers=[];
+        state.loadedLikers=0;
+
+        state.postDislikers=[];
+        state.loadedDislikers=0;
+
+        state.likersOffset=27;
+        state.dislikersOffset=27;
+
+        state.likedPosts=[];
+        state.disLikedPosts=[];
+      }
 }

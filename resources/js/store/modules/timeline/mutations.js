@@ -52,6 +52,15 @@ export default{
       },
       NoMore(state){
         state.NoMore = true;
-      }
+      },
+      logoutTimeline(state){
+
+                    state.posts=[];
+                    state.postsNum=0;
+                    state.isLoadingMoreTimeline=false;
+                    state.loadedTimelinePosts=0;
+                    state.offset=27;
+                    state.NoMore=false;
+      },
 
 }

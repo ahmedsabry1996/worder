@@ -33,6 +33,12 @@ export default{
           })
 
           Vue.set(posts,postIndex,payload)
-
+        },
+        logoutTopics(state){
+          state.topicPosts=[];
+          state.allTopicPosts=0;
+          state.Topicsoffset=27;
+          state.loadedTopicPosts=0;
+          state.noTopicPosts=false;
         }
 }

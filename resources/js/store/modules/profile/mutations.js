@@ -53,8 +53,19 @@ export default{
           return val.id == payload.id
     })
 
-      Vue.set(state.profilePosts,postIndex,payload)
-
+      Vue.set(state.profilePosts,postIndex,payload);
+  },
+  logoutProfile(state){
+    state.currentProfile={profile:0};
+    state.isFollow=null;
+    state.profilePostsNum=0;
+    state.profileLoadedPosts=0;
+    state.profilesOffset=27;
+    state.followersNum=0;
+    state.followingNum=0;
+    state.profilePosts=[];
+    state.likers=[];
+    state.dislikers=[];
 
   }
 }
