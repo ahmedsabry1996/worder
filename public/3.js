@@ -268,6 +268,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.goToAnotherPost();
     }
   },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    this.$store.commit('showBottomNav');
+    next();
+  },
   created: function created() {
     var _this = this;
 

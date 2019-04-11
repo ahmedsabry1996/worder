@@ -65,10 +65,8 @@ export default {
 
   },
   beforeRouteLeave (to, from, next) {
-
       this.$store.commit('showBottomNav');
       next()
-
   },
   computed:{
     currentUserProfile(){

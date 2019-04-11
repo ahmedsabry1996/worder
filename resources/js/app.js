@@ -75,7 +75,6 @@ else{
 }
 router.beforeEach((to,from,next)=>{
   window.scrollTo(0,0);
-  store.commit('showBottomNav');
   if (to.matched.some(record => record.meta.requireAuth)) {
       if (!!store.state.authentication.userToken == true) {
           next();

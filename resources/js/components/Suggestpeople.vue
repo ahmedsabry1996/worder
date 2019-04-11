@@ -1,12 +1,12 @@
 <template>
 
-    <div class="">
+    <div>
       <div @scroll="loadMore" class="mmd hidden-sm-and-up">
         <v-list two-line dark>
           <template v-for="(person,index) in allSuggesstion">
             <v-list-tile
-            avatar
-            >
+            avatar>
+            <v-list-tile-title>{{$('people')}}</v-list-tile-title>
             <v-list-tile-avatar>
               <img
               @click="ShowProfile(person.display_name)"
@@ -111,6 +111,8 @@ export default {
     },
     created(){
 
+      this.$store.commit('showBottomNav');
+
             if (this.isLoggedIn) {
                 if (this.allSuggesstion.length < 100) {
                   this.$store.dispatch('suggestPeople');
@@ -120,6 +122,7 @@ export default {
     mounted(){
 
       console.log('suggest loaded');
+      this.$store.commit('showBottomNav');
       if (this.isLoggedIn) {
           this.refreshSuggestedAutomatically();
       }
@@ -143,20 +146,24 @@ export default {
       this.$router.push(`/${displayName}`);
     },
     loadMore(e){
+      this.$store.commit('hideBottomNav');
+
       let elHeight = e.target.clientHeight;
 
       let elscrollHeight = e.target.scrollHeight;
 
       let elScrollTop = e.target.scrollTop;
 
-      if ((elHeight+elScrollTop) - elscrollHeight == 0) {
+      if ((elHeight + elScrollTop) - elscrollHeight == 0) {
 
-          this.offset +=10;
+        this.offset +=10;
         this.$store.dispatch('loadMoreNotifications',{offset:this.offset});
         this.$store.commit('hideBottomNav');
 
         }
+
         else{
+
           this.$store.commit('showBottomNav');
 
         }
@@ -185,5 +192,5 @@ export default {
   left:0;
   right:0
   }
-  
+
 </style>

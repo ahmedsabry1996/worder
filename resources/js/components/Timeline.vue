@@ -108,7 +108,6 @@ export default {
           }
           else{
             self.$store.commit('showBottomNav');
-
           }
 
         }

@@ -4,6 +4,7 @@ export default {
   signup:"signup",
   tongue:"tongue",
   words:"words",
+  noResults:"no results",
   gender:['male','female'],
   continuesignup:"continue signup",
   signupfail:"sign up error",

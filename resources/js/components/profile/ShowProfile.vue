@@ -59,7 +59,7 @@
 
           <!-- My fans -->
         <div v-else class="text-xs-center white--text">
-          <h3 class="">
+          <h3>
           <bdi>
             {{$t('followers')}} :
               <b>{{myFollowersNum}}</b>
@@ -132,10 +132,10 @@
 
   <div class="container" v-if="showProfile.profile">
       <div class="text-xs-center">
-        <div style="margin: 0 auto !important;left: -30px;position: relative;">
+        <div style="margin: 0 auto !important;position: relative;">
           <!-- show user posts -->
           <template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-      <div class="post text-xs-center" v-for="(post,index) in posts">
+      <div class="post text-xs-center"  v-for="(post,index) in posts">
           <div class="avatar">
             <v-avatar
               size="55"
@@ -161,14 +161,19 @@
               </p>
           </div>
 
-          <div  v-if="post.image">
+          <div v-if="post.image" class="text-xs-center hidden-xs-only">
             <v-img
-            style="margin:0 auto"
-            width="320"
+            width="420"
+            style="margin:0 auto "
             :src="`/storage/posts_images/${post.image}`"
             class="grey lighten-2">
         </v-img>
-
+          </div>
+          <div v-if="post.image" class="text-xs-center hidden-sm-and-up ">
+            <v-img
+            :src="`/storage/posts_images/${post.image}`"
+            class="grey lighten-2">
+        </v-img>
           </div>
 
 
@@ -285,12 +290,15 @@
     </div>
 
               <template  v-if="post.image">
+                <div class="">
+
                 <v-img
-                style="margin:0 auto;"
+                auto
                 width="320"
                 :src="`/storage/posts_images/${post.image}`"
                 class="grey lighten-2">
             </v-img>
+          </div>
 
           </template>
 
@@ -598,11 +606,13 @@ export default {
 
     }
   },
+
+  beforeRouteLeave(to,from,next){
+    alert();
+  },
   mounted(){
-
-      this.loadMorePosts();
       console.log(`${this.$route.params.dName} show profile`);
-
+      this.loadMorePosts();
 
   },
   created(){
@@ -688,7 +698,10 @@ export default {
       return this.$store.getters.myFollowingIds;
     }
   },
-
+  beforeRouteLeave (to, from, next) {
+      this.$store.commit('showBottomNav');
+      next();
+  },
   methods:{
 
     getMyFans(){
@@ -743,32 +756,15 @@ export default {
       const self = this;
             window.onscroll = function() {
 
-              if (self.$router.name != null) {
-
-              let pos2 = document.documentElement.scrollTop;
-
-              if (self.pos1 > pos2) {
-                self.$store.commit('showBottomNav');
-              }
-              if (self.pos1 < pos2) {
-                self.$store.commit('hideBottomNav');
-              }
-              self.pos1 = pos2;
-            }
 
               let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight );
 
               if (bottomOfWindow) {
                 self.$store.dispatch('loadMoreProfilePosts',{
                 'userId':self.$store.state.profile.currentProfile.id});
-                self.$store.commit('hideBottomNav');
                 window.scrollTo(0,document.documentElement.offsetHeight - 700);
-
                 }
-                else{
-                  self.$store.commit('showBottomNav');
 
-                }
                 }
 
               },

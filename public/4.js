@@ -17,6 +17,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-js-popover */ "./node_modules/vue-js-popover/dist/index.js");
 /* harmony import */ var vue_js_popover__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_js_popover__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var sweet_modal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweet-modal-vue */ "./node_modules/sweet-modal-vue/src/main.js");
+var _props$components$dat;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -581,7 +593,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_props$components$dat = {
   props: {
     name: 'tooltip',
     width: 180,
@@ -610,9 +622,12 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       this.$store.dispatch('showProfile', to.params.dName);
     }
   },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    alert();
+  },
   mounted: function mounted() {
-    this.loadMorePosts();
     console.log("".concat(this.$route.params.dName, " show profile"));
+    this.loadMorePosts();
   },
   created: function created() {
     var _this = this;
@@ -688,191 +703,175 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     myFollowingIds: function myFollowingIds() {
       return this.$store.getters.myFollowingIds;
     }
-  },
-  methods: {
-    getMyFans: function getMyFans() {
-      var followers = this.$store.state.following.myFollowersProfiles.length;
-      var following = this.$store.state.following.myFollowersProfiles.length;
-
-      if (followers === 0 && following === 0) {
-        this.$store.dispatch('showFans');
-      }
-    },
-    loadMoreFollowers: function loadMoreFollowers(e) {
-      var elHeight = e.target.clientHeight;
-      var elscrollHeight = e.target.scrollHeight;
-      var elScrollTop = e.target.scrollTop;
-
-      if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.followerOffset += 50;
-        this.$store.dispatch('loadMoreFollowers');
-      }
-    },
-    loadMoreFollowing: function loadMoreFollowing(e) {
-      var elHeight = e.target.clientHeight;
-      var elscrollHeight = e.target.scrollHeight;
-      var elScrollTop = e.target.scrollTop;
-
-      if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.$store.dispatch('loadMoreFollowing');
-      }
-    },
-    fans: function fans() {
-      this.$refs.fans.open();
-      this.getMyFans();
-    },
-    openProfile: function openProfile(displayName) {
-      this.$refs.fans.close();
-      this.$refs.likers.close();
-      this.$refs.dislikers.close();
-      this.$router.push("/".concat(displayName));
-    },
-    loadMorePosts: function loadMorePosts() {
-      var self = this;
-
-      window.onscroll = function () {
-        if (self.$router.name != null) {
-          var pos2 = document.documentElement.scrollTop;
-
-          if (self.pos1 > pos2) {
-            self.$store.commit('showBottomNav');
-          }
-
-          if (self.pos1 < pos2) {
-            self.$store.commit('hideBottomNav');
-          }
-
-          self.pos1 = pos2;
-        }
-
-        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight == document.documentElement.offsetHeight;
-
-        if (bottomOfWindow) {
-          self.$store.dispatch('loadMoreProfilePosts', {
-            'userId': self.$store.state.profile.currentProfile.id
-          });
-          self.$store.commit('hideBottomNav');
-          window.scrollTo(0, document.documentElement.offsetHeight - 700);
-        } else {
-          self.$store.commit('showBottomNav');
-        }
-      };
-    },
-    follow: function follow(followed_id, action) {
-      this.$store.dispatch('toggleFollow', {
-        followed_id: followed_id,
-        action: action
-      });
-      this.$store.commit('toggleIsFollow');
-    },
-    ShowProfile: function ShowProfile(displayName) {
-      this.$router.push("/".concat(displayName));
-    },
-    postReact: function postReact(react, postId, postIndex) {
-      this.$store.dispatch('postReact', {
-        react: react,
-        postId: postId,
-        routeName: this.$route.name
-      });
-    },
-    deletePost: function deletePost(postId, postIndex) {
-      var _this2 = this;
-
-      swal(this.$t('confirmdelete'), {
-        buttons: {
-          cancel: this.$t('cancel'),
-          confirmDelete: {
-            text: this.$t('delete'),
-            value: "Delete"
-          }
-        }
-      }).then(function (value) {
-        switch (value) {
-          case "Delete":
-            _this2.$store.dispatch('deletePost', {
-              id: postId,
-              index: postIndex
-            });
-
-            swal(_this2.$t('done'), _this2.$t('deletedsuccessfully'), "success");
-            break;
-
-          default:
-            return;
-        }
-      });
-    },
-    myFollow: function myFollow(followed_id, action) {
-      this.$store.dispatch('toggleFollow', {
-        followed_id: followed_id,
-        action: action
-      });
-    },
-    updateProfile: function updateProfile() {
-      this.$router.push('update-profile');
-    },
-    updateAuthData: function updateAuthData() {
-      this.$router.push('update-auth');
-    },
-    showLikers: function showLikers(id) {
-      this.postId = id;
-      this.$store.dispatch('showLikers', {
-        postId: id
-      });
-      this.$refs.likers.open();
-      console.log(this.postId);
-    },
-    loadMoreLikers: function loadMoreLikers(e) {
-      var elHeight = e.target.clientHeight;
-      var elscrollHeight = e.target.scrollHeight;
-      var elScrollTop = e.target.scrollTop;
-
-      if (elHeight + elScrollTop - elscrollHeight == 0) {
-        console.log(this.postId);
-        this.$store.dispatch('loadMoreLikers', {
-          postId: this.postId
-        });
-      }
-    },
-    showDisLikers: function showDisLikers(id) {
-      this.postId = id;
-      this.$store.dispatch('showDisLikers', {
-        postId: id
-      });
-      this.$refs.dislikers.open();
-      console.log(this.postId);
-    },
-    loadMoreDisLikers: function loadMoreDisLikers(e) {
-      var elHeight = e.target.clientHeight;
-      var elscrollHeight = e.target.scrollHeight;
-      var elScrollTop = e.target.scrollTop;
-
-      if (elHeight + elScrollTop - elscrollHeight == 0) {
-        this.$store.dispatch('loadMoreDisLikers', {
-          postId: this.postId
-        });
-      }
-    },
-    logout: function logout() {
-      this.$store.commit('logoutNotifications');
-      this.$store.commit('logoutSuggest');
-      this.$store.commit('logoutTrend');
-      this.$store.commit('logoutPosts');
-      this.$store.commit('logoutProfile');
-      this.$store.commit('logoutFollowing');
-      this.$store.commit('logoutTopics');
-      this.$store.commit('logoutAuth');
-      this.$store.commit('logoutTimeline');
-      this.$router.push('/');
-      window.location.href = window.location.origin;
-    }
-  },
-  filters: {
-    getDateForHumans: function getDateForHumans(value) {
-      return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_2___default.a.i18n.locale()).subtract(-2, 'hours').fromNow();
-    }
   }
-});
+}, _defineProperty(_props$components$dat, "beforeRouteLeave", function beforeRouteLeave(to, from, next) {
+  this.$store.commit('showBottomNav');
+  next();
+}), _defineProperty(_props$components$dat, "methods", {
+  getMyFans: function getMyFans() {
+    var followers = this.$store.state.following.myFollowersProfiles.length;
+    var following = this.$store.state.following.myFollowersProfiles.length;
+
+    if (followers === 0 && following === 0) {
+      this.$store.dispatch('showFans');
+    }
+  },
+  loadMoreFollowers: function loadMoreFollowers(e) {
+    var elHeight = e.target.clientHeight;
+    var elscrollHeight = e.target.scrollHeight;
+    var elScrollTop = e.target.scrollTop;
+
+    if (elHeight + elScrollTop - elscrollHeight == 0) {
+      this.followerOffset += 50;
+      this.$store.dispatch('loadMoreFollowers');
+    }
+  },
+  loadMoreFollowing: function loadMoreFollowing(e) {
+    var elHeight = e.target.clientHeight;
+    var elscrollHeight = e.target.scrollHeight;
+    var elScrollTop = e.target.scrollTop;
+
+    if (elHeight + elScrollTop - elscrollHeight == 0) {
+      this.$store.dispatch('loadMoreFollowing');
+    }
+  },
+  fans: function fans() {
+    this.$refs.fans.open();
+    this.getMyFans();
+  },
+  openProfile: function openProfile(displayName) {
+    this.$refs.fans.close();
+    this.$refs.likers.close();
+    this.$refs.dislikers.close();
+    this.$router.push("/".concat(displayName));
+  },
+  loadMorePosts: function loadMorePosts() {
+    var self = this;
+
+    window.onscroll = function () {
+      var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight == document.documentElement.offsetHeight;
+
+      if (bottomOfWindow) {
+        self.$store.dispatch('loadMoreProfilePosts', {
+          'userId': self.$store.state.profile.currentProfile.id
+        });
+        window.scrollTo(0, document.documentElement.offsetHeight - 700);
+      }
+    };
+  },
+  follow: function follow(followed_id, action) {
+    this.$store.dispatch('toggleFollow', {
+      followed_id: followed_id,
+      action: action
+    });
+    this.$store.commit('toggleIsFollow');
+  },
+  ShowProfile: function ShowProfile(displayName) {
+    this.$router.push("/".concat(displayName));
+  },
+  postReact: function postReact(react, postId, postIndex) {
+    this.$store.dispatch('postReact', {
+      react: react,
+      postId: postId,
+      routeName: this.$route.name
+    });
+  },
+  deletePost: function deletePost(postId, postIndex) {
+    var _this2 = this;
+
+    swal(this.$t('confirmdelete'), {
+      buttons: {
+        cancel: this.$t('cancel'),
+        confirmDelete: {
+          text: this.$t('delete'),
+          value: "Delete"
+        }
+      }
+    }).then(function (value) {
+      switch (value) {
+        case "Delete":
+          _this2.$store.dispatch('deletePost', {
+            id: postId,
+            index: postIndex
+          });
+
+          swal(_this2.$t('done'), _this2.$t('deletedsuccessfully'), "success");
+          break;
+
+        default:
+          return;
+      }
+    });
+  },
+  myFollow: function myFollow(followed_id, action) {
+    this.$store.dispatch('toggleFollow', {
+      followed_id: followed_id,
+      action: action
+    });
+  },
+  updateProfile: function updateProfile() {
+    this.$router.push('update-profile');
+  },
+  updateAuthData: function updateAuthData() {
+    this.$router.push('update-auth');
+  },
+  showLikers: function showLikers(id) {
+    this.postId = id;
+    this.$store.dispatch('showLikers', {
+      postId: id
+    });
+    this.$refs.likers.open();
+    console.log(this.postId);
+  },
+  loadMoreLikers: function loadMoreLikers(e) {
+    var elHeight = e.target.clientHeight;
+    var elscrollHeight = e.target.scrollHeight;
+    var elScrollTop = e.target.scrollTop;
+
+    if (elHeight + elScrollTop - elscrollHeight == 0) {
+      console.log(this.postId);
+      this.$store.dispatch('loadMoreLikers', {
+        postId: this.postId
+      });
+    }
+  },
+  showDisLikers: function showDisLikers(id) {
+    this.postId = id;
+    this.$store.dispatch('showDisLikers', {
+      postId: id
+    });
+    this.$refs.dislikers.open();
+    console.log(this.postId);
+  },
+  loadMoreDisLikers: function loadMoreDisLikers(e) {
+    var elHeight = e.target.clientHeight;
+    var elscrollHeight = e.target.scrollHeight;
+    var elScrollTop = e.target.scrollTop;
+
+    if (elHeight + elScrollTop - elscrollHeight == 0) {
+      this.$store.dispatch('loadMoreDisLikers', {
+        postId: this.postId
+      });
+    }
+  },
+  logout: function logout() {
+    this.$store.commit('logoutNotifications');
+    this.$store.commit('logoutSuggest');
+    this.$store.commit('logoutTrend');
+    this.$store.commit('logoutPosts');
+    this.$store.commit('logoutProfile');
+    this.$store.commit('logoutFollowing');
+    this.$store.commit('logoutTopics');
+    this.$store.commit('logoutAuth');
+    this.$store.commit('logoutTimeline');
+    this.$router.push('/');
+    window.location.href = window.location.origin;
+  }
+}), _defineProperty(_props$components$dat, "filters", {
+  getDateForHumans: function getDateForHumans(value) {
+    return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_2___default.a.i18n.locale()).subtract(-2, 'hours').fromNow();
+  }
+}), _props$components$dat);
 
 /***/ }),
 
@@ -1076,7 +1075,7 @@ var render = function() {
                               "div",
                               { staticClass: "text-xs-center white--text" },
                               [
-                                _c("h3", {}, [
+                                _c("h3", [
                                   _c("bdi", [
                                     _vm._v(
                                       "\n            " +
@@ -1286,7 +1285,6 @@ var render = function() {
                             {
                               staticStyle: {
                                 margin: "0 auto !important",
-                                left: "-30px",
                                 position: "relative"
                               }
                             },
@@ -1403,6 +1401,10 @@ var render = function() {
                                         post.image
                                           ? _c(
                                               "div",
+                                              {
+                                                staticClass:
+                                                  "text-xs-center hidden-xs-only"
+                                              },
                                               [
                                                 _c("v-img", {
                                                   staticClass: "grey lighten-2",
@@ -1410,7 +1412,28 @@ var render = function() {
                                                     margin: "0 auto"
                                                   },
                                                   attrs: {
-                                                    width: "320",
+                                                    width: "420",
+                                                    src:
+                                                      "/storage/posts_images/" +
+                                                      post.image
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        post.image
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "text-xs-center hidden-sm-and-up "
+                                              },
+                                              [
+                                                _c("v-img", {
+                                                  staticClass: "grey lighten-2",
+                                                  attrs: {
                                                     src:
                                                       "/storage/posts_images/" +
                                                       post.image
@@ -1937,18 +1960,24 @@ var render = function() {
                                         _vm._v(" "),
                                         post.image
                                           ? [
-                                              _c("v-img", {
-                                                staticClass: "grey lighten-2",
-                                                staticStyle: {
-                                                  margin: "0 auto"
-                                                },
-                                                attrs: {
-                                                  width: "320",
-                                                  src:
-                                                    "/storage/posts_images/" +
-                                                    post.image
-                                                }
-                                              })
+                                              _c(
+                                                "div",
+                                                {},
+                                                [
+                                                  _c("v-img", {
+                                                    staticClass:
+                                                      "grey lighten-2",
+                                                    attrs: {
+                                                      auto: "",
+                                                      width: "320",
+                                                      src:
+                                                        "/storage/posts_images/" +
+                                                        post.image
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
                                             ]
                                           : _vm._e(),
                                         _vm._v(" "),

@@ -5,6 +5,7 @@ export default {
   tongue:"اللغة",
   words:"كلمة",
   gender:['ذكر','أنثى'],
+  noResults:"لا يوجد نتائج",
   continuesignup:"اكمال ال",
   signupfail:"خطأ في عملية ال",
   email:"البريد الالكتروني",

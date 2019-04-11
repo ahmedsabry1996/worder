@@ -5,7 +5,8 @@
         <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
     </v-toolbar-title>
     <v-menu offset-y v-if="isLoggedIn">
-      <v-text-field flat
+      <v-text-field
+      solo
       dark
       class="mt-2"
       color="white"
@@ -14,7 +15,12 @@
       v-model="keyword"
       slot="activator">
       </v-text-field>
-      <v-list class="ml-2" v-if="results.length > 0" background-color="#08343e">
+      <v-list class="ml-2"  background-color="#08343e">
+        <template v-if="results.length === 0">
+          <p>
+            {{$t('noResults')}}
+          </p>
+        </template>
         <template v-for="result in results">
 
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
@@ -39,8 +45,9 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-xs-and-down white--text">
     <v-menu offset-y>
-      <v-text-field flat
+      <v-text-field
       dark
+      solo
       class="mt-2"
       color="white"
       :placeholder="$t('search')"
@@ -49,9 +56,11 @@
       slot="activator">
       </v-text-field>
       <v-list class="ml-2" background-color="#08343e">
-        <template v-if="results.length == 0">
-          <p>            no results
-</p>
+        <template v-if="results.length === 0">
+          <p>
+            {{$t('noResults')}}
+
+          </p>
         </template>
         <template v-for="result in results">
 

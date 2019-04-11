@@ -254,6 +254,10 @@ export default {
       this.goToAnotherPost();
     }
   },
+  beforeRouteLeave (to, from, next) {
+      this.$store.commit('showBottomNav');
+      next()
+  },
   created(){
     console.log('show posts loaded');
     const self = this;
