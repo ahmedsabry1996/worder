@@ -4,43 +4,53 @@
   <div v-if="showProfile">
   <v-layout row wrap>
       <v-flex xs12 offset-xs0 md4 offset-md4>
-        <v-card color="#1F2430" max-width="320" min-height="320" style="margin:0 auto;">
+        <v-card dark max-width="320" min-height="320" style="margin:0 auto;">
 
           <!-- profile image -->
+          <template v-if="showProfile.profile.avatar">
           <v-img
-          v-if="showProfile.profile.avatar"
           :src="`/storage/avatars/${showProfile.profile.avatar}`" :alt="showProfile.profile.display_name"
           height="200" >
         </v-img>
+      </template>
+      <template v-else>
+        <div
+          class="display-3 text-xs-center avatar-letter"
+          height="200">
+          <h1 class="white--text">
+            {{showProfile.profile.display_name.charAt(0).toUpperCase()}}
+          </h1>
+        </div>
+      </template>
 
-          <!-- user name -->
+          <!-- username -->
           <div  class="text-xs-center">
-            <h1  class="display-1 text-xs-center text-uppercase white--text blue-grey darken-2">{{showProfile.name}}</h1>
+            <h1  class="text-xs-center text-capitalize white--text blue-grey darken-2">{{showProfile.name}}</h1>
           </div>
 
           <!-- display name -->
           <div class="text-xs-center">
-            <h2 class="headline light-blue--text">{{showProfile.profile.display_name}}</h2>
+            <h2 class="yellow--text">{{showProfile.profile.display_name}}</h2>
           </div>
 
           <!-- country -->
-          <div class="text-xs-center">
-              <h3 class="yellow--text subheader">
+          <div class="text-xs-center mt-2">
+              <h3 class="white--text">
                 <bdi>
-                {{$t('from')}} : <b class=" ">{{countries [showProfile.profile.country_id-1]}}</b>
+                {{$t('from')}} : <b>{{countries [showProfile.profile.country_id-1]}}</b>
               </bdi>
               </h3>
           </div>
 
           <!-- description -->
-          <div class="text-xs-center">
-              <h4 class="success--text">
+          <div class="text-xs-center mt-3">
+              <h3 class="white--text">
                 <bdi>
                 {{$t('about')}}: {{showProfile.profile.description}}
             </bdi>
-              </h4>
+          </h3>
           </div>
-
+          <v-divider dark></v-divider>
           <!-- Num of fans -->
           <div class="text-xs-center white--text mt-2" v-if="currentUserProfile.user_id != showProfile.profile.user_id">
             <h3 class="">
@@ -74,7 +84,7 @@
         </div>
 
         <!-- is following -->
-        <div class="text-xs-center"
+        <div class="text-xs-center "
          v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
           <template v-if="isFollow">
             <v-btn round small class="error white--text" @click="follow(showProfile.id,'unfollow')">
@@ -90,7 +100,8 @@
 
 
         <!-- my profile buttons -->
-          <div class="text-xs-center" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
+
+          <div class="text-xs-center mt-2" v-if="currentUserProfile.user_id == showProfile.profile.user_id ">
               <v-btn round small class="success white--text" data-toggle="modal" @click="fans" >
                   <b>{{$t('fans')}}</b>
               </v-btn>
@@ -117,7 +128,7 @@
 
 
             <!-- user faviorite topics -->
-          <div class="text-xs-center">
+          <div class="text-xs-center mt-2">
             <template v-for="topic in showProfile.topics">
             <v-btn round small class="primary white--text">
               <b>
@@ -137,6 +148,7 @@
           <template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
       <div class="post text-xs-center"  v-for="(post,index) in posts">
           <div class="avatar">
+            <template v-if="post.user.profile.avatar">
             <v-avatar
               size="55"
               class="#005f5b">
@@ -145,7 +157,16 @@
               :src="`/storage/avatars/${showProfile.profile.avatar}`"
               :alt="showProfile.profile.display_name">
             </v-avatar>
-
+          </template>
+            <template v-else>
+            <v-avatar
+            @click="ShowProfile(post.user.profile.display_name)"
+             color="#112f41">
+     <span class="white--text headline">
+       {{post.user.profile.display_name.charAt(0).toUpperCase()}}
+     </span>
+   </v-avatar>
+ </template>
           </div>
           <div class="post-publisher mt-2">
               <h4 class="white--text">by <b class="yellow--text text-uppercase">{{showProfile.profile.display_name}}</b></h4>
@@ -168,9 +189,11 @@
             :src="`/storage/posts_images/${post.image}`"
             class="grey lighten-2">
         </v-img>
+
           </div>
           <div v-if="post.image" class="text-xs-center hidden-sm-and-up ">
             <v-img
+            style="margin:0 auto "
             :src="`/storage/posts_images/${post.image}`"
             class="grey lighten-2">
         </v-img>
@@ -270,7 +293,9 @@
             <template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
   <div class="text-xs-center post" v-for="(post,index) in posts" >
 
-    <div class="avatar">
+    <div class="avatar mt-3">
+
+ <template v-if="post.user.profile.avatar != null ">
       <v-avatar
         size="55"
         class="#005f5b">
@@ -279,9 +304,18 @@
         :src="`/storage/avatars/${userProfile.avatar}`"
         :alt="showProfile.profile.display_name">
       </v-avatar>
+    </template>
+    <template v-else>
+      <v-avatar @click="ShowProfile(post.user.profile.display_name)"
+ color="#282e33">
+    <span class="white--text headline">
+    {{post.user.name.charAt(0).toUpperCase()}}
+    </span>
+    </v-avatar>
+    </template>
 
     </div>
-    <div class="post-content mt-">
+    <div class="post-content mt-0">
       <p style="font-size:22pt;font-weight:bold;white-space:pre-line" class="white--text">
   <bdi>
     {{post.post}}
@@ -295,6 +329,7 @@
                 <v-img
                 auto
                 width="320"
+                style="margin:0 auto;"
                 :src="`/storage/posts_images/${post.image}`"
                 class="grey lighten-2">
             </v-img>
@@ -362,21 +397,31 @@
   </div>
 
   <!-- likers  -->
-  <sweet-modal z-index="2000" :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers" width="400" overlay-theme="dark">
+  <sweet-modal z-index="2000" :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers" width="400" modal-theme="dark" overlay-theme="dark" >
 
       <div style="overflow-y:scroll;height:300px;" @scroll="loadMoreLikers">
 
-        <v-list two-line>
+        <v-list two-line dark>
           <template v-for="liker in postLikers">
 
               <v-list-tile>
 
             <v-list-tile-avatar>
+              <template v-if="liker.profile.avatar">
               <img
               @click="ShowProfile(liker.profile.display_name)"
               :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.profile.display_name">
-            </v-list-tile-avatar>
+            </template>
+            <template v-else>
+              <v-avatar color="#282e33"               @click="ShowProfile(liker.profile.display_name)"
 
+>
+                  <span class="white--text">
+                    {{liker.profile.display_name.charAt(0).toUpperCase()}}
+                    </span>
+                  </v-avatar>
+            </template>
+            </v-list-tile-avatar>
               <v-list-tile-content
                 @click="ShowProfile(liker.profile.display_name)">
                 <v-list-tile-title>
@@ -391,8 +436,6 @@
                   <v-btn  class="success white--text" round small @click="follow(liker.profile.user_id,'follow')">
                     follow
                   </v-btn>
-
-
                   </template>
                 <template v-else>
                   <v-btn  class="error white--text" round small @click="follow(liker.profile.user_id,'unfollow')">
@@ -410,18 +453,29 @@
   </sweet-modal>
 
 <!-- dislikers -->
-  <sweet-modal z-index="2000" :title="$t('dislikers')" :enable-mobile-fullscreen="false" ref="dislikers" width="400" overlay-theme="dark">
+  <sweet-modal z-index="2000" :title="$t('dislikers')" :enable-mobile-fullscreen="false" ref="dislikers" width="400" modal-theme="dark" overlay-theme="dark">
 
       <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
-        <v-list two-line>
+        <v-list two-line dark>
           <template v-for="disliker in postDislikers">
 
               <v-list-tile>
 
             <v-list-tile-avatar>
+              <template v-if="disliker.profile.avatar">
+
               <img
                 @click="ShowProfile(disliker.profile.display_name)"
               :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.profile.display_name">
+            </template>
+            <template v-else>
+              <v-avatar color="#282e33" @click="ShowProfile(disliker.profile.display_name)"
+>
+                   <span class="white--text headline">
+                     {{disliker.profile.display_name.charAt(0).toUpperCase()}}
+                   </span>
+                 </v-avatar>
+            </template>
             </v-list-tile-avatar>
 
               <v-list-tile-content>
@@ -456,20 +510,31 @@
 
 
   <!-- followers -->
-  <sweet-modal z-index="2000" ref="fans" min-width="320" max-width="400"  width="400" overlay-theme="dark" :enable-mobile-fullscreen="false">
+  <sweet-modal modal-theme="dark" overlay-theme="dark" z-index="2000" ref="fans" min-width="320" max-width="400"  width="400"  :enable-mobile-fullscreen="false">
   	<sweet-modal-tab :title="$t('followers')" id="tab1">
     <template v-if="myFollowers">
       <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
 
-        <v-list two-line>
+        <v-list two-line dark>
           <template v-for="follower in myFollowers">
 
               <v-list-tile>
 
             <v-list-tile-avatar>
+              <template v-if="follower.profile.avatar">
+
               <img
                 @click="ShowProfile(follower.profile.display_name)"
               :src="`/storage/avatars/${follower.profile.avatar}`" :alt="follower.profile.display_name">
+            </template>
+            <template v-else>
+              <v-avatar color="#282e33"
+              @click="ShowProfile(follower.profile.display_name)"
+
+              >
+                  <span class="white--text headline">{{follower.profile.display_name.charAt(0).toUpperCase()}}</span>
+                </v-avatar>
+            </template>
             </v-list-tile-avatar>
 
               <v-list-tile-content   @click="ShowProfile(follower.profile.display_name)">
@@ -510,13 +575,24 @@
 
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
           <template v-for="following in myFollowing">
-                  <v-list two-line>
+                  <v-list two-line dark>
                         <v-list-tile>
 
                       <v-list-tile-avatar>
+
+                        <template v-if="following.profile.avatar">
+
                         <img
                           @click="ShowProfile(following.profile.display_name)"
                         :src="`/storage/avatars/${following.profile.avatar}`" :alt="following.profile.display_name">
+                      </template>
+                      <template v-else>
+                        <v-avatar color="#282e33"                            @click="ShowProfile(following.profile.display_name)"
+>
+                            <span class="white--text headline">{{following.profile.display_name.charAt(0).toUpperCase()}}</span>
+                          </v-avatar>
+                      </template>
+
                       </v-list-tile-avatar>
 
                         <v-list-tile-content   @click="ShowProfile(following.profile.display_name)">
@@ -762,7 +838,7 @@ export default {
               if (bottomOfWindow) {
                 self.$store.dispatch('loadMoreProfilePosts',{
                 'userId':self.$store.state.profile.currentProfile.id});
-                window.scrollTo(0,document.documentElement.offsetHeight - 700);
+                window.scrollTo(0,document.documentElement.offsetHeight - 580);
                 }
 
                 }
@@ -955,5 +1031,11 @@ button:hover, a:hover {
   height: 300px !important;
   overflow-y: scroll !important;
 }
-
+.avatar-letter{
+  height:200px;
+  background-color:#282e33
+}
+.avatar-letter h1{
+  padding: 10px;
+}
 </style>

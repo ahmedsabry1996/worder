@@ -211,6 +211,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -428,25 +457,52 @@ var render = function() {
             "div",
             { staticClass: "text-xs-center" },
             [
-              _c(
-                "v-avatar",
-                { staticClass: "#005f5b", attrs: { size: "55" } },
-                [
-                  _c("img", {
-                    attrs: {
-                      src: "/storage/avatars/" + _vm.post.user.profile.avatar,
-                      alt: _vm.post.user.name
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.ShowProfile(
-                          _vm.post.user.profile.display_name
-                        )
-                      }
-                    }
-                  })
-                ]
-              ),
+              _vm.post.user.profile.avatar
+                ? [
+                    _c(
+                      "v-avatar",
+                      { staticClass: "#005f5b", attrs: { size: "55" } },
+                      [
+                        _c("img", {
+                          attrs: {
+                            src:
+                              "/storage/avatars/" +
+                              _vm.post.user.profile.avatar,
+                            alt: _vm.post.user.name
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.ShowProfile(
+                                _vm.post.user.profile.display_name
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                : [
+                    _c("v-avatar", { attrs: { color: "#282e33" } }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "white--text",
+                          on: {
+                            click: function($event) {
+                              return _vm.ShowProfile(
+                                _vm.liker.profile.display_name
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(_vm.post.user.name.charAt(0).toUpperCase())
+                          )
+                        ]
+                      )
+                    ])
+                  ],
               _vm._v(" "),
               _c(
                 "div",
@@ -763,7 +819,7 @@ var render = function() {
               _vm._v(" "),
               _c("hr")
             ],
-            1
+            2
           )
         : _vm._e(),
       _vm._v(" "),
@@ -775,7 +831,8 @@ var render = function() {
             title: _vm.$t("likers"),
             "enable-mobile-fullscreen": false,
             width: "320",
-            "overlay-theme": "dark"
+            "overlay-theme": "dark",
+            "modal-theme": "dark"
           }
         },
         [
@@ -788,28 +845,69 @@ var render = function() {
             [
               _c(
                 "v-list",
-                { attrs: { "two-line": "" } },
+                { attrs: { "two-line": "", dark: "" } },
                 [
                   _vm._l(_vm.postLikers, function(liker) {
                     return [
                       _c(
                         "v-list-tile",
                         [
-                          _c("v-list-tile-avatar", [
-                            _c("img", {
-                              attrs: {
-                                src: "/storage/avatars/" + liker.profile.avatar,
-                                alt: liker.profile.display_name
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.ShowProfile(
-                                    liker.profile.display_name
-                                  )
-                                }
-                              }
-                            })
-                          ]),
+                          _c(
+                            "v-list-tile-avatar",
+                            [
+                              liker.profile.avatar
+                                ? [
+                                    _c("img", {
+                                      attrs: {
+                                        src:
+                                          "/storage/avatars/" +
+                                          liker.profile.avatar,
+                                        alt: liker.profile.display_name
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.ShowProfile(
+                                            liker.profile.display_name
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]
+                                : [
+                                    _c(
+                                      "v-avatar",
+                                      {
+                                        attrs: { color: "#282e33" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.ShowProfile(
+                                              liker.profile.display_name
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "white--text" },
+                                          [
+                                            _vm._v(
+                                              "\n      " +
+                                                _vm._s(
+                                                  liker.profile.display_name
+                                                    .charAt(0)
+                                                    .toUpperCase()
+                                                ) +
+                                                "\n    "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-list-tile-content",
@@ -865,7 +963,8 @@ var render = function() {
             "enable-mobile-fullscreen": false,
             title: _vm.$t("dislikers"),
             width: "320",
-            "overlay-theme": "dark"
+            "overlay-theme": "dark",
+            "modal-theme": "dark"
           }
         },
         [
@@ -878,29 +977,69 @@ var render = function() {
             [
               _c(
                 "v-list",
-                { attrs: { "two-line": "" } },
+                { attrs: { "two-line": "", dark: "" } },
                 [
                   _vm._l(_vm.postDislikers, function(disliker) {
                     return [
                       _c(
                         "v-list-tile",
                         [
-                          _c("v-list-tile-avatar", [
-                            _c("img", {
-                              attrs: {
-                                src:
-                                  "/storage/avatars/" + disliker.profile.avatar,
-                                alt: disliker.profile.display_name
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.ShowProfile(
-                                    disliker.profile.display_name
-                                  )
-                                }
-                              }
-                            })
-                          ]),
+                          _c(
+                            "v-list-tile-avatar",
+                            [
+                              disliker.profile.avatar
+                                ? [
+                                    _c("img", {
+                                      attrs: {
+                                        src:
+                                          "/storage/avatars/" +
+                                          disliker.profile.avatar,
+                                        alt: disliker.profile.display_name
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.ShowProfile(
+                                            disliker.profile.display_name
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]
+                                : [
+                                    _c(
+                                      "v-avatar",
+                                      {
+                                        attrs: { color: "#282e33" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.ShowProfile(
+                                              disliker.profile.display_name
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "white--text" },
+                                          [
+                                            _vm._v(
+                                              "\n                 " +
+                                                _vm._s(
+                                                  disliker.profile.display_name
+                                                    .charAt(0)
+                                                    .toUpperCase()
+                                                ) +
+                                                "\n                 "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                            ],
+                            2
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-list-tile-content",

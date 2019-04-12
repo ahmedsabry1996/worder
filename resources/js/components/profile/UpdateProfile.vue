@@ -155,13 +155,9 @@ width="290px"
 
   <v-flex md4 hidden-xs-only offset-md2 >
     <v-card dark class="mt-5" max-width="320" min-height="600" >
-      <v-img
-        v-if="avatar==null"
-      :src="`/storage/avatars/avatar_default.jpg`"
-        height="200"
-    ></v-img>
-    <template  v-if="avatar != null">
 
+
+    <template v-if="avatar != 'null' ">
       <v-img
       :src="avatar"
       height="225"
@@ -177,31 +173,39 @@ width="290px"
   </v-tooltip>
   </div>
   </template>
+  <template v-else>
+    <div
+      class="display-3 text-xs-center avatar-letter"
+      height="200">
+      <h1>
+        {{name.charAt(0).toUpperCase()}}
+      </h1>
+    </div>
+  </template>
 
-
-    <div class="text-sm-center">
-      <h1>{{name}}</h1>
-      <h2 class="yellow--text"><i>{{displayName}}</i></h2>
-      <h3>{{gender[selectedGender-1]}}</h3>
+    <div class="text-sm-center ">
+      <h1 class="white--text blue-grey darken-2 capitalize-text">{{name}}</h1>
+      <h2 class="yellow--text mt-2">{{displayName}}</h2>
         <bdi>
-          <h4>
+          <h3>
           <b>{{$t('from')}} : </b>
-        {{selectedCountry}}</h4>
+        {{selectedCountry}}</h3>
 </bdi>
     </div>
 
-    <div class="text-sm-center" v-if="selectedTopics.length > 0">
-      <h4>{{$t('favtopics')}}</h4>
+    <div class="text-sm-center mt-3" v-if="selectedTopics.length > 0">
+      <h3 class="mt-2">{{$t('favtopics')}}</h3>
       <template v-for="topic in selectedTopics">
       <v-btn  small round color="success">
-        {{topics[topic-1].topic}}
+        <b>        {{topics[topic-1].topic}}
+</b>
       </v-btn>
     </template>
 
    </div>
-   <div class="text-sm-center" style="  overflow:hidden;text-overflow: ellipsis;">
+   <div class="text-sm-center mt-3" style="  overflow:hidden;text-overflow: ellipsis;">
      <bdi>
-       <p style="white-space: pre-line;"><b>{{$t('about')}} : </b> {{description}}</p>
+       <h3 style="white-space: pre-line;"><b>{{$t('about')}} : </b> {{description}}</h3>
  </bdi>
 
    </div>
@@ -224,7 +228,7 @@ export default {
     modal:false,
     name:'',
     displayName:'',
-    avatar:`storage/avatars/${this.$store.state.authentication.currentUserProfile.avatar}`,
+    avatar:`${this.$store.state.authentication.currentUserProfile.avatar}`,
     avatarState : 'same',
     gender:[this.$t('male'),this.$t('female')],
     topics:this.$t('topics'),
@@ -289,7 +293,7 @@ export default {
 
   methods:{
     removeSelectedAvatar(){
-      this.avatar =null;
+      this.avatar ='null';
       this.avatarState = null;
     },
 
@@ -316,7 +320,7 @@ export default {
     },
 
     removeAvatar(){
-        this.avatar =null;
+        this.avatar ='null';
         this.avatarState = null;
         console.log(this.avatar);
     },
@@ -336,7 +340,7 @@ export default {
               "text":this.$t('avatarerror'),
               "icon":"error"
             });
-        this.avatar =null;
+        this.avatar ='null';
         }
         else{
           fr.onload = (e) => {
@@ -460,4 +464,12 @@ button:hover, a:hover {
   background-color:#ddd;
 
   }
+  .avatar-letter{
+    height:200px;
+    background-color:#282e33
+  }
+  .avatar-letter h1{
+    padding: 10px;
+  }
+
 </style>

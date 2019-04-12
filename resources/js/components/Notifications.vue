@@ -4,8 +4,10 @@
   <v-list two-line dark>
     <template v-for="(notification,index) in notifications">
           <v-list-tile router :to="`/${notification.data.url}`"  :key="index">
-      <v-list-tile-avatar>
-            <img :src="`/storage/avatars/${notification.data.icon}`">
+
+            <v-avatar color="#282e33">
+     <span class="white--text">W</span>
+   </v-avatar>
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
@@ -19,17 +21,22 @@
   </v-list>
   </div>
 <v-menu class="hidden-xs-only" left offset-x width="200" :full-width="true">
-  <v-btn slot="activator" @click="getNotifications" flat class="white--text mt-3"  icon>
-    <v-icon :color="color">
-      notifications
-    </v-icon>
+  <v-btn slot="activator" @click="getNotifications" flat
+  class="white--text mt-3"  icon>
+  <v-avatar>
+    <v-icon :color="notificationColor">notifications</v-icon>
+  </v-avatar>
+
   </v-btn>
   <div class="mm" @scroll="loadMoreNotifications">
 
   <v-list two-line>
-    <v-list-tile router :to="notification.data.url" v-for="(notification,index) in notifications" :key="index">
+    <v-list-tile router :to="`/${notification.data.url}`" v-for="(notification,index) in notifications" :key="index">
       <v-list-tile-avatar>
-            <img :src="`/storage/avatars/${notification.data.icon}`">
+
+      <v-avatar color="#282e33">
+<span class="white--text">W</span>
+</v-avatar>
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
@@ -75,16 +82,19 @@ export default {
     notifications(){
       return this.$store.getters.notifications;
     },
+    notificationColor(){
+      if (this.$store.getters.unreadNotifications) {
+          return 'red';
+      }
+      else{
+        return 'green';
+      }
+    },
     appLang(){
       return this.$store.getters.appLang;
     },
     unreadNotifications(){
-        if (!this.$store.getters.unreadNotifications) {
-            return  this.color =  'white';
-        }
-        else{
-        return   this.color = 'error';
-      }
+        return this.$store.getters.unreadNotifications;
 
     },
     isLoggedIn(){
@@ -153,6 +163,7 @@ export default {
               this.$store.dispatch('getNotifications');
 
             }
+            this.$store.commit('markAsRead');
 
           }
 

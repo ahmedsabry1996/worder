@@ -15,7 +15,7 @@ class CreateProfilesTable extends Migration
 			      $table->integer('gender_id');
             $table->integer('country_id');
             $table->string('locale')->default('en');
-            $table->string('avatar')->default('storage/avatars/placeholder.jpg');
+            $table->string('avatar')->nullable();
             $table->string('display_name')->unique();
             $table->date('birth_date');
             $table->text('description')->nullable();

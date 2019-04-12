@@ -7,6 +7,9 @@ export default{
   unreadNotifications(state){
     state.unreadNotifications = true;
   },
+  markAsRead(state){
+    state.unreadNotifications = false;
+  },
   PushToNotificatiosn(state,payload){
 
         payload.map((val)=>{

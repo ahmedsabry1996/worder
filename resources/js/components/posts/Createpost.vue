@@ -22,7 +22,7 @@
       </v-flex>
       <v-flex xs12 sm2>
         <v-tooltip left>
-        <div slot="activator" class="mt-1 text-xs-center primary" id="upload">
+        <div slot="activator" class="mt-1 text-xs-center" id="upload">
           <v-icon class="mt-1" color="white">
             add_a_photo
           </v-icon>
@@ -33,8 +33,14 @@
       </v-flex>
       <v-flex xs12 sm3>
         <div class="text-xs-center ">
-          <v-btn color="success" @click="createPost" :disabled="post.length === 0 || wordsNumber > 100 || !topic ">
-            {{$t('publish')}} <v-icon  right color="white">done</v-icon>
+          <v-btn
+          dark
+          :loading="loading"
+          color="indigo"
+          @click="createPost"
+          :disabled="post.length === 0 || wordsNumber > 100 || !topic ">
+            {{$t('publish')}}
+            <v-icon  right color="white">done</v-icon>
           </v-btn>
         </div>
       </v-flex>
@@ -102,6 +108,7 @@
 export default {
   data(){
     return {
+      loading:false,
       bottomNav: 'recent',
       showEmoji:false,
       snackbar:false,
@@ -186,6 +193,7 @@ export default {
 
     },
       createPost(){
+        this.loading = true;
           this.$store.dispatch('createPost',{
             post:this.post,
             topic:this.topic,
@@ -196,8 +204,10 @@ export default {
             this.topic = 11;
             this.image = null;
             this.snackbar=true;
+            this.loading = false;
           })
           .catch(()=>{
+            this.loading = false;
 
             swal({
               title:"Error",
@@ -238,6 +248,7 @@ export default {
 	width: 82px;
 	height: 35px;
   margin:0 auto;
+  background-color:#282e33;
 }
 #file {
 	opacity: 0;

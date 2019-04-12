@@ -4,12 +4,13 @@
     <v-toolbar-title  class="white--text" >
         <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
     </v-toolbar-title>
-    <v-menu offset-y v-if="isLoggedIn">
+    <v-menu offset-y v-if="isLoggedIn" dark>
       <v-text-field
       solo
       dark
-      class="mt-2"
+      class="mt-3"
       color="white"
+      background-color="#282e33"
       :placeholder="$t('search')"
       prepend-inner-icon="search"
       v-model="keyword"
@@ -25,7 +26,15 @@
 
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
             <v-list-tile-avatar>
-              <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+              <template v-if="result.profile.avatar">
+
+                <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+              </template>
+              <template v-else>
+                <v-avatar color="#112f41">
+     <span class="white--text headline">{{result.profile.display_name.charAt(0).toUpperCase()}}</span>
+   </v-avatar>
+              </template>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{result.name}}</v-list-tile-title>
@@ -43,19 +52,20 @@
         <img @click="goHome" src="/logo.png" alt="worder" width="60" class="ml-4 mt-2">
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-xs-and-down white--text">
-    <v-menu offset-y>
+    <v-toolbar-items class="hidden-xs-and-down white--text" dark>
+    <v-menu offset-y >
       <v-text-field
       dark
       solo
-      class="mt-2"
-      color="white"
+      class="mt-3"
+      color="dark"
+      background-color="#282e33"
       :placeholder="$t('search')"
       prepend-inner-icon="search"
       v-model="keyword"
       slot="activator">
       </v-text-field>
-      <v-list class="ml-2" background-color="#08343e">
+      <v-list class="ml-2" dark>
         <template v-if="results.length === 0">
           <p>
             {{$t('noResults')}}
@@ -66,7 +76,16 @@
 
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
             <v-list-tile-avatar>
-              <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+              <template v-if="result.profile.avatar">
+
+                <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
+              </template>
+              <template v-else>
+                <v-avatar color="#112f41">
+     <span class="white--text headline">{{result.profile.display_name.charAt(0).toUpperCase()}}</span>
+   </v-avatar>
+              </template>
+
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{result.name}}</v-list-tile-title>
@@ -201,7 +220,7 @@
       to="/me/notifications"
       color="#112f41"
       flat>
-      <v-icon>notifications</v-icon>
+      <v-icon :color="notificationColor">notifications</v-icon>
     </v-btn>
 
 
@@ -281,7 +300,18 @@
           Signup,
         },
         computed:{
+          notificationColor(){
+            if (this.$store.getters.unreadNotifications) {
+                return 'red';
+            }
+            else{
+              return 'green';
+            }
+          },
+            unreadNotifications(){
+                return this.$store.getters.unreadNotifications;
 
+            },
 
             currenLocale(){
                 return  this.$store.getters.appLang;

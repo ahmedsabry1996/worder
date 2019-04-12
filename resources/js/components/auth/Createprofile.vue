@@ -26,7 +26,10 @@
             <span>{{$t('displayName')}}</span>
 
           </v-tooltip>
+          <bdi>
+
           <p><b class="error--text" v-if="errors.display_name">{{errors.display_name[0]}}</b></p>
+        </bdi>
 
           <!-- GENDER -->
         <v-radio-group v-model="selectedGender" class="white--text">
@@ -98,7 +101,12 @@
      </v-dialog>
 
 
-<p><b class="error--text" v-if="errors.birth_date">{{errors.birth_date[0]}}</b></p>
+<p>
+  <bdi>
+
+  <b class="error--text" v-if="errors.birth_date">{{errors.birth_date[0]}}</b>
+</bdi>
+</p>
 
 <!--DESCRIPTION  -->
      <v-textarea
@@ -109,7 +117,12 @@ no-resize
           ></v-textarea>
 <b class="white--text">{{writtenDescription}}/25 {{$t('words')}}</b>
     <p class="error--text" v-if="!checkDescription"><b>{{$t('descriptionerror')}}</b> </p>
-            <p class="error--text" v-if="errors.description"><b>{{errors.description[0]}}</b> </p>
+            <p class="error--text" v-if="errors.description">
+              <bdi>
+
+                <b>{{errors.description[0]}}</b>
+              </bdi>
+               </p>
           <div class="text-xs-center">
 
         <v-btn
@@ -166,14 +179,16 @@ no-resize
       </v-flex>
       <!-- SIMULATE -->
       <v-flex sm4 hidden-xs-only offset-sm2>
-        <v-card dark max-width="320" height="600" max-height="620">
-          <v-img
+        <v-card dark max-width="320"  min-height="620">
+          <div
             v-if="avatar==null"
-          :src="`/storage/avatars/avatar_default.jpg`"
-            height="200"
-        ></v-img>
+            class="display-3 text-xs-center avatar-letter"
+            height="200">
+            <h1>
+              {{letter.toUpperCase()}}
+            </h1>
+          </div>
         <template  v-if="avatar != null">
-
           <v-img
           :src="avatar"
           height="225"
@@ -192,28 +207,36 @@ no-resize
 
 
         <div class="text-sm-center" v-if="!!currentUser">
-          <h1>{{username}}</h1>
-          <h2 class="yellow--text"><i>{{displayName}}</i></h2>
-          <h3>{{gender[selectedGender-1]}}</h3>
+          <h1 class="text-xs-center text-capitalize white--text blue-grey darken-2" >{{username}}</h1>
+          <div class="text-xs-center mt-3">
+
+          <h2 class="yellow--text ">{{displayName}}</h2>
+        </div>
+        <div class="mt-3">
+
             <bdi>
-              <h4>
-              <b>{{$t('from')}} : </b>
-            {{selectedCountry}}</h4>
+              <h3>
+              {{$t('from')}} :
+            {{selectedCountry}}</h3>
    </bdi>
+ </div>
         </div>
 
-        <div class="text-sm-center" v-if="selectedTopics.length > 0">
-          <h4>{{$t('favtopics')}}</h4>
+        <div class="text-sm-center mt-2" v-if="selectedTopics.length > 0">
+          <h3>{{$t('favtopics')}}</h3>
           <template v-for="topic in selectedTopics">
           <v-btn  small round color="success">
-            {{topics[topic-1].topic}}
+            <b>            {{topics[topic-1].topic}}
+</b>
           </v-btn>
         </template>
 
        </div>
-       <div class="text-sm-center" style="  overflow:hidden;text-overflow: ellipsis;">
+       <div class="text-sm-center mt-3" style="overflow:hidden;text-overflow: ellipsis;">
          <bdi>
-           <p style="white-space: pre-line;"><b>{{$t('about')}} : </b> {{description}}</p>
+           <h3 style="white-space: pre-line;">
+             <b>{{$t('about')}} : </b> <span>{{description}} </span>
+           </h3>
      </bdi>
 
        </div>
@@ -230,12 +253,14 @@ import axios from 'axios';
 export default {
 mounted(){
     console.log('create profile loaded');
+    this.letter = this.username.charAt(0).toUpperCase();
 },
       data(){
                 return {
                   loading:false,
                   terms:true,
                   modal: false,
+                  letter:'',
                   displayName:'',
                   avatar:null,
                   gender:[this.$t('male'),this.$t('female')],
@@ -292,6 +317,7 @@ computed:{
   }
 },
 methods:{
+
 removeSelectedAvatar(){
   this.avatar =null;
 },
@@ -433,4 +459,11 @@ removeSelectedAvatar(){
   background-color:#002d37;
 
   }
+.avatar-letter{
+  height:200px;
+  background-color:#282e33
+}
+.avatar-letter h1{
+  padding: 10px;
+}
   </style>

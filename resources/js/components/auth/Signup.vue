@@ -18,7 +18,8 @@
 
               <template v-if="signupErrors">
               <p class="white--text" v-if="signupErrors.name">
-                <b>{{signupErrors.name[0]}}</b>
+                <bdi>                <b>{{signupErrors.name[0]}}</b>
+</bdi>
               </p>
               </template>
               <v-text-field
@@ -30,7 +31,10 @@
 
                                 <template v-if="signupErrors">
                                 <p class="white--text" v-if="signupErrors.email">
-                                  <b>{{signupErrors.email[0]}}</b>
+                                  <bdi>
+                                    <b>{{signupErrors.email[0]}}</b>
+
+                                  </bdi>
                                 </p>
                                 </template>
                       <v-text-field
@@ -45,8 +49,12 @@
                       ></v-text-field>
                       <template v-if="signupErrors">
                       <p class="white--text" v-if="signupErrors.password">
+                        <bdi>
+
                         <b>  {{signupErrors.password[0]}}
+
                         </b>
+                      </bdi>
                       </p>
                       </template>
               <v-text-field

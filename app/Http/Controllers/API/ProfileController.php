@@ -40,7 +40,7 @@ class ProfileController extends Controller
           $profile_description = null;
 
           if (!$avatar) {
-                $new_avatar_name = "avatar_default.jpg";
+                $new_avatar_name = null;
           }
 
           else{
@@ -206,7 +206,7 @@ class ProfileController extends Controller
             storage::delete("/public/avatars/$current_user_avatar");
 
           }
-              $new_avatar_name = "avatar_default.jpg";
+              $new_avatar_name = null;
         }
         elseif($avatar_state == 'same'){
           $new_avatar_name = $user->profile->avatar;

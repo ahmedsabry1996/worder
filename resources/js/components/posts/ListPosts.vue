@@ -8,6 +8,7 @@
 
           <div class="mt-2 text-xs-center" v-for="(post,index) in posts" :key="post.id">
           <!-- publisher avatar -->
+          <template v-if="post.user.profile.avatar != null">
           <v-avatar
             size="55"
             class="#005f5b">
@@ -16,10 +17,19 @@
             :src="`/storage/avatars/${post.user.profile.avatar}`"
             :alt="post.user.name">
           </v-avatar>
+        </template>
 
+    <template v-else>
+            <v-avatar color="#112f41" @click="ShowProfile(post.user.profile.display_name)"
+>
+     <span class="white--text headline">
+       {{post.user.name.charAt(0).toUpperCase()}}
+     </span>
+          </v-avatar>
+          </template>
 
           <!-- post publisher -->
-          <div class="post-publisher mt-3 italic" @click="ShowProfile(post.user.profile.display_name)">
+          <div class="post-publisher mt-3" @click="ShowProfile(post.user.profile.display_name)">
               <h3 style="cursor:default" class="white--text">
 
                 <span style="position: relative;top: -2px;" v-if="post.user.profile.is_verified == 0">
@@ -69,14 +79,11 @@
             @click="showPost(post.id)"/>
 
           </div>
-        </v-flex>
-
           <!-- React to post -->
 
-
-        <div class="post-react">
           <React :post_id="post.id"/>
-        </div>
+        </v-flex>
+
 
         <!-- number of reactions -->
 

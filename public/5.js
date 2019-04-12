@@ -224,6 +224,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('update profile loaded');
@@ -234,7 +238,7 @@ __webpack_require__.r(__webpack_exports__);
       modal: false,
       name: '',
       displayName: '',
-      avatar: "storage/avatars/".concat(this.$store.state.authentication.currentUserProfile.avatar),
+      avatar: "".concat(this.$store.state.authentication.currentUserProfile.avatar),
       avatarState: 'same',
       gender: [this.$t('male'), this.$t('female')],
       topics: this.$t('topics'),
@@ -290,7 +294,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     removeSelectedAvatar: function removeSelectedAvatar() {
-      this.avatar = null;
+      this.avatar = 'null';
       this.avatarState = null;
     },
     cancel: function cancel() {
@@ -313,7 +317,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.selectedCountry);
     },
     removeAvatar: function removeAvatar() {
-      this.avatar = null;
+      this.avatar = 'null';
       this.avatarState = null;
       console.log(this.avatar);
     },
@@ -331,7 +335,7 @@ __webpack_require__.r(__webpack_exports__);
           "text": this.$t('avatarerror'),
           "icon": "error"
         });
-        this.avatar = null;
+        this.avatar = 'null';
       } else {
         fr.onload = function (e) {
           _this.avatar = e.target.result;
@@ -405,7 +409,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.create[data-v-727a6f42]{\n  border-right: 1px solid #ddd\n}\ntextarea[data-v-727a6f42]{\n  resize: none;\n}\n#file-picker[data-v-727a6f42]{\n    border: 2px solid #f90;\n    width:100px;\n    height: 100px;\n    border-radius: 20px;\n}\n#file-picker > input[data-v-727a6f42]{\n  opacity: 0 !important;\n  width: 0\n}\n.card[data-v-727a6f42] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 320px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-727a6f42] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-727a6f42] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-727a6f42]:hover, a[data-v-727a6f42]:hover {\n  opacity: 0.7;\n}\n#file[data-v-727a6f42]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-727a6f42] {\n  width:200px;\n  margin: 17px auto;\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#ddd;\n}\n", ""]);
+exports.push([module.i, "\n.create[data-v-727a6f42]{\n  border-right: 1px solid #ddd\n}\ntextarea[data-v-727a6f42]{\n  resize: none;\n}\n#file-picker[data-v-727a6f42]{\n    border: 2px solid #f90;\n    width:100px;\n    height: 100px;\n    border-radius: 20px;\n}\n#file-picker > input[data-v-727a6f42]{\n  opacity: 0 !important;\n  width: 0\n}\n.card[data-v-727a6f42] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 320px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-727a6f42] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-727a6f42] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-727a6f42]:hover, a[data-v-727a6f42]:hover {\n  opacity: 0.7;\n}\n#file[data-v-727a6f42]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-727a6f42] {\n  width:200px;\n  margin: 17px auto;\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#ddd;\n}\n.avatar-letter[data-v-727a6f42]{\n    height:200px;\n    background-color:#282e33\n}\n.avatar-letter h1[data-v-727a6f42]{\n    padding: 10px;\n}\n\n", ""]);
 
 // exports
 
@@ -963,16 +967,7 @@ var render = function() {
                       }
                     },
                     [
-                      _vm.avatar == null
-                        ? _c("v-img", {
-                            attrs: {
-                              src: "/storage/avatars/avatar_default.jpg",
-                              height: "200"
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.avatar != null
+                      _vm.avatar != "null"
                         ? [
                             _c("v-img", {
                               attrs: { src: _vm.avatar, height: "225" }
@@ -1014,21 +1009,42 @@ var render = function() {
                               1
                             )
                           ]
-                        : _vm._e(),
+                        : [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "display-3 text-xs-center avatar-letter",
+                                attrs: { height: "200" }
+                              },
+                              [
+                                _c("h1", [
+                                  _vm._v(
+                                    "\n        " +
+                                      _vm._s(_vm.name.charAt(0).toUpperCase()) +
+                                      "\n      "
+                                  )
+                                ])
+                              ]
+                            )
+                          ],
                       _vm._v(" "),
-                      _c("div", { staticClass: "text-sm-center" }, [
-                        _c("h1", [_vm._v(_vm._s(_vm.name))]),
+                      _c("div", { staticClass: "text-sm-center " }, [
+                        _c(
+                          "h1",
+                          {
+                            staticClass:
+                              "white--text blue-grey darken-2 capitalize-text"
+                          },
+                          [_vm._v(_vm._s(_vm.name))]
+                        ),
                         _vm._v(" "),
-                        _c("h2", { staticClass: "yellow--text" }, [
-                          _c("i", [_vm._v(_vm._s(_vm.displayName))])
-                        ]),
-                        _vm._v(" "),
-                        _c("h3", [
-                          _vm._v(_vm._s(_vm.gender[_vm.selectedGender - 1]))
+                        _c("h2", { staticClass: "yellow--text mt-2" }, [
+                          _vm._v(_vm._s(_vm.displayName))
                         ]),
                         _vm._v(" "),
                         _c("bdi", [
-                          _c("h4", [
+                          _c("h3", [
                             _c("b", [_vm._v(_vm._s(_vm.$t("from")) + " : ")]),
                             _vm._v("\n        " + _vm._s(_vm.selectedCountry))
                           ])
@@ -1038,9 +1054,11 @@ var render = function() {
                       _vm.selectedTopics.length > 0
                         ? _c(
                             "div",
-                            { staticClass: "text-sm-center" },
+                            { staticClass: "text-sm-center mt-3" },
                             [
-                              _c("h4", [_vm._v(_vm._s(_vm.$t("favtopics")))]),
+                              _c("h3", { staticClass: "mt-2" }, [
+                                _vm._v(_vm._s(_vm.$t("favtopics")))
+                              ]),
                               _vm._v(" "),
                               _vm._l(_vm.selectedTopics, function(topic) {
                                 return [
@@ -1054,11 +1072,15 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._v(
-                                        "\n        " +
-                                          _vm._s(_vm.topics[topic - 1].topic) +
-                                          "\n      "
-                                      )
+                                      _c("b", [
+                                        _vm._v(
+                                          "        " +
+                                            _vm._s(
+                                              _vm.topics[topic - 1].topic
+                                            ) +
+                                            "\n"
+                                        )
+                                      ])
                                     ]
                                   )
                                 ]
@@ -1071,7 +1093,7 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "text-sm-center",
+                          staticClass: "text-sm-center mt-3",
                           staticStyle: {
                             overflow: "hidden",
                             "text-overflow": "ellipsis"
@@ -1080,7 +1102,7 @@ var render = function() {
                         [
                           _c("bdi", [
                             _c(
-                              "p",
+                              "h3",
                               { staticStyle: { "white-space": "pre-line" } },
                               [
                                 _c("b", [

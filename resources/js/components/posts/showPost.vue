@@ -7,7 +7,7 @@
       </div>
 
       <div class="text-xs-center" v-if="post">
-
+        <template v-if="post.user.profile.avatar ">
         <v-avatar
           size="55"
           class="#005f5b">
@@ -16,6 +16,12 @@
           :src="`/storage/avatars/${post.user.profile.avatar}`"
           :alt="post.user.name">
         </v-avatar>
+      </template>
+      <template v-else>
+        <v-avatar color="#282e33">
+             <span class="white--text" @click="ShowProfile(liker.profile.display_name)">{{post.user.name.charAt(0).toUpperCase()}}</span>
+           </v-avatar>
+      </template>
         <div class="post-publisher mt-3 italic" @click="ShowProfile(post.user.profile.display_name)">
             <h3 style="cursor:default" class="white--text">
 
@@ -126,19 +132,29 @@
         </div>
 
         <!-- likers -->
-        <sweet-modal :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers"  width="320"  overlay-theme="dark">
+        <sweet-modal :title="$t('likers')" :enable-mobile-fullscreen="false" ref="likers"  width="320"  overlay-theme="dark" modal-theme="dark">
 
           <div style="overflow-y:scroll;height:300px" @scroll="loadMoreLikers">
 
-            <v-list two-line>
+            <v-list two-line dark>
               <template v-for="liker in postLikers">
 
                   <v-list-tile>
 
                 <v-list-tile-avatar>
+                  <template v-if="liker.profile.avatar">
+
                   <img
                   @click="ShowProfile(liker.profile.display_name)"
                   :src="`/storage/avatars/${liker.profile.avatar}`" :alt="liker.profile.display_name">
+                </template>
+                <template v-else>
+                  <v-avatar color="#282e33" @click="ShowProfile(liker.profile.display_name)">
+     <span class="white--text" >
+       {{liker.profile.display_name.charAt(0).toUpperCase()}}
+     </span>
+   </v-avatar>
+                </template>
                 </v-list-tile-avatar>
 
                   <v-list-tile-content
@@ -161,19 +177,32 @@
         </sweet-modal>
 
         <!-- dislikers -->
-        <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark">
+        <sweet-modal :enable-mobile-fullscreen="false" :title="$t('dislikers')" ref="dislikers" width="320" overlay-theme="dark" modal-theme="dark">
 
           <div style="overflow-y:scroll;height:300px" @scroll="loadMoreDisLikers">
-            <v-list two-line>
+            <v-list two-line dark>
               <template v-for="disliker in postDislikers">
 
                   <v-list-tile>
 
                 <v-list-tile-avatar>
-                  <img
+                  <template v-if="disliker.profile.avatar ">
+
+                    <img
                     @click="ShowProfile(disliker.profile.display_name)"
-                  :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.profile.display_name">
-                </v-list-tile-avatar>
+                    :src="`/storage/avatars/${disliker.profile.avatar}`" :alt="disliker.profile.display_name">
+                  </template>
+
+
+                  <template v-else>
+                    <v-avatar color="#282e33" @click="ShowProfile(disliker.profile.display_name)">
+                  <span class="white--text">
+                  {{disliker.profile.display_name.charAt(0).toUpperCase()}}
+                  </span>
+                  </v-avatar>
+                  </template>
+
+                  </v-list-tile-avatar>
 
                   <v-list-tile-content>
                     <v-list-tile-title   @click="ShowProfile(disliker.profile.display_name)">

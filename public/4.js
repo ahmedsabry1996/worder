@@ -585,6 +585,82 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -755,7 +831,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
         self.$store.dispatch('loadMoreProfilePosts', {
           'userId': self.$store.state.profile.currentProfile.id
         });
-        window.scrollTo(0, document.documentElement.offsetHeight - 700);
+        window.scrollTo(0, document.documentElement.offsetHeight - 580);
       }
     };
   },
@@ -887,7 +963,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.card[data-v-def4c92a] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 300px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-def4c92a] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-def4c92a] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-def4c92a]:hover, a[data-v-def4c92a]:hover {\n  opacity: 0.7;\n}\n.topic[data-v-def4c92a]{\n  border: 2px solid #ddd;\n  padding: 7px;\n  border-radius: 7px;\n}\n.pc[data-v-def4c92a]{\n  border-right: 2px solid #ddd\n}\n.modal-body[data-v-def4c92a]{\n  height: 250px;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.modal-backdrop[data-v-def4c92a] {\n  position: relative !important;\n  z-index: 0 !important;\n}\n.d[data-v-def4c92a]{\n  font-weight: bold;\n  font-size: 12pt;\n  background-color: #112F3B !important;\n  color:#FAE3D6;\n  width:100px !important;\n}\n.followers[data-v-def4c92a],.following[data-v-def4c92a]{\n  height: 300px !important;\n  overflow-y: scroll !important;\n}\n\n", ""]);
+exports.push([module.i, "\n.card[data-v-def4c92a] {\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  max-width: 300px;\n  margin: auto;\n  text-align: center;\n  font-family: arial;\n}\n.title[data-v-def4c92a] {\n  color: grey;\n  font-size: 18px;\n}\na[data-v-def4c92a] {\n  text-decoration: none;\n  font-size: 22px;\n  color: black;\n}\nbutton[data-v-def4c92a]:hover, a[data-v-def4c92a]:hover {\n  opacity: 0.7;\n}\n.topic[data-v-def4c92a]{\n  border: 2px solid #ddd;\n  padding: 7px;\n  border-radius: 7px;\n}\n.pc[data-v-def4c92a]{\n  border-right: 2px solid #ddd\n}\n.modal-body[data-v-def4c92a]{\n  height: 250px;\n  overflow-x: hidden;\n  overflow-y: scroll;\n}\n.modal-backdrop[data-v-def4c92a] {\n  position: relative !important;\n  z-index: 0 !important;\n}\n.d[data-v-def4c92a]{\n  font-weight: bold;\n  font-size: 12pt;\n  background-color: #112F3B !important;\n  color:#FAE3D6;\n  width:100px !important;\n}\n.followers[data-v-def4c92a],.following[data-v-def4c92a]{\n  height: 300px !important;\n  overflow-y: scroll !important;\n}\n.avatar-letter[data-v-def4c92a]{\n  height:200px;\n  background-color:#282e33\n}\n.avatar-letter h1[data-v-def4c92a]{\n  padding: 10px;\n}\n", ""]);
 
 // exports
 
@@ -964,56 +1040,74 @@ var render = function() {
                       {
                         staticStyle: { margin: "0 auto" },
                         attrs: {
-                          color: "#1F2430",
+                          dark: "",
                           "max-width": "320",
                           "min-height": "320"
                         }
                       },
                       [
                         _vm.showProfile.profile.avatar
-                          ? _c("v-img", {
-                              attrs: {
-                                src:
-                                  "/storage/avatars/" +
-                                  _vm.showProfile.profile.avatar,
-                                alt: _vm.showProfile.profile.display_name,
-                                height: "200"
-                              }
-                            })
-                          : _vm._e(),
+                          ? [
+                              _c("v-img", {
+                                attrs: {
+                                  src:
+                                    "/storage/avatars/" +
+                                    _vm.showProfile.profile.avatar,
+                                  alt: _vm.showProfile.profile.display_name,
+                                  height: "200"
+                                }
+                              })
+                            ]
+                          : [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "display-3 text-xs-center avatar-letter",
+                                  attrs: { height: "200" }
+                                },
+                                [
+                                  _c("h1", { staticClass: "white--text" }, [
+                                    _vm._v(
+                                      "\n            " +
+                                        _vm._s(
+                                          _vm.showProfile.profile.display_name
+                                            .charAt(0)
+                                            .toUpperCase()
+                                        ) +
+                                        "\n          "
+                                    )
+                                  ])
+                                ]
+                              )
+                            ],
                         _vm._v(" "),
                         _c("div", { staticClass: "text-xs-center" }, [
                           _c(
                             "h1",
                             {
                               staticClass:
-                                "display-1 text-xs-center text-uppercase white--text blue-grey darken-2"
+                                "text-xs-center text-capitalize white--text blue-grey darken-2"
                             },
                             [_vm._v(_vm._s(_vm.showProfile.name))]
                           )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "text-xs-center" }, [
-                          _c(
-                            "h2",
-                            { staticClass: "headline light-blue--text" },
-                            [
-                              _vm._v(
-                                _vm._s(_vm.showProfile.profile.display_name)
-                              )
-                            ]
-                          )
+                          _c("h2", { staticClass: "yellow--text" }, [
+                            _vm._v(_vm._s(_vm.showProfile.profile.display_name))
+                          ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "text-xs-center" }, [
-                          _c("h3", { staticClass: "yellow--text subheader" }, [
+                        _c("div", { staticClass: "text-xs-center mt-2" }, [
+                          _c("h3", { staticClass: "white--text" }, [
                             _c("bdi", [
                               _vm._v(
                                 "\n                " +
                                   _vm._s(_vm.$t("from")) +
                                   " : "
                               ),
-                              _c("b", { staticClass: " " }, [
+                              _c("b", [
                                 _vm._v(
                                   _vm._s(
                                     _vm.countries[
@@ -1026,8 +1120,8 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "text-xs-center" }, [
-                          _c("h4", { staticClass: "success--text" }, [
+                        _c("div", { staticClass: "text-xs-center mt-3" }, [
+                          _c("h3", { staticClass: "white--text" }, [
                             _c("bdi", [
                               _vm._v(
                                 "\n                " +
@@ -1039,6 +1133,8 @@ var render = function() {
                             ])
                           ])
                         ]),
+                        _vm._v(" "),
+                        _c("v-divider", { attrs: { dark: "" } }),
                         _vm._v(" "),
                         _vm.currentUserProfile.user_id !=
                         _vm.showProfile.profile.user_id
@@ -1107,7 +1203,7 @@ var render = function() {
                         _vm.showProfile.profile.user_id
                           ? _c(
                               "div",
-                              { staticClass: "text-xs-center" },
+                              { staticClass: "text-xs-center " },
                               [
                                 _vm.isFollow
                                   ? [
@@ -1167,7 +1263,7 @@ var render = function() {
                         _vm.showProfile.profile.user_id
                           ? _c(
                               "div",
-                              { staticClass: "text-xs-center" },
+                              { staticClass: "text-xs-center mt-2" },
                               [
                                 _c(
                                   "v-btn",
@@ -1240,7 +1336,7 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "div",
-                          { staticClass: "text-xs-center" },
+                          { staticClass: "text-xs-center mt-2" },
                           [
                             _vm._l(_vm.showProfile.topics, function(topic) {
                               return [
@@ -1268,7 +1364,7 @@ var render = function() {
                           2
                         )
                       ],
-                      1
+                      2
                     )
                   ],
                   1
@@ -1300,36 +1396,82 @@ var render = function() {
                                           "div",
                                           { staticClass: "avatar" },
                                           [
-                                            _c(
-                                              "v-avatar",
-                                              {
-                                                staticClass: "#005f5b",
-                                                attrs: { size: "55" }
-                                              },
-                                              [
-                                                _c("img", {
-                                                  attrs: {
-                                                    src:
-                                                      "/storage/avatars/" +
-                                                      _vm.showProfile.profile
-                                                        .avatar,
-                                                    alt:
-                                                      _vm.showProfile.profile
-                                                        .display_name
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.ShowProfile(
-                                                        post.user.profile
-                                                          .display_name
+                                            post.user.profile.avatar
+                                              ? [
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      staticClass: "#005f5b",
+                                                      attrs: { size: "55" }
+                                                    },
+                                                    [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/storage/avatars/" +
+                                                            _vm.showProfile
+                                                              .profile.avatar,
+                                                          alt:
+                                                            _vm.showProfile
+                                                              .profile
+                                                              .display_name
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.ShowProfile(
+                                                              post.user.profile
+                                                                .display_name
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ]
+                                                  )
+                                                ]
+                                              : [
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      attrs: {
+                                                        color: "#112f41"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.ShowProfile(
+                                                            post.user.profile
+                                                              .display_name
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "white--text headline"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n       " +
+                                                              _vm._s(
+                                                                post.user.profile.display_name
+                                                                  .charAt(0)
+                                                                  .toUpperCase()
+                                                              ) +
+                                                              "\n     "
+                                                          )
+                                                        ]
                                                       )
-                                                    }
-                                                  }
-                                                })
-                                              ]
-                                            )
+                                                    ]
+                                                  )
+                                                ]
                                           ],
-                                          1
+                                          2
                                         ),
                                         _vm._v(" "),
                                         _c(
@@ -1433,6 +1575,9 @@ var render = function() {
                                               [
                                                 _c("v-img", {
                                                   staticClass: "grey lighten-2",
+                                                  staticStyle: {
+                                                    margin: "0 auto"
+                                                  },
                                                   attrs: {
                                                     src:
                                                       "/storage/posts_images/" +
@@ -1898,42 +2043,89 @@ var render = function() {
                                       [
                                         _c(
                                           "div",
-                                          { staticClass: "avatar" },
+                                          { staticClass: "avatar mt-3" },
                                           [
-                                            _c(
-                                              "v-avatar",
-                                              {
-                                                staticClass: "#005f5b",
-                                                attrs: { size: "55" }
-                                              },
-                                              [
-                                                _c("img", {
-                                                  attrs: {
-                                                    src:
-                                                      "/storage/avatars/" +
-                                                      _vm.userProfile.avatar,
-                                                    alt:
-                                                      _vm.showProfile.profile
-                                                        .display_name
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.ShowProfile(
-                                                        post.user.profile
-                                                          .display_name
+                                            post.user.profile.avatar != null
+                                              ? [
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      staticClass: "#005f5b",
+                                                      attrs: { size: "55" }
+                                                    },
+                                                    [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/storage/avatars/" +
+                                                            _vm.userProfile
+                                                              .avatar,
+                                                          alt:
+                                                            _vm.showProfile
+                                                              .profile
+                                                              .display_name
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.ShowProfile(
+                                                              post.user.profile
+                                                                .display_name
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ]
+                                                  )
+                                                ]
+                                              : [
+                                                  _c(
+                                                    "v-avatar",
+                                                    {
+                                                      attrs: {
+                                                        color: "#282e33"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.ShowProfile(
+                                                            post.user.profile
+                                                              .display_name
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "white--text headline"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n    " +
+                                                              _vm._s(
+                                                                post.user.name
+                                                                  .charAt(0)
+                                                                  .toUpperCase()
+                                                              ) +
+                                                              "\n    "
+                                                          )
+                                                        ]
                                                       )
-                                                    }
-                                                  }
-                                                })
-                                              ]
-                                            )
+                                                    ]
+                                                  )
+                                                ]
                                           ],
-                                          1
+                                          2
                                         ),
                                         _vm._v(" "),
                                         _c(
                                           "div",
-                                          { staticClass: "post-content mt-" },
+                                          { staticClass: "post-content mt-0" },
                                           [
                                             _c(
                                               "p",
@@ -1967,6 +2159,9 @@ var render = function() {
                                                   _c("v-img", {
                                                     staticClass:
                                                       "grey lighten-2",
+                                                    staticStyle: {
+                                                      margin: "0 auto"
+                                                    },
                                                     attrs: {
                                                       auto: "",
                                                       width: "320",
@@ -2289,6 +2484,7 @@ var render = function() {
                               title: _vm.$t("likers"),
                               "enable-mobile-fullscreen": false,
                               width: "400",
+                              "modal-theme": "dark",
                               "overlay-theme": "dark"
                             }
                           },
@@ -2305,31 +2501,83 @@ var render = function() {
                               [
                                 _c(
                                   "v-list",
-                                  { attrs: { "two-line": "" } },
+                                  { attrs: { "two-line": "", dark: "" } },
                                   [
                                     _vm._l(_vm.postLikers, function(liker) {
                                       return [
                                         _c(
                                           "v-list-tile",
                                           [
-                                            _c("v-list-tile-avatar", [
-                                              _c("img", {
-                                                attrs: {
-                                                  src:
-                                                    "/storage/avatars/" +
-                                                    liker.profile.avatar,
-                                                  alt:
-                                                    liker.profile.display_name
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.ShowProfile(
-                                                      liker.profile.display_name
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ]),
+                                            _c(
+                                              "v-list-tile-avatar",
+                                              [
+                                                liker.profile.avatar
+                                                  ? [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/storage/avatars/" +
+                                                            liker.profile
+                                                              .avatar,
+                                                          alt:
+                                                            liker.profile
+                                                              .display_name
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.ShowProfile(
+                                                              liker.profile
+                                                                .display_name
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ]
+                                                  : [
+                                                      _c(
+                                                        "v-avatar",
+                                                        {
+                                                          attrs: {
+                                                            color: "#282e33"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.ShowProfile(
+                                                                liker.profile
+                                                                  .display_name
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "white--text"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                    " +
+                                                                  _vm._s(
+                                                                    liker.profile.display_name
+                                                                      .charAt(0)
+                                                                      .toUpperCase()
+                                                                  ) +
+                                                                  "\n                    "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                              ],
+                                              2
+                                            ),
                                             _vm._v(" "),
                                             _c(
                                               "v-list-tile-content",
@@ -2457,6 +2705,7 @@ var render = function() {
                               title: _vm.$t("dislikers"),
                               "enable-mobile-fullscreen": false,
                               width: "400",
+                              "modal-theme": "dark",
                               "overlay-theme": "dark"
                             }
                           },
@@ -2473,7 +2722,7 @@ var render = function() {
                               [
                                 _c(
                                   "v-list",
-                                  { attrs: { "two-line": "" } },
+                                  { attrs: { "two-line": "", dark: "" } },
                                   [
                                     _vm._l(_vm.postDislikers, function(
                                       disliker
@@ -2482,26 +2731,76 @@ var render = function() {
                                         _c(
                                           "v-list-tile",
                                           [
-                                            _c("v-list-tile-avatar", [
-                                              _c("img", {
-                                                attrs: {
-                                                  src:
-                                                    "/storage/avatars/" +
-                                                    disliker.profile.avatar,
-                                                  alt:
-                                                    disliker.profile
-                                                      .display_name
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.ShowProfile(
-                                                      disliker.profile
-                                                        .display_name
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ]),
+                                            _c(
+                                              "v-list-tile-avatar",
+                                              [
+                                                disliker.profile.avatar
+                                                  ? [
+                                                      _c("img", {
+                                                        attrs: {
+                                                          src:
+                                                            "/storage/avatars/" +
+                                                            disliker.profile
+                                                              .avatar,
+                                                          alt:
+                                                            disliker.profile
+                                                              .display_name
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.ShowProfile(
+                                                              disliker.profile
+                                                                .display_name
+                                                            )
+                                                          }
+                                                        }
+                                                      })
+                                                    ]
+                                                  : [
+                                                      _c(
+                                                        "v-avatar",
+                                                        {
+                                                          attrs: {
+                                                            color: "#282e33"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.ShowProfile(
+                                                                disliker.profile
+                                                                  .display_name
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "span",
+                                                            {
+                                                              staticClass:
+                                                                "white--text headline"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\n                     " +
+                                                                  _vm._s(
+                                                                    disliker.profile.display_name
+                                                                      .charAt(0)
+                                                                      .toUpperCase()
+                                                                  ) +
+                                                                  "\n                   "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                              ],
+                                              2
+                                            ),
                                             _vm._v(" "),
                                             _c(
                                               "v-list-tile-content",
@@ -2629,11 +2928,12 @@ var render = function() {
                           {
                             ref: "fans",
                             attrs: {
+                              "modal-theme": "dark",
+                              "overlay-theme": "dark",
                               "z-index": "2000",
                               "min-width": "320",
                               "max-width": "400",
                               width: "400",
-                              "overlay-theme": "dark",
                               "enable-mobile-fullscreen": false
                             }
                           },
@@ -2659,7 +2959,12 @@ var render = function() {
                                         [
                                           _c(
                                             "v-list",
-                                            { attrs: { "two-line": "" } },
+                                            {
+                                              attrs: {
+                                                "two-line": "",
+                                                dark: ""
+                                              }
+                                            },
                                             [
                                               _vm._l(_vm.myFollowers, function(
                                                 follower
@@ -2668,29 +2973,82 @@ var render = function() {
                                                   _c(
                                                     "v-list-tile",
                                                     [
-                                                      _c("v-list-tile-avatar", [
-                                                        _c("img", {
-                                                          attrs: {
-                                                            src:
-                                                              "/storage/avatars/" +
-                                                              follower.profile
-                                                                .avatar,
-                                                            alt:
-                                                              follower.profile
-                                                                .display_name
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.ShowProfile(
-                                                                follower.profile
-                                                                  .display_name
-                                                              )
-                                                            }
-                                                          }
-                                                        })
-                                                      ]),
+                                                      _c(
+                                                        "v-list-tile-avatar",
+                                                        [
+                                                          follower.profile
+                                                            .avatar
+                                                            ? [
+                                                                _c("img", {
+                                                                  attrs: {
+                                                                    src:
+                                                                      "/storage/avatars/" +
+                                                                      follower
+                                                                        .profile
+                                                                        .avatar,
+                                                                    alt:
+                                                                      follower
+                                                                        .profile
+                                                                        .display_name
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.ShowProfile(
+                                                                        follower
+                                                                          .profile
+                                                                          .display_name
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                })
+                                                              ]
+                                                            : [
+                                                                _c(
+                                                                  "v-avatar",
+                                                                  {
+                                                                    attrs: {
+                                                                      color:
+                                                                        "#282e33"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.ShowProfile(
+                                                                          follower
+                                                                            .profile
+                                                                            .display_name
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "white--text headline"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            follower.profile.display_name
+                                                                              .charAt(
+                                                                                0
+                                                                              )
+                                                                              .toUpperCase()
+                                                                          )
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                        ],
+                                                        2
+                                                      ),
                                                       _vm._v(" "),
                                                       _c(
                                                         "v-list-tile-content",
@@ -2853,35 +3211,92 @@ var render = function() {
                                             return [
                                               _c(
                                                 "v-list",
-                                                { attrs: { "two-line": "" } },
+                                                {
+                                                  attrs: {
+                                                    "two-line": "",
+                                                    dark: ""
+                                                  }
+                                                },
                                                 [
                                                   _c(
                                                     "v-list-tile",
                                                     [
-                                                      _c("v-list-tile-avatar", [
-                                                        _c("img", {
-                                                          attrs: {
-                                                            src:
-                                                              "/storage/avatars/" +
-                                                              following.profile
-                                                                .avatar,
-                                                            alt:
-                                                              following.profile
-                                                                .display_name
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.ShowProfile(
-                                                                following
-                                                                  .profile
-                                                                  .display_name
-                                                              )
-                                                            }
-                                                          }
-                                                        })
-                                                      ]),
+                                                      _c(
+                                                        "v-list-tile-avatar",
+                                                        [
+                                                          following.profile
+                                                            .avatar
+                                                            ? [
+                                                                _c("img", {
+                                                                  attrs: {
+                                                                    src:
+                                                                      "/storage/avatars/" +
+                                                                      following
+                                                                        .profile
+                                                                        .avatar,
+                                                                    alt:
+                                                                      following
+                                                                        .profile
+                                                                        .display_name
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.ShowProfile(
+                                                                        following
+                                                                          .profile
+                                                                          .display_name
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                })
+                                                              ]
+                                                            : [
+                                                                _c(
+                                                                  "v-avatar",
+                                                                  {
+                                                                    attrs: {
+                                                                      color:
+                                                                        "#282e33"
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.ShowProfile(
+                                                                          following
+                                                                            .profile
+                                                                            .display_name
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "span",
+                                                                      {
+                                                                        staticClass:
+                                                                          "white--text headline"
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          _vm._s(
+                                                                            following.profile.display_name
+                                                                              .charAt(
+                                                                                0
+                                                                              )
+                                                                              .toUpperCase()
+                                                                          )
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                        ],
+                                                        2
+                                                      ),
                                                       _vm._v(" "),
                                                       _c(
                                                         "v-list-tile-content",

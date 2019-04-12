@@ -240,16 +240,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('create profile loaded');
+    this.letter = this.username.charAt(0).toUpperCase();
   },
   data: function data() {
     return _defineProperty({
       loading: false,
       terms: true,
       modal: false,
+      letter: '',
       displayName: '',
       avatar: null,
       gender: [this.$t('male'), this.$t('female')],
@@ -411,7 +436,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#file[data-v-72cd7b71]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-72cd7b71] {\n  width:200px;\n  margin: 7px auto;\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#002d37;\n}\n  ", ""]);
+exports.push([module.i, "\n#file[data-v-72cd7b71]{\n\topacity: 0;\n\tposition: absolute;\n\twidth: 100%;\n\theight: 100%;\n\tmargin: 0 auto;\n\ttop: 0;\n\tleft: 0;\n\tbottom: 0;\n\tright: 0;\n}\n#file-container[data-v-72cd7b71] {\n  width:200px;\n  margin: 7px auto;\n\theight: 200px !important;\n\tposition: relative;\n  background-color:#002d37;\n}\n.avatar-letter[data-v-72cd7b71]{\n  height:200px;\n  background-color:#282e33\n}\n.avatar-letter h1[data-v-72cd7b71]{\n  padding: 10px;\n}\n  ", ""]);
 
 // exports
 
@@ -547,12 +572,14 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm.errors.display_name
-                          ? _c("b", { staticClass: "error--text" }, [
-                              _vm._v(_vm._s(_vm.errors.display_name[0]))
-                            ])
-                          : _vm._e()
+                      _c("bdi", [
+                        _c("p", [
+                          _vm.errors.display_name
+                            ? _c("b", { staticClass: "error--text" }, [
+                                _vm._v(_vm._s(_vm.errors.display_name[0]))
+                              ])
+                            : _vm._e()
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -767,11 +794,13 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("p", [
-                        _vm.errors.birth_date
-                          ? _c("b", { staticClass: "error--text" }, [
-                              _vm._v(_vm._s(_vm.errors.birth_date[0]))
-                            ])
-                          : _vm._e()
+                        _c("bdi", [
+                          _vm.errors.birth_date
+                            ? _c("b", { staticClass: "error--text" }, [
+                                _vm._v(_vm._s(_vm.errors.birth_date[0]))
+                              ])
+                            : _vm._e()
+                        ])
                       ]),
                       _vm._v(" "),
                       _c("v-textarea", {
@@ -807,7 +836,11 @@ var render = function() {
                       _vm._v(" "),
                       _vm.errors.description
                         ? _c("p", { staticClass: "error--text" }, [
-                            _c("b", [_vm._v(_vm._s(_vm.errors.description[0]))])
+                            _c("bdi", [
+                              _c("b", [
+                                _vm._v(_vm._s(_vm.errors.description[0]))
+                              ])
+                            ])
                           ])
                         : _vm._e(),
                       _vm._v(" "),
@@ -970,18 +1003,28 @@ var render = function() {
                       attrs: {
                         dark: "",
                         "max-width": "320",
-                        height: "600",
-                        "max-height": "620"
+                        "min-height": "620"
                       }
                     },
                     [
                       _vm.avatar == null
-                        ? _c("v-img", {
-                            attrs: {
-                              src: "/storage/avatars/avatar_default.jpg",
-                              height: "200"
-                            }
-                          })
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "display-3 text-xs-center avatar-letter",
+                              attrs: { height: "200" }
+                            },
+                            [
+                              _c("h1", [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.letter.toUpperCase()) +
+                                    "\n            "
+                                )
+                              ])
+                            ]
+                          )
                         : _vm._e(),
                       _vm._v(" "),
                       _vm.avatar != null
@@ -1032,24 +1075,31 @@ var render = function() {
                       _vm._v(" "),
                       !!_vm.currentUser
                         ? _c("div", { staticClass: "text-sm-center" }, [
-                            _c("h1", [_vm._v(_vm._s(_vm.username))]),
+                            _c(
+                              "h1",
+                              {
+                                staticClass:
+                                  "text-xs-center text-capitalize white--text blue-grey darken-2"
+                              },
+                              [_vm._v(_vm._s(_vm.username))]
+                            ),
                             _vm._v(" "),
-                            _c("h2", { staticClass: "yellow--text" }, [
-                              _c("i", [_vm._v(_vm._s(_vm.displayName))])
+                            _c("div", { staticClass: "text-xs-center mt-3" }, [
+                              _c("h2", { staticClass: "yellow--text " }, [
+                                _vm._v(_vm._s(_vm.displayName))
+                              ])
                             ]),
                             _vm._v(" "),
-                            _c("h3", [
-                              _vm._v(_vm._s(_vm.gender[_vm.selectedGender - 1]))
-                            ]),
-                            _vm._v(" "),
-                            _c("bdi", [
-                              _c("h4", [
-                                _c("b", [
-                                  _vm._v(_vm._s(_vm.$t("from")) + " : ")
-                                ]),
-                                _vm._v(
-                                  "\n            " + _vm._s(_vm.selectedCountry)
-                                )
+                            _c("div", { staticClass: "mt-3" }, [
+                              _c("bdi", [
+                                _c("h3", [
+                                  _vm._v(
+                                    "\n              " +
+                                      _vm._s(_vm.$t("from")) +
+                                      " :\n            " +
+                                      _vm._s(_vm.selectedCountry)
+                                  )
+                                ])
                               ])
                             ])
                           ])
@@ -1058,9 +1108,9 @@ var render = function() {
                       _vm.selectedTopics.length > 0
                         ? _c(
                             "div",
-                            { staticClass: "text-sm-center" },
+                            { staticClass: "text-sm-center mt-2" },
                             [
-                              _c("h4", [_vm._v(_vm._s(_vm.$t("favtopics")))]),
+                              _c("h3", [_vm._v(_vm._s(_vm.$t("favtopics")))]),
                               _vm._v(" "),
                               _vm._l(_vm.selectedTopics, function(topic) {
                                 return [
@@ -1074,11 +1124,15 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      _vm._v(
-                                        "\n            " +
-                                          _vm._s(_vm.topics[topic - 1].topic) +
-                                          "\n          "
-                                      )
+                                      _c("b", [
+                                        _vm._v(
+                                          "            " +
+                                            _vm._s(
+                                              _vm.topics[topic - 1].topic
+                                            ) +
+                                            "\n"
+                                        )
+                                      ])
                                     ]
                                   )
                                 ]
@@ -1091,7 +1145,7 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "text-sm-center",
+                          staticClass: "text-sm-center mt-3",
                           staticStyle: {
                             overflow: "hidden",
                             "text-overflow": "ellipsis"
@@ -1100,13 +1154,16 @@ var render = function() {
                         [
                           _c("bdi", [
                             _c(
-                              "p",
+                              "h3",
                               { staticStyle: { "white-space": "pre-line" } },
                               [
                                 _c("b", [
                                   _vm._v(_vm._s(_vm.$t("about")) + " : ")
                                 ]),
-                                _vm._v(" " + _vm._s(_vm.description))
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(_vm._s(_vm.description) + " ")
+                                ])
                               ]
                             )
                           ])
