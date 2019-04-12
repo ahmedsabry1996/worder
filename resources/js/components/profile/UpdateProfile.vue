@@ -159,7 +159,7 @@ width="290px"
 
     <template v-if="avatar != 'null' ">
       <v-img
-      :src="avatar"
+      :src="hasProfileAvatar"
       height="225"
     ></v-img>
     <div class="text-xs-center">
@@ -183,8 +183,8 @@ width="290px"
     </div>
   </template>
 
-    <div class="text-sm-center ">
-      <h1 class="white--text blue-grey darken-2 capitalize-text">{{name}}</h1>
+    <div class="text-sm-center">
+      <h1 class="white--text blue-grey darken-2 text-capitalize">{{name}}</h1>
       <h2 class="yellow--text mt-2">{{displayName}}</h2>
         <bdi>
           <h3>
@@ -257,6 +257,21 @@ export default {
     },
     currentUserProfile(){
       return this.$store.getters.currentUserProfile;
+
+    },
+    hasProfileAvatar(){
+        console.log(this.avatar.includes('data:image'));
+       if (this.avatar) {
+         if (this.avatar.includes('data:image')) {
+           return this.avatar;
+         }
+         else{
+          return '/storage/avatars/'+this.avatar;
+        }
+      }
+      else{
+        return null;
+      }
 
     },
     currentUserTopics(){

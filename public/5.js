@@ -265,6 +265,19 @@ __webpack_require__.r(__webpack_exports__);
     currentUserProfile: function currentUserProfile() {
       return this.$store.getters.currentUserProfile;
     },
+    hasProfileAvatar: function hasProfileAvatar() {
+      console.log(this.avatar.includes('data:image'));
+
+      if (this.avatar) {
+        if (this.avatar.includes('data:image')) {
+          return this.avatar;
+        } else {
+          return '/storage/avatars/' + this.avatar;
+        }
+      } else {
+        return null;
+      }
+    },
     currentUserTopics: function currentUserTopics() {
       return this.$store.getters.currentUserTopics.map(function (val) {
         return val.pivot.topic_id;
@@ -970,7 +983,10 @@ var render = function() {
                       _vm.avatar != "null"
                         ? [
                             _c("v-img", {
-                              attrs: { src: _vm.avatar, height: "225" }
+                              attrs: {
+                                src: _vm.hasProfileAvatar,
+                                height: "225"
+                              }
                             }),
                             _vm._v(" "),
                             _c(
@@ -1029,12 +1045,12 @@ var render = function() {
                             )
                           ],
                       _vm._v(" "),
-                      _c("div", { staticClass: "text-sm-center " }, [
+                      _c("div", { staticClass: "text-sm-center" }, [
                         _c(
                           "h1",
                           {
                             staticClass:
-                              "white--text blue-grey darken-2 capitalize-text"
+                              "white--text blue-grey darken-2 text-capitalize"
                           },
                           [_vm._v(_vm._s(_vm.name))]
                         ),
