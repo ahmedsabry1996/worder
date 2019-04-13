@@ -22,9 +22,9 @@
             </v-card>
         </v-flex>
         <v-flex xs12>
-          <h1 class="white--text text-xs-center">
+          <h1 class="yellow--text text-xs-center">
             <bdi>
-              {{this.$route.query.trend}}
+              #{{this.$route.query.trend}}
             </bdi>
           </h1>
         </v-flex>

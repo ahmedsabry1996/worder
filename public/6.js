@@ -254,10 +254,10 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("v-flex", { attrs: { xs12: "" } }, [
-            _c("h1", { staticClass: "white--text text-xs-center" }, [
+            _c("h1", { staticClass: "yellow--text text-xs-center" }, [
               _c("bdi", [
                 _vm._v(
-                  "\n          " +
+                  "\n          #" +
                     _vm._s(this.$route.query.trend) +
                     "\n        "
                 )

@@ -7,7 +7,6 @@
       outline
       class="t text-xs-center"
       color="white"
-      dir="rtl"
     ></v-textarea>
 
     <v-layout row wrap>
@@ -263,11 +262,9 @@ export default {
 
 .t >>> .v-text-field__slot textarea {
   color: white !important;
-  direction:rtl !important;
 }
 .t >>> .theme--light.v-label {
 	color: wheat !important;
-  direction:rtl !important;
 }
 .t >>> .v-input__slot{
   border-color: white !important

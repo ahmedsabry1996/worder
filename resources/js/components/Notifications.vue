@@ -6,11 +6,17 @@
           <v-list-tile router :to="`/${notification.data.url}`"  :key="index">
 
             <v-avatar color="#282e33">
-     <span class="white--text">W</span>
+              <v-icon color="#fff">notifications</v-icon>
    </v-avatar>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
+            <v-list-tile-title>
+              <bdi>
+
+              {{notification.data.message}}
+            </bdi>
+
+            </v-list-tile-title>
             <v-list-tile-sub-title>
               {{notification.data.created_at.date | getDateForHumans}}
             </v-list-tile-sub-title>
@@ -35,11 +41,15 @@
       <v-list-tile-avatar>
 
       <v-avatar color="#282e33">
-<span class="white--text">W</span>
+        <v-icon color="#fff">notifications</v-icon>
 </v-avatar>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{notification.data.message}}</v-list-tile-title>
+            <v-list-tile-title>
+          <bdi>
+            {{notification.data.message}}
+          </bdi>
+         </v-list-tile-title>
             <v-list-tile-sub-title>
               {{notification.data.created_at.date | getDateForHumans}}
             </v-list-tile-sub-title>
