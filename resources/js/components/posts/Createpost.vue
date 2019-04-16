@@ -2,7 +2,7 @@
   <div>
     <v-textarea
       :label="$t('whatHappen')"
-      v-model.trim="post"
+      v-model.trim.lazy="post"
       no-resize
       outline
       class="t text-xs-center"
