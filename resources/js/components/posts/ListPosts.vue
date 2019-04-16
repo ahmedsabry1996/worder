@@ -42,7 +42,7 @@
               </v-tooltip>
 
               </span>
-                 <b>{{post.user.profile.display_name}}</b>
+                 <b class="yellow--text">{{post.user.profile.display_name}}</b>
               </h4>
           </div>
 
