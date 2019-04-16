@@ -13,12 +13,12 @@ class VerifyEmail extends Mailable
 
     public function __construct($code)
     {
-        
+
         $this->code= $code ;
     }
 
     public function build()
     {
-        return $this->view('emails.verify',['c'=>$this->code])->from('no-reply@words.co');
+        return $this->view('emails.verify',['code'=>$this->code])->from('no-reply@words.co');
     }
 }

@@ -30,7 +30,7 @@
 
           <!-- post publisher -->
           <div class="post-publisher mt-3" @click="ShowProfile(post.user.profile.display_name)">
-              <h3 style="cursor:default" class="white--text">
+              <h4 style="cursor:pointer" class="white--text">
 
                 <span style="position: relative;top: -2px;" v-if="post.user.profile.is_verified == 0">
                   <v-tooltip left color="success">
@@ -43,7 +43,7 @@
 
               </span>
                  <b>{{post.user.profile.display_name}}</b>
-              </h3>
+              </h4>
           </div>
 
           <!-- post content  -->

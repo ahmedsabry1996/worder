@@ -11,7 +11,7 @@
       </keep-alive>
       </v-flex>
       <v-flex xs11 md6>
-        <template v-if="timelinePosts.length > 0">
+        <template v-if="userFollowings > 0">
 
         <list-posts class="text-xs-center" :posts="timelinePosts"></list-posts>
         <div class="text-xs-center" v-if="isLoadingMoreTimeline">
@@ -66,6 +66,9 @@ export default {
       },
       isLoadingMoreTimeline(){
         return this.$store.getters.isLoadingMoreTimeline;
+      },
+      userFollowings(){
+        return this.$store.getters.myFollowingIds.length;
       }
 
   },
@@ -102,7 +105,7 @@ export default {
             if (self.isLoggedIn && self.$route.name == null) {
               self.$store.dispatch('loadMorePosts');
               self.$store.commit('hideBottomNav');
-            window.scrollTo(0,document.documentElement.offsetHeight - 751);
+            window.scrollTo(0,document.documentElement.offsetHeight - 400);
 
           }
           }

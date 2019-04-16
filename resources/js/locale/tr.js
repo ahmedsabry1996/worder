@@ -4,6 +4,7 @@ export default {
   signup:"katılmak",
   tongue:'dil',
   words:"kelime",
+  createNewPassword:"yeni şifre oluştur",
   noResults:"sonuç yok",
   gender:['erkek','kadın'],
   continuesignup:"kaydolmaya devam et",

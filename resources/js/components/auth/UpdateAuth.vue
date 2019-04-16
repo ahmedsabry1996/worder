@@ -3,6 +3,7 @@
     <v-container grid-list-md v-if="isLoggedIn">
       <v-layout row wrap>
         <v-flex xs12 md4 offset-md4>
+
     <v-tabs
       v-model="currentTab"
       dark
@@ -44,7 +45,10 @@
           </template>
 
     <template v-if="verificationCode">
-      <p class="green--text">{{$t('codesent')}} : <b>{{email}}</b> </p>
+      <p class="white--text">
+        <bdi>{{$t('codesent')}}  <b>{{email}}</b>
+        </bdi>
+      </p>
       <v-text-field
         solo
         :hint="$t('code')"
@@ -62,12 +66,11 @@
     </div>
     </template>
         </v-tab-item>
-
         <v-tab-item value="password">
           <template v-if="!oldPasswordTrue">
             <v-text-field solo
               type="password"
-              :placeholder="`enter ${$t('currentpass')}`"
+              :placeholder="`${$t('currentpass')}`"
               :label="$t('currentpass')"
               v-model="password"
                 @keyup.enter="isCorrectPassword"
@@ -147,7 +150,7 @@
         </v-tab-item>
         <v-tab-item>
           <!-- Insh'Allah
-          verify user profil after reaching 10M
+          verify user profil after reaching 1M
   <div id="verify-profile" class="tab-pane fade" >
     <verify-profile></verify-profile>
   </div>
@@ -308,13 +311,13 @@ methods:{
       })
       .then((response)=>{
         this.loading = false;
-
         this.verificationCode = response.data.verification_code;
         this.errors = null;
 
       })
       .catch((errors)=>{
         this.loading = false;
+        console.log(errors.response);
 
         this.errors = errors.response.data.errors;
         console.log(errors.response.data.errors);
@@ -337,9 +340,8 @@ methods:{
   changePassword(){
     const currentUserPassword =this.$store.state.authentication.currentUser.original_password;
 
-    if (this.correctOldPassowrd  && this.currentTab =='email') {
+    if (this.correctOldPassowrd  && this.currentTab =='password') {
       if (this.newPassowrd.length >= 6 && this.confirmPassword.length >=6) {
-
         if (this.newPassowrd == this.confirmPassword) {
           this.loading = true;
 
@@ -387,7 +389,7 @@ methods:{
       }
     }
     else{
-      alert('refresh');
+      console.log('ok');
     }
   }
 ,

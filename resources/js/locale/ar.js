@@ -5,6 +5,7 @@ export default {
   tongue:"اللغة",
   words:"كلمة",
   gender:['ذكر','أنثى'],
+  createNewPassword:"إنشاء كلمة مرور جديدة",
   noResults:"لا يوجد نتائج",
   continuesignup:"اكمال ال",
   signupfail:"خطأ في عملية ال",

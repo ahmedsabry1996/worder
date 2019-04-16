@@ -87,19 +87,18 @@ class AuthControllerApi extends Controller
 
       public function send_verification_code(Request $request)
       {
-        $this->code = rand(1000,10000);
+        $code = rand(1000,10000);
 
         $send_to = $request->email ;
 
       try {
-        Mail::to($send_to)->send(new VerifyEmail($this->code));
-        return true;
+        Mail::to($send_to)->send(new VerifyEmail($code));
 
       } catch (\Exception $e) {
         return response()->json(['errors'=>['send_code'=>"error in sending email"]],422);
       }
 
-        return response()->json(['verification_code'=>$this->code],201);
+        return response()->json(['verification_code'=>$code],201);
     }
     public function login(Request $request)
         {

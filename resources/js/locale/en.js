@@ -1,6 +1,7 @@
 export default {
   login:"login",
   loginfail:"password or email is invalid",
+  createNewPassword:"create new password",
   signup:"signup",
   tongue:"tongue",
   words:"words",

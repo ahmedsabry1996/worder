@@ -104,7 +104,7 @@
          <span>
       </span>
     </v-btn>
-    <v-menu offset-y>
+    <v-menu offset-y dark>
           <template v-slot:activator="{ on }">
             <v-btn
               flat
@@ -403,7 +403,6 @@
           changeLanguage(language){
             if (this.isLoggedIn) {
               if (this.currentUserProfile.locale != this.currenLocale) {
-                alert(language)
               this.$store.dispatch('updateLocale',{
                 id:this.currentUser.id,
                 locale:language});

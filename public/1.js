@@ -184,6 +184,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -314,6 +317,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.errors = null;
         }).catch(function (errors) {
           _this3.loading = false;
+          console.log(errors.response);
           _this3.errors = errors.response.data.errors;
           console.log(errors.response.data.errors);
         });
@@ -335,7 +339,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var currentUserPassword = this.$store.state.authentication.currentUser.original_password;
 
-      if (this.correctOldPassowrd && this.currentTab == 'email') {
+      if (this.correctOldPassowrd && this.currentTab == 'password') {
         if (this.newPassowrd.length >= 6 && this.confirmPassword.length >= 6) {
           if (this.newPassowrd == this.confirmPassword) {
             this.loading = true;
@@ -380,7 +384,7 @@ __webpack_require__.r(__webpack_exports__);
           };
         }
       } else {
-        alert('refresh');
+        console.log('ok');
       }
     },
     checkCode: function checkCode() {
@@ -684,11 +688,13 @@ var render = function() {
                               _vm._v(" "),
                               _vm.verificationCode
                                 ? [
-                                    _c("p", { staticClass: "green--text" }, [
-                                      _vm._v(
-                                        _vm._s(_vm.$t("codesent")) + " : "
-                                      ),
-                                      _c("b", [_vm._v(_vm._s(_vm.email))])
+                                    _c("p", { staticClass: "white--text" }, [
+                                      _c("bdi", [
+                                        _vm._v(
+                                          _vm._s(_vm.$t("codesent")) + "  "
+                                        ),
+                                        _c("b", [_vm._v(_vm._s(_vm.email))])
+                                      ])
                                     ]),
                                     _vm._v(" "),
                                     _c("v-text-field", {
@@ -782,8 +788,7 @@ var render = function() {
                                       attrs: {
                                         solo: "",
                                         type: "password",
-                                        placeholder:
-                                          "enter " + _vm.$t("currentpass"),
+                                        placeholder: "" + _vm.$t("currentpass"),
                                         label: _vm.$t("currentpass")
                                       },
                                       on: {

@@ -63,11 +63,11 @@
 
   <v-form @submit.prevent="verifyCode">
     <div class="pa-3">
-    <label for="confirm_code" class="white--text">{{$t('codesent')}}  <b class="e1f7e6">{{email}}</b> </label>
+    <label for="confirm_code" class="white--text">{{$t('codesent')}} :  <b class="e1f7e6">{{email}}</b> </label>
     <v-text-field
        v-model="confirmationCode"
+       :placeholder="$t('code')"
          solo
-
     ></v-text-field>
     <div class="text-xs-center">
 
@@ -86,7 +86,7 @@
 
 <!-- Reenter new password -->
 <template v-if="correctValidationCode && hasEmail">
-    <h3>create new password</h3>
+    <h3 class="text-xs-center white--text">{{$t('createNewPassword')}}</h3>
   <v-form @submit.prevent="createNewPassword">
     <div class="pa-3">
 
@@ -95,13 +95,16 @@
         type="password"
       v-model="password"
         solo
-
+        dark
     ></v-text-field>
 
     <v-text-field
       :hint="$t('repeatpass')"
+        type="password"
+
         v-model="passwordConfirmation"
         solo
+          dark
     ></v-text-field>
     <div class="text-xs-center">
 
@@ -190,6 +193,7 @@ export default {
     },
     verifyEmail(){
       this.loading = true;
+      alert(this.email);
       axios.post("/api/verify-email",{
         email:this.email
       })
