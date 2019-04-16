@@ -66,6 +66,14 @@ export default{
                 state.NoMore=false;
       },
 
+      removeFromTimeline(state,payload){
+
+          let index = state.posts.findIndex((val,index)=>{
+              return payload.id == val.id;
+          });
+          Vue.delete(state.posts,index);
+
+      },
       resetOffset(state){
         state.offset=state.postsNum;
       }

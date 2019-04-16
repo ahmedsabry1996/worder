@@ -5,8 +5,46 @@
     <div class="text-xs-center" v-if="posts.length == 0">
       <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
     </div>
+    <v-dialog
+      v-model="reportDialoge"
+      max-width="500px"
+      transition="dialog-transition">
+      <v-card color="#002d37" class="white--text">
+        <v-card-title >
+          {{$t('report')}}
+        </v-card-title>
+        <v-card-text>
+          <div class="text-xs-center">
+          <h3>{{$t('whyReport')}}</h3>
+          <h2>{{reportedPostId}}</h2>
+        </div>
+        </v-card-text>
+        <div class="text-xs-center options white--text pa-3">
+            <v-radio-group v-model.lazy="reason" class="white--text">
+                <template v-for="reason in reasons">
+                <v-radio dark class="white--text" :label="reason" :value="reason"></v-radio>
+              </template>
+            </v-radio-group>
+            <v-textarea
+                    solo
+                    dark
+                    no-resize
+                    v-model.lazy="note"
+                    :label="$t('notes')"
+            ></v-textarea>
+        </div>
+        <div class="text-xs-center">
+            <v-btn @click="doReport" round color="error" :disabled="!(!!reason)">{{$t('report')}}</v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
+          <div class="mt-2" v-for="(post,index) in posts">
+            <div class="text-xs-left" :key="post.id">
 
-          <div class="mt-2 text-xs-center" v-for="(post,index) in posts" :key="post.id">
+            <v-btn icon flat small color="white" @click="report(post.id)">
+              <v-icon>report</v-icon>
+            </v-btn>
+          </div>
           <!-- publisher avatar -->
           <template v-if="post.user.profile.avatar != null">
           <v-avatar
@@ -20,8 +58,7 @@
         </template>
 
     <template v-else>
-            <v-avatar color="#112f41" @click="ShowProfile(post.user.profile.display_name)"
->
+            <v-avatar color="#112f41" @click="ShowProfile(post.user.profile.display_name)">
      <span class="white--text headline">
        {{post.user.name.charAt(0).toUpperCase()}}
      </span>
@@ -132,8 +169,27 @@
         <hr class="white white--text"/>
   </div>
 
+  <v-snackbar
+    v-model="snackbar"
+      bottom
+    :timeout="1501"
+    color="white"
+    >
+    <b class=" indigo--text"  >
+  {{$t('done')}}
+     </b>
+    <v-btn
+      color="indigo"
+      flat
+      @click="snackbar = false">
+    <bdi>
+      {{$t('done')}}
+    </bdi>
+    </v-btn>
+  </v-snackbar>
 
   </div>
+
 </div>
 
 </template>
@@ -146,7 +202,15 @@ import Vue from 'vue';
 import axios from 'axios';
 import React from './React.vue';
 export default {
-
+  data(){
+      return {
+          reportedPostId:'',
+          reportDialoge:false,
+          snackbar:false,
+          reason:'',
+          note:'',
+      }
+  },
     props:{
       posts:{
         type:Array || Object,
@@ -162,7 +226,9 @@ export default {
       currentUser(){
           return this.$store.getters.currentUser;
       },
-
+      reasons(){
+          return this.$t('reportReasons');
+      },
       currentUserProfile(){
           return this.$store.getters.currentUserProfile;
       },
@@ -181,8 +247,28 @@ export default {
 
     methods:{
 
-      onRefresh(){
-          console.log(789);
+      report(id){
+        this.reportedPostId = id;
+        this.reportDialoge = true;
+      },
+      doReport(){
+        this.$store.dispatch('report',{
+          postId:this.reportedPostId,
+          reason:this.reason,
+          notes:this.note
+        })
+        .then((response)=>{
+            this.$store.commit('removeFromTimeline',{id:this.reportedPostId})
+            this.reportDialoge = false;
+            this.snackbar =true;
+            this.reason = '';
+            this.note = '';
+        })
+        .catch((error)=>{
+          console.log(error.response);
+          this.reportDialoge = false;
+
+        })
       },
         showPost(postId){
           this.$router.push({ name: 'post', params: { postId: postId } })

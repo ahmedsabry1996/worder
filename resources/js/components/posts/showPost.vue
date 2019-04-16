@@ -125,7 +125,7 @@
           </div>
           <div class="post-topic">
             <p class="white--text" v-if="post.topic" style="opacity:.8">
-              <b>  {{post.topic.topic }}</b>
+              <b>  {{topics[post.topic.id - 1] ['topic'] }}</b>
             </p>
           </div>
           <hr>
@@ -230,7 +230,7 @@ import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
 import axios from 'axios';
 var moment = require('moment');
 import React from './React.vue';
-
+import Vue from 'vue';
 export default {
   data(){
     return {
@@ -270,7 +270,7 @@ export default {
     return this.$store.getters.disLikedPosts;
     },
     topics(){
-      return this.$store.getters.topics;
+      return this.$t('topics');
     },
 
     currentUserProfile(){
@@ -367,7 +367,7 @@ export default {
   filters:{
         getDateForHumans(value){
 
-          return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+          return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
         }
   },
 

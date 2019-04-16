@@ -4,7 +4,11 @@ export default {
   signup:"katılmak",
   tongue:'dil',
   words:"kelime",
+  report:"rapor",
+  whyReport:"neden rapor etmek istiyorsun?",
+  reportReasons:['cinsel','ırkçı','başka'],
   createNewPassword:"yeni şifre oluştur",
+  notes:"notlar",
   noResults:"sonuç yok",
   gender:['erkek','kadın'],
   continuesignup:"kaydolmaya devam et",
@@ -119,6 +123,4 @@ export default {
           {topic:'göç',en:'migration',id:9},
           {topic:'Eğitim',en:'education',id:10},
           {topic:'genel',en:'general',id:11}],
-
-
 }

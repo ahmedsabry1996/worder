@@ -66,7 +66,6 @@ export  default{
                 console.log(response.data);
 
 
-                context.commit('showPost',{post:response.data.updated_post});
                 if (commit.routeName==null) {
 
               context.commit('updatePost',{id:commit.postId,
@@ -84,6 +83,8 @@ export  default{
                 else if (commit.routeName == 'show-profile') {
                   context.commit('updateProfilePosts',response.data.updated_post)
                 }
+                context.commit('showPost',{post:response.data.updated_post});
+
               })
               .catch((error)=>{
                 console.log(error);
@@ -221,4 +222,28 @@ if (dislikesNum > loadedDislikers)  {
                     console.log(error.response);
                 })
             },
+
+            report(context,data,rootState){
+                return new Promise(function(resolve, reject) {
+                  axios.post('/api/post/report',{
+                    post_id:data.postId,
+                    user_id:context.rootState.authentication.currentUser.id,
+                    reason:data.reason,
+                    notes:data.notes
+                  },{
+                    headers:{
+                      Authorization:`Bearer ${context.rootState.authentication.userToken}`
+                    }
+                  })
+                  .then((response)=>{
+                      console.log(response.data);
+                      resolve(response)
+                  })
+                  .catch((error)=>{
+                    console.log(error);
+                    console.log(error.response);
+                    reject(error);
+                  })
+                });
+            }
 }

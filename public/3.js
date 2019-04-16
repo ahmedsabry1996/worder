@@ -13,6 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _React_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./React.vue */ "./resources/js/components/posts/React.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -246,6 +248,7 @@ __webpack_require__.r(__webpack_exports__);
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -280,7 +283,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
       return this.$store.getters.disLikedPosts;
     },
     topics: function topics() {
-      return this.$store.getters.topics;
+      return this.$t('topics');
     },
     currentUserProfile: function currentUserProfile() {
       return this.$store.getters.currentUserProfile;
@@ -365,7 +368,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   },
   filters: {
     getDateForHumans: function getDateForHumans(value) {
-      return moment(value).locale("ar").subtract(-2, 'hours').fromNow();
+      return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_3___default.a.i18n.locale()).subtract(-2, 'hours').fromNow();
     }
   }
 });
@@ -812,7 +815,14 @@ var render = function() {
                         staticClass: "white--text",
                         staticStyle: { opacity: ".8" }
                       },
-                      [_c("b", [_vm._v("  " + _vm._s(_vm.post.topic.topic))])]
+                      [
+                        _c("b", [
+                          _vm._v(
+                            "  " +
+                              _vm._s(_vm.topics[_vm.post.topic.id - 1]["topic"])
+                          )
+                        ])
+                      ]
                     )
                   : _vm._e()
               ]),

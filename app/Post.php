@@ -31,6 +31,9 @@ class Post extends Model implements LikeableContract
   {
     return $this->belongsTo('App\Profile','user_id','user_id');
   }
+  public function reports(){
+    return $this->hasMany('App\Report');
+  }
 
 }
 

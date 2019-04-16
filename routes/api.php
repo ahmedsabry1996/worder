@@ -36,6 +36,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'post'],function(){
   Route::post('delete-post','API\PostController@delete_post');
   Route::post('likers','API\PostController@likers');
   Route::post('dislikers','API\PostController@dislikers');
+  Route::post('report','API\ReportController@report');
 
 });
 
