@@ -1071,7 +1071,7 @@ var render = function() {
                                     _vm._v(
                                       "\n            " +
                                         _vm._s(
-                                          _vm.showProfile.profile.display_name
+                                          _vm.showProfile.name
                                             .charAt(0)
                                             .toUpperCase()
                                         ) +
@@ -1459,7 +1459,7 @@ var render = function() {
                                                           _vm._v(
                                                             "\n       " +
                                                               _vm._s(
-                                                                post.user.profile.display_name
+                                                                post.user.name
                                                                   .charAt(0)
                                                                   .toUpperCase()
                                                               ) +

@@ -32,7 +32,7 @@
               </template>
               <template v-else>
                 <v-avatar color="#112f41">
-     <span class="white--text headline">{{result.profile.display_name.charAt(0).toUpperCase()}}</span>
+     <span class="white--text headline">{{result.name.charAt(0).toUpperCase()}}</span>
    </v-avatar>
               </template>
             </v-list-tile-avatar>
@@ -82,7 +82,7 @@
               </template>
               <template v-else>
                 <v-avatar color="#112f41">
-     <span class="white--text headline">{{result.profile.display_name.charAt(0).toUpperCase()}}</span>
+     <span class="white--text headline">{{result.name.charAt(0).toUpperCase()}}</span>
    </v-avatar>
               </template>
 

@@ -18,7 +18,7 @@
           class="display-3 text-xs-center avatar-letter"
           height="200">
           <h1 class="white--text">
-            {{showProfile.profile.display_name.charAt(0).toUpperCase()}}
+            {{showProfile.name.charAt(0).toUpperCase()}}
           </h1>
         </div>
       </template>
@@ -163,7 +163,7 @@
             @click="ShowProfile(post.user.profile.display_name)"
              color="#112f41">
      <span class="white--text headline">
-       {{post.user.profile.display_name.charAt(0).toUpperCase()}}
+       {{post.user.name.charAt(0).toUpperCase()}}
      </span>
    </v-avatar>
  </template>
