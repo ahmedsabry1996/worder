@@ -12,4 +12,8 @@ export default {
       roleId(state){
         return state.roleId;
       },
+
+      admins(state){
+        return state.admins;
+      }
 }

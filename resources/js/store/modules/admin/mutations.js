@@ -7,6 +7,11 @@ export default {
     logoutAdmin(state){
       state.hasRole = false;
       state.roleId = null;
+},
 
-}
+  fillAdmins(state,payload){
+
+    state.admins = payload.admins;
+
+  }
 }

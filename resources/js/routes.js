@@ -67,6 +67,16 @@ const ListTrend = resolve =>{
     resolve(require('./components/trend/Trend.vue'));
   });
 }
+const HomeAdmin = resolve =>{
+  require.ensure(['./components/admin/Home.vue'],()=>{
+    resolve(require('./components/admin/Home.vue'));
+  });
+}
+const ListAdmins = resolve =>{
+  require.ensure(['./components/admin/ListAdmins.vue'],()=>{
+    resolve(require('./components/admin/ListAdmins.vue'));
+  });
+}
 
 
 Vue.use(Vuex);
@@ -166,8 +176,24 @@ export const routes = [
     name:"suggest",
     meta:{
   requireAuth:true,
-
     },
+  },
+
+  {
+    path:"/admin/dashboard/",
+    component:HomeAdmin,
+    name:"home-admin",
+    meta:{
+      requireAuth:true,
+      hasRole:true,
+    },
+    children:[
+      {
+        path:'/list-admins/',
+        component:ListAdmins,
+        name:'list-admin'
+      }
+    ]
   }
 
 

@@ -1,7 +1,6 @@
 <template>
     <v-app class="app">
       <Header/>
-
         <router-view></router-view>
         <template v-if="homePage">
           <keep-alive>
@@ -75,10 +74,10 @@
           },
           homePage(){
             if (this.isLoggedIn) {
-
               return   this.$route.name == null;
             }
-          }
+          },
+
 
         },
 

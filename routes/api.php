@@ -74,4 +74,18 @@ Route::group(['middleware'=>'auth:api','prefix'=>'trend'],function(){
       Route::post('posts','API\TrendController@show');
       Route::post('load-more','API\TrendController@load_more');
 });
+
+
+
+  Route::group(['prefix'=>'admin','middleware'=>'auth:api'],function(){
+
+      Route::post('/create-admin','API\AdminController@create_admin')->middleware('superadmin');
+      Route::post('/fetch-admins','API\AdminController@fetch_admins')->middleware('superadmin');
+      Route::post('/edit-admin','API\AdminController@edit_admin')->middleware('superadmin');
+      Route::post('/delete-admin','API\AdminController@delete_admin')->middleware('superadmin');
+
+
+  });
+
+
 Route::get('/test_posts','API\TimelineController@test_posts');

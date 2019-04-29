@@ -1,5 +1,5 @@
 <template>
-<v-content>
+<v-content v-if="notAdminRoute">
   <v-toolbar class="hidden-md-and-up" app color="#005556">
     <v-toolbar-title  class="white--text" >
         <img @click="goHome" src="/logo.png" alt="worder" width="40" class="mr-3 mt-2">
@@ -104,7 +104,7 @@
          <span>
       </span>
     </v-btn>
-    <v-btn flat v-if="hasRole" class="white--text"> admin</v-btn>
+    <v-btn flat v-if="hasRole" class="white--text" router to="/admin/dashboard"> admin</v-btn>
     <v-menu offset-y dark>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -301,6 +301,14 @@
           Signup,
         },
         computed:{
+          notAdminRoute(){
+            if (this.$route.name != null) {
+              return !this.$route.name.includes('-admin');
+            }
+            else{
+              return true;
+            }
+          },
           notificationColor(){
             if (this.$store.getters.unreadNotifications) {
                 return 'red';

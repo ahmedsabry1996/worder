@@ -175,9 +175,6 @@ export default {
               this.$store.commit("topTen",
               {trend:response.data.trend.top_words});
               this.$store.commit("applyRoles",{hasRole:response.data.has_role,roleId:response.data.role});
-              if (response.data.has_role) {
-                  alert(response.data.role);
-              }
               this.$router.push('/');
 
 
