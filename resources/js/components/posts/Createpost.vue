@@ -152,7 +152,8 @@ export default {
 
     currentUserTopics(){
       return this.$store.getters.currentUserTopics;
-    }
+    },
+
   },
   methods:{
     selectEmoji(emoji) {

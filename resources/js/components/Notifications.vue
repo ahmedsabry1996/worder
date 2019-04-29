@@ -118,7 +118,7 @@ export default {
     broadcastNotifications(){
       return this.$store.getters.broadcastNotifications;
     },
-
+    
   },
   created(){
     this.loadMore();
@@ -180,6 +180,7 @@ export default {
     },
     listen(){
       const self = this ;
+
       if (self.isLoggedIn ) {
         window.Echo = new Echo({
          broadcaster: 'pusher',

@@ -104,6 +104,7 @@
          <span>
       </span>
     </v-btn>
+    <v-btn flat v-if="hasRole" class="white--text"> admin</v-btn>
     <v-menu offset-y dark>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -125,6 +126,7 @@
             </v-list-tile>
           </v-list>
   </v-menu>
+
     </v-toolbar-items>
 
 </v-toolbar>
@@ -255,7 +257,6 @@
       color="#112f41"
       flat
       small
-
       router
       to="/"
       >
@@ -336,13 +337,24 @@
         currentUserProfile(){
             return this.$store.getters.currentUserProfile;
         },
+
         trend(){
             return this.$store.getters.topTen ;
 
         },
+
         currentRoute(){
           return this.$route.name == null ;
+        },
+
+        hasRole(){
+          return this.$store.getters.hasRole;
+        },
+
+        roleId(){
+          return this.$store.getters.roleId;
         }
+
         },
         watch:{
             keyword(val){

@@ -13,6 +13,7 @@ import timeline from './modules/timeline/index';
 import topics from './modules/topics/index';
 import trend from './modules/trend/index';
 import following from './modules/following/index';
+import admin from './modules/admin/index';
 
 export default {
 
@@ -25,7 +26,8 @@ export default {
     trend,
     topics,
     notifications,
-    suggest
+    suggest,
+    admin
   },
 
 

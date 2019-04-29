@@ -964,6 +964,7 @@ export default {
     this.$store.commit('logoutTopics');
     this.$store.commit('logoutAuth');
     this.$store.commit('logoutTimeline');
+    this.$store.commit('logoutAdmin');
     this.$router.push('/');
     window.location.href = window.location.origin;
   },

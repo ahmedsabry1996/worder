@@ -940,6 +940,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
     this.$store.commit('logoutTopics');
     this.$store.commit('logoutAuth');
     this.$store.commit('logoutTimeline');
+    this.$store.commit('logoutAdmin');
     this.$router.push('/');
     window.location.href = window.location.origin;
   }

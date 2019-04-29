@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Session as session;
 use Carbon\Carbon;
 use \Exception;
-use App\User;
+use App\User as user;
 use App\Mail\VerifyEmail ;
 use App\Mail\VerificationCode ;
 use App\VerifyProfile;
@@ -126,20 +126,36 @@ class AuthControllerApi extends Controller
             $token->expires_at = Carbon::now()->addWeeks(96);
 
             $token->save();
-
-
+            $user_has_role = user::has_role();
+            $user_role = null;
+            if ($user_has_role) {
+                $user_role = user::current_role();
+            }
           $user_profile = Auth::user()->profile;
           $user_topics = Auth::user()->topics()->get();
           $country_id = $user_profile->country_id;
           $trend = country::find($country_id)->trend;
+
             return response()->json([
+
                 'access_token' => $tokenResult->accessToken,
+
                 'token_type' => 'Bearer',
+
                 'user'=>$request->user(),
+
                 'trend'=>$trend,
+
                 'missed_notifications'=>$user->loadMissing('notifications'),
+
                 'profile'=>$user_profile,
+
                 'topics'=>$user_topics,
+
+                'has_role'=>$user_has_role,
+
+                'role'=>$user_role,
+
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
                 )->toDateTimeString()

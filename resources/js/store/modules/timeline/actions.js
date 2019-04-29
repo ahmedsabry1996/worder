@@ -13,7 +13,6 @@ export default{
     }).then((response)=>{
 
 
-        console.log(response.data);
 
         context.commit('fillMyTimeline',{posts:response.data.posts,
                                          postsNum:response.data.posts_num});
@@ -31,7 +30,6 @@ export default{
       let postsNum = context.state.postsNum;
       let loadedTimelinePosts = context.state.loadedTimelinePosts;
       if (postsNum > loadedTimelinePosts) {
-
         axios.post(`/api/timeline/load-more`,{
             offset:context.state.offset,
           },{
@@ -40,7 +38,6 @@ export default{
           }
         })
         .then((response)=>{
-
               console.log(response.data);
 
               context.commit("isLoadingMoreTimeline")

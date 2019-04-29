@@ -161,7 +161,8 @@ export default {
           password:this.password,
           remember_me:this.rememberMe
         }).then((response)=>{
-            console.log(response.data.user);
+            console.log('test user role');
+            console.log(response.data);
               this.$store.commit("loginSuccess",{
                 currentUser:response.data.user,
                 currentUserProfile:response.data.profile,
@@ -171,7 +172,12 @@ export default {
                 hasProfile:1,
                 isVerified:1,
               });
-              this.$store.commit("topTen",{trend:response.data.trend.top_words});
+              this.$store.commit("topTen",
+              {trend:response.data.trend.top_words});
+              this.$store.commit("applyRoles",{hasRole:response.data.has_role,roleId:response.data.role});
+              if (response.data.has_role) {
+                  alert(response.data.role);
+              }
               this.$router.push('/');
 
 

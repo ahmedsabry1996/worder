@@ -8,7 +8,8 @@ use Cog\Laravel\Love\Liker\Models\Traits\Liker;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Auth\User as Authenticatable ;
 use Laravel\Passport\HasApiTokens;
-
+use Illuminate\Support\Facades\DB;
+use Auth;
 class User extends Authenticatable  implements LikerContract
 {
     use Notifiable,HasApiTokens,Liker;
@@ -58,5 +59,31 @@ class User extends Authenticatable  implements LikerContract
   {
       return $this->hasOne('App\FollowersCounter');
   }
+
+  public function role()
+  {
+      return $this->belongsToMany('App\Role');
+
+  }
+
+  public static function has_role()
+  {
+    $user_has_role  = DB::table('role_user')->whereUserId(Auth::id())->exists();
+
+    return $user_has_role;
+  }
+
+  public static function current_role()
+  {
+    if (self::has_role()) {
+          foreach(Auth::user()->role as $user_role):
+              return $user_role->pivot->role_id;
+          endforeach;
+    }
+    else{
+      return false;
+    }
+  }
+
 }
 ?>
