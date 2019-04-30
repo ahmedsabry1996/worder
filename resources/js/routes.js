@@ -189,7 +189,7 @@ export const routes = [
     },
     children:[
       {
-        path:'/list-admins/',
+        path:'list-admins/',
         component:ListAdmins,
         name:'list-admin'
       }

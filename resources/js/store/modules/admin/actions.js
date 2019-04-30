@@ -44,5 +44,54 @@ export default {
       })
 
     });
+  },
+  editAdmin(context,data){
+    alert(data.id)
+    return new Promise(function(resolve, reject) {
+      axios.post('/api/admin/edit-admin',{
+        admin_id:data.id,
+        name:data.name,
+        email:data.email,
+        password:data.password,
+        password_confirmation:data.passwordConfirmation,
+      },{
+        headers:{
+          Authorization:`Bearer ${context.rootState.authentication.userToken}`
+        }
+      })
+      .then((response)=>{
+        console.log(response);
+        resolve(response);
+      })
+      .catch((error)=>{
+        console.log(error);
+        console.log(error.response);
+        reject(error);
+      })
+    });
+  },
+
+  deleteAdmin(context,data){
+    alert(data.id);
+    return new Promise(function(resolve, reject) {
+          axios.post('/api/admin/delete-admin',{
+              admin_id:data.id,
+          },{
+            headers:{
+              Authorization:`Bearer ${context.rootState.authentication.userToken}`
+
+            }
+          })
+          .then((response)=>{
+            console.log(response);
+            resolve(response);
+          })
+          .catch((error)=>{
+            console.log(error);
+            console.log(error.response);
+            reject(error);
+          })
+    });
   }
+
 }

@@ -10,8 +10,16 @@ export default {
 },
 
   fillAdmins(state,payload){
-
     state.admins = payload.admins;
+  },
 
-  }
+  deleteAdmin(state,index){
+     state.admins.splice(index,1);
+  },
+
+  addAdmin(state,payload){
+    state.admins.unshift(payload.admin);
+    }
+
+
 }

@@ -6,7 +6,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat router to="/">app</v-btn>
-      <v-btn flat>logout</v-btn>
+      <v-btn flat @click="logout">logout</v-btn>
     </v-toolbar-items>
   </v-toolbar>
         <v-layout row wrap>
@@ -76,9 +76,21 @@ export default {
     }
   },
   methods:{
-    toHome(){
-      alert();
-    }
+    logout(){
+
+      this.$store.commit('logoutNotifications');
+      this.$store.commit('logoutSuggest');
+      this.$store.commit('logoutTrend');
+      this.$store.commit('logoutPosts');
+      this.$store.commit('logoutProfile');
+      this.$store.commit('logoutFollowing');
+      this.$store.commit('logoutTopics');
+      this.$store.commit('logoutAuth');
+      this.$store.commit('logoutTimeline');
+      this.$store.commit('logoutAdmin');
+      this.$router.push('/');
+      window.location.href = window.location.origin;
+    },
   }
 }
 </script>

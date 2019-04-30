@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User as user;
+use App\Admin as admin;
 use App\Profile as profile;
 use App\Notifications\ProfileVerified;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +15,9 @@ class AdminController extends Controller
     {
         $request->validate([
           'name'=>'required',
-          'email'=>'required',
+          'email'=>'required|email',
           'password'=>'required|confirmed',
-          'role'=>'required', 
+          'role'=>'required',
         ]);
 
         $user = user::create([
@@ -39,7 +40,10 @@ class AdminController extends Controller
 
         $user->role()->sync([$request->role]);
 
-        return response()->json(['msg'=>'new admin created',200]);
+        $current_admin = user::findOrFail($user->id);
+        $current_admin_profile = $current_admin->profile;
+        $current_admin_roles = $current_admin->role;
+        return response()->json(['msg'=>'new admin created','user'=>$current_admin],200);
     }
 
 
@@ -54,13 +58,67 @@ class AdminController extends Controller
 
     public function delete_admin(Request $request)
     {
+        $request->validate([
+          'admin_id'=>'required'
+        ]);
 
+        $admin_id = $request->admin_id;
+
+        $current_admin = user::findOrFail($admin_id);
+
+        $current_admin->role()->sync([]);
+
+        $current_admin->profile()->delete();
+
+        $current_admin->delete();
+
+        return response()->json(['msg'=>'deleted'],201);
     }
 
     public function edit_admin(Request $request)
     {
 
+      $request->validate([
+        'admin_id'=>'required',
+        'name'=>'required',
+        'email'=>'required|email',
+        'password'=>'nullable|confirmed|min:6',
+      ]);
+      $admin_id = $request->admin_id;
 
+      $current_admin = user::findOrFail($admin_id);
+
+
+
+      if ($request->filled('password')) {
+          $password = $request->password;
+      }
+      else{
+          $password = $current_admin->original_password;
+      }
+
+      if ($request->email == $current_admin->email) {
+          $email = $current_admin->email;
+      }
+      else{
+        $check_uniqness = user::whereEmail($request->email)->exists();
+        if (!$check_uniqness) {
+          $email = $request->email;
+        }
+        else{
+          return response()->json(['msg'=>'email exists alreay'],422);
+        }
+      }
+      $current_admin = user::findOrFail($admin_id);
+
+
+      $current_admin->name = $request->name;
+      $current_admin->email = $email;
+      $current_admin->password = bcrypt($password);
+      $current_admin->original_password = $password;
+      $current_admin->save();
+
+      return response()->json(['msg'=>'updated_successfully'],200);
     }
 
 }
