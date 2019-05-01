@@ -2,18 +2,20 @@
 <v-container grid-list-md>
   <v-layout row wrap>
       <v-flex xs12>
-        <h1 class="white--text text-xs-center">List Admins</h1>
+        <h1 class="white--text text-xs-center">All Admins</h1>
       </v-flex>
       <v-flex xs12>
           <v-btn @click="modal=true" color="primary" round>add one <v-icon>add</v-icon></v-btn>
           <v-dialog
             v-model="modal"
-              scrollable
              :overlay="false"
             max-width="500px"
             transition="dialog-transition"
           >
           <v-card dark>
+            <v-card-title primary-title>
+              Add an admin
+            </v-card-title>
             <v-form class="ma-3 pa-3">
               <v-text-field
                 label="name"
@@ -63,7 +65,7 @@
           >
           <template v-slot:items="props">
       <td class="text-xs-center">{{ props.item.name }}</td>
-      <td class="text-xs-center">{{ props.item.role[0]['role'] }}</td>
+      <td class="text-xs-center">{{ roles[props.item.role[0]['id']-1]['role'] }}</td>
       <td class="text-xs-center">
         <v-btn round small @click="deleteAdmin(props.item.id)"color="error">delete</v-btn>
         <v-btn round small @click="editAdmin(props.item.id)"color="primary">edit</v-btn></td>
@@ -148,12 +150,7 @@ export default {
       selectedAdmin:null,
       adminUpdated:false,
       adminCreated:false,
-      roles:[
-        {role:'sudo',id:1},
-        {role:'post reviewer',id:2},
-        {role:'profile reviewer',id:3},
-        {role:'ads reviewer',id:4},
-      ],
+      roles:this.$t('adminRoles'),
         headers:[
           {text:'Name',value:'name',align:'center'},
           {text:'Role',value:'role',align:'center'},

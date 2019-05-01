@@ -9,6 +9,8 @@ use App\Admin as admin;
 use App\Profile as profile;
 use App\Notifications\ProfileVerified;
 use Illuminate\Support\Facades\DB;
+use App\FollowersCounter as followercounter;
+
 class AdminController extends Controller
 {
     public function create_admin(Request $request)
@@ -31,7 +33,7 @@ class AdminController extends Controller
 
         $profile = profile::create([
           'user_id'=>$user->id,
-          'display_name'=>$request->name."man.$request->id",
+          'display_name'=>$request->name."man"."$request->id",
           'gender_id'=>1,
           'country_id'=>1,
           'avatar'=>null,
@@ -40,9 +42,17 @@ class AdminController extends Controller
 
         $user->role()->sync([$request->role]);
 
+        $user->topics()->attach([1,2,3,4,5,7,8]);
+
         $current_admin = user::findOrFail($user->id);
         $current_admin_profile = $current_admin->profile;
         $current_admin_roles = $current_admin->role;
+        $followers_counter = new followercounter();
+
+        $followers_counter->user_id =  $user->id;
+
+        $followers_counter->save();
+
         return response()->json(['msg'=>'new admin created','user'=>$current_admin],200);
     }
 

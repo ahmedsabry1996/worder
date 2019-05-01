@@ -184,14 +184,16 @@ export const routes = [
     component:HomeAdmin,
     name:"home-admin",
     meta:{
-      requireAuth:true,
       hasRole:true,
     },
     children:[
       {
         path:'list-admins/',
         component:ListAdmins,
-        name:'list-admin'
+        name:'list-admin',
+        meta:{
+          isSuperAdmin:true
+        }
       }
     ]
   }

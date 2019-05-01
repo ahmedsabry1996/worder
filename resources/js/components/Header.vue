@@ -27,7 +27,6 @@
           <v-list-tile avatar router :to="`/${result.profile.display_name}`">
             <v-list-tile-avatar>
               <template v-if="result.profile.avatar">
-
                 <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
               </template>
               <template v-else>
@@ -104,7 +103,7 @@
          <span>
       </span>
     </v-btn>
-    <v-btn flat v-if="hasRole" class="white--text" router to="/admin/dashboard"> admin</v-btn>
+    <v-btn flat v-if="hasRole" class="white--text" router to="/admin/dashboard"> {{$t('admin')}}</v-btn>
     <v-menu offset-y dark>
           <template v-slot:activator="{ on }">
             <v-btn

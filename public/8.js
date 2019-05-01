@@ -143,6 +143,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -157,19 +159,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedAdmin: null,
       adminUpdated: false,
       adminCreated: false,
-      roles: [{
-        role: 'sudo',
-        id: 1
-      }, {
-        role: 'post reviewer',
-        id: 2
-      }, {
-        role: 'profile reviewer',
-        id: 3
-      }, {
-        role: 'ads reviewer',
-        id: 4
-      }],
+      roles: this.$t('adminRoles'),
       headers: [{
         text: 'Name',
         value: 'name',
@@ -293,7 +283,7 @@ var render = function() {
         [
           _c("v-flex", { attrs: { xs12: "" } }, [
             _c("h1", { staticClass: "white--text text-xs-center" }, [
-              _vm._v("List Admins")
+              _vm._v("All Admins")
             ])
           ]),
           _vm._v(" "),
@@ -319,7 +309,6 @@ var render = function() {
                 "v-dialog",
                 {
                   attrs: {
-                    scrollable: "",
                     overlay: false,
                     "max-width": "500px",
                     transition: "dialog-transition"
@@ -337,6 +326,10 @@ var render = function() {
                     "v-card",
                     { attrs: { dark: "" } },
                     [
+                      _c("v-card-title", { attrs: { "primary-title": "" } }, [
+                        _vm._v("\n              Add an admin\n            ")
+                      ]),
+                      _vm._v(" "),
                       _c(
                         "v-form",
                         { staticClass: "ma-3 pa-3" },
@@ -463,7 +456,11 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "text-xs-center" }, [
-                          _vm._v(_vm._s(props.item.role[0]["role"]))
+                          _vm._v(
+                            _vm._s(
+                              _vm.roles[props.item.role[0]["id"] - 1]["role"]
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c(

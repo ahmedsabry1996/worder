@@ -109,11 +109,11 @@
                   <b >{{$t('editprofile')}}</b>
               </v-btn>
               </button>
-              <v-btn round small class="error white--text" @click="updateAuthData">
+              <v-btn round small color="#005f5b" class="white--text" @click="updateAuthData">
                   <b> {{$t('editauth')}}</b>
               </v-btn>
               <v-btn
-              color="#005f5b"
+              color="error"
               round
               small
               router

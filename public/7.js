@@ -79,11 +79,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       drawer: false
     };
+  },
+  computed: {
+    isSudo: function isSudo() {
+      return this.$store.getters.roleId == 1;
+    },
+    isPostReviewer: function isPostReviewer() {
+      return this.$store.getters.roleId == 1 || this.$store.getters.roleId == 2;
+    },
+    isAdsReviewer: function isAdsReviewer() {
+      return this.$store.getters.roleId == 1 || this.$store.getters.roleId == 3;
+    },
+    isProfileReviewer: function isProfileReviewer() {
+      return this.$store.getters.roleId == 1 || this.$store.getters.roleId == 4;
+    },
+    currentUser: function currentUser() {
+      return this.$store.getters.currentUser;
+    },
+    adminHomeRoute: function adminHomeRoute() {
+      return this.$route.name == "home-admin";
+    }
   },
   methods: {
     logout: function logout() {
@@ -125,71 +149,106 @@ var render = function() {
     { attrs: { "grid-list-md": "" } },
     [
       _c(
-        "v-toolbar",
-        { attrs: { color: "#005f5b", dark: "" } },
+        "v-content",
         [
-          _c("v-toolbar-side-icon", {
-            on: {
-              click: function($event) {
-                _vm.drawer = true
-              }
-            }
-          }),
+          _vm.adminHomeRoute
+            ? _c("h1", { staticClass: "text-xs-center white--text" }, [
+                _vm._v("Hi, "),
+                _c("span", { staticClass: "text-uppercase yellow--text" }, [
+                  _vm._v(_vm._s(_vm.currentUser.name))
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("v-toolbar-title", [_vm._v("Worder Admin panel")]),
-          _vm._v(" "),
-          _c("v-spacer"),
+          _vm.adminHomeRoute
+            ? _c(
+                "h2",
+                { staticClass: "text-xs-center white--text" },
+                [
+                  _vm._v("Have a good day "),
+                  _c("v-icon", { attrs: { color: "red" } }, [
+                    _vm._v("local_florist")
+                  ])
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
-            "v-toolbar-items",
-            { staticClass: "hidden-sm-and-down" },
+            "v-toolbar",
+            { attrs: { color: "#005f5b", dark: "", app: "" } },
             [
-              _c("v-btn", { attrs: { flat: "", router: "", to: "/" } }, [
-                _vm._v("app")
-              ]),
+              _c("v-toolbar-side-icon", {
+                on: {
+                  click: function($event) {
+                    _vm.drawer = !_vm.drawer
+                  }
+                }
+              }),
               _vm._v(" "),
-              _c("v-btn", { attrs: { flat: "" }, on: { click: _vm.logout } }, [
-                _vm._v("logout")
-              ])
+              _c("v-toolbar-title", [_vm._v("Worder Admin panel")]),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-toolbar-items",
+                { staticClass: "hidden-sm-and-down" },
+                [
+                  _c("v-btn", { attrs: { flat: "", router: "", to: "/" } }, [
+                    _vm._v("app")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    { attrs: { flat: "" }, on: { click: _vm.logout } },
+                    [_vm._v("logout")]
+                  )
+                ],
+                1
+              )
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        [
-          _c("v-flex", { attrs: { xs12: "" } }, [_c("router-view")], 1),
+          ),
           _vm._v(" "),
           _c(
-            "v-navigation-drawer",
-            {
-              attrs: { app: "", temporary: "", dark: "" },
-              model: {
-                value: _vm.drawer,
-                callback: function($$v) {
-                  _vm.drawer = $$v
-                },
-                expression: "drawer"
-              }
-            },
+            "v-layout",
+            { attrs: { row: "", wrap: "" } },
             [
+              _c("v-flex", { attrs: { xs12: "" } }, [_c("router-view")], 1),
+              _vm._v(" "),
               _c(
-                "v-list",
-                { staticClass: "pa-1" },
+                "v-navigation-drawer",
+                {
+                  attrs: { app: "", dark: "" },
+                  model: {
+                    value: _vm.drawer,
+                    callback: function($$v) {
+                      _vm.drawer = $$v
+                    },
+                    expression: "drawer"
+                  }
+                },
                 [
                   _c(
-                    "v-list-tile",
+                    "v-list",
+                    { staticClass: "pa-1" },
                     [
                       _c(
-                        "v-list-tile-action",
+                        "v-list-tile",
                         [
                           _c(
-                            "v-list-tile-content",
-                            [_c("v-list-tile-title", [_vm._v("Admin Panel")])],
+                            "v-list-tile-action",
+                            [
+                              _c(
+                                "v-list-tile-content",
+                                [
+                                  _c("v-list-tile-title", [
+                                    _vm._v("Admin Panel")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
                             1
                           )
                         ],
@@ -197,91 +256,104 @@ var render = function() {
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-list",
-                { staticClass: "pt-0", attrs: { dense: "" } },
-                [
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile",
-                    { attrs: { router: "", to: { name: "list-admin" } } },
-                    [
-                      _c(
-                        "v-list-tile-action",
-                        [_c("v-icon", [_vm._v("thumb_up")])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("Admins")])],
-                        1
-                      )
-                    ],
-                    1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-list-tile",
-                    {
-                      attrs: { router: "", to: "/admin/dashboard/list-admins" }
-                    },
+                    "v-list",
+                    { staticClass: "pt-0", attrs: { dense: "" } },
                     [
-                      _c(
-                        "v-list-tile-action",
-                        [_c("v-icon", [_vm._v("thumb_up")])],
-                        1
-                      ),
+                      _c("v-divider"),
                       _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("Posts")])],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile",
-                    { attrs: { router: "", to: "/" } },
-                    [
-                      _c(
-                        "v-list-tile-action",
-                        [_c("v-icon", [_vm._v("thumb_up")])],
-                        1
-                      ),
+                      _vm.isSudo
+                        ? _c(
+                            "v-list-tile",
+                            {
+                              attrs: { router: "", to: { name: "list-admin" } }
+                            },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [_c("v-icon", [_vm._v("dashboard")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [_c("v-list-tile-title", [_vm._v("Admins")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("Profiles")])],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-list-tile",
-                    { attrs: { routet: "", to: "/" } },
-                    [
-                      _c(
-                        "v-list-tile-action",
-                        [_c("v-icon", [_vm._v("thumb_up")])],
-                        1
-                      ),
+                      _vm.isPostReviewer
+                        ? _c(
+                            "v-list-tile",
+                            {
+                              attrs: {
+                                router: "",
+                                to: "/admin/dashboard/list-admins"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [_c("v-icon", [_vm._v("credit_card")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [_c("v-list-tile-title", [_vm._v("Posts")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("Ads")])],
-                        1
-                      )
+                      _vm.isProfileReviewer
+                        ? _c(
+                            "v-list-tile",
+                            { attrs: { router: "", to: "/" } },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [_c("v-icon", [_vm._v("description")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [_c("v-list-tile-title", [_vm._v("Profiles")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.isAdsReviewer
+                        ? _c(
+                            "v-list-tile",
+                            { attrs: { routet: "", to: "/" } },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [_c("v-icon", [_vm._v("label")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [_c("v-list-tile-title", [_vm._v("Ads")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )

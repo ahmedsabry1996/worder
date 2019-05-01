@@ -123,4 +123,11 @@ export default {
           {topic:'göç',en:'migration',id:9},
           {topic:'Eğitim',en:'education',id:10},
           {topic:'genel',en:'general',id:11}],
+  adminRoles:[
+    {role:'Patron',id:1},
+    {role:'yorum yazarı',id:2},
+    {role:'profil yorumcusu',id:3},
+    {role:'reklam incelemesi',id:4},
+  ],
+  admin:'yönetim',
 }

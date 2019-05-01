@@ -125,4 +125,11 @@ export default {
           {topic:'education',en:'education',id:10},
           {topic:'general',en:'general',id:11}],
 
+          adminRoles:[
+            {role:'sudo',id:1},
+            {role:'post reviewer',id:2},
+            {role:'profile reviewer',id:3},
+            {role:'ads reviewer',id:4},
+          ],
+          admin:'admin',
 }

@@ -3,15 +3,23 @@
     <div>
       <div @scroll="loadMore" class="mmd hidden-sm-and-up">
         <v-list two-line dark>
+          <v-list-tile-title>{{$t('people')}}</v-list-tile-title>
           <template v-for="(person,index) in allSuggesstion">
             <v-list-tile
             avatar>
-            <v-list-tile-title>{{$('people')}}</v-list-tile-title>
             <v-list-tile-avatar>
+
+              <template v-if="person.avatar">
               <img
               @click="ShowProfile(person.display_name)"
               :src="`/storage/avatars/${person.avatar}`"
               :alt="`${person.display_name}`">
+            </template>
+            <template v-else>
+              <v-avatar color="#112f41">
+   <span class="white--text headline">{{person.user.name.charAt(0).toUpperCase()}}</span>
+  </v-avatar>
+            </template>
             </v-list-tile-avatar>
 
             <v-list-tile-content  @click="ShowProfile(person.display_name)">
@@ -53,10 +61,17 @@
           avatar
           >
           <v-list-tile-avatar>
+            <template v-if="person.avatar">
             <img
             @click="ShowProfile(person.display_name)"
             :src="`/storage/avatars/${person.avatar}`"
             :alt="`${person.display_name}`">
+          </template>
+          <template v-else>
+            <v-avatar color="#112f41">
+ <span class="white--text headline">{{person.user.name.charAt(0).toUpperCase()}}</span>
+</v-avatar>
+          </template>
           </v-list-tile-avatar>
 
           <v-list-tile-content  @click="ShowProfile(person.display_name)">

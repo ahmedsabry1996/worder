@@ -1297,8 +1297,12 @@ var render = function() {
                                 _c(
                                   "v-btn",
                                   {
-                                    staticClass: "error white--text",
-                                    attrs: { round: "", small: "" },
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      round: "",
+                                      small: "",
+                                      color: "#005f5b"
+                                    },
                                     on: { click: _vm.updateAuthData }
                                   },
                                   [
@@ -1313,7 +1317,7 @@ var render = function() {
                                   {
                                     staticClass: "white--text",
                                     attrs: {
-                                      color: "#005f5b",
+                                      color: "error",
                                       round: "",
                                       small: "",
                                       router: ""

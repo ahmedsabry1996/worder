@@ -127,4 +127,12 @@ export default {
           {topic:'هجرة',en:'migration',id:9},
           {topic:'تعليم',en:'education',id:10},
           {topic:'عام',en:'general',id:11}],
+
+          adminRoles:[
+            {role:'المدير',id:1},
+            {role:'مراجع منشورات',id:2},
+            {role:'مراجع الملفات الشخصية',id:3},
+            {role:'مراجع اعلانات',id:4},
+          ],
+          admin:"الإدارة",
 }

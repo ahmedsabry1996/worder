@@ -91,6 +91,14 @@ router.beforeEach((to,from,next)=>{
         next('/');
       }
   }
+  else if (to.matched.some(record => record.meta.isSuperAdmin)) {
+      if (store.state.admin.hasRole == true && store.state.admin.roleId == 1) {
+          next();
+      }
+      else{
+        next('/admin/dashboard');
+      }
+  }
 
   else if (to.matched.some(record => record.meta.readyToCreateProfile)) {
       if (!!store.state.authentication.readyToCreateProfile == true) {
