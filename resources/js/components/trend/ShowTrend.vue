@@ -8,15 +8,18 @@
         <v-flex xs12>
             <v-card color="#282e33">
               <v-card-title primary-title>
-                <h3 class="white--text">
+                <h4 class="white--text">
                   Trend Sponser
-                </h3>
+                </h4>
               </v-card-title>
               <div  class="aa  text-xs-center">
-                  <h1 class="text-xs-center white--text">Hello World</h1>
+                  <h1 class="text-xs-center white--text">
+
+                    I Am A Sponser
+                  </h1>
 
                   <v-card-actions >
-                  <v-btn flat dark small @click="ads">be a sponser</v-btn>
+                  <v-btn flat dark medium @click="ads">be a sponser</v-btn>
                 </v-card-actions>
               </div>
             </v-card>

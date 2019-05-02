@@ -178,6 +178,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     admins: function admins() {
       return this.$store.getters.admins.reverse();
+    },
+    roleId: function roleId() {
+      return this.$store.getters.roleId;
     }
   },
   created: function created() {
@@ -467,18 +470,24 @@ var render = function() {
                           "td",
                           { staticClass: "text-xs-center" },
                           [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { round: "", small: "", color: "error" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteAdmin(props.item.id)
-                                  }
-                                }
-                              },
-                              [_vm._v("delete")]
-                            ),
+                            _vm.roleId < props.item.id
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      round: "",
+                                      small: "",
+                                      color: "error"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteAdmin(props.item.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("delete")]
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "v-btn",

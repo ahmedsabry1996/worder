@@ -17,7 +17,6 @@
             <v-list-tile-sub-title>
               <bdi>
                 {{value | numeral('0a') }} posts
-
               </bdi>
             </v-list-tile-sub-title>
           </v-list-tile-content>

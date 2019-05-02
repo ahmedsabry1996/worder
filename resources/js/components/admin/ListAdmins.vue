@@ -67,7 +67,7 @@
       <td class="text-xs-center">{{ props.item.name }}</td>
       <td class="text-xs-center">{{ roles[props.item.role[0]['id']-1]['role'] }}</td>
       <td class="text-xs-center">
-        <v-btn round small @click="deleteAdmin(props.item.id)"color="error">delete</v-btn>
+        <v-btn round small v-if="roleId < props.item.id" @click="deleteAdmin(props.item.id)"color="error">delete</v-btn>
         <v-btn round small @click="editAdmin(props.item.id)"color="primary">edit</v-btn></td>
     </template>
           </v-data-table>
@@ -162,6 +162,9 @@ export default {
   computed:{
     admins(){
       return this.$store.getters.admins.reverse();
+    },
+    roleId(){
+      return this.$store.getters.roleId;
     }
   },
   created(){

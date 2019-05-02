@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User as user;
 use App\Admin as admin;
 use App\Profile as profile;
+use App\Topics as topics;
 use App\Notifications\ProfileVerified;
 use Illuminate\Support\Facades\DB;
 use App\FollowersCounter as followercounter;
@@ -20,6 +21,7 @@ class AdminController extends Controller
           'email'=>'required|email',
           'password'=>'required|confirmed',
           'role'=>'required',
+
         ]);
 
         $user = user::create([
@@ -78,7 +80,11 @@ class AdminController extends Controller
 
         $current_admin->role()->sync([]);
 
+        $current_admin->topics()->sync([]);
+
         $current_admin->profile()->delete();
+
+        $remove_follower = followercounter::find($admin_id)->delete();
 
         $current_admin->delete();
 
@@ -119,9 +125,8 @@ class AdminController extends Controller
           return response()->json(['msg'=>'email exists alreay'],422);
         }
       }
+
       $current_admin = user::findOrFail($admin_id);
-
-
       $current_admin->name = $request->name;
       $current_admin->email = $email;
       $current_admin->password = bcrypt($password);

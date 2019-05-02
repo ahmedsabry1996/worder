@@ -62,6 +62,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -216,7 +219,7 @@ var render = function() {
                 { attrs: { color: "#282e33" } },
                 [
                   _c("v-card-title", { attrs: { "primary-title": "" } }, [
-                    _c("h3", { staticClass: "white--text" }, [
+                    _c("h4", { staticClass: "white--text" }, [
                       _vm._v("\n              Trend Sponser\n            ")
                     ])
                   ]),
@@ -226,7 +229,9 @@ var render = function() {
                     { staticClass: "aa  text-xs-center" },
                     [
                       _c("h1", { staticClass: "text-xs-center white--text" }, [
-                        _vm._v("Hello World")
+                        _vm._v(
+                          "\n\n                I Am A Sponser\n              "
+                        )
                       ]),
                       _vm._v(" "),
                       _c(
@@ -235,7 +240,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { flat: "", dark: "", small: "" },
+                              attrs: { flat: "", dark: "", medium: "" },
                               on: { click: _vm.ads }
                             },
                             [_vm._v("be a sponser")]

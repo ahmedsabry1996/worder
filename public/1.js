@@ -207,6 +207,19 @@ __webpack_require__.r(__webpack_exports__);
       errors: []
     };
   },
+  watch: {
+    currentTab: function currentTab(n) {
+      this.email = '';
+      this.password = '';
+      this.correctOldPassowrd = false;
+      this.newPassowrd = '';
+      this.confirmPassword = '';
+      this.verificationCode = null;
+      this.code = '';
+      this.isForgetPassword = false;
+      this.errors = [];
+    }
+  },
   computed: {
     currentUser: function currentUser() {
       return this.$store.getters.currentUser;

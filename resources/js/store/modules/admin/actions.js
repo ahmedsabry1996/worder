@@ -46,7 +46,6 @@ export default {
     });
   },
   editAdmin(context,data){
-    alert(data.id)
     return new Promise(function(resolve, reject) {
       axios.post('/api/admin/edit-admin',{
         admin_id:data.id,
@@ -72,7 +71,6 @@ export default {
   },
 
   deleteAdmin(context,data){
-    alert(data.id);
     return new Promise(function(resolve, reject) {
           axios.post('/api/admin/delete-admin',{
               admin_id:data.id,

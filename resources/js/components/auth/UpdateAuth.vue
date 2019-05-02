@@ -200,7 +200,19 @@ data(){
 
 
 },
-
+  watch:{
+    currentTab(n){
+      this.email='';
+      this.password='';
+      this.correctOldPassowrd=false;
+      this.newPassowrd='';
+      this.confirmPassword='';
+      this.verificationCode=null;
+      this.code='';
+      this.isForgetPassword=false;
+      this.errors=[];
+    }
+  },
 computed:{
   currentUser(){
     return this.$store.getters.currentUser;
