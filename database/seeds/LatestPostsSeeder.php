@@ -5,11 +5,7 @@ use App\Country as country;
 use App\latestPost ;
 class LatestPostsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+    
     public function run()
     {
         $all_countries = country::all();

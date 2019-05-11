@@ -6,11 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateFollowersCountersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('followers_counters', function (Blueprint $table) {
@@ -22,11 +18,7 @@ class CreateFollowersCountersTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+  
     public function down()
     {
         Schema::dropIfExists('followers_counters');

@@ -946,7 +946,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
   }
 }), _defineProperty(_props$components$dat, "filters", {
   getDateForHumans: function getDateForHumans(value) {
-    return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_2___default.a.i18n.locale()).subtract(-2, 'hours').fromNow();
+    return moment(value).locale(vue__WEBPACK_IMPORTED_MODULE_2___default.a.i18n.locale()).subtract('-2', 'hours').fromNow();
   }
 }), _props$components$dat);
 

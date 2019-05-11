@@ -170,7 +170,7 @@ __webpack_require__.r(__webpack_exports__);
         align: 'center'
       }, {
         text: 'Actions',
-        value: 'name',
+        value: 'role',
         align: 'center'
       }]
     };

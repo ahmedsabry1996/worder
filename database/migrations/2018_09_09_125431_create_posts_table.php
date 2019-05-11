@@ -18,8 +18,9 @@ class CreatePostsTable extends Migration
             $table->integer('user_id');
             $table->integer('country_id');
             $table->integer('topic_id');
+            $table->boolean('reportable')->default(1);
             $table->text('post');
-            $table->text('image')->nullable(); 
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }

@@ -28,17 +28,19 @@ export  default{
 
             deletePost(context,post,rootState){
 
-                axios.get(`/api/post/delete-post/${post.id}`,
-                {
-                  headers:{
-                    Authorization:`Bearer ${context.rootState.authentication.userToken}`,
-                  },
-                }).then((response)=>{
-                    console.log(response.data);
-                }).catch((errors)=>{
-                    console.log(errors);
-                    console.log(errors.response);
-                });
+            return new Promise(function(resolve, reject) {
+              axios.get(`/api/post/delete-post/${post.id}`,
+              {
+                headers:{
+                  Authorization:`Bearer ${context.rootState.authentication.userToken}`,
+                },
+              }).then((response)=>{
+                  console.log(response.data);
+              }).catch((errors)=>{
+                  console.log(errors);
+                  console.log(errors.response);
+              });
+            });
             },
 
             postReact(context,commit,rootState){

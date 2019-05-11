@@ -46,5 +46,6 @@ class Kernel extends HttpKernel
         'WordsCounter'=>\App\Http\Middleware\WordsCounter::class,
         'StopBack'=>\App\Http\Middleware\StopBack::class,
         'superadmin'=>\App\Http\Middleware\superadmin::class,
+        'postreviewr'=>\App\Http\Middleware\PostReviewr::class,
     ];
 }

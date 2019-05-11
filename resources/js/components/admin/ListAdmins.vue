@@ -154,7 +154,7 @@ export default {
         headers:[
           {text:'Name',value:'name',align:'center'},
           {text:'Role',value:'role',align:'center'},
-          {text:'Actions',value:'name',align:'center'},
+          {text:'Actions',value:'role',align:'center'},
 
         ]
     };

@@ -25,7 +25,8 @@ export default {
           })
         });
     },
-  fetchAdmins(context,data){
+
+    fetchAdmins(context,data){
     return  new Promise(function(resolve, reject) {
       axios.post('/api/admin/fetch-admins',{
 
@@ -45,7 +46,8 @@ export default {
 
     });
   },
-  editAdmin(context,data){
+
+    editAdmin(context,data){
     return new Promise(function(resolve, reject) {
       axios.post('/api/admin/edit-admin',{
         admin_id:data.id,
@@ -70,7 +72,7 @@ export default {
     });
   },
 
-  deleteAdmin(context,data){
+    deleteAdmin(context,data){
     return new Promise(function(resolve, reject) {
           axios.post('/api/admin/delete-admin',{
               admin_id:data.id,
@@ -90,6 +92,62 @@ export default {
             reject(error);
           })
     });
-  }
+  },
 
+    fetchReportedPosts(context,data){
+
+      return new Promise(function(resolve, reject) {
+
+        axios.get('/api/admin/reports/posts',{
+          headers:{
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
+          }
+        })
+        .then((response)=>{
+          resolve(response);
+          })
+          .catch((error)=>{
+            alert('error');
+            reject(error)
+          })
+        });
+    },
+
+    stopReports(context,data){
+      return new Promise(function(resolve, reject) {
+          axios.post('/api/admin/reports/posts/stop-reports',{
+            post_id:data.postId,
+          },{
+            headers:{
+              Authorization:`Bearer ${context.rootState.authentication.userToken}`
+            }
+          })
+          .then((response)=>{
+            resolve(response)
+          })
+          .catch((error)=>{
+            reject(error);
+          })
+      });
+    },
+
+    removePost(context,data){
+      return new Promise(function(resolve, reject) {
+        axios.post('/api/admin/reports/posts/remove',{
+          post_id:data.postId
+        },{
+          headers:{
+            Authorization:`Bearer ${context.rootState.authentication.userToken}`
+
+          }
+        })
+        .then((response)=>{
+          resolve(response);
+        })
+        .catch((error)=>{
+          reject(error);
+        })
+
+      });
+    },
 }

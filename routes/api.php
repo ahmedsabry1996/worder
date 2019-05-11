@@ -36,7 +36,7 @@ Route::group(['middleware'=>'auth:api','prefix'=>'post'],function(){
   Route::post('delete-post','API\PostController@delete_post');
   Route::post('likers','API\PostController@likers');
   Route::post('dislikers','API\PostController@dislikers');
-  Route::post('report','API\ReportController@report');
+  Route::post('report','API\ReportController@report_post');
 
 });
 
@@ -84,6 +84,9 @@ Route::group(['middleware'=>'auth:api','prefix'=>'trend'],function(){
       Route::post('/edit-admin','API\AdminController@edit_admin')->middleware('superadmin');
       Route::post('/delete-admin','API\AdminController@delete_admin')->middleware('superadmin');
 
+      Route::get('/reports/posts','API\ReportController@fetch_reported_posts')->middleware('postreviewr');
+      Route::post('/reports/posts/stop-reports','API\ReportController@stop_reports')->middleware('postreviewr');
+        Route::post('/reports/posts/remove','API\ReportController@remove_post')->middleware('postreviewr');
 
   });
 

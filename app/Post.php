@@ -35,6 +35,10 @@ class Post extends Model implements LikeableContract
     return $this->hasMany('App\Report');
   }
 
+  public function reports_counter()
+  {
+    return $this->hasOne('App\reportsCounter');
+  }
 }
 
 

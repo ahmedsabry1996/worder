@@ -41,9 +41,28 @@
           <div class="mt-2" v-for="(post,index) in posts">
             <div class="text-xs-left" :key="post.id">
 
-            <v-btn icon flat small color="white" @click="report(post.id)">
-              <v-icon>report</v-icon>
-            </v-btn>
+
+          <v-menu bottom left dark>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                dark
+                icon
+                v-on="on"
+                v-if="post.reportable"
+              >
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-tile @click="report(post.id)">
+                <v-list-tile-title>report</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>hide</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
           </div>
           <!-- publisher avatar -->
           <template v-if="post.user.profile.avatar != null">
@@ -140,16 +159,13 @@
 
             <span v-if="post.likes_counter"
             style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
-
                     {{post.likes_counter.count | numeral('0 a')}}
-
             </span>
 
             <span v-else
             style="font-size:10pt ;color:#fff;margin: auto 14px;cursor:pointer;">
                   0
             </span>
-
           </p>
         </div>
 
@@ -283,7 +299,7 @@ export default {
     },
     filters:{
           getDateForHumans(value){
-            return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
+            return moment(value).locale(Vue.i18n.locale()).subtract('-2', 'hours').fromNow();
           },
 
           subsetPost(val){

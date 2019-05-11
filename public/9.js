@@ -1,8 +1,8 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[9],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -57,58 +57,100 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      email: this.$store.state.authentication.email,
-      code: ''
+      showPost: false,
+      posts: null,
+      selectedPost: null,
+      headers: [{
+        text: "show",
+        value: "id",
+        align: "centre"
+      }, {
+        text: "NO.reporsts",
+        value: "reports_num",
+        align: "center"
+      }, {
+        text: "Actions",
+        value: "id",
+        align: "centre"
+      }]
     };
   },
-  mounted: function mounted() {
-    console.log('Verify email loaded');
-  },
-  computed: {
-    verificationCode: function verificationCode() {
-      return this.$store.getters.verificationCode;
-    }
+  created: function created() {
+    var _this = this;
+
+    this.$store.dispatch('fetchReportedPosts').then(function (response) {
+      console.log(response.data);
+      _this.posts = response.data.posts;
+    }).catch(function (error) {
+      console.log(error);
+      console.log(error.response);
+    });
   },
   methods: {
-    verifyCode: function verifyCode() {
-      var _this = this;
+    DisplayPost: function DisplayPost(postId) {
+      var index = this.posts.findIndex(function (val, ind) {
+        return val.post_id == postId;
+      });
+      this.selectedPost = this.posts[index];
+      this.showPost = true;
+    },
+    stopReports: function stopReports(postId) {
+      var _this2 = this;
 
-      if (this.verificationCode == this.code) {
-        this.$store.dispatch('signup').then(function (response) {
-          _this.$store.commit('cancelEmailVerification');
+      this.$store.dispatch('stopReports', {
+        postId: postId
+      }).then(function (response) {
+        var index = _this2.posts.findIndex(function (val, ind) {
+          return val.post_id == postId;
+        });
 
-          _this.$store.commit('readyToCreateProfile');
+        console.log(response.data);
 
-          _this.$router.push('/create-profile');
+        _this2.posts.splice(index, 1);
+      }).catch(function (error) {
+        alert('error in stoping');
+        console.log(error);
+        console.log(error.response);
+      });
+    },
+    removePost: function removePost(postId) {
+      var _this3 = this;
+
+      var sure = confirm('Are u sure ?');
+
+      if (sure) {
+        this.$store.dispatch('removePost', {
+          postId: postId
+        }).then(function (response) {
+          var index = _this3.posts.findIndex(function (val, ind) {
+            return val.post_id == postId;
+          });
+
+          _this3.posts.splice(index, 1);
         }).catch(function (error) {
+          alert('error in delt');
           console.log(error);
           console.log(error.response);
-          alert('error in verification.');
-        });
-      } else {
-        swal({
-          title: this.$t('error'),
-          text: this.$t('codeerror'),
-          icon: 'error'
         });
       }
-    },
-    cancel: function cancel() {
-      this.$store.commit('cancelEmailVerification');
-      this.$router.push('/');
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b&":
-/*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b& ***!
-  \******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -122,121 +164,177 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { "grid-list-md": "" } },
+    { attrs: { "grid-list-xs": "" } },
     [
       _c(
         "v-layout",
         { attrs: { row: "", wrap: "" } },
         [
           _c("v-flex", { attrs: { xs12: "" } }, [
-            _c("div", { staticClass: "text-xs-center" }, [
-              _c("img", {
-                staticClass: "mt-2",
-                attrs: { src: "/logo.png", alt: "worder", width: "120" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("h3", { staticClass: "white--text text-xs-center" }, [
-              _c("bdi", [
-                _vm._v(
-                  "\n        " + _vm._s(_vm.$t("codesent")) + "\n        "
-                ),
-                _c("span", { staticClass: "yellow--text" }, [
-                  _vm._v(_vm._s(_vm.email))
-                ]),
-                _vm._v(
-                  "\n        " + _vm._s(_vm.verificationCode) + "\n\n      "
-                )
-              ])
-            ])
+            _c(
+              "h1",
+              { staticClass: "white--text text-xs-center text-uppercase" },
+              [_vm._v("list posts")]
+            )
           ]),
           _vm._v(" "),
           _c(
-            "v-flex",
-            { attrs: { xs12: "", sm4: "", "offset-sm4": "" } },
+            "v-dialog",
+            {
+              attrs: {
+                scrollable: "",
+                overlay: false,
+                "max-width": "500px",
+                transition: "dialog-transition"
+              },
+              model: {
+                value: _vm.showPost,
+                callback: function($$v) {
+                  _vm.showPost = $$v
+                },
+                expression: "showPost"
+              }
+            },
             [
-              _c(
-                "v-card",
-                { staticClass: "mt-5", attrs: { color: "#002d37" } },
-                [
-                  _c(
-                    "v-form",
-                    {
-                      on: {
-                        submit: function($event) {
-                          $event.preventDefault()
-                          return _vm.verifyCode($event)
-                        }
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "pa-4" },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: _vm.$t("code"),
-                              solo: "",
-                              autofocus: ""
-                            },
-                            model: {
-                              value: _vm.code,
-                              callback: function($$v) {
-                                _vm.code = $$v
+              _c("v-card", { attrs: { dark: "" } }, [
+                !!_vm.selectedPost
+                  ? _c("div", { staticClass: "pa-5 text-xs-center" }, [
+                      _c("h3", [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(_vm.selectedPost.post.post) +
+                            "\n          "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm.selectedPost.post.image
+                        ? _c("div", { staticClass: "text-xs-center" }, [
+                            _c("img", {
+                              staticClass: "grey lighten-2",
+                              attrs: {
+                                width: "320",
+                                src:
+                                  "/storage/posts_images/" +
+                                  _vm.selectedPost.post.image
                               },
-                              expression: "code"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "text-xs-center" },
-                            [
+                              on: {
+                                click: function($event) {
+                                  return _vm.showPost(_vm.post.id)
+                                }
+                              }
+                            })
+                          ])
+                        : _vm._e()
+                    ])
+                  : _vm._e()
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs12: "" } },
+            [
+              !!_vm.posts
+                ? _c("v-data-table", {
+                    attrs: {
+                      dark: "",
+                      headers: _vm.headers,
+                      items: _vm.posts,
+                      "hide-actions": ""
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "items",
+                          fn: function(props) {
+                            return [
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    round: "",
-                                    type: "button",
-                                    color: "primary"
-                                  },
-                                  on: { click: _vm.verifyCode }
-                                },
+                                "td",
+                                { staticClass: "text-xs-center" },
                                 [
-                                  _vm._v(
-                                    "\n          " +
-                                      _vm._s(_vm.$t("verify")) +
-                                      "\n      "
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "indigo",
+                                        small: "",
+                                        round: "",
+                                        dark: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.DisplayPost(
+                                            props.item.post_id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("show post")]
                                   )
-                                ]
+                                ],
+                                1
                               ),
                               _vm._v(" "),
+                              _c("td", { staticClass: "text-xs-center" }, [
+                                _vm._v(_vm._s(props.item.reports_num))
+                              ]),
+                              _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: { round: "", color: "error" },
-                                  on: { click: _vm.cancel }
-                                },
+                                "td",
+                                { staticClass: "text-xs-center" },
                                 [
-                                  _vm._v(
-                                    "\n        " +
-                                      _vm._s(_vm.$t("cancel")) +
-                                      "\n\n      "
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "primary",
+                                        small: "",
+                                        round: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.stopReports(
+                                            props.item.post_id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("stop reports")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "error",
+                                        small: "",
+                                        round: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.removePost(
+                                            props.item.post_id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("remove the post")]
                                   )
-                                ]
+                                ],
+                                1
                               )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]
-                  )
-                ],
-                1
-              )
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      211699153
+                    )
+                  })
+                : _vm._e()
             ],
             1
           )
@@ -254,17 +352,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/components/auth/Veifyemail.vue":
+/***/ "./resources/js/components/admin/ListPosts.vue":
 /*!*****************************************************!*\
-  !*** ./resources/js/components/auth/Veifyemail.vue ***!
+  !*** ./resources/js/components/admin/ListPosts.vue ***!
   \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Veifyemail.vue?vue&type=template&id=42c7d23b& */ "./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b&");
-/* harmony import */ var _Veifyemail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Veifyemail.vue?vue&type=script&lang=js& */ "./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true& */ "./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true&");
+/* harmony import */ var _ListPosts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListPosts.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -274,50 +372,50 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Veifyemail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ListPosts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "f1ccbe0c",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/auth/Veifyemail.vue"
+component.options.__file = "resources/js/components/admin/ListPosts.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
-  !*** ./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js& ***!
   \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Veifyemail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Veifyemail.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/auth/Veifyemail.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Veifyemail_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListPosts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ListPosts.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ListPosts.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListPosts_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b& ***!
-  \************************************************************************************/
+/***/ "./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true& ***!
+  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Veifyemail.vue?vue&type=template&id=42c7d23b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/auth/Veifyemail.vue?vue&type=template&id=42c7d23b&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/admin/ListPosts.vue?vue&type=template&id=f1ccbe0c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Veifyemail_vue_vue_type_template_id_42c7d23b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListPosts_vue_vue_type_template_id_f1ccbe0c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

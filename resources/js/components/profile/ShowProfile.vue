@@ -971,7 +971,7 @@ export default {
   },
   filters:{
         getDateForHumans(value){
-          return moment(value).locale(Vue.i18n.locale()).subtract(-2, 'hours').fromNow();
+          return moment(value).locale(Vue.i18n.locale()).subtract('-2', 'hours').fromNow();
         }
   },
 

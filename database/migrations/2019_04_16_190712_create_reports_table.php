@@ -13,7 +13,6 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->bigInteger('post_id');
             $table->bigInteger('user_id');
-            $table->integer('reported_id');
             $table->string('reason');
             $table->text('notes');
             $table->timestamps();

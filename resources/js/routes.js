@@ -77,6 +77,11 @@ const ListAdmins = resolve =>{
     resolve(require('./components/admin/ListAdmins.vue'));
   });
 }
+const ListPosts = resolve =>{
+  require.ensure(['./components/admin/ListPosts.vue'],()=>{
+    resolve(require('./components/admin/ListPosts.vue'));
+  });
+}
 
 
 Vue.use(Vuex);
@@ -194,7 +199,12 @@ export const routes = [
         meta:{
           isSuperAdmin:true
         }
-      }
+      },
+      {
+        path:'list-posts/',
+        component:ListPosts,
+        name:"list-posts-admin",
+      },
     ]
   }
 

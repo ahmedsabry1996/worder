@@ -1,6 +1,5 @@
 <template>
     <v-container grid-list-md>
-      <v-content>
         <h1 v-if="adminHomeRoute" class="text-xs-center white--text">Hi, <span class="text-uppercase yellow--text">{{currentUser.name}}</span></h1>
         <h2 v-if="adminHomeRoute" class="text-xs-center white--text">Have a good day <v-icon color="red">local_florist</v-icon> </h2>
       <v-toolbar color="#005f5b" dark app>
@@ -14,7 +13,9 @@
   </v-toolbar>
         <v-layout row wrap>
             <v-flex xs12>
+              <v-content>
               <router-view></router-view>
+            </v-content>
             </v-flex>
             <v-navigation-drawer v-model="drawer" app dark >
      <v-list class="pa-1">
@@ -37,10 +38,9 @@
          </v-list-tile-action>
          <v-list-tile-content>
            <v-list-tile-title>Admins</v-list-tile-title>
-
          </v-list-tile-content>
        </v-list-tile>
-       <v-list-tile v-if="isPostReviewer" router to="/admin/dashboard/list-admins">
+       <v-list-tile v-if="isPostReviewer" router :to="{name:'list-posts-admin'}">
          <v-list-tile-action>
            <v-icon>credit_card</v-icon>
          </v-list-tile-action>
@@ -67,7 +67,6 @@
      </v-list>
    </v-navigation-drawer>
     </v-layout>
-  </v-content>
     </v-container>
 
 </template>
