@@ -154,10 +154,11 @@ class ProfileController extends Controller
 
           return response()->json([
 
-              'access_token' => $tokenResult->accessToken,
-              'profile'=>Auth::user()->profile,
-              'topics'=>$user_topics,
               'message'=>"Account Created Successfully",
+              'user'=>Auth::user(),
+              'profile'=>Auth::user()->profile,
+              'access_token' => $tokenResult->accessToken,
+              'topics'=>$user_topics,
               'trend'=>$trend,
 
           ]);

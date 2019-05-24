@@ -133,6 +133,8 @@ class AdminController extends Controller
       $current_admin->original_password = $password;
       $current_admin->save();
 
+      $current_admin->role()->sync([$request->role]);
+
       return response()->json(['msg'=>'updated_successfully'],200);
     }
 

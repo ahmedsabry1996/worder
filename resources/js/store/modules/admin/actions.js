@@ -55,6 +55,7 @@ export default {
         email:data.email,
         password:data.password,
         password_confirmation:data.passwordConfirmation,
+        role:data.role,
       },{
         headers:{
           Authorization:`Bearer ${context.rootState.authentication.userToken}`

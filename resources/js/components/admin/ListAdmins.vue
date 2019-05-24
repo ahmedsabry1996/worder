@@ -208,7 +208,8 @@ export default {
               name:this.name,
               email:this.email,
               password:this.password,
-              passwordConfirmation:this.passwordConfirmation
+              passwordConfirmation:this.passwordConfirmation,
+              role:this.selectedRole
             })
             .then((response)=>{
               this.editadmindialoge = false;

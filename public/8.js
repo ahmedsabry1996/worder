@@ -227,7 +227,8 @@ __webpack_require__.r(__webpack_exports__);
         name: this.name,
         email: this.email,
         password: this.password,
-        passwordConfirmation: this.passwordConfirmation
+        passwordConfirmation: this.passwordConfirmation,
+        role: this.selectedRole
       }).then(function (response) {
         _this2.editadmindialoge = false;
         _this2.selectedAdmin = null;
