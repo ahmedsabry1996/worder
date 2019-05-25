@@ -76,8 +76,6 @@ class PostController extends Controller
       $image_size = filesize($save_to);
 
       if ($image_size > 1000000) {
-
-
         $img = Image::make($save_to);
       	$img->save($save_to,50);
       }
