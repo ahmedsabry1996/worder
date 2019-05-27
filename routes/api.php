@@ -28,9 +28,8 @@ Route::post('user-posts',"API\ProfileController@load_more_profile_posts")->middl
 Route::post('update-profile','API\ProfileController@update_profile')->middleware('auth:api');
 Route::post('update-email','API\AuthControllerApi@update_email')->middleware('auth:api');
 Route::post('change-email','API\AuthControllerApi@change_email')->middleware('auth:api');
-
+Route::post('show-my-posts','API\ProfileController@my_posts')->middleware('auth:api');
 Route::group(['middleware'=>'auth:api','prefix'=>'post'],function(){
-
   Route::post('create-post','API\PostController@create_new_post');
   Route::get('my-posts','API\PostController@my_posts');
   Route::post('delete-post','API\PostController@delete_post');

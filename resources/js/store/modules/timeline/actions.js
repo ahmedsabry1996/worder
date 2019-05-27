@@ -12,8 +12,6 @@ export default{
 
     }).then((response)=>{
 
-
-
         context.commit('fillMyTimeline',{posts:response.data.posts,
                                          postsNum:response.data.posts_num});
 

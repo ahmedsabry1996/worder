@@ -160,6 +160,9 @@ class ProfileController extends Controller
               'access_token' => $tokenResult->accessToken,
               'topics'=>$user_topics,
               'trend'=>$trend,
+              'followers_num'=>0,
+              'following_num'=>0,
+
 
           ]);
 
@@ -349,6 +352,26 @@ class ProfileController extends Controller
 
       }
 
+      public function my_posts(Request $request)
+      {
+
+
+          $offset = $request->has('offset') ? $request->offset : 0;
+
+          $posts = post::where('user_id',Auth::id())
+          ->offset($offset)
+          ->limit(27)
+          ->latest()
+          ->with('user')
+          ->with('topic')
+          ->with('likesCounter')
+          ->with('dislikesCounter')
+          ->distinct()
+          ->get();
+
+          return response()->json(['posts'=>$posts],200);
+
+      }
       public function load_more_profile_posts(Request $request)
       {
           $user_id = $request->user_id;

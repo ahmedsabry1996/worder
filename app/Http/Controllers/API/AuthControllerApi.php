@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Auth;;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Session as session;
@@ -14,7 +15,8 @@ use App\Mail\VerificationCode ;
 use App\VerifyProfile;
 use App\Country as country;
 use App\Trend  as trend;
-use Auth;;
+use App\FollowersCounter as followercounter;
+
 use Illuminate\Support\Facades\App;
 
 class AuthControllerApi extends Controller
@@ -136,6 +138,9 @@ class AuthControllerApi extends Controller
           $country_id = $user_profile->country_id;
           $trend = country::find($country_id)->trend;
 
+        $followers_num = user::find(Auth::id())->follower_counter->followers;
+        $following_num = user::find(Auth::id())->follower_counter->following;
+
             return response()->json([
 
                 'access_token' => $tokenResult->accessToken,
@@ -156,6 +161,9 @@ class AuthControllerApi extends Controller
 
                 'role'=>$user_role,
 
+                'followers_num'=>$followers_num,
+
+                'following_num'=>$following_num,
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
                 )->toDateTimeString()
