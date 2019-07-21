@@ -11,10 +11,9 @@ export default{
       },
 
     }).then((response)=>{
-
+        console.log(response.data);
         context.commit('fillMyTimeline',{posts:response.data.posts,
                                          postsNum:response.data.posts_num});
-
     }).catch((errors)=>{
         console.log(errors);
         console.log(errors.response);

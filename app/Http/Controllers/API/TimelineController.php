@@ -20,13 +20,53 @@ class TimelineController extends Controller
 {
 
 
-    public function count_following()
+
+      public function has_following()
+      {
+            $user = Auth::user();
+            if ($user->following()->count() == 0) {
+                return false;
+            }
+
+            //TODO :  Cache user followings ids ;
+            return true;
+      }
+
+      public function following_ids()
+      {
+          $user = Auth::user();
+          //TODO : get following ids from Cache or set them
+          $following_ids = $user->following()->pluck('user_id');
+          return $following_ids;
+      }
+
+      public function has_followers()
+      {
+        $user = Auth::user();
+        $followers = $user->followers()->count();
+        
+        if($followers == 0){
+            return false;
+        }
+        //TODO : cache followers ids 
+        return true;
+      }
+
+      public function follower_ids()
+      {
+        $user = Auth::user();
+       
+        //TODO : get followers ids from Cache or set them
+        $follower_ids = $user->followers()->pluck('follower_id');
+        return $follower_ids;
+      }
+
+      public function count_following()
     {
 
           $current_user = Auth::user();
           //$num_of_following = followerscounter::whereUserId($user_id)->value('following');
-          $num_of_following = $current_user->follower_counter->following;
-
+          $num_of_following = $current_user->following()->count();
           return $num_of_following;
     }
 
@@ -36,7 +76,7 @@ class TimelineController extends Controller
 
     $current_user = Auth::user();
 
-    $num_of_followers = $current_user->follower_counter->followers;
+    $num_of_followers = $current_user->followers()->count();
 
     return $num_of_followers;
   }
@@ -57,7 +97,6 @@ class TimelineController extends Controller
           ->following()
           ->pluck('user_id');
 
-
           return $following;
 }
 
@@ -72,9 +111,7 @@ class TimelineController extends Controller
 
           $user_country = Auth::user()->profile->country_id;
 
-
           $user_topics = $current_user->topics->pluck('id');
-
 
           return $user_topics;
 
@@ -105,68 +142,38 @@ class TimelineController extends Controller
 
 }
 
-      public function fetch_other_posts($offset = 0)
-      {
-
-
-      $current_time = new carbon();
-
-      $current_user = Auth::user();
-
-      $user_id = Auth::id();
-
-      $user_country = Auth::user()->profile->country_id;
-
-      $user_favorite_topics = $this->user_topics();
-
-      $followings = $this->get_user_following();
-
-      $other_posts = post::whereNotIn('user_id',$followings)
-      ->whereIn('topic_id',$user_favorite_topics)
-      ->where('user_id','<>',$user_id)
-      ->latest()
-      ->offset($offset)
-      ->limit(27)
-      ->with('likesCounter')
-      ->with('dislikesCounter')
-      ->with('topic')
-      ->with('user');
-
-      return $other_posts;
-    }
+     
 
     public function time_line_posts(Request $request)
     {
 
       $user_country = Auth::user()->profile->country_id;
 
-        $num_of_following = $this->count_following();
-        $last_three_days = now()->addDays(-3);
-        if ($this->fetch_following_posts()->get()->count() != 0) {
-
-            $posts =$this->fetch_following_posts()->get();
-
-            $posts_num = post::where('user_id','<>',Auth::id())
-            ->whereIn('user_id',$this->get_user_following())
-            ->where('created_at','>',$last_three_days)
-            ->count();
-
-        }
-
+        $has_following = $this->has_following();
+        $user_following_ids = $this->following_ids();
+      
+        if(!$has_following){
+              $posts = null;
+              $posts_num = 0;
+              $date = null;
+            }
+        
         else{
-          $posts = $this->fetch_other_posts()->get();
+          $posts = post::where('user_id','<>',Auth::id())
+          ->latest()
+          ->offset(0)
+          ->limit(27)
+          ->with('likesCounter')
+          ->with('dislikesCounter')
+          ->with('topic')
+          ->with('user')
+          ->whereIn('user_id',$user_following_ids)
+          ->get();
+          
 
-          $posts_num = post::where('user_id','<>',Auth::id())
-          ->whereIn('user_id',$this->get_user_following())
-          ->where('created_at','>',$last_three_days)
-          ->count();
 
-        }
-
-      return response()->json(['posts'=>$posts,
-                                'posts_num'=>$posts_num,
-                                'date'=>$last_three_days,
-                                ],200);
+        }    
+      return response()->json(['posts'=>$posts,],200);
   }
 
   public function load_more(Request $request)

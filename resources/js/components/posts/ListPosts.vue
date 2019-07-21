@@ -2,7 +2,7 @@
 
 <div v-if="isLoggedIn">
 
-    <div class="text-xs-center" v-if="posts.length == 0">
+    <div class="text-xs-center" v-show="posts.length == 0">
       <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
     </div>
     <v-dialog
@@ -21,8 +21,8 @@
         </v-card-text>
         <div class="text-xs-center options white--text pa-3">
             <v-radio-group v-model.lazy="reason" class="white--text">
-                <template v-for="reason in reasons">
-                <v-radio dark class="white--text" :label="reason" :value="reason"></v-radio>
+                <template v-for="(reason,index) in reasons">
+                <v-radio :key="index" dark class="white--text" :label="reason" :value="reason"></v-radio>
               </template>
             </v-radio-group>
             <v-textarea
@@ -38,17 +38,15 @@
         </div>
       </v-card>
     </v-dialog>
-          <div class="mt-2" v-for="(post,index) in posts">
+          <div class="mt-2" v-for="(post,index) in posts" :key="index" v-show="posts.length > 0">
             <div class="text-xs-left" :key="post.id">
-
-
           <v-menu bottom left dark>
             <template v-slot:activator="{ on }">
               <v-btn
                 dark
                 icon
                 v-on="on"
-                v-if="post.reportable"
+                v-show="post.reportable"
               >
                 <v-icon>more_vert</v-icon>
               </v-btn>
@@ -206,7 +204,6 @@
 
   </div>
 
-</div>
 
 </template>
 

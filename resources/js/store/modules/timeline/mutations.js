@@ -6,9 +6,7 @@ export default{
       let uniquePosts = Vue._.uniq(payload.posts);
       let shufflePosts = Vue._.shuffle(uniquePosts);
       state.posts = shufflePosts;
-      state.loadedTimelinePosts = payload.posts.length;
-        state.postsNum = payload.postsNum;
-        state.offset = 27;
+      state.offset = 27;
       },
 
     //open time....

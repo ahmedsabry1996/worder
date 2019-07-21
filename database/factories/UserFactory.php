@@ -26,7 +26,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
     return [
         'user_id' => 2,
         'topic_id' => 11,
-        'country_id' => 1,
+        'country_id' =>1,
         'post' => $faker->sentence($nbWords = $faker->numberBetween($min = 25, $max = 99), $variableNbWords = true),
     ];
 });

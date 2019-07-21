@@ -21,7 +21,6 @@ class AdminController extends Controller
           'email'=>'required|email',
           'password'=>'required|confirmed',
           'role'=>'required',
-
         ]);
 
         $user = user::create([

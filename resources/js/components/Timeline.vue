@@ -11,13 +11,10 @@
       </keep-alive>
       </v-flex>
       <v-flex xs11 md6>
-        <template v-if="userFollowings > 0">
-
+        <template v-if="timelinePosts.length > 0">
         <list-posts class="text-xs-center" :posts="timelinePosts"></list-posts>
         <div class="text-xs-center" v-if="isLoadingMoreTimeline">
-
         <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
-
         </div>
       </template>
       <template v-else>
