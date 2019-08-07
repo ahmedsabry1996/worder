@@ -26,25 +26,28 @@ export default{
       context.commit("isLoadingMoreTimeline");
       let postsNum = context.state.postsNum;
       let loadedTimelinePosts = context.state.loadedTimelinePosts;
-      if (postsNum > loadedTimelinePosts) {
+      return new Promise ((reso,reje)=>{
         axios.post(`/api/timeline/load-more`,{
-            offset:context.state.offset,
-          },{
-          headers:{
-            "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
-          }
-        })
-        .then((response)=>{
-              console.log(response.data);
+          offset:context.state.offset,
+        },{
+        headers:{
+          "Authorization":`Bearer ${context.rootState.authentication.userToken}`,
+        }
+      })
+      .then((response)=>{
+            console.log(response.data);
 
-              context.commit("isLoadingMoreTimeline")
-              context.commit('loadMore',{posts:response.data.loaded_posts});
-        })
-        .catch((errors)=>{
-          console.log(errors);
-          console.log(errors.response);
-        })
-      }
+            context.commit("isLoadingMoreTimeline")
+            context.commit('loadMore',{posts:response.data.loaded_posts});
+            reso(response);
+          })
+      .catch((errors)=>{
+        console.log(errors);
+        console.log(errors.response);
+        reje(errors)
+      })
+      })
+       
       if(context.state.offset > context.state.postsNum){
         context.commit('resetOffset');
       }

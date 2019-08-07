@@ -16,7 +16,6 @@ import { faThumbsUp as m,faThumbsDown as d ,faQuoteLeft as q,faTrashAlt,faBell,f
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import vueNumeralFilterInstaller from 'vue-numeral-filter';
 import Popover  from 'vue-js-popover';
-import VueProgressBar from 'vue-progressbar'
 import en from './locale/en';
 import ar from './locale/ar';
 import tr from './locale/tr';
@@ -31,21 +30,6 @@ Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(Popover,{ tooltip: true });
 Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
-//Vue.use(BootstrapVue);
-
-Vue.use(VueProgressBar, {
-  color: '#A1FFCD',
-  failedColor: 'red',
-  thickness: '3px',
-  transition: {
-    speed: '5s',
-    opacity: '3s',
-    termination: 2000
-  },
-
-})
-require('vue-toastr/src/vue-toastr.scss');
-require('vue2-animate/dist/vue2-animate.min.css')
 
 Vue.use(Toastr,{
 	defaultTimeout: 3000,
@@ -57,7 +41,8 @@ const router = new VueRouter({
   routes,
   mode:'history'
 });
-
+require('vue-toastr/src/vue-toastr.scss');
+require('vue2-animate/dist/vue2-animate.min.css')
 const store = new Vuex.Store(storeData);
 
 Vue.use(vuexI18n.plugin, store);
@@ -118,6 +103,12 @@ router.beforeEach((to,from,next)=>{
 axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
 };
+import InfiniteLoading from 'vue-infinite-loading';
+
+Vue.use(InfiniteLoading, {
+  
+});
+
 var vm = new Vue({
     el: '#app',
     store,

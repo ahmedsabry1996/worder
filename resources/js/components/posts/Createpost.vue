@@ -103,7 +103,8 @@
 </template>
 
 <script>
-
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 export default {
   data(){
     return {
@@ -170,7 +171,7 @@ export default {
 
           fr.readAsDataURL(e.target.files[0]);
 
-          const imgs = ['video/mp4','image/jpeg','image/png','image/jpg'];
+          const imgs = ['image/jpeg','image/png','image/jpg'];
 
           let imgType = e.target.files[0].type;
 
@@ -187,7 +188,6 @@ export default {
 
                   this.image = e.target.result,
                   console.log(this.image);
-                  alert(55)
             }
 
           }
@@ -195,7 +195,8 @@ export default {
 
     },
       createPost(){
-        this.loading = true;
+        NProgress.start();
+          this.loading = true;
           this.$store.dispatch('createPost',{
             post:this.post,
             topic:this.topic,
@@ -207,9 +208,13 @@ export default {
             this.image = null;
             this.snackbar=true;
             this.loading = false;
+                    NProgress.done();
+
+            
           })
           .catch(()=>{
             this.loading = false;
+        NProgress.done();
 
             swal({
               title:"Error",
@@ -272,4 +277,16 @@ export default {
 .t >>> .v-input__slot{
   border-color: white !important
 }
+    #nprogress .bar {
+                background: #10f509 !important;
+            }
+
+            #nprogress .peg {
+                box-shadow: 0 0 10px rgb(21, 119, 18), 0 0 5px rgb(85, 122, 85) !important;
+            }
+
+            #nprogress .spinner-icon {
+                border-top-color: rgb(0, 0, 0) !important;
+                border-left-color: rgb(160, 175, 19) !important;
+            }
 </style>

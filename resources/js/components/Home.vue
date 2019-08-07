@@ -3,9 +3,7 @@
       <Header/>
         <router-view></router-view>
         <template v-if="homePage">
-          <keep-alive>
             <time-line></time-line>
-          </keep-alive>
         </template>
 </v-app>
 </template>
@@ -14,29 +12,37 @@
 
   import Header from './Header.vue';
   import TimeLine from './Timeline.vue';
-  import VueProgressBar from 'vue-progressbar';
   import ListPosts from './posts/ListPosts';
-
   import Ad from './ads/Ad.vue';
 
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+NProgress.configure({ easing: 'ease-in-out', speed: 3000 });
 
     export default {
+
       created () {
-            this.$Progress.start()
-            this.$router.beforeEach((to, from, next) => {
-            this.$Progress.start();
-            next();
+      this.$router.beforeEach((to, from, next) => {
+            //start load
+                NProgress.start();
+                next();
+                              NProgress.done();
+
   })
 
   this.$router.afterEach((to, from) => {
-    this.$Progress.finish()
-  })
+
+      //END LOAD
+              NProgress.done();
+
+})
 },
         mounted() {
 
+              //end load
+                  NProgress.done();
 
-              this.$Progress.finish();
-        },
+            },
 
         methods:{
 

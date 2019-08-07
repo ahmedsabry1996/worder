@@ -1,7 +1,7 @@
 export default{
 
             posts:[],
-            postsNum:0,
+            postsNum:5000,
             isLoadingMoreTimeline:false,
             loadedTimelinePosts:0,
             offset:27,

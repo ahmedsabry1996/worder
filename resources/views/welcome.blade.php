@@ -17,7 +17,6 @@
         <div id="app">
 
           <home-page></home-page>
-                  <vue-progress-bar></vue-progress-bar>
               </div>
               <script  src="{{asset('js/app.js')}}">
       </script>

@@ -22,7 +22,7 @@
           </v-list-tile-content>
 
         </v-list-tile>
-        <v-divider></v-divider>
+        <v-divider :key="key"></v-divider>
       </template>
     </v-list>
   </div>
@@ -47,7 +47,7 @@
           </v-list-tile-content>
 
         </v-list-tile>
-        <v-divider></v-divider>
+        <v-divider :key="key"></v-divider>
       </template>
     </v-list>
   </div>

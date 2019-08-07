@@ -1,6 +1,5 @@
 <template>
-
-  <v-container grid-list-lg>
+    <v-container grid-list-lg>
     <v-layout row wrap v-if="isLoggedIn">
       <v-flex xs12 md12>
         <create-post></create-post>
@@ -10,16 +9,23 @@
         <suggested-people></suggested-people>
       </keep-alive>
       </v-flex>
-      <v-flex xs11 md6>
+      <v-flex xs11 md6 class="scroll-timeline">
+          <div>
         <template v-if="timelinePosts.length > 0">
         <list-posts class="text-xs-center" :posts="timelinePosts"></list-posts>
         <div class="text-xs-center" v-if="isLoadingMoreTimeline">
         <v-icon color="white">fas fa-circle-notch fa-spin</v-icon>
+
         </div>
       </template>
       <template v-else>
           <h1 class=" text-xs-center white--text">{{$t('followSome')}}</h1>
       </template>
+      <infinite-loading @infinite="toendpage"   
+      spinner="waveDots">
+></infinite-loading>
+
+      </div>
       </v-flex>
 
       <v-flex md3 hidden-sm-and-down>
@@ -27,6 +33,9 @@
         <br />
         <topics></topics>
       </v-flex>
+        <v-flex xs12>
+
+        </v-flex>
       </v-layout>
     </v-container>
 </template>
@@ -37,6 +46,7 @@ import createPost from './posts/Createpost.vue';
 import SuggestedPeople from './Suggestpeople.vue';
 import Topics from './topics/Topics.vue';
 import Trend from './trend/Trend.vue';
+import VueDa from 'vue-data-loading';
 
 export default {
 
@@ -51,7 +61,7 @@ export default {
     createPost,
     SuggestedPeople,
     Topics,
-    Trend
+    Trend,
   },
 
   computed:{
@@ -74,6 +84,7 @@ export default {
   },
   created(){
 
+    window.scrollTo(0,0);
 
     if (this.isLoggedIn) {
       this.isLoading = true;
@@ -83,32 +94,45 @@ export default {
   },
 
   mounted(){
-    if (this.isLoggedIn) {
-      this.$store.dispatch('timeline');
 
+  if (this.isLoggedIn) {
+      this.$store.dispatch('timeline');
     }
+    this.mountedComp = true;
   },
   methods:{
+    toendpage($state){
+      this.$store.dispatch('loadMorePosts').then((response)=>{
+            $state.loaded();
+      })
+      .catch((errors)=>{
+        alert('error in loading posts');
+        console.log(errors.response.data)
+        console.log(errors)
+      })
+      
+
+},  
     showPost(postId){
       this.$router.push(`post/${postId}`)
     },
     loadMore(){
       const self = this;
-            window.onscroll = function() {
+        //     window.onscroll = function() {
 
-          let endOfPage = (document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight) );
+        //   let endOfPage = (document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight) );
 
-          if (endOfPage) {
-            if (self.isLoggedIn && self.$route.name == null) {
-              self.$store.dispatch('loadMorePosts');
-              self.$store.commit('hideBottomNav');
-            window.scrollTo(0,document.documentElement.offsetHeight - 580);
+        //   if (endOfPage) {
+        //     if (self.isLoggedIn && self.$route.name == null) {
+        //       self.$store.dispatch('loadMorePosts');
+        //       self.$store.commit('hideBottomNav');
+        //     window.scrollTo(0,document.documentElement.offsetHeight - 580);
 
-          }
-          }
+        //   }
+        //   }
 
 
-        }
+        // }
 
           },
   },
@@ -118,4 +142,10 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  height: 100%;
+}
+.scroll-timeline{
+  overflow: hidden;
+}
 </style>

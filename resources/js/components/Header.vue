@@ -22,9 +22,9 @@
             {{$t('noResults')}}
           </p>
         </template>
-        <template v-for="result in results">
+        <template v-for="(result,index) in results">
 
-          <v-list-tile avatar router :to="`/${result.profile.display_name}`">
+          <v-list-tile :key="index" avatar router :to="`/${result.profile.display_name}`">
             <v-list-tile-avatar>
               <template v-if="result.profile.avatar">
                 <img :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name">
@@ -71,9 +71,9 @@
 
           </p>
         </template>
-        <template v-for="result in results">
+        <template v-for="(result,index) in results">
 
-          <v-list-tile avatar router :to="`/${result.profile.display_name}`">
+          <v-list-tile avatar router :key="index" :to="`/${result.profile.display_name}`">
             <v-list-tile-avatar>
               <template v-if="result.profile.avatar">
 
@@ -133,7 +133,7 @@
     </div>
 
   <ul class="list-group col-md-3 col-md-offset-7 results-md" id="results-md" v-if="showResults && results.length > 0" >
-      <li class="list-group-item" v-for="result in results" style="height:60px;" @click="showResults = false;results = [];keyword='';goTo(result.profile.display_name)">
+      <li class="list-group-item" v-for="(result,index) in results" style="height:60px;" @click="showResults = false;results = [];keyword='';goTo(result.profile.display_name)" :key="index">
         <p>
         <img class="img-rounded" style="" :src="`/storage/avatars/${result.profile.avatar}`" :alt="result.name" width="30" height="30">
         <router-link style="padding:10px" :to="`/${result.profile.display_name}`">
