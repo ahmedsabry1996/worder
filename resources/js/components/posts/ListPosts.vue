@@ -26,8 +26,7 @@
               </template>
             </v-radio-group>
             <v-textarea
-                    solo
-                    dark
+                outline
                     no-resize
                     v-model.lazy="note"
                     :label="$t('notes')"

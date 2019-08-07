@@ -23,11 +23,11 @@
         <v-tooltip left>
         <div slot="activator" class="mt-1 text-xs-center" id="upload">
           <v-icon class="mt-1" color="white">
-            add_a_photo
+            attach_file
           </v-icon>
-          <input type="file" id="file" @change="HandlePostImage"/>
+          <input title="" type="file" id="file" @change="HandlePostImage"/>
         </div>
-        <span>add photo</span>
+        <span>add media</span>
       </v-tooltip>
       </v-flex>
       <v-flex xs12 sm3>
@@ -170,7 +170,7 @@ export default {
 
           fr.readAsDataURL(e.target.files[0]);
 
-          const imgs = ['image/jpeg','image/png','image/jpg'];
+          const imgs = ['video/mp4','image/jpeg','image/png','image/jpg'];
 
           let imgType = e.target.files[0].type;
 
@@ -185,7 +185,9 @@ export default {
           else{
             fr.onload = (e) => {
 
-                  this.image = e.target.result
+                  this.image = e.target.result,
+                  console.log(this.image);
+                  alert(55)
             }
 
           }
