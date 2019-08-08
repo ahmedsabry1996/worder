@@ -65,6 +65,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -277,12 +279,14 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { md6: "", xs12: "" } },
-            [_c("list-posts", { attrs: { posts: _vm.posts } })],
-            1
-          ),
+          _c("v-flex", { attrs: { md6: "", xs12: "" } }, [
+            _c(
+              "div",
+              { staticClass: "text-xs-center" },
+              [_c("list-posts", { attrs: { posts: _vm.posts } })],
+              1
+            )
+          ]),
           _vm._v(" "),
           _c(
             "v-flex",

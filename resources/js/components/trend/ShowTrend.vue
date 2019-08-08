@@ -36,7 +36,9 @@
         </v-flex>
 
         <v-flex md6 xs12>
+          <div class="text-xs-center">
           <list-posts :posts="posts"></list-posts>
+          </div>
         </v-flex>
 
         <v-flex md3 class="hidden-xs-only">
