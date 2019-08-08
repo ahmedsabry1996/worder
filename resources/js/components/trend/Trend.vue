@@ -30,12 +30,12 @@
     <v-list two-line subheader dark class="hidden-xs-only">
       <v-subheader>{{$t('trend')}}</v-subheader>
       <template v-for="(value,key) in topTen">
-
-        <v-list-tile :key="key" :to="{name:'trend',query:{trend:key}}">
+      
+        <v-list-tile :key="value" :to="{name:'trend',query:{trend:key}}">
           <v-list-tile-content>
             <v-list-tile-title>
               <bdi>
-                {{ key }}
+                {{ key }}  
                 </bdi>
             </v-list-tile-title>
             <v-list-tile-sub-title>

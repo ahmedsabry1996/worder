@@ -21,7 +21,7 @@
       <template v-else>
           <h1 class=" text-xs-center white--text">{{$t('followSome')}}</h1>
       </template>
-      <infinite-loading @infinite="toendpage"   
+      <infinite-loading :distance="1000" @infinite="toendpage"   
       spinner="waveDots">
 ></infinite-loading>
 

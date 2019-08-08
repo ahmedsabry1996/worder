@@ -13,19 +13,19 @@
 
         <v-flex md6>
 
-          <template v-if="!noTopicPosts">
+          <div v-show="!noTopicPosts" class="text-xs-center">
 
             <list-posts :posts="posts"></list-posts>
 
-          </template>
+          </div>
 
-          <template v-else>
+          <div v-show="noTopicPosts">
             <div class="text-xs-center white--text">
 
               <h1>no posts</h1>
               <h1>come on later</h1>
             </div>
-          </template>
+          </div>
         </v-flex>
 
         <v-flex md3>
