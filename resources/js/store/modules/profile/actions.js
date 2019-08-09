@@ -57,9 +57,9 @@ export default{
       },
 
       loadMoreProfilePosts(context,commit,rootState){
-        let profileLoadedPosts = context.state.profileLoadedPosts ;
-        let profilePostsNum = context.state.profilePostsNum ;
-        if (profilePostsNum > profileLoadedPosts) {
+
+        return new Promise((resolve,reject)=>{
+    
 
         axios.post('/api/user-posts',{
             offset:context.state.profilesOffset,
@@ -70,15 +70,17 @@ export default{
           }
         })
         .then((response)=>{
-            console.log(response.data.posts);
-          context.commit('loadMoreProfilePosts',response.data.posts)
+            //console.log(response.data.posts);
+          context.commit('loadMoreProfilePosts',response.data.posts);
+          resolve(response);
         })
         .catch((error)=>{
             console.log(error);
-            console.log(error.response);
+            reject(error);
         })
+        
+      });
 
-        }
       },
 
       deletePost(context,commit,rootState){

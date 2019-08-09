@@ -130,4 +130,6 @@ export default {
     {role:'reklam incelemesi',id:4},
   ],
   admin:'yönetim',
+  noMoreNotifications:'başka bildirim yok',
+  noNotifications:'bildirim yok',      
 }

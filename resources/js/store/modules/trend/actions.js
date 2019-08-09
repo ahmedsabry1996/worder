@@ -1,3 +1,5 @@
+import { resolve } from "q";
+
 export default {
 
       showTrendPosts(context,commit,rootState){
@@ -25,6 +27,8 @@ export default {
         let trendPostsNum = context.state.trendPostsNum;
         let trendLoadedPosts = context.state.trendLoadedPosts;
 
+        return new Promise((resolve,reject)=>{
+
         if (trendPostsNum > trendLoadedPosts){
           axios.post('/api/trend/load-more',{
           offset:context.state.trendOffset,
@@ -39,10 +43,13 @@ export default {
           console.log(response.data);
           context.commit('addToTrendPosts',response.data.posts);
           console.log(commit.word);
+          resolve(response);
         })
         .catch((error)=>{
           console.log(error.response);
+          reject(error)
         })}
+      });
 
       }
 

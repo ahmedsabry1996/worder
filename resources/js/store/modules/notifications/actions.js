@@ -1,3 +1,5 @@
+import { reject } from "q";
+
 export default{
 
     getNotifications(context,data,rootState){
@@ -17,7 +19,8 @@ export default{
 
     },
     loadMoreNotifications(context,commit,rootState){
-      axios.post('/api/timeline/load-more-notifications',{
+      return new Promise((resolve,reject)=>{
+              axios.post('/api/timeline/load-more-notifications',{
         offset:commit.offset
       },{
         headers:{
@@ -31,11 +34,14 @@ export default{
               }
 
         console.log(response.data.notifications);
+      resolve(response);
       })
       .catch((errors)=>{
         console.log(errors);
         console.log(errors.response);
+        reject(error);
       })
+    })
 
     },
     unreadNotifications(context){

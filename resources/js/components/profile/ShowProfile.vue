@@ -108,7 +108,6 @@
               <v-btn round small class="warning black--text" @click="updateProfile">
                   <b >{{$t('editprofile')}}</b>
               </v-btn>
-              </button>
               <v-btn round small color="#005f5b" class="white--text" @click="updateAuthData">
                   <b> {{$t('editauth')}}</b>
               </v-btn>
@@ -129,8 +128,8 @@
 
             <!-- user faviorite topics -->
           <div class="text-xs-center mt-2">
-            <template v-for="topic in showProfile.topics">
-            <v-btn round small class="primary white--text">
+            <template v-for="(topic,index) in showProfile.topics">
+            <v-btn :key="index" round small class="primary white--text">
               <b>
                 {{topics[topic.id -1]['topic']}}
               </b>
@@ -146,7 +145,7 @@
         <div style="margin: 0 auto !important;position: relative;">
           <!-- show user posts -->
           <template v-if="currentUserProfile.user_id !== showProfile.profile.user_id ">
-      <div class="post text-xs-center"  v-for="(post,index) in posts">
+      <div class="post text-xs-center" :key="index"  v-for="(post,index) in posts">
           <div class="avatar">
             <template v-if="post.user.profile.avatar">
             <v-avatar
@@ -232,7 +231,7 @@
 
             <span style="position:relative;font-size:20pt ;color:#EA003A;margin: auto 14px;cursor:pointer;top:3px">
               <font-awesome-icon
-              :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)"@click="postReact('dislike',post.id,index)"/>
+              :icon= "['fas','thumbs-down']"  style="transform:scalex(-1)" @click="postReact('dislike',post.id,index)"/>
             </span>
 
             <span style="font-size:20pt ;color:#18DEFF;margin: auto 14px;cursor:pointer;">
@@ -291,7 +290,7 @@
 
 <!-- MY PROFILE posts-->
             <template v-if="currentUserProfile.user_id == showProfile.profile.user_id">
-  <div class="text-xs-center post" v-for="(post,index) in posts" >
+  <div class="text-xs-center post" v-for="(post,index) in posts"  :key="index">
 
     <div class="avatar mt-3">
 
@@ -516,9 +515,9 @@
       <div class="followers" ref="followers_modal" @scroll="loadMoreFollowers">
 
         <v-list two-line dark>
-          <template v-for="follower in myFollowers">
+          <template v-for="(follower,index) in myFollowers">
 
-              <v-list-tile>
+              <v-list-tile :key="index">
 
             <v-list-tile-avatar>
               <template v-if="follower.profile.avatar">
@@ -560,7 +559,7 @@
                 </template>
               </v-list-tile-action>
             </v-list-tile>
-            <v-divider></v-divider>
+    <v-divider :key="index+Math.random()"></v-divider>
           </template>
         </v-list>
 
@@ -574,8 +573,8 @@
       <template v-if="myFollowing">
 
         <div class="following" ref="following_modal" @scroll="loadMoreFollowing">
-          <template v-for="following in myFollowing">
-                  <v-list two-line dark>
+          <template v-for="(following,index) in myFollowing">
+                  <v-list two-line dark :key="index">
                         <v-list-tile>
 
                       <v-list-tile-avatar>
@@ -634,6 +633,9 @@
 
   </v-layout>
 </div>
+      <infinite-loading :identifier="infiniteId" :distance="1000" @infinite="loadMorePosts"   
+      spinner="waveDots">
+</infinite-loading>
 </v-container>
 
 </template>
@@ -668,6 +670,7 @@ export default {
         displayName:this.$route.params.dName,
         currentUserDisplayName : this.$store.state.authentication.currentUserProfile.display_name,
         postId:null,
+        infiniteId: +new Date(),
 
       };
   },
@@ -677,9 +680,9 @@ export default {
           this.$refs.fans.close();
           this.$refs.likers.close();
           this.$refs.dislikers.close();
-      this.$router.push(`/${to.params.dName}`);
-      this.$store.dispatch('showProfile',to.params.dName);
-
+          this.$router.push(`/${to.params.dName}`);
+          this.$store.dispatch('showProfile',to.params.dName);  
+           this.infiniteId += 1;
     }
   },
 
@@ -688,8 +691,6 @@ export default {
   },
   mounted(){
       console.log(`${this.$route.params.dName} show profile`);
-      this.loadMorePosts();
-
   },
   created(){
     console.log('show profile loaded');
@@ -828,20 +829,23 @@ export default {
         this.$router.push(`/${displayName}`);
     },
 
-    loadMorePosts(){
-      const self = this;
-            window.onscroll = function() {
+    loadMorePosts($state){
+                this.$store.dispatch('loadMoreProfilePosts',{
+                'userId':this.$store.state.profile.currentProfile.id})
+                .then((response)=>{
+                  
+                  if(response.data.posts.length > 0 ){
+                      $state.loaded();
+                  }
+                  else{
+                   $state.complete();
+                  }
+                })
+                .catch((error)=>{
 
+               })
 
-              let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight  == (document.documentElement.offsetHeight );
-
-              if (bottomOfWindow) {
-                self.$store.dispatch('loadMoreProfilePosts',{
-                'userId':self.$store.state.profile.currentProfile.id});
-                window.scrollTo(0,document.documentElement.offsetHeight - 580);
-                }
-
-                }
+                
 
               },
 
@@ -914,8 +918,6 @@ export default {
   },
 
     loadMoreLikers(e){
-
-
 
         let elHeight = e.target.clientHeight;
 

@@ -132,4 +132,6 @@ export default {
             {role:'ads reviewer',id:4},
           ],
           admin:'admin',
+    noMoreNotifications:'no more notifications',
+    noNotifications:'no notifications',      
 }

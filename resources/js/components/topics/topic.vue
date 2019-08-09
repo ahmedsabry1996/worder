@@ -14,9 +14,10 @@
         <v-flex md6>
 
           <div v-show="!noTopicPosts" class="text-xs-center">
-
             <list-posts :posts="posts"></list-posts>
 
+      <infinite-loading :distance="1000" @infinite="morePosts"   
+      spinner="waveDots"></infinite-loading>
           </div>
 
           <div v-show="noTopicPosts">
@@ -73,7 +74,6 @@ export default {
     },
     mounted(){
         console.log('topic loaded');
-        this.loadMore();
     },
     created(){
       this.$store.dispatch('reactedPosts');
@@ -123,9 +123,21 @@ export default {
 
       },
 
-      morePosts(){
+      morePosts($state){
         this.$store.dispatch('loadMoreTopicPosts',
-                            {topic:this.$route.params.topic,id:this.currentTopic[0]['id']})
+                            {topic:this.$route.params.topic,id:this.currentTopic[0]['id']}).then((response)=>{
+                              $state.loaded();
+                              if(response.data.posts.length > 0 ){
+                                      $state.loaded();
+
+                              }
+                              else{
+                                    $state.complete();
+                              }
+                            })
+                            .catch((error)=>{
+                                alert('error in topic posts loading');
+                            })
 
 
 

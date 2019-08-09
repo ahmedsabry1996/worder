@@ -135,4 +135,6 @@ export default {
             {role:'مراجع اعلانات',id:4},
           ],
           admin:"الإدارة",
+          noMoreNotifications:'ﻻ مزيد من اﻻشعارات',
+          noNotifications:'لا اشعارات',      
 }

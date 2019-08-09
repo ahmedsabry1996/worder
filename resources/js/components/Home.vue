@@ -22,17 +22,19 @@ NProgress.configure({ easing: 'ease-in-out', speed: 3000 });
     export default {
 
       created () {
+        window.scrollTo(0,0)
       this.$router.beforeEach((to, from, next) => {
             //start load
                 NProgress.start();
                 next();
-                              NProgress.done();
+              NProgress.done();
 
   })
 
   this.$router.afterEach((to, from) => {
 
       //END LOAD
+              window.scrollTo(0,0)
               NProgress.done();
 
 })

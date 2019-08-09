@@ -30,8 +30,9 @@ export default{
     loadMoreTopicPosts(context,commit,rootState){
 
       let loadedTopicPosts = context.state.loadedTopicPosts;
-
       let allTopicPosts = context.state.allTopicPosts;
+
+      return new Promise((resolve,reject)=>{
 
     if (allTopicPosts > loadedTopicPosts){
     axios.post('/api/topic/load-more',{
@@ -43,13 +44,16 @@ export default{
         }
       })
       .then((response)=>{
-
         context.commit('addToTopicPosts',response.data.posts);
+        resolve(response);
       })
       .catch((error)=>{
         console.log(error.response);
+        reject(error);
       })}
+    });
 
     }
+    
 
 }

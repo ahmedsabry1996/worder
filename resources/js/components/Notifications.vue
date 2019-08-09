@@ -1,6 +1,6 @@
 <template >
 <div>
-  <div class="mmd hidden-sm-and-up" @scroll="loadMoreNotifications">
+  <div class="mmd hidden-sm-and-up">
   <v-list two-line dark>
     <template v-for="(notification,index) in notifications">
           <v-list-tile router :to="`/${notification.data.url}`"  :key="index">
@@ -8,7 +8,6 @@
             <v-avatar color="#282e33">
               <v-icon color="#fff">notifications</v-icon>
    </v-avatar>
-          </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>
               <bdi>
@@ -22,9 +21,10 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
     </v-list-tile>
-    <v-divider></v-divider>
+    <v-divider :key="index+Math.random()"></v-divider>
   </template>
   </v-list>
+
   </div>
 <v-menu class="hidden-xs-only" left offset-x width="200" :full-width="true">
   <v-btn slot="activator" @click="getNotifications" flat
@@ -34,7 +34,7 @@
   </v-avatar>
 
   </v-btn>
-  <div class="mm" @scroll="loadMoreNotifications">
+  <div class="mm">
 
   <v-list two-line>
     <v-list-tile router :to="`/${notification.data.url}`" v-for="(notification,index) in notifications" :key="index">
@@ -56,6 +56,10 @@
           </v-list-tile-content>
     </v-list-tile>
   </v-list>
+        <infinite-loading :distance="1000" slot="append" @infinite="loadMoreNotifications">
+           <div slot="no-more">{{$t('noMoreNotifications')}}</div>
+          <div slot="no-results">{{$t('noNotifications')}}</div>
+</infinite-loading>
 </div>
 </v-menu>
 
@@ -240,24 +244,21 @@ export default {
 
     },
 
-    loadMoreNotifications(e){
-    let elHeight = e.target.clientHeight;
+    loadMoreNotifications($state){
 
-    let elscrollHeight = e.target.scrollHeight;
-
-    let elScrollTop = e.target.scrollTop;
-
-    if ((elHeight+elScrollTop) - elscrollHeight == 0) {
-
-        this.offset +=10;
-      this.$store.dispatch('loadMoreNotifications',{offset:this.offset});
-      this.$store.commit('hideBottomNav');
-
-      }
-      else{
-        this.$store.commit('showBottomNav');
-
-      }
+        this.$store.dispatch('loadMoreNotifications',{offset:this.offset})
+        .then((response)=>{
+            if(response.data.notifications.length > 0){
+              $state.loaded();
+              this.offset +=10;
+            }
+            else{
+              $state.complete();
+            }
+        })  
+        .catch((error)=>{
+          alert('error in loading notifications');
+        })
   },
 
     jwt_decode(token){
@@ -292,7 +293,6 @@ export default {
   height: 300px !important;
   max-height:300px !important;
   background-color:#fff !important;
-  overflow:scroll;
   }
 .mmd{
   margin:0 auto;
@@ -300,7 +300,6 @@ export default {
   height: 100% !important;
   max-height:100% !important;
   background-color:#002d37 !important;
-  overflow:scroll;
   position: absolute;
   top:58px;
   bottom:0;

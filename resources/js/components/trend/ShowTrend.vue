@@ -38,6 +38,11 @@
         <v-flex md6 xs12>
           <div class="text-xs-center">
           <list-posts :posts="posts"></list-posts>
+          <infinite-loading :distance="1000" @infinite="morePosts"   
+      spinner="waveDots">
+
+</infinite-loading>
+
           </div>
         </v-flex>
 
@@ -82,9 +87,6 @@ export default {
     this.$store.dispatch('reactedPosts');
 
   },
-  mounted(){
-    this.loadMore();
-  },
   watch:{
     '$route'(to,from){
       this.offset = 0;
@@ -96,30 +98,27 @@ export default {
     getTrendPosts(){
       this.$store.dispatch('showTrendPosts',{word:this.$route.query.trend});
     },
-    loadMore(){
-
-
-            window.onscroll = () =>{
-
-
-          let endOfPage = (document.documentElement.scrollTop + window.innerHeight  === (document.documentElement.offsetHeight) );
-
-          if (endOfPage) {
-
-            if (!!this.$store.state.authentication.userToken && this.$route.name == 'trend') {
-                this.morePosts();
-
-          }
-          }
-
-            }
-
-    },
-    morePosts(){
+   
+    morePosts($state){
 
         this.offset +=100;
-        this.$store.dispatch('loadMoreTrendPosts',{offset:this.offset,
-                                                  word:this.$route.query.trend})
+        this.$store.dispatch('loadMoreTrendPosts',
+        {offset:this.offset,
+        word:this.$route.query.trend})
+        .then((response)=>{
+            if(response.data.posts.length > 0 ){
+
+              $state.loaded();
+            }
+            else{
+              $state.complete();
+            }
+
+        })
+        .catch((errors)=>{
+              alert('error in loading more trend posts');
+        })
+
     },
     ads(){
       alert('InshaAllah after one months every thing will be Ok')

@@ -23,7 +23,8 @@
       </template>
       <infinite-loading :distance="1000" @infinite="toendpage"   
       spinner="waveDots">
-></infinite-loading>
+
+</infinite-loading>
 
       </div>
       </v-flex>
@@ -78,9 +79,6 @@ export default {
         return this.$store.getters.myFollowingIds.length;
       }
 
-  },
-  activated(){
-    this.loadMore();
   },
   created(){
 
