@@ -682,7 +682,7 @@ export default {
           this.$refs.dislikers.close();
           this.$router.push(`/${to.params.dName}`);
           this.$store.dispatch('showProfile',to.params.dName);  
-           this.infiniteId += 1;
+          this.infiniteId += 1;
     }
   },
 
@@ -694,8 +694,8 @@ export default {
   },
   created(){
     console.log('show profile loaded');
-    this.$store.dispatch('reactedPosts');
-    this.$store.dispatch('myFollowingIds');
+    this.$store.cache.dispatch('reactedPosts');
+    this.$store.cache.dispatch('myFollowingIds');
 
     this.$store.dispatch('showProfile',this.displayName)
     .then((response)=>{
@@ -706,7 +706,7 @@ export default {
     })
 
     if (this.$route.params.dName == this.$store.state.authentication.currentUserProfile.display_name) {
-      this.$store.dispatch('showFans');
+      this.$store.cache.dispatch('showFans');
 
     }
   },

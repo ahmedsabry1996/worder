@@ -14,7 +14,7 @@ import topics from './modules/topics/index';
 import trend from './modules/trend/index';
 import following from './modules/following/index';
 import admin from './modules/admin/index';
-
+import createCache from 'vuex-cache';
 export default {
 
   modules:{
@@ -37,6 +37,6 @@ export default {
 
   mutations,
 
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState(),createCache()],
 
 }
