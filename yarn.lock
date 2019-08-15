@@ -6558,6 +6558,11 @@ v-emoji-picker@^1.1.0, v-emoji-picker@^1.1.1:
     v-emoji-picker "^1.1.0"
     vue "^2.6.6"
 
+v-file-upload@^3.1.7:
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/v-file-upload/-/v-file-upload-3.1.7.tgz#8a8add0fe278cf24a3990b5a4c7c51deb1de107f"
+  integrity sha512-ce+LVMB6NnA+qv0MsCQXpMHy8VnZ+EjzPcSKXGYWXPxKf/qYVGns+AxAw3fUZVuYRGmrSp7YQ7XEOGkZuGMugA==
+
 v8-compile-cache@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"

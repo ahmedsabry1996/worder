@@ -263,7 +263,7 @@ var render = function() {
             _c("h1", { staticClass: "yellow--text text-xs-center" }, [
               _c("bdi", [
                 _vm._v(
-                  "\n              #" +
+                  "\n              " +
                     _vm._s(this.$route.query.trend) +
                     "\n            "
                 )

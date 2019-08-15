@@ -1,5 +1,6 @@
 <template>
   <div class="">
+    <!-- For Mobile Phones -->
     <h1 class="text-xs-center hidden-md-and-up white--text">{{$t('trend')}}</h1>
           <div @scroll="loadMore" class="trend-phone hidden-sm-and-up">
 
@@ -7,7 +8,32 @@
       <v-subheader>{{$t('trend')}}</v-subheader>
       <template v-for="(value,key) in topTen">
 
-        <v-list-tile :key="key" router :to="{name:'trend',query:{trend:key}}">
+        <v-list-tile :key="value + Math.random()" router :to="{name:'trend',query:{trend:key}}">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <bdi>
+             
+                </bdi>
+            </v-list-tile-title>
+            <v-list-tile-sub-title>
+              <bdi>
+                {{value | numeral('0a') }} posts
+              </bdi>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+
+        </v-list-tile>
+        <v-divider :key="value + Math.random() / 7"></v-divider>
+      </template>
+    </v-list>
+  </div>
+
+  <!-- for other devices -->
+    <v-list two-line subheader dark class="hidden-xs-only">
+      <v-subheader>{{$t('trend')}}</v-subheader>
+      <template v-for="(value,key) in topTen">
+      
+        <v-list-tile :key="value + Math.random()" :to="{name:'trend',query:{trend:key}}">
           <v-list-tile-content>
             <v-list-tile-title>
               <bdi>
@@ -17,37 +43,13 @@
             <v-list-tile-sub-title>
               <bdi>
                 {{value | numeral('0a') }} posts
-              </bdi>
-            </v-list-tile-sub-title>
-          </v-list-tile-content>
-
-        </v-list-tile>
-        <v-divider :key="key"></v-divider>
-      </template>
-    </v-list>
-  </div>
-
-    <v-list two-line subheader dark class="hidden-xs-only">
-      <v-subheader>{{$t('trend')}}</v-subheader>
-      <template v-for="(value,key) in topTen">
-      
-        <v-list-tile :key="value" :to="{name:'trend',query:{trend:key}}">
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <bdi>
-                {{ key }}  
-                </bdi>
-            </v-list-tile-title>
-            <v-list-tile-sub-title>
-              <bdi>
-                {{value | numeral('0a') }} posts
 
               </bdi>
             </v-list-tile-sub-title>
           </v-list-tile-content>
 
         </v-list-tile>
-        <v-divider :key="key"></v-divider>
+        <v-divider :key="value + Math.random() / 9"></v-divider>
       </template>
     </v-list>
   </div>

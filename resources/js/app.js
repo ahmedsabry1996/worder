@@ -20,6 +20,9 @@ import en from './locale/en';
 import ar from './locale/ar';
 import tr from './locale/tr';
 import VueLodash from 'vue-lodash'
+
+import FileUpload from 'v-file-upload'
+
 library.add(n,b,m,d,q,faTrashAlt,faBell,faAward);
 import EasyRefresh from 'vue-easyrefresh'
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -30,6 +33,7 @@ Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(Popover,{ tooltip: true });
 Vue.use(vueNumeralFilterInstaller,{ locale: 'en' });
+Vue.use(FileUpload);
 
 Vue.use(Toastr,{
 	defaultTimeout: 3000,
