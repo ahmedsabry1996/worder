@@ -23,6 +23,10 @@
     </v-list-tile>
     <v-divider :key="index+Math.random()"></v-divider>
   </template>
+
+  <h3 class="text-xs-center" v-show="notifications.length === 0">
+    No notifications 
+  </h3>
   </v-list>
 
   </div>
@@ -55,6 +59,10 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
     </v-list-tile>
+
+  <h3 class="text-xs-center" v-show="notifications.length === 0">
+    No notifications 
+  </h3>
   </v-list>
         <infinite-loading :distance="1000" slot="append" @infinite="loadMoreNotifications">
            <div slot="no-more">{{$t('noMoreNotifications')}}</div>

@@ -191,9 +191,7 @@ class TimelineController extends Controller
       }
 
       else{
-        $posts = $this->fetch_other_posts($offset)->get();
-
-
+        $posts = [];
       }
 
 

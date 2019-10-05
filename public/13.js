@@ -65,6 +65,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -93,9 +100,6 @@ __webpack_require__.r(__webpack_exports__);
     this.getTrendPosts();
     this.$store.dispatch('reactedPosts');
   },
-  mounted: function mounted() {
-    this.loadMore();
-  },
   watch: {
     '$route': function $route(to, from) {
       this.offset = 0;
@@ -108,24 +112,19 @@ __webpack_require__.r(__webpack_exports__);
         word: this.$route.query.trend
       });
     },
-    loadMore: function loadMore() {
-      var _this = this;
-
-      window.onscroll = function () {
-        var endOfPage = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-
-        if (endOfPage) {
-          if (!!_this.$store.state.authentication.userToken && _this.$route.name == 'trend') {
-            _this.morePosts();
-          }
-        }
-      };
-    },
-    morePosts: function morePosts() {
+    morePosts: function morePosts($state) {
       this.offset += 100;
       this.$store.dispatch('loadMoreTrendPosts', {
         offset: this.offset,
         word: this.$route.query.trend
+      }).then(function (response) {
+        if (response.data.posts.length > 0) {
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      }).catch(function (errors) {
+        alert('error in loading more trend posts');
       });
     },
     ads: function ads() {
@@ -220,7 +219,9 @@ var render = function() {
                 [
                   _c("v-card-title", { attrs: { "primary-title": "" } }, [
                     _c("h4", { staticClass: "white--text" }, [
-                      _vm._v("\n              Trend Sponser\n            ")
+                      _vm._v(
+                        "\n                  Trend Sponser\n                "
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -230,7 +231,7 @@ var render = function() {
                     [
                       _c("h1", { staticClass: "text-xs-center white--text" }, [
                         _vm._v(
-                          "\n\n                I Am A Sponser\n              "
+                          "\n\n                    I Am A Sponser\n                  "
                         )
                       ]),
                       _vm._v(" "),
@@ -262,9 +263,9 @@ var render = function() {
             _c("h1", { staticClass: "yellow--text text-xs-center" }, [
               _c("bdi", [
                 _vm._v(
-                  "\n          #" +
+                  "\n              " +
                     _vm._s(this.$route.query.trend) +
-                    "\n        "
+                    "\n            "
                 )
               ])
             ])
@@ -277,12 +278,21 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { md6: "", xs12: "" } },
-            [_c("list-posts", { attrs: { posts: _vm.posts } })],
-            1
-          ),
+          _c("v-flex", { attrs: { md6: "", xs12: "" } }, [
+            _c(
+              "div",
+              { staticClass: "text-xs-center" },
+              [
+                _c("list-posts", { attrs: { posts: _vm.posts } }),
+                _vm._v(" "),
+                _c("infinite-loading", {
+                  attrs: { distance: 1000, spinner: "waveDots" },
+                  on: { infinite: _vm.morePosts }
+                })
+              ],
+              1
+            )
+          ]),
           _vm._v(" "),
           _c(
             "v-flex",

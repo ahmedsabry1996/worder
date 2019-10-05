@@ -55,6 +55,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -84,7 +85,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log('topic loaded');
-    this.loadMore();
   },
   created: function created() {
     this.$store.dispatch('reactedPosts');
@@ -125,10 +125,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
     },
-    morePosts: function morePosts() {
+    morePosts: function morePosts($state) {
       this.$store.dispatch('loadMoreTopicPosts', {
         topic: this.$route.params.topic,
         id: this.currentTopic[0]['id']
+      }).then(function (response) {
+        $state.loaded();
+
+        if (response.data.posts.length > 0) {
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      }).catch(function (error) {
+        alert('error in topic posts loading');
       });
     }
   }
@@ -166,26 +176,52 @@ var render = function() {
               _vm._v(" "),
               _c("v-flex", { attrs: { md3: "" } }, [_c("suggested-people")], 1),
               _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { md6: "" } },
-                [
-                  !_vm.noTopicPosts
-                    ? [_c("list-posts", { attrs: { posts: _vm.posts } })]
-                    : [
-                        _c(
-                          "div",
-                          { staticClass: "text-xs-center white--text" },
-                          [
-                            _c("h1", [_vm._v("no posts")]),
-                            _vm._v(" "),
-                            _c("h1", [_vm._v("come on later")])
-                          ]
-                        )
-                      ]
-                ],
-                2
-              ),
+              _c("v-flex", { attrs: { md6: "" } }, [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.noTopicPosts,
+                        expression: "!noTopicPosts"
+                      }
+                    ],
+                    staticClass: "text-xs-center"
+                  },
+                  [
+                    _c("list-posts", { attrs: { posts: _vm.posts } }),
+                    _vm._v(" "),
+                    _c("infinite-loading", {
+                      attrs: { distance: 1000, spinner: "waveDots" },
+                      on: { infinite: _vm.morePosts }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.noTopicPosts,
+                        expression: "noTopicPosts"
+                      }
+                    ]
+                  },
+                  [
+                    _c("div", { staticClass: "text-xs-center white--text" }, [
+                      _c("h1", [_vm._v("no posts")]),
+                      _vm._v(" "),
+                      _c("h1", [_vm._v("come on later")])
+                    ])
+                  ]
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "v-flex",

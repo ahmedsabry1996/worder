@@ -15,6 +15,7 @@
             v-model="email"
             :placeholder="$t('email')"
             solo
+            :autocomplete="false"
             autofocus>
             </v-text-field>
           <v-text-field

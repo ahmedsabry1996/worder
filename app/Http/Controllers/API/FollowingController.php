@@ -157,7 +157,6 @@ class FollowingController extends Controller
 
       $suggested_people = profile::whereIn('user_id',$people_like_me)
                                   ->whereNotIn('user_id',$followed)
-                                  ->whereCountryId($current_user_country)
                                   ->inRandomOrder()
                                   ->distinct()
                                   ->limit(100)

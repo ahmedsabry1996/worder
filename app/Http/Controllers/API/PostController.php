@@ -82,9 +82,9 @@ class PostController extends Controller
 
     }
 
-
+  
       $post->create([
-              'post'=>$request->post,
+              'post'=>(string)$request->post,
               'image'=>$new_image_name,
               'topic_id'=>$request->topic,
               'user_id'=>$user_id,

@@ -19,6 +19,10 @@ export default{
     loadMore(state,payload){
 
 
+
+      if(payload.posts.length > 0){
+
+
         let uniquePayload =  Vue._.uniq(payload.posts);
         let shufflePosts = Vue._.shuffle(uniquePayload);
         shufflePosts.map((value)=>{
@@ -28,6 +32,7 @@ export default{
         state.loadedTimelinePosts = state.posts.length;
 
         state.offset += 27;
+      }
 
         console.log('offffffffffff');
         console.log(state.offset);

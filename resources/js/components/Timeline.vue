@@ -21,11 +21,13 @@
       <template v-else>
           <h1 class=" text-xs-center white--text">{{$t('followSome')}}</h1>
       </template>
-      <infinite-loading :distance="1000" @infinite="toendpage"   
+      <div infinite-wrapper>
+          <div style="overflow: auto;">
+      <!-- <infinite-loading :force-use-infinite-wrapper="true" :distance="100" @infinite="toendpage"   
       spinner="waveDots">
-
-</infinite-loading>
-
+      </infinite-loading> -->
+          </div>
+      </div>
       </div>
       </v-flex>
 
@@ -38,6 +40,9 @@
 
         </v-flex>
       </v-layout>
+      <infinite-loading :force-use-infinite-wrapper="true" :distance="100" @infinite="toendpage"   
+      spinner="waveDots">
+      </infinite-loading>
     </v-container>
 </template>
 
@@ -99,14 +104,15 @@ export default {
     this.mountedComp = true;
   },
   methods:{
+
     toendpage($state){
-      this.$store.dispatch('loadMorePosts').then((response)=>{
-            $state.loaded();
-      })
-      .catch((errors)=>{
-        alert('error in loading posts');
-        console.log(errors.response.data)
-        console.log(errors)
+      
+    this.$store.dispatch('loadMorePosts').then((response)=>{
+        $state.loaded();
+      }).catch((errors)=>{        
+        //alert('error in loading posts');
+        console.log(errors.response.data);
+        console.log(errors);
       })
       
 

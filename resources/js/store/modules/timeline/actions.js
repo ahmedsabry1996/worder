@@ -11,6 +11,8 @@ export default{
       },
 
     }).then((response)=>{
+        console.log(77777);
+        
         console.log(response.data);
         context.commit('fillMyTimeline',{posts:response.data.posts,
                                          postsNum:response.data.posts_num});
@@ -36,7 +38,6 @@ export default{
       })
       .then((response)=>{
             console.log(response.data);
-
             context.commit("isLoadingMoreTimeline")
             context.commit('loadMore',{posts:response.data.loaded_posts});
             reso(response);

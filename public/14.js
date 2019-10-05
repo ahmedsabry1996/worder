@@ -66,6 +66,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -189,7 +191,7 @@ var render = function() {
                   _c(
                     "v-list-tile",
                     {
-                      key: key,
+                      key: value + Math.random(),
                       attrs: {
                         router: "",
                         to: { name: "trend", query: { trend: key } }
@@ -199,15 +201,7 @@ var render = function() {
                       _c(
                         "v-list-tile-content",
                         [
-                          _c("v-list-tile-title", [
-                            _c("bdi", [
-                              _vm._v(
-                                "\n              " +
-                                  _vm._s(key) +
-                                  "\n              "
-                              )
-                            ])
-                          ]),
+                          _c("v-list-tile-title", [_c("bdi")]),
                           _vm._v(" "),
                           _c("v-list-tile-sub-title", [
                             _c("bdi", [
@@ -225,7 +219,7 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("v-divider")
+                  _c("v-divider", { key: value + Math.random() / 7 })
                 ]
               })
             ],
@@ -249,7 +243,7 @@ var render = function() {
               _c(
                 "v-list-tile",
                 {
-                  key: key,
+                  key: value + Math.random(),
                   attrs: { to: { name: "trend", query: { trend: key } } }
                 },
                 [
@@ -282,7 +276,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-divider")
+              _c("v-divider", { key: value + Math.random() / 9 })
             ]
           })
         ],
