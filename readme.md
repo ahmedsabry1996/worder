@@ -1,1 +1,1 @@
-<h1 align="center">The Best Next Social Media </h1>
+<h1 align="center">MASTER LARAVEL </h1>
